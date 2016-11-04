@@ -1,0 +1,168 @@
+/*
+ * Home 模块定制CSS
+ * 
+ * CT: 2014-10-11 16:50 by H
+ */
+
+.table > tbody > tr > td {
+  line-height: 2;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.table > tbody > tr > td.timealine {
+  line-height: 1;
+}
+
+.table > thead > tr > td.wh520,
+.table > tbody > tr > td.wh520 {
+  width: 520px;
+  padding-left: 30px;
+}
+.table > thead > tr > td.wh180,
+.table > tbody > tr > td.wh180 {
+  width: 180px;
+}
+.table > thead > tr > td.wh98,
+.table > tbody > tr > td.wh98 {
+  width: 98px;
+}
+
+.table > thead > tr > td.wh400,
+.table > tbody > tr > td.wh400 {
+  width: 400px;
+  padding-left: 30px;
+}
+.table > thead > tr > td.wh70,
+.table > tbody > tr > td.wh70 {
+  width: 70px;
+}
+.table > thead > tr > td.wh160,
+.table > tbody > tr > td.wh160 {
+  width: 160px;
+}
+
+
+/*按钮*/
+.notificationbtn {
+  -moz-user-select: none;
+  background-image: none;
+  border: 1px solid #d3d5d9;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+  width: 80px;
+  height: 26px;
+  border-radius: 0;
+  color: #666666;
+  background-color: #f5f5f5;
+  margin-right: 10px;
+  padding-top: 2px;
+  margin-left: -10px;
+}
+.notificationbtn:active:hover,
+.notificationbtn.active:focus {
+  background-color: #19abd6;
+}
+.notificationbtn.active {
+  color: #FFF;
+  background-color: #43badd;
+  border: 1px solid transparent;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.125) inset;
+}
+.notificationbtn:hover,
+.notificationbtn:focus {
+  color: #FFF;
+  background-color: #43badd;
+  border: 1px solid transparent;
+}
+
+/*活动列表*/
+.act-list {
+  margin: 5px 0;
+  display: table;
+  width: 100%;
+}
+.Screening { margin: 0 0 10px; background-color: #f5f5f5;}
+.Screening .col-sm-7 { margin-top: 15px;}
+.Screening a {
+  margin-right: 5px;
+  padding: 2px 10px;
+  color: #666;
+  border-radius: 4px;
+}
+.Screening a:hover,
+.Screening a:focus {background-color: #666; color: #fff;}
+.Screening a.active,
+.Screening a.active:hover,
+.Screening a.active:focus {background-color: #f15e4c; color: #fff;}
+.act-list-item {
+  margin-bottom: 15px;
+  display: table;
+  padding: 10px 15px;
+  width: 100%;
+  background-color: #fff;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  cursor: default;
+}
+.act-list-item:hover { border: 1px solid #43badd;}
+
+.item-content {
+  position: relative;
+  display: table;
+  float: left;
+  width: 635px;
+}
+.act-list-item a {
+  display: block;
+  float: left;
+  width: 550px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /*cursor: pointer;*/
+}
+.item-timerel {
+  display: block;
+  float: right;
+  text-align: right;
+}
+.item-text { font-size: 12px;}
+
+.search-list { padding-left: 30px;}
+.search-list-i {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 50;
+}
+/*主题列表*/
+.act-list-theme {
+  padding: 0 15px;
+  border: 1px solid #ddd;
+}
+.act-list-theme .head {
+  background-color: #f5f5f5;
+}
+.act-list-theme .row {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+.act-list-theme .row .row-list {
+  margin: 0 15px;
+  padding: 0;
+  border-bottom: 1px solid #ddd;
+}
+.mybtn.delete:hover,
+.mybtn.delete:focus {
+  background-color: #f15e4c;
+}
+.act-list-theme .col-sm-9 a {
+  margin-top: 7px;
+  display: block;
+  float: left;
+  width: 540px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

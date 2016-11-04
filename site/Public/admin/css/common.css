@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+h2{
+	font-family: "Microsoft Yahei";
+}
+i{
+	cursor: pointer;
+}
+
+.invalid{
+	font-size:14px;
+	color:#ca0000;
+	line-height:34px;
+	font-weight: normal;
+}
+.list-group{
+	margin-top:40px;
+}
+.page-header{
+	padding-bottom:16px;
+}
+.form-control::-moz-placeholder {
+  color: #ccc;
+  opacity: 1;
+}
+.form-control:-ms-input-placeholder {
+  color: #ccc;
+}
+.form-control::-webkit-input-placeholder {
+  color: #ccc;
+}

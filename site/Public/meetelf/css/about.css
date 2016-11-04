@@ -1,0 +1,31 @@
+.left-bar-lg {
+  position: relative;
+  display: block;
+  margin-top: 10px;
+  margin-right: -10px;
+  padding-bottom: 10px;
+  border-bottom-width: 2px;
+  border-radius: 8px;
+}
+.left-bar-lg > a {
+  position: relative;
+  display: block;
+  padding: 10px;
+  padding-left: 32px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #666;
+}
+.left-bar-lg > a:hover,
+.left-bar-lg > a:focus,
+.left-bar-lg > a.active,
+.left-bar-lg > a.active:hover,
+.left-bar-lg > a.active:focus {
+  color: #2198e8;
+  outline: none;
+  text-decoration: none;
+}
+p { line-height: 2;}
+ol > li { line-height: 2;}
+dl > dt,
+dl > dd { line-height: 2;}

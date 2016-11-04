@@ -1,0 +1,138 @@
+<import type='js' file="admin.js.orgView" />
+<script type="text/javascript">
+	var YM = {
+		'change_level' : "{:U('change_level')}",
+		'redirectPath':"{:U('index')}",
+		'org_guid':"{$Think.get.guid}"
+	};
+	$(document).ready(function(){
+		$('#ym_dtbox').DateTimePicker();
+	});	
+</script>
+
+<div id="content-head">{$orgData.nickname}</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Org/index'), 'v'=>'用户管理'),
+array('url'=>'', 'v'=>$orgData['nickname'])
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a class="btn btn-success pull-right" type="button" href="{:U('index')}"><i class="fa fa-arrow-left"></i> 返回列表</a>
+			</div>
+		</div>
+		<form class="form-horizontal" role="form" id="regorg">
+			<div class="form-group">
+				<label for="nickname" class="col-sm-2 control-label">昵称</label>
+				<div class="col-sm-6">
+					<input type="text" id="nickname" name="nickname" class="form-control" value="{$orgData.nickname}" >
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+            <div class="form-group">
+                <label for="realname" class="col-sm-2 control-label">真实姓名</label>
+                <div class="col-sm-6">
+                    <input type="text" id="realname" name="realname" class="form-control" value="{$orgData.realname}" >
+                </div>
+                <div class="col-sm-4 error-wrap"></div>
+            </div>
+
+			<div class="form-group">
+				<label for="description" class="col-sm-2 control-label">等级</label>
+				<div class="col-sm-4">
+					<select class="form-control" name="vip" >
+						<foreach name="levelList" item="v">
+						<option value="{$v.guid}" <eq name="v.guid" value="$orgData.vip">selected=true</eq> >{$v.name}</option>
+						</foreach>
+					</select>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<div class="form-group">
+				<label for="description" class="col-sm-2 control-label">账户类型</label>
+				<div class="col-sm-4">
+					<select class="form-control" name="community_types" id="community_types">
+                        <?php foreach ($community_types as $k=>$l): ?>
+                            <option value="<?php echo $k?>" <?php if($orgData['type']==$k){echo "selected=true";}?> ><?php echo $l?></option>
+                        <?php endforeach;?>
+                    </select>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			
+			<div class="form-group">
+				<label for="description" class="col-sm-2 control-label">账户种类</label>
+				<div class="col-sm-4">
+					<select class="form-control" name="community_species" id="community_species">
+                        <?php foreach ($community_species as $k=>$l): ?>
+                            <option value="<?php echo $k?>" <?php if($orgData['category']==$k){echo "selected=true";}?> ><?php echo $l?></option>
+                        <?php endforeach;?>
+                    </select>
+					
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			
+
+
+
+			<div class="form-group">
+				<label for="photo" class="col-sm-2 control-label">头像</label>
+				<div class="col-sm-2">
+					<img src="{$orgData.photo}"  class="thumbnail"  style="width:75px;" alt="{$orgData.nickname}">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+
+
+
+			<div class="form-group">
+				<label for="mobile" class="col-sm-2 control-label">手机</label>
+				<div class="col-sm-6">
+					<input type="text" id="mobile" name="mobile" class="form-control" value="{$orgData.mobile}" disabled >
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<div class="form-group">
+				<label for="user_email" class="col-sm-2 control-label">登陆邮箱</label>
+				<div class="col-sm-6">
+					<input type="text" id="user_email" name="user_email" class="form-control" value="{$orgData.email}" disabled >
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<div class="form-group">
+				<label  class="col-sm-2 control-label">创建日期</label>
+				<div class="col-sm-6">
+					<?php echo date('Y-m-d H:i', $orgData['created_at']);?>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<!--	<div class="form-group">-->
+				<!--		<label for="user_mobile" class="col-sm-2 control-label">创建者电话</label>-->
+				<!--		<div class="col-sm-6">-->
+					<!--			<input type="text" id="user_mobile" name="user_mobile" class="form-control" value="{$orgData.user_mobile}" disabled >-->
+					<!--		</div>-->
+				<!--		<div class="col-sm-4 error-wrap"></div>-->
+				<!--	</div>-->
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="button" class="btn btn-primary js-submit">保存</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

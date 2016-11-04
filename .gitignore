@@ -1,0 +1,13 @@
+.settings/
+.buildpath/
+.project/
+.idea/
+site/token.txt
+site/ueditor/
+site/Upload/
+site/Runtime/
+/site/info.php
+Debug/
+node_modules/
+*.sql
+db.php

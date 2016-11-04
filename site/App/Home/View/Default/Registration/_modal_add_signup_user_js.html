@@ -1,0 +1,122 @@
+{__NOLAYOUT__}
+<script type="text/javascript">
+  //手动增加报名人员表单验证
+  $('#signup_add_user_form').validate({
+    errorPlacement: function (error, element) {
+      element.parents('.form_field').next('.tishinr').html(error);
+    },
+    rules: {
+      <?php foreach($build_info as $k => $b): ?>
+      <?php $name = ($b['is_info']==1)?'info':'other'; ?>
+      <?php  if($b['is_info']==1) {
+          $whole_name = $name.'['.$b["ym_type"].']';
+      } else {
+//                    $whole_name = $name.'['.$b["guid"].'][value]';
+          if ($b['html_type'] == 'radio' || $b['html_type'] == 'checkbox') {
+              $whole_name = $name.'['.$b["guid"].'][value][]';
+          } else {
+              $whole_name = $name.'['.$b["guid"].'][value]';
+          }
+      }
+      ?>
+      // jquery validate rules
+      '<?php echo $whole_name?>': {
+        required: <?php echo ($b['is_required']==1)?'true':'false'; ?>
+        <?php if($b['ym_type'] == 'mobile'): ?>
+        , digits: true,
+        rangelength: [11, 11],
+        remote: {
+          url: "<?php echo U('Activity/ajax_check_signup_user'); ?>",
+          type: 'post',
+          dataType: 'json',
+          data: {aid: '<?php echo I('get.aid'); ?>'}
+        }
+        <?php else: ?>
+        <?php if(!in_array($b['html_type'], array('radio', 'select', 'checkbox'))):  ?>
+        <?php if($b['ym_type'] == 'company'): ?>
+        , rangelength: [1, 20]
+        <?php elseif($b['ym_type'] == 'position'): ?>
+        , rangelength: [1, 10]
+        <?php else: ?>
+        , rangelength: [1, 50]
+        <?php endif; ?>
+        <?php endif; ?>
+        <?php if($b['html_type'] == 'textarea'): ?>
+        , rangelength: [1, 200]
+        <?php endif; ?>
+        <?php endif; ?>
+        <?php if($b['ym_type'] == 'email'): ?>
+        , email: true
+        <?php endif;  ?>
+      },
+      <?php endforeach; ?>
+    },
+    messages: {
+      <?php foreach($build_info as $k => $b): ?>
+      <?php $name = ($b['is_info']==1)?'info':'other'; ?>
+      <?php  if($b['is_info']==1) {
+          $whole_name = $name.'['.$b["ym_type"].']';
+      } else {
+          if ($b['html_type'] == 'radio' || $b['html_type'] == 'checkbox') {
+              $whole_name = $name.'['.$b["guid"].'][value][]';
+          } else {
+              $whole_name = $name.'['.$b["guid"].'][value]';
+          }
+      } ?>
+      // jquery validate error message
+      '<?php echo $whole_name ?>': {
+        required: "<?php echo $b['name']; ?>不能为空"
+        <?php if($b['ym_type'] == 'mobile'): ?>
+        , digits: "手机号码必须为数字",
+        rangelength: "手机号码长度必须为11位",
+        remote: "该手机号码已经报名"
+        <?php else: ?>
+        <?php if(!in_array($b['html_type'], array('radio', 'select', 'checkbox'))):  ?>
+        <?php if($b['ym_type'] == 'company'): ?>
+        , rangelength: "<?php echo $b['name']; ?>长度必须为1到20个字"
+        <?php elseif($b['ym_type'] == 'position'): ?>
+        , rangelength: "<?php echo $b['name']; ?>长度必须为1到10个字"
+        <?php else: ?>
+        , rangelength: "<?php echo $b['name']; ?>长度必须为1到50个字"
+        <?php endif; ?>
+        <?php endif; ?>
+        <?php if($b['html_type'] == 'textarea'): ?>
+        , rangelength: "<?php echo $b['name']; ?>长度不得超过200个字"
+        <?php endif; ?>
+        <?php endif; ?>
+        <?php if($b['ym_type'] == 'email'): ?>
+        , email: "邮箱格式不对"
+        <?php endif;  ?>
+      },
+      <?php endforeach; ?>
+    },
+    submitHandler: function (form) { //通过之后回调
+      var obj = $(this);
+      var data = $("#signup_add_user_form").serialize();
+      $.ajax({
+        url: '<?php echo U('Activity/ajax_signup_add_user', array('aid' => $activity_info['guid'])) ?>',
+        type: 'POST',
+        data: data,
+        dataType: 'json',
+        beforeSend: function () {
+//                        obj.button('loading');
+          $('#submit_form').button('loading');
+        },
+        success: function (data) {
+          if (data.status == 'ok') {
+            alertTips($('#tips-modal'), data.msg, '<?php echo U('Activity/signup_userinfo', array('aid' => $activity_info['guid'])) ?>');
+          } else if (data.status == 'ko') {
+            alertTips($('#tips-modal'), data.msg);
+          }
+        },
+        complete: function () {
+//                        obj.button('reset');
+          $('#submit_form').button('reset');
+        }
+      });
+    },
+    invalidHandler: function (form, validator) { //不通过回调
+      return false;
+    }
+  });
+</script>

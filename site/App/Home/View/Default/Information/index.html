@@ -1,0 +1,96 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3><strong>我的主页</strong></h3>
+        </div>
+    </div>
+</div>
+<div class="elf-home">
+  <div class="row topbg">
+      <img class="myportrait" width="120" height="120" src="/Public/common/images/noportrait.png" data-original="<?php echo get_image_path($other_info['photo'],1); ?>">
+      <span><?php echo $other_info['nickname'] ?$other_info['nickname'] : $info['mobile']; ?></span>
+      <p class="it1">
+        短信余量：<a href="###"><?php echo $auth['msg_nums']; ?></a>条
+        <span>邮件余量：<a href="###"><?php echo $auth['email_nums']; ?></a>条</span>
+        <a href="<?php echo U('Home/User/buy');?>" target="_blank">立即购买</a>
+      </p>
+      <p class="it2">
+        未发布的活动 <a href="<?php echo U('Home/Act/unrelease')?>"><?php echo $not_release; ?></a>
+        发布的活动 <a href="<?php echo U('Home/Act/release')?>"><?php echo $activity; ?></a>
+        参与的活动 <a href="<?php echo U('Home/User/order')?>"><?php echo $ticket; ?></a>
+      </p>
+      <a href="<?php echo U('User/base')?>">完善个人信息</a>
+  </div>
+  <?php if($my_act!='' || $activity_new!='' ||  $activity_not!='') : ?>
+    <?php if($activity_not): ?>
+    <div class="row">
+      <p class="noreleasep">未发布的：</p>
+      <div class="content_item">
+        <div class="posters-img">
+          <img width="120" height="120" data-original="<?php echo get_image_path($activity_not['0']['poster']); ?>">
+        </div>
+        <div class="content_item_rt">
+          <div class="row">
+            <div class="col-sm-12"><a  class="title" href="<?php echo U('Home/Act/manage/', array('guid' => $activity_not['0']['guid']))?>"><?php echo $activity_not['0']['name'] ;?></a></div>
+            <div class="col-sm-12">
+            	<p class="times">时间：<?php echo $not_time; ?></p>
+            	<p>地点：<?php echo $activity_not['0']['areaid_1_name'] ;?><?php echo $activity_not['0']['areaid_2_name'] ;?><?php echo $activity_not['0']['address'] ;?></p>
+            </div>
+          </div>
+          <div class="row option">
+            <div class="col-sm-12">
+              <a href="<?php echo U('Home/Act/manage/', array('guid' => $activity_not['0']['guid']))?>"><i class="fa fa-cogs"></i> 管理</a>
+              <a href="<?php echo U('Home/Act/edit/', array('guid' => $activity_not['0']['guid'])); ?>"><i class="fa fa-pencil"></i> 编辑</a>
+              <a href="<?php echo U('Home/Act/preview/', array('guid' => $activity_not['0']['guid'])); ?>"><i class="fa fa-eye"></i> PC预览</a>
+              <a href="<?php echo U('Home/Act/mpreview', array('guid' => $activity_not['0']['guid'])); ?>"><i class="fa fa-mobile"></i> 手机预览</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <?php else: ?>
+    <?php endif; ?>
+    <?php if($my_act!='' || $activity_new!='') : ?>
+    <div class="row last">
+      <?php if($activity_new): ?>
+      <div class="col-xs-6">
+        <p>我发布的：</p>
+        <div class="content_organization">
+          <img width="120" height="120" data-original="<?php echo get_image_path($activity_new['0']['poster']); ?>">
+          <a href="<?php echo U('Home/Act/manage/', array('guid' => $activity_new['0']['guid']))?>"><?php echo $activity_new['0']['name'] ;?></a>
+          <p class="times">活动报名情况： <?php echo $enrollment ;?></p>
+          <p>最新订单</p>
+          <p>购票人：</p>
+          	<?php foreach ($enrollment_info as $k => $l): ?>
+          	<a href="<?php echo U('order/detail',array('guid'=>$l['order_id']))?>"><?php echo $l['buyer_name'] ?></a>
+        	 <?php endforeach; ?>
+        </div>
+      </div>
+      <?php else: ?>
+      <?php endif; ?>
+
+      <?php if($my_act): ?>
+      <div class="col-xs-6">
+        <p>我参与的：</p>
+        <div class="content_participate">
+          <img width="120" height="120" data-original="<?php echo get_image_path($my_act['poster']); ?>
+          ">
+          <a href="<?php echo U("Home/Event/" . event_id_encode($my_act['id']), null, false, true, false);//U('event/index',array('g' =>$my_act['guid']))?>"><?php echo $my_act['name'] ;?></a>
+          <p class="times">时间：<?php echo $in_time; ?></p>
+          <p>地点：<?php echo $my_act['areaid_1_name'] ;?><?php echo $my_act['areaid_2_name'] ;?><?php echo $my_act['address'] ;?></p>
+        </div>
+      </div>
+      <?php else: ?>
+      <?php endif; ?>
+    </div>
+    <?php endif; ?>
+  <?php endif; ?>
+  <?php if($my_act=='' & $activity_new=='' &  $activity_not=='') : ?>
+  <div class="row last">
+    <div class="text-center mt30">
+      <p>暂无活动</p>
+      <a  href="<?php echo U('Home/Act/add');?>"  class="btn btn-important"><i class="fa fa-plus-circle"></i> 发布活动</a>
+    </div>
+  </div>
+  <?php endif; ?>
+</div>

@@ -1,0 +1,71 @@
+{__NOLAYOUT__}
+<html>
+<head>
+<meta charset="UTF-8">
+<title>后台登录</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<?php echo C('MEDIA_CSS.BOOTSTRAP'); ?>
+	<import type='css' file="admin.css.common" />
+	<import type='css' file="admin.css.login" />
+
+	<?php echo C('MEDIA_JS.JQUERY'); ?>
+	<?php echo C('MEDIA_JS.BOOTSTRAP'); ?>
+	<import type='js' file="admin.js.auth" />
+	<import type='js' file="common.js.common" />
+	<script type="text/javascript">
+		var YM = {
+			'authLogin' : "<?php echo U('Auth/ajaxLogin') ?>",
+			'redirectPath': "<?php echo U('Index/index') ?>"
+		};
+	</script>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <ul class="nav navbar-nav">
+	    <li class="active"><a href="<?php echo U('Site/Index/index', '', true, true)?>">会签助手</a></li>
+	    <li><a href="<?php echo U('Home/Auth/login', '', true, true); ?>">社团登录</a></li>
+	    <li><a href="<?php echo U('Home/Auth/register', '', true, true); ?>">社团注册</a></li>
+	    <li><a href="<?php echo U('Member/Auth/login', '', true, true); ?>">个人中心</a></li>
+	  </ul>
+	</nav>
+	<div class="login_main">
+		<div class="container">
+			<h1 class="text-center">会签助手 管理系统</h1>
+			<h4 class="text-center"><small>Adminstrator Management System</small></h4>
+			<div class="login_form">
+				<h4>Sign In</h4>
+				<form role="form" class="form-signin" id="regorg">
+					<input type="email" name="account" autofocus="" required="" placeholder="Username" class="form-control">
+					<input type="password" name="password" required="" placeholder="Password" maxlength="20"
+						   class="form-control" onkeypress="press_target(event, 'ym_login')">
+			        <div class="checkbox">
+			            <label>
+			            	<input type="checkbox" value="remember-me"> Remember
+			            </label>
+			        </div>
+					<button type="button" id="ym_login" class="btn btn-lg btn-primary btn-block js-login">Sign In</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-sm" id="tips-modal" tabindex="-1" data-backdrop="static">
+	  <div class="modal-dialog modal-sm">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	        <h4 class="modal-title">提示信息</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p class="tips-msg"></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</body>
+</html>

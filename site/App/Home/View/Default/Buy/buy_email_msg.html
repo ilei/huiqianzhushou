@@ -1,0 +1,31 @@
+<input type="hidden" id="post-url" value="<?php echo U('Home/Buy/buy_post');?>"/>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <include file="Public:_page_header" />
+      <div class="order-details text-center">
+        <ul class="item-wallet-buy">
+          <?php foreach($goods as $key => $good):?>
+          <?php if($good['category'] == 1):?>
+          <li data-type="1"><a href="###" data-money="<?php echo yuan_to_fen($good['price'], false);?>" data-guid="<?php echo $good['guid'];?>"><?php echo htmlspecialchars($good['name']);?> <span>￥<?php echo yuan_to_fen($good['price'], false);?></span></a></li>
+          <?php endif;?>
+          <?php endforeach;?>
+        </ul>
+        <ul class="item-wallet-buy">
+          <?php foreach($goods as $key => $good):?>
+          <?php if($good['category'] == 2):?>
+          <li data-type="2"><a href="###" data-money="<?php echo yuan_to_fen($good['price'], false);?>" data-guid="<?php echo $good['guid'];?>"><?php echo htmlspecialchars($good['name']);?> <span>￥<?php echo yuan_to_fen($good['price'], false);?></span></a></li>
+          <?php endif;?>
+          <?php endforeach;?>
+        </ul>
+        <p class="amount text-left">所需金额：<span>¥0</span></p>
+        <nav>
+          <ul class="pager pager-lg">
+            <li class="previous submitorders"><a href="###" id="submit">提交订单</a></li>
+<!--            <li class="next"><a href="javascript:;window.history.go(-1);">返回</a></li>-->
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

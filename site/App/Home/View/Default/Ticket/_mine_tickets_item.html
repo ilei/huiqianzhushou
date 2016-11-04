@@ -1,0 +1,57 @@
+<table class="table mtelf-table-border mtelf-text-center mt20">
+    <thead>
+    <tr>
+        <th>活动</th>
+        <th>参会人</th>
+        <th>联系方式</th>
+        <th>票名</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+
+
+    <?php foreach($datasource['tickets'] as $k=>$v):?>
+
+    <tr class="hasticket">
+        <td><a href="<?php echo U('Home/event/'.event_id_encode($v['activity_id'])); ?>"><?php echo $v['activity_name'];?></a>
+        </td>
+        <td class="hasticket_width_td"><?php echo $v['buyer_name'];?></td>
+        <td><?php echo $v['contact'];?></td>
+        <td class="hasticket_width_td"><?php echo $v['ticket_name'];?></td>
+        <td class="hasticket_width_td"><span class="<?php
+        switch($v['activity_status']){
+            case 1:
+                echo 'success';
+                break;
+            case 2:
+                echo 'none';
+                break;
+            case 3:
+                echo 'danger';
+                break;
+        }
+     ?>"><?php echo $v['activity_status_string'];?></span></td>
+
+        <td>
+            <?php if(intval($v['ticket_status'])>0 && !empty($v['ticket_code'])):?>
+
+            <a href="<?php echo U('Home/Ticket/download',array('guid'=>$v['user_ticket_guid']));?>" class="btn btn-times">下载</a>
+
+
+            <a class="btn btn-link" href="#" data-toggle="modal" t="p"
+               tid="<?php echo $v['user_ticket_guid'];?>" aname="<?php echo $v['activity_name'];?>">预览</a>
+
+            <?php endif;?>
+        </td>
+    </tr>
+
+    <?php endforeach;?>
+    </tbody>
+
+</table>
+
+
+
+

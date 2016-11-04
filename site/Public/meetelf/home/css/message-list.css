@@ -1,0 +1,73 @@
+
+/*.table > tbody > tr.base-tr1 > td { border-top: 0px;}
+*/
+.message-list { width:778px;}
+.listnone {
+  margin-left: 20px;
+  font-size: 14px;
+  color: #999;
+} 
+.imgb { margin-top: -20px; width: 11px; height: 14px;}
+/*
+ * home
+ */
+.details {
+  margin: auto;
+  margin-bottom: 14px;
+  width: 100%;
+  font-size: 12px;
+}
+.detailsbg {
+  padding: 6px;
+  max-width: 670px;
+  background-color: #f5f5f5;
+  border-left: 3px solid #f15e4c;
+  font-size: 12px;
+  line-height: 22px;
+}
+.detailsbg-r {
+  border-left: 0;
+  border-right: 3px solid #43badd;
+}
+
+.themessageold { background-color: #f5f5f5;}
+.themessageold:hover,
+.themessageold:focus {
+  border: 1px solid #d3d3d7;
+  background-color: #ededed; 
+}
+
+/*回复*/
+
+/*删除*/
+.dl-details > a { margin-left: 5px; margin-right: 5px; color: #f5f5f5;}
+.dl-details > a:hover, 
+.dl-details > a:focus { color: #f15e4c;}
+/*时间线*/
+.timeline {
+  width: 718px;
+  height: 10px;
+  border-bottom: 1px solid #e7e7eb;
+}
+.timebox {
+  margin-left: 30px;
+  margin-right: 30px;
+  width: 718px;
+  height: 40px;
+}
+.timebg { margin-left: 320px; background-color: #FFF; font-size:12px;}
+.homepg {  margin:auto; padding: 50px 10px 20px; border-bottom: 1px solid #ddd;}
+.p12 { margin-bottom: 6px;}
+.hometit { margin-top: 5px; font-size:16px; font-weight: bold; color: #000;}
+.hometit .certified {vertical-align:top; margin-left: 5px; margin-top: 1px;}
+.homebti { margin-top: 20px; font-size:48px; line-height: 48px; font-weight: bold; color: #43badd; text-align:center;}
+/*主页社团等级*/
+span.level-com { 
+  display: inline-block;
+  padding: 0 5px;
+  background-color: #5cb85c; 
+  font-size: 14px; 
+  color: #fff;
+  font-weight: normal;
+  border-radius: 2px;
+}

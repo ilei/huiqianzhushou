@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+        <link href="__PUBLIC__/meetelf/css/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
+        <style>
+            .error {
+                font-size: 18px;
+                font-weight: bold;
+                color: red;
+                margin:10px 0
+            }
+            label{width:60px;display: inline-block}
+            .info li{margin:10px 0}
+            
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="form-group vertical-center">
+                <form id="upload_form" enctype="multipart/form-data" method="post" action="<?php echo U('Upload/upload',array('k'=>$key)) ?>">
+                    <!-- hidden crop params -->
+                    <input type="hidden" id="x1" name="x1"autocomplete="off" />
+                    <input type="hidden" id="y1" name="y1" autocomplete="off"/>
+                    <input type="hidden" id="x2" name="x2"autocomplete="off" />
+                    <input type="hidden" id="y2" name="y2"autocomplete="off" />
+                    <div>
+                    <a class="btn btn-save mt20" id="chenk">
+                        <input type="file" name="image_file" id="image_file" />浏览
+                    </a>
+                    </div>
+
+                    <div class="error">注意：上传前，先截图</div>
+                    <div class="step2">
+                        <img id="preview" />
+                            <div class="info">
+                            <!-- <ul> -->
+                                 <input type="hidden" id="filesize" name="filesize" class="input" autocomplete="off" />
+                                 <input type="hidden" id="filetype" name="filetype" class="input"autocomplete="off"/>
+                                 <input type="hidden" id="filedim" name="filedim" class="input"autocomplete="off"/>
+                                <input type="hidden" id="w" name="w" class="input"autocomplete="off"/>
+                                <input type="hidden" id="h" name="h" class="input"autocomplete="off"/>
+                            <!-- </ul> -->
+                            <!-- <ul>
+                                <li><label>文件大小</label> <input type="text" id="filesize" name="filesize" class="input" autocomplete="off" /></li>
+                                <li><label>类型</label> <input type="text" id="filetype" name="filetype" class="input"autocomplete="off"/></li>
+                                <li><label>图像尺寸</label> <input type="text" id="filedim" name="filedim" class="input"autocomplete="off"/></li>
+                                <li><label>宽度</label> <input type="hidden" id="w" name="w" class="input"autocomplete="off"/></li>
+                                <li><label>高度</label> <input type="hidden" id="h" name="h" class="input"autocomplete="off"/></li>
+                            </ul> -->
+                            <!-- <div class="col-sm-5 tishinr">
+                        </div> -->
+                        </div>
+                        
+                        <input type="submit" value="上传" class="btn btn-save" id="save" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,235 @@
+<include file="head"/>
+
+<body>
+
+<div class="container">
+    <!-- 或不在APP中打开, 显示会签助手头 -->
+    <include file="Public:_top-copyright"/>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3><?php echo $activity_info['name']; ?>
+                <?php if (!empty($activity_info['subject_guid'])): ?>
+                    <br>
+                    <small>主题：<?php echo $subject_info['name']; ?></small>
+                <?php endif; ?>
+            </h3>
+            <!-- <p class="f2 mb20">2015-02-14 15:00&nbsp;&nbsp;云脉三六五</p> -->
+        </div>
+    </div>
+
+    <?php if (!empty($activity_info['poster']) && is_file(UPLOAD_PATH . $activity_info['poster'])) : ?>
+        <div class="row">
+            <div class="col-md-12">
+                <img data-original="<?php echo get_image_path($activity_info['poster'], 'postersimg.jpg') ?>"
+                     class="lazy postersimg">
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <div class="row">
+        <div class="col-registration"><em title="活动简介" class="icon-col"></em><span>活动简介</span></div>
+        <div class="col-md-12">
+
+            <div><?php echo htmlspecialchars_decode($activity_info['content']); ?></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-registration"><em title="时间地点" class="icon-col icon-main"></em><span>时间地点</span></div>
+        <div class="col-md-12">
+            <div class="td-wd"><em title="时间"
+                                   class="registration icon-time"></em><?php echo date('Y年m月d日 H:i', $activity_info['start_time']); ?>
+                ～ <?php echo date('Y年m月d日 H:i', $activity_info['end_time']); ?></div>
+            <div class="td-wd">
+                <em title="地点"
+                    class="registration icon-place"></em><?php echo $address = $activity_info['areaid_1_name'] . ' ' . $activity_info['areaid_2_name'] . ' ' . $activity_info['address'] ?>
+            </div>
+
+            <?php if (!empty($activity_info['lng']) && !empty($activity_info['lat'])): ?>
+                <img
+                    data-original="http://api.map.baidu.com/staticimage?height=100&zoon=14&copyright=1&markers=<?php echo $activity_info['lng'] . ',' . $activity_info['lat']; ?>"
+                    class="lazy">
+                <a class="btn btn-default" style="margin-top: 5px;width: 100%;"
+                   href="http://api.map.baidu.com/marker?location=<?php echo $activity_info['lat'] . ',' . $activity_info['lng']; ?>&title=活动地点&content=<?php echo $address; ?>&output=html">点击导航</a>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <?php if (!empty($flow)): ?>
+        <div class="row">
+            <div class="col-registration"><em title="活动流程" class="icon-col icon-process"></em><span>活动流程</span></div>
+            <div class="col-md-12">
+                <?php foreach ($flow as $f): ?>
+                    <div class="td-wd">
+                        <div><?php echo $f['title'] ?></div>
+                        <div><?php echo date('Y-m-d H:i', $f['start_time']); ?>
+                            ～<?php echo date('Y-m-d H:i', $f['end_time']); ?></div>
+                        <div><?php echo $f['content'] ?></div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($undertaker)): ?>
+        <div class="row">
+            <div class="col-registration"><em title="承办机构" class="icon-col icon-take"></em><span>承办机构</span></div>
+            <div class="col-md-12">
+                <div class="td-wd">
+                    <table>
+                        <?php $tmp = array();
+                        foreach ($undertaker as $u): ?>
+                            <tr>
+                                <?php if (!in_array($u['type'], $tmp)): ?>
+                                    <?php array_push($tmp, $u['type']); ?>
+                                    <td style="vertical-align: top; padding-right: 10px;"><?php echo C('ACTIVITY_UNDERTAKER')[$u['type']]; ?>
+                                        :
+                                    </td>
+                                <?php else: ?>
+                                    <td style="vertical-align: top; padding-right: 10px;"></td>
+                                <?php endif; ?>
+                                <td style="padding-bottom: 10px;"><?php $names = explode(',', $u['name']); ?>
+                                    <?php foreach ($names as $n): ?>
+                                        <?php echo $n; ?><br/>
+                                    <?php endforeach; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+                <!-- <div class="td-wd"><em title="人数" class="registration icon-number"></em>限额100人</div> -->
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <!-- 是否显示已经报名人员列表 -->
+    <?php if ($activity_info['show_front_list'] == 1): ?>
+        <div class="row">
+            <div class="col-registration"><em title="报名情况" class="icon-col icon-personnel"></em><span>报名情况</span></div>
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td colspan="2">已报名人数： <?php echo $user_count; ?></td>
+                    </tr>
+                    </thead>
+                    <tbody id="user_list_body">
+                    <tr>
+                        <th>姓名</th>
+                        <th>手机号码</th>
+                    </tr>
+                    <?php foreach ($user_list as $u): ?>
+                        <tr>
+                            <td><?php echo mb_substr($u['real_name'], 0, 1, 'UTF-8') . '*'; ?></td>
+                            <td><?php echo substr_replace($u['mobile'], '******', 3, 6); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                    <?php if ($user_count > C('NUM_PER_PAGE', null, 10)): ?>
+                        <tfoot id="user_list_foot">
+                        <tr>
+                            <td colspan="2" class="text-center">
+                                <a id="next_page" href="javascript:void(0);" title="下一页"><i
+                                        class="fa fa-angle-double-down fa-2x"></i></a>
+                                <input type="hidden" id="current_page_num" value="<?php echo I('get.p', 1); ?>"/>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    <?php endif; ?>
+                </table>
+            </div>
+        </div>
+    <?php endif; ?>
+
+
+    <include file="Public:_footer"/>
+
+    <style>
+        .btn-link {
+            padding: 6px 20px;
+            margin-top: 10px;
+            border: solid 1px;
+        }
+
+        .btn-link:hover {
+
+        }
+    </style>
+    <div class="btn-position">
+        <?php if (session('preview')): ?>
+                <a class="btn btn-signup"
+                   href="<?php echo U('Activity/signup_user', array('aid' => $activity_info['guid'], 'token' => I('get.token'), 'app' => I('get.app'))) ?>">我要报名</a>
+        <?php else: ?>
+            <?php if ($check_signup_time['status'] == false && $check_signup_time['time_type'] == 'start'): ?>
+                <a href="javascript:void(0);" class="btn btn-signfull pull-right" disabled>报名尚未开始</a><br/>
+            <?php elseif ($check_signup_time['status'] == false && $check_signup_time['time_type'] == 'end'): ?>
+                <a href="javascript:void(0);" class="btn btn-signfull pull-right" disabled>报名已经结束</a><br/>
+            <?php endif; ?>
+
+            <?php if ($user_can_signup == false): ?> <!-- 报名人数已满-->
+                <a href="javascript:void(0);" class="btn btn-signfull pull-right"
+                   disabled>报名人数已满<?php echo !empty($is_user_signed) ? ', 您已报名' : ''; ?></a><br/>
+                <?php if (!empty($is_user_signed)): ?> <!-- 已报名-->
+                    <a class="btn btn-signcheck"
+                       href="<?php echo U('Activity/signup_userinfo', array('aid' => $activity_info['guid'], 'token' => I('get.token'), 'app' => I('get.app'))) ?>">查看报名信息</a>
+                <?php endif; ?>
+            <?php else: ?><!-- 报名人数未满-->
+                <?php if (!empty($is_user_signed)): ?> <!-- 已报名-->
+                    <a class="btn btn-signcheck"
+                       href="<?php echo U('Activity/signup_userinfo', array('aid' => $activity_info['guid'], 'token' => I('get.token'), 'app' => I('get.app'))) ?>">查看报名信息</a>
+                    <br/>
+                <?php else: ?>  <!-- 未报名-->
+                    <?php if ($activity_info['status'] == 1 && $check_signup_time['status']): ?>
+                        <a class="btn btn-signup"
+                           href="<?php echo U('Activity/signup_user', array('aid' => $activity_info['guid'], 'token' => I('get.token'), 'app' => I('get.app'))) ?>">我要报名</a>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php endif; ?>
+
+        <?php endif; ?>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        /**
+         * 下一页
+         */
+        var i_num = <?php echo isset($i) ? $i : 0; ?>;
+        $('#next_page').click(function () {
+            var current_page = $('#current_page_num').val();
+            var next_page = parseInt(current_page) + 1;
+
+            $.ajax({
+                url: '<?php echo U('Activity/ajax_signup_user_list', array('aid' => $activity_info['guid'])) ?>/p/' + next_page,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    $('#next_page').html('<i class="fa fa-spinner fa-spin fa-2x"></i>');
+                },
+                success: function (data) {
+                    $('#next_page').html('<i class="fa fa-angle-double-down fa-2x"></i>');
+                    if (data.status == 'ok') {
+                        $('#current_page_num').val(next_page);
+                        var html = '';
+                        $.each(data.data, function (k, info) {
+                            html += '<tr>';
+                            html += '<td>' + info.real_name.substring(0, 1) + '*</td>';
+                            html += '<td>' + info.mobile.substring(0, 3) + '******' + info.mobile.substring(9, 11) + '</td>';
+                            html += '</td>';
+                            html += '</tr>';
+                        });
+                        $('#user_list_body').append(html);
+                    } else if (data.status == 'ko') {
+//                        alertTips($('#tips-modal'), data.msg);
+                        $('tfoot#user_list_foot').remove();
+                    } else if (data.status == 'nomore') {
+//                        alertTips($('#tips-modal'), data.msg);
+                        $('tfoot#user_list_foot').remove();
+                    }
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

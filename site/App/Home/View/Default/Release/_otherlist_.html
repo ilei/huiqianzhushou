@@ -1,0 +1,76 @@
+
+{__NOLAYOUT__}
+<?php $weekarray=array("日","一","二","三","四","五","六"); ?>
+<?php if ($list) : ?>
+<?php foreach($list as $l):?>
+
+<div class="content_item">
+    <div class="posters-img">
+        <img  data-original="<?php echo get_image_path($l['poster']); ?>"  >
+    </div>
+    <div class="content_item_rt">
+        <div class="row">
+            <?php if($l['is_verify'] != 3):?>
+            <div class="col-sm-10"><a
+                    href="<?php echo U('Home/Act/manage', array('guid'=>$l['guid'])); ?>"
+                    class="title"><?php echo $l['name'];?></a></div>
+            <div class="col-sm-12">
+                <p><?php echo date('Y年m月d日 H:i',$l['start_time']);?>
+                    <?php echo ' 星期' . $weekarray[date('w')];?>
+                    <br><?php echo $l['full_address'];?></p>
+            </div>
+            <div class="col-sm-12">
+                <p><?php echo $l['areaid_1_name'].' '.$l['areaid_2_name'].' '.$l['address']; ?></p>
+            </div>
+            <?php else:?>
+                <div class="col-sm-10"><a
+                        href="#"
+                        class="title"><?php echo $l['name'];?></a>
+<!--                    <span class="act_not_verify"></span>-->
+                </div>
+                <div class="col-sm-12" >
+                    <div class="alert alert-danger" role="alert">
+                        <strong>未通过审核! </strong> <?php echo $l['refuse_reason']?>
+                    </div>
+                </div>
+            <?php endif;?>
+
+        </div>
+        <div class="row option">
+<!--            --><?php //if($l['is_verify'] != 3):?>
+                <div class="col-sm-8">
+                    <a href="<?php echo U('Home/Act/manage', array('guid'=>$l['guid'])); ?>"><i class="fa fa-cogs"></i> 管理</a>
+                    <?php if($l['status']==0): ?>
+                        <a href="<?php echo U('Home/Act/edit', array('guid'=>$l['guid'])); ?>"><i class="fa fa-pencil"></i> 编辑</a>
+                    <?php endif;?>
+                    <a href="<?php echo U('Home/Act/preview', array('guid'=>$l['guid'])); ?>"><i class="fa fa-eye"></i> PC预览</a>
+                    <a href="<?php echo U('Home/Act/mpreview', array('guid' => $l['guid'])); ?>"><i class="fa fa-mobile"></i> 手机预览</a>
+                </div>
+<!--            --><?php //else:?>
+<!--                <div class="col-sm-8">-->
+<!--                    <a href="#"><i class="fa fa-cogs"></i> 管理</a>-->
+<!--                    --><?php //if($l['status']==0): ?>
+<!--                        <a href="#"><i class="fa fa-pencil"></i> 编辑</a>-->
+<!--                    --><?php //endif;?>
+<!--                    <a href="#"><i class="fa fa-eye"></i> PC预览</a>-->
+<!--                    <a href="#"><i class="fa fa-mobile"></i> 手机预览</a>-->
+<!--                </div>-->
+<!--            --><?php //endif;?>
+            <div class="col-sm-4 option-right">
+                <div class="pull-right">
+                    <a href="#"><i class="fa fa-share-square"></i> 分享</a>
+                    <a href="#"><i class="fa fa-mobile"></i> 签到</a>
+                    <!-- <a href="#"><i class="fa fa-pie-chart"></i> 报表</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
+<?php else : ?>
+
+<div class="tab-nodata text-center">
+    <p class="text-center">暂无数据</p>
+    <a class="btn btn-important" href="<?php echo U('Home/act/add') ?>" type="submit"><i class="fa fa-plus-circle"></i> 立即发布活动</a>
+</div>
+<?php endif; ?>

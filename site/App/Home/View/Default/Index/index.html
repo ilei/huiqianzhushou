@@ -1,0 +1,155 @@
+{__NOLAYOUT__}
+<?php echo $_COOKIE['auth'];?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="Keywords" content="<?php echo L('_SITE_KEYWORDS_');?>">
+    <meta name="Description" content="<?php echo L('_SITE_CONTENT_');?>">
+    <meta name="Author" content="<?php echo L('_APP_NAME_')?>"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="Keywords" content="<?php echo implode(',', $keywords);?>">
+    <meta name="distribution" content="global" />
+    <meta name="Description" content="<?php echo $desc;?>">
+    <meta name="Author" content="<?php echo L('_APP_NAME_')?>"/>
+
+    <meta http-equiv="Pragma" content="no-cache" />
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <meta name="author" content="会签助手" />
+    <meta name="publisher" content="会签助手" />
+    <meta name="rating" content="general" />
+    <meta name="copyright" content="&copy; 津ICP备11001221号" />
+    <meta name="webcrawlers" content="all" />
+    <meta name="company" content="天津云脉三六五科技有限公司" />
+    <meta name="subject" content="Meetelf 不只是会展" />
+    <meta name="abstract" content="领先的活动报名及电子票务平台" />
+    <meta name="description" content="&quot;&quot;活动&quot;&quot;开始结束时间、地址、活动地图、票价、票务说明、报名参加、主办方、照片、讨论、活动海报等" />
+    <meta name="keywords" content="活动详情,报名人数,时间,图片海报,活动地图,票价,票务说明,主办方,活动论坛" />
+    <meta property="og:description" content="&quot;&quot;活动&quot;&quot;开始结束时间、地址、活动地图、票价、票务说明、报名参加、主办方、照片、讨论、活动海报等" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="会签助手" />
+    <title><?php echo C('APP_NAME')?></title>
+    <link rel="shortcut icon" href="<?php echo fixed_resource_url('/Public/common/images/favicon.ico')?>"
+          type="image/vnd.microsoft.icon">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="<?php echo fixed_resource_url('/Public/meetelf/css/base.min.css')?>" rel="stylesheet"/>
+    <link href="<?php echo fixed_resource_url('/Public/meetelf/css/index.min.css')?>" rel="stylesheet"/>
+    <!-- Custom styles for this template -->
+    <?php foreach($css as $key => $value):?>
+    <!--<link href="__PUBLIC__/<?php echo $value;?>?t=<?php echo $debug ? time() : C('last_release');?>" rel="stylesheet" />-->
+    <link href="<?php echo fixed_resource_url('/Public/'.$value.'?t='.($debug ? time() : C('last_release')));?>"
+          rel="stylesheet"/>
+    <?php endforeach;?>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?53bcbe6e5935bc8dfa46a7f3782503cd";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+<!-- 导航 -->
+<include file="Public:_index_nav"/>
+<!-- 导航 end-->
+<!-- 背景 -->
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img src="__PUBLIC__/meetelf/images/bg1.jpg">
+
+            <div class="carousel-caption">
+                <h1>Meetelf<br>不只是会展</h1>
+
+                <p>做有温度的会签平台</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="__PUBLIC__/meetelf/images/bg2.jpg">
+
+            <div class="carousel-caption">
+                <h1>活动组织<br>管理一站完成</h1>
+
+                <p>发布、推广、报名、收款、签到、统计、会员管理一站完成</p>
+            </div>
+        </div>
+        <div class="item">
+            <img src="__PUBLIC__/meetelf/images/bg3.jpg">
+
+            <div class="carousel-caption">
+                <h1>轻松发布 高效管理<br>方便快捷完成签到统计</h1>
+
+                <p>PC、手机多终端签到检票，省时省力方便快捷</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 背景 end-->
+<!-- 内容 -->
+<div class="container index-main">
+    <div class="row">
+        <div class="col-sm-6 broder-right">
+            <h2><span>1</span> 发布活动</h2>
+            <img src="__PUBLIC__/meetelf/images/index1.jpg">
+        </div>
+        <div class="col-sm-6">
+            <h2><span>2</span> 邀请推广</h2>
+            <img src="__PUBLIC__/meetelf/images/index2.jpg">
+        </div>
+        <div class="col-sm-12">
+            <div class="act-center"></div>
+            <span><img src="__PUBLIC__/meetelf/images/logo.png"></span>
+        </div>
+        <div class="col-sm-6 broder-right">
+            <h2><span>3</span> 报名购票</h2>
+            <img src="__PUBLIC__/meetelf/images/index3.jpg">
+        </div>
+        <div class="col-sm-6">
+            <h2><span>4</span> 签到检票</h2>
+            <img src="__PUBLIC__/meetelf/images/index4.jpg">
+        </div>
+    </div>
+    <div class="row">
+        <h1>创建属于您的活动</h1>
+
+        <div class="col-sm-12">
+            <?php if(!session('auth')): ?>
+            <a class="btn btn-release-lg" href="<?php echo U('Auth/login')?>" role="button">发布活动</a>
+            <?php else: ?>
+            <a class="btn btn-release-lg" href="<?php echo U('Act/add');?>" role="button">发布活动</a>
+            <?php endif; ?>
+
+        </div>
+    </div>
+    <div class="row btn-download-text">
+        <h1>签到/检票客户端下载</h1>
+
+        <div class="col-sm-5 col-sm-offset-1 col-md-4 col-md-offset-2 col-lg-3 col-lg-offset-3">
+            <a class="btn btn-download-lg btn-block" id="downloadandr" data-original-title="" title="">
+                <div class="pull-left"><i class="fa fa-android"></i></div>
+                <div class="pull-left">安卓在线签到<span>Android4.0及以上版本</span></div>
+            </a>
+            <p class="text-center">支持安卓手机及pad</p>
+        </div>
+        <div class="col-sm-5 col-md-4 col-lg-3">
+            <a class="btn btn-download-lg btn-block" id="downloadios" data-original-title="" title="">
+                <div class="pull-left"><i class="fa fa-apple"></i></div>
+                <div class="pull-left">iOS在线签到<span>iOS 7.0及以上版本</span></div>
+            </a>
+            <p class="text-center">支持iPhone及iPad</p>
+        </div>
+    </div>
+</div>
+
+<include file="Public:_index_footer"/>

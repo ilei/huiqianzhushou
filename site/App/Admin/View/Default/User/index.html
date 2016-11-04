@@ -1,0 +1,115 @@
+<import type='js' file="admin.js.orgIndex" />
+<script type="text/javascript">
+	var YM = {
+		'delOrg' : "{:U('delUser')}",
+		'lock' : "{:U('lock')}",
+		'unlock' : "{:U('unlock')}"
+	};
+	function return_index(){
+		location.href = "<?php echo U('User/index')?>";
+	}
+</script>
+<div id="content-head">用户管理</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>'', 'v'=>'用户管理')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<div class="group-search">
+					<form action="<?php echo U('select_list')?>" id="verifyOrgForm" method="post" >
+						<input type="text" class="form-control search-list" id="search" value="{$Think.post.search}{$Think.get.search|urldecode=###}" placeholder="姓名" name="search" aria-required="true" aria-invalid="false">
+						<i class="fa fa-search search-list-i"></i>
+						<button type="submit" class=" btn btn-primary">查找</button>
+						<button class="btn btn-primary" type="button" id="return" onclick="return_index()" autocomplete="off">重置</button><!--  style="display: none;" -->
+					</form>
+				</div>
+				<a class="btn btn-success pull-right" type="button" href="{:U('add')}"><i class="fa fa-plus"></i> 创建用户</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>姓名</th>
+							<th>昵称</th>
+							<th>电话</th>
+                            <th>邮件</th>
+							<!--<th>审核</th>-->
+							<th>状态</th>
+                            <th>类型</th>
+							<!--<th>认证（依赖类型）</th>-->
+							<th>等级</th>
+							<th>创建时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<foreach name="userList" item="v">
+						<tr data-guid="{$v.guid}">
+							<td>{$v.realname}</td>
+							<td><?php echo $v['nickname']; ?></td>
+							<td><?php echo $v['mobile']; ?></td>
+                            <td><?php echo $v['email']; ?></td>
+							<!--<td>
+								<?php if($v['realname_verify'] == 0):?>
+								<a class="btn-link" href="<?php echo U('Org/verify', array('org_guid'=> $v['guid']))?>">审核</a>
+								<?php elseif($v['is_verify'] == 1):?>
+								<span class="text-green">已通过</span>
+								<?php elseif($v['is_verify'] == 2):?>
+								<span class="text-grey">未通过</span>
+								<?php endif;?>
+								</h>
+							</td>-->
+							<td class="lock">
+								<eq name="v.is_lock" value="0"><span class="text-grey">未锁定</span>（<a href="javascript:void(0);" class="btn-link js-lock">锁定</a>）
+								<else/><span class="text-red">已锁定</span> （<a href="javascript:void(0);" class="js-unlock">解锁</a>）</else>
+								</eq>
+							</td>
+                            <td>
+                                <?php if($v['acc_type'] == 0):?>
+                                <span class="text-green">个人</span>
+                                <?php elseif($v['is_verify'] == 1):?>
+                                <span class="text-green">企业</span>
+
+                                <?php endif;?>
+                                </h>
+                            </td>
+                            <!--
+							<td>
+								<switch name="v.status">
+									<case value="0"><span class="text-yellow">未认证</span></case>
+									<case value="1"><span class="text-yellow">未认证</span></case>
+									<case value="2"><span class="text-red">待认证</span>（<a class="btn-link" href="<?php echo U('auth', array('guid'=>$v['guid']))?>">查看</a>）</case>
+									<case value="3"><span class="text-green">已认证</span>（<a class="btn-link" href="<?php echo U('auth', array('guid'=>$v['guid']))?>">查看</a>）</case>
+									<case value="4"><span class="text-red">认证失败</span></case>
+								</switch>
+							</td>-->
+							<td>{$v.vip_name}</td>
+							<td><?php echo date('Y-m-d H:i',$v['created_at'])?></td>
+							<td><a href="javascript:void(0)"><i class="fa fa-trash-o js-del"></i></a>　
+
+								<a href="<?php echo U('view', array('guid' => $v['guid']))?>"><i class="fa fa-search"></i></a>
+
+							</td>
+						</tr>
+						</foreach>
+					</tbody>
+				</table>
+				<div class="">
+					<span><h4>用户总数： <?php echo $count?>  人</h4></span>
+				</div>
+				<!-- 分页导航 -->
+				<?php echo $page; ?>
+			</div>
+		</div>
+	</div>
+</div>

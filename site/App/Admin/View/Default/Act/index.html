@@ -1,0 +1,122 @@
+<script type="text/javascript">
+
+    var YM = {
+        'url_easemob_single_user' : "<?php echo U('Easemob/ajax_repaire_single_user') ?>"
+    };
+
+    function return_index() {
+        location.href = "<?php echo U('Act/index')?>";
+    }
+</script>
+<div id="content-head">活动列表</div>
+<?php
+$breadcrumbs = array(
+    'base' => '活动管理',
+    'list' => array(
+        array('url' => '', 'v' => '活动列表')
+    )
+);
+?>
+<include file="Public:_breadcrumbs"/>
+<div class="content-border">
+    <div class="container-fluid">
+        <div class="row mb20">
+            <div class="col-sm-12">
+                <div class="group-search">
+                    <form action="<?php echo U('Act/index') ?>" id="verifyOrgForm" method="post">
+                        <input type="text" class="form-control search-list" id="search"
+                               value="{$Think.post.search}{$Think.get.search|urldecode=###}" placeholder="活动名称"
+                               name="search" aria-required="true" aria-invalid="false">
+                        <i class="fa fa-search search-list-i"></i>
+                        <button type="submit" class=" btn btn-primary">查找</button>
+                        <button class="btn btn-primary" type="button" onclick="return_index()" autocomplete="off">重置
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <form action="<?php echo U('Act/index'); ?>" id="userForm" method="post" name="userForm">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>活动名称</th>
+                            <th>创建人</th>
+                            <th>审核</th>
+
+                            <th>创建时间</th>
+                            <th>最后更新时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <?php foreach ($act_list as $l): ?>
+                            <tr class="ym_table_tr">
+                                <td><?php echo $l['name']; ?></td>
+                                <td><?php echo $l['realname']; ?></td>
+
+                                <td><?php if ($l['is_verify'] == 0): ?>
+                                        <span class="text-red">未审核</span>
+                                    <?php elseif ($l['is_verify'] == 1): ?>
+                                        <span class="text-green">已审核 <i class="fa fa-angellist"></i></span>
+                                    <?php else: ?>
+                                        <span class="text-grey">已拒绝</span>
+                                    <?php endif; ?>
+                                </td>
+
+
+                                <td><?php echo date('Y-m-d H:i', $l['created_at']); ?></td>
+                                <td><?php echo date('Y-m-d H:i', $l['updated_at']); ?></td>
+                                <td>
+                                    &nbsp;&nbsp;
+                                    <a href="<?php echo U('Act/verify', array('act_guid' => $l['guid'])); ?>"><i
+                                            class="fa fa-search"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <?php $admin_type = session('admin::auth')['type'];
+                                    if ($admin_type == 'super'): ?>
+                                        <a class="del_user"
+                                           onclick="alertConfirm('确定删除该活动？','<?php echo U('Act/del_act', array('act_guid' => $l['guid'])); ?>')">
+                                            <i class="js-del glyphicon glyphicon-trash"></i></a>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    <?php echo $page; ?>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<import type="js" file="admin.js.easemob" />
+<script type="text/javascript">
+    function return_index() {
+        location.href = "<?php echo U('Act/index')?>";
+    }
+    $(document).ready(function () {
+        $('p.lock_user').click(function () {
+            var obj = $(this);
+            var user_guid = obj.attr('name');
+            $.ajax({
+                type: "POST",
+                url: "<?php echo U('User/is_lock'); ?>",
+                data: {user_guid: user_guid},
+                dataType: "json",
+                beforeSend: function () {
+                    obj.html('<i class="fa fa-spinner"></i>');
+                },
+                success: function (data) {
+                    if (data.status == 'ok') {
+                        if (data.is_active == 1) {
+                            obj.html('已锁定&nbsp;<i class="fa fa-lock"></i>');
+                        } else {
+                            obj.html('未锁定&nbsp;<i class="fa fa-unlock"></i>');
+                        }
+                    } else {
+                        alert('用户锁定失败');
+                    }
+                }
+            });
+        });
+    });
+</script>

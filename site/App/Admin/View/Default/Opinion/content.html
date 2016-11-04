@@ -1,0 +1,44 @@
+<div id="content-head">意见详情</div>
+<import type='js' file="admin.js.orgIndex" />
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Opinion/index'), 'v'=>'反馈管理'),
+array('url' => '', 'v' => '意见详情')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a class="btn btn-success pull-right" type="button" href="{:U('Opinion/index')}"><i class="fa fa-arrow-left"></i> 返回列表</a>
+			</div>
+		</div>
+		<form class="form-horizontal" role="form" id="regorg">
+			<div class="form-group">
+				<label for="phone" class="col-sm-2 control-label">提交人</label>
+				<div class="col-sm-6">
+					<input type="text" name="category" class="form-control" value="<?php echo $opinion_info['real_name'];?>"  disabled="">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			<div class="form-group">
+				<label for="phone" class="col-sm-2 control-label">提交时间</label>
+				<div class="col-sm-6">
+					<input type="text" name="category" class="form-control" value="<?php echo date('Y-m-d H:i',$opinion_info['created_at']);?>"  disabled="">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			<div class="form-group">
+				<label for="category" class="col-sm-2 control-label">内容</label>
+				<div class="col-sm-6">
+					<textarea  class="form-control" disabled=""><?php echo $opinion_info['content'];?></textarea>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+		</form>
+	</div>
+</div>

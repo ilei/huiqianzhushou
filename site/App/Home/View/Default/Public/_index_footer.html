@@ -1,0 +1,45 @@
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-lg-10 col-lg-offset-1">
+        <div class="row section">
+          <div class="link-section col-sm-6">
+            <div class="title">
+              <img src="__PUBLIC__/meetelf/images/logo.png">
+            </div>
+            <div class="link">
+              <a href="<?php echo U('About/about')?>">关于我们</a> |
+              <a href="<?php echo U('About/recruiting')?>">招贤纳士</a> |
+              <a href="<?php echo U('About/contact')?>">联系我们</a> |
+              <a href="<?php echo U('Home/User/download');?>">下载中心</a> |
+              <a href="<?php echo U('Home/Help/index','',true,true)?>">帮助中心</a> |
+              <a href="<?php echo U('About/feedback')?>">意见反馈</a>
+            </div>
+            <address>
+            电话：022-84180365&nbsp;&nbsp;&nbsp;&nbsp;QQ：550022365<br>
+            工作时间：周一到周五 9:00 - 18:00
+            </address>
+          </div>
+          <div class="col-sm-6">
+            <div class="title">
+              <span>合作伙伴</span>
+            </div>
+            <i class="partners pt1"></i>
+            <i class="partners pt2"></i>
+            <i class="partners pt3"></i>
+            <i class="partners pt4"></i>
+            <i class="partners pt5"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 last">
+        © 会签助手  津ICP备11001221号-7
+        <p>当前<?php echo C('VERSION_NUMBER');?></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="/Public/common/js/require.js" data-main="<?php echo  $main ? fixed_resource_url($main) : fixed_resource_url('/Public/common/js/main')?>"></script>
+</body>
+  <input type="hidden" value="<?php echo $debug ? 1 : C('last_release');?>" id="last_release"/>
+</html>

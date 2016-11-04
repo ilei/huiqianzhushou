@@ -1,0 +1,504 @@
+ <!--
+ 	//创建文章页
+  -->
+
+ <include file="Activity:style" />
+ <import type='css' file="home.css.create-registration" />
+ <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=<?php echo C('BAIDU_MAP_AK', null, '382dfe7f0b7663c1c579ba8cf85e8791')?>"></script>
+ <?php $is_new = S('activity::is_new'); ?>
+
+ <script type="text/javascript">
+     var item_key = <?php echo count($build_info); ?>, //增加表单键
+         token = '<?php echo I('get.token'); ?>',
+         ajax_area_url = '<?php echo U('Info/ajax_get_child_area_list')?>',
+         ueditor_server_url = '<?php echo U('ueditor'); ?>',
+         ticket_del_url = '<?php echo U('Activity/ajax_delete_ticket'); ?>'
+         ;
+
+     // 组装 承办机构json串
+     var undertaker_items = [];
+     <?php foreach($undertaker as $k => $u): ?>
+     undertaker_items[<?php echo $k ?>] = {
+         'name' : "<?php echo $u['name']; ?>",
+         'type' : "<?php echo $u['type']; ?>"
+     };
+     <?php endforeach; ?>
+
+     // 组装 活动流程json串
+     var flow_items = [];
+     <?php foreach($flow as $k => $f): ?>
+         flow_items[<?php echo $k ?>] = {
+             'title' : "<?php echo $f['title']; ?>",
+             'content' : "<?php echo $f['content'] ?>",
+             'start_time' : "<?php echo date('Y-m-d H:i', $f['start_time']); ?>",
+             'end_time' : "<?php echo date('Y-m-d H:i', $f['end_time']); ?>"
+         };
+     <?php endforeach; ?>
+
+
+     // 组装 活动流程json串
+     var ticket_items = [];
+     <?php foreach($ticket as $k => $f): ?>
+         ticket_items[<?php echo $k ?>] = {
+             'guid' : "<?php echo $f['guid']; ?>",
+             'name' : "<?php echo $f['name']; ?>",
+             'num' : "<?php echo $f['num'] ?>",
+             'num_used' : "<?php echo $f['num_used'] ?>",
+             'verify_num' : "<?php echo $f['verify_num']; ?>",
+             'is_for_sale' : "<?php echo $f['is_for_sale']; ?>",
+						 'price':"<?php echo $f['price'];?>"
+         };
+     <?php endforeach; ?>
+
+     function myFunction()
+        {
+        var x;
+        var r=confirm("如果返回，您填写的信息将被清空您确定返回吗？");
+        if (r==true)
+          {
+          location.href="javascript:history.go(-1)";
+          }
+        else
+          {
+          }
+        }
+ </script>
+ <!-- 导入面包屑 -->
+ <include file="Activity:_breadcrumbs_activity_add" />
+ <include file="_top_tabs" />
+
+<div class="rightmain">
+    <div class="btn-group width798">
+        <h4 class="pull-left"><?php echo $is_new==true ? '创建' : '编辑'; ?>报名、票务、会签 <img width="23px" src="__PUBLIC__/home/images/activity4.png" alt="报名、票务、会签"></h4>
+        <div class="pull-right mt10"><button class="btn mybtn" onclick="myFunction()"><i ></i> 返回</button></div>
+    </div>
+
+    <div class="pdlf10 mb40 ml12">
+        <div class="activity-header">活动详情</div>
+        <!-- form -->
+        <?php $submit_url = ($is_new == true) ? U('Activity/add') : U('Activity/edit', array('guid' => I('get.guid'))); ?>
+        <form id="actForm" method="post" action="<?php echo $submit_url?>">
+
+            <!-- ========================= 填写标题 ========================= -->
+            <div class="row mt30 ym_form_field">
+                <div class="pull-left width80 mt7">填写标题：</div>
+                <div class="pull-left width420 "><input type="text" class="form-control" name="name" value="<?php echo $activity_info['name']?>"></div>
+            </div>
+            <div class="row ml80 tishinr"></div>
+
+            <!-- ========================= 活动开始时间与结束时间 ========================= -->
+            <include file="_form_field_activity_time" />
+
+            <!-- ========================= 选择地点 ========================= -->
+            <div class="row ym_form_field">
+                <div class="pull-left width80 mt7">选择地点：</div>
+                <div class="form-inline" role="form">
+                    <input type="hidden" id="val" value="<?php echo $_GET['areaid_1'].','.$_GET['areaid_2'];?>" />
+                    <select class="form-control" name="areaid_1" id="area1">
+                        <option value=''>省份/直辖市</option>
+                        <?php foreach ($area_1 as $v): ?>
+                            <option value="<?php echo $v['id']?>" <?php if($activity_info['areaid_1']==$v['id']){echo "selected=true";}?> ><?php echo $v['name']?></option>
+                        <?php endforeach;?>
+                    </select>
+                    <select class="form-control ml12" name="areaid_2" id="area2">
+                        <option value="">市/区</option>
+                        <?php foreach ($area_2 as $v): ?>
+                            <option value="<?php echo $v['id']?>" <?php if($activity_info['areaid_2']==$v['id']){echo "selected=true";}?> ><?php echo $v['name']?></option>
+                        <?php endforeach;?>
+                    </select>
+                </div>
+                <div class="ml80 width420 mt10">
+                    <input type="text" class="form-control" name="address" placeholder="详细地址" value="<?php echo $activity_info['address']?>">
+                </div>
+            </div>
+            <div class="row ml80 tishinr"></div>
+
+            <!-- ========================= 选择坐票 ========================= -->
+            <div class="row ym_form_field">
+                <div class="pull-left width80 mt7">选择坐标：</div>
+                <div class="pull-left width420">
+                    <div class="input-group">
+                        <div>
+                            <input type="text" class="form-control" placeholder="搜索目的地坐标 " onkeypress="press_target(event, 'btn_lat_lng_search')"
+                                   value="<?php echo $activity_info['keyword']?>" name="keyword" />
+                        </div>
+                        <span id="btn_lat_lng_search" class="pointer input-group-addon radius0 js-search-map"><span class="glyphicon glyphicon-search"></span></span>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="ml80 width420 mt10">
+                    <div id="mapzoom" class="width420" style="height:360px;"></div>
+                </div>
+                <div class="ml80 width420 mt10">
+                    <div class="col-md-6 pdlf0"><input type="text" class="form-control" name="lat" placeholder="维度坐标" value="<?=$activity_info['lat']?>"></div>
+                    <div class="col-md-6 pdlf0"><input type="text" class="form-control" name="lng" placeholder="经度坐标" value="<?=$activity_info['lng']?>"></div>
+                </div>
+            </div>
+            <div class="row ml80 tishinr"></div>
+
+            <!-- ========================= 海报 ========================= -->
+            <div class="row ym_form_field">
+                <div class="pull-left width80 mt7">上传海报：</div>
+                <div class="pull-left width675">
+                    <div class="col-sm-6">
+                        <img id="poster_preview" src="<?php echo get_image_path($activity_info['poster'], 'upload-postersimg.png'); ?>" class="upload-posters" style="width: 320px;">
+                    </div>
+                    <div class="col-sm-6 ml-20">
+                        <input type="hidden" name="poster" value="<?php echo $activity_info['poster']; ?>"/>
+                        <div id="poster"><button type="button" class="btn mybtn">上传海报</button></div>
+                        <p class="help-block"><nameh1>图片小于500k (jpg、gif、png、bmp)推荐尺寸 1080*675 px的图片（不小于 472*295 px的图片）！<br><br></nameh1></p>
+                        <p class="help-block"><nameh1>温馨提示：一张漂亮的海报，会起到意想不到的效果，它会让你的活动显得更加有吸引力，更有品质；<br>
+                                这将会为您的活动带来更多的用户报名哦！</nameh1></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row ml80 tishinr"></div>
+
+            <!-- 参与人数 -->
+<!--            <div class="row ym_form_field">-->
+<!--                <div class="pull-left width80 mt7">参与人数：</div>-->
+<!--                <div class="pull-left width190">-->
+<!--                    <input type="text" class="form-control" name="num_person" value="--><?php //echo isset($activity_info['num_person']) ? $activity_info['num_person'] : 0; ?><!--">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row mb20">-->
+<!--                <div class="ml80"><nameh1>0或留空为不限制报名人数。<strong>注意：</strong>如果在页面底部您设置了票务，则此项设置失效，报名人数限制改为通过票务控制。</nameh1></div>-->
+<!--            </div>-->
+
+            <!-- 详细内容 -->
+            <div class="row ym_form_field">
+                <div class="pull-left width80 mt7">详细内容：</div>
+                <div class="pull-left width675">
+                          <textarea id="ym_editor" name="content" type="text/plain">
+                              <?php echo $activity_info['content']?>
+                          </textarea>
+                </div>
+            </div>
+            <div class="row ml80 tishinr" id="editor_error"></div>
+
+            <!-- ========================== 承办机构 ========================== -->
+            <div class="row">
+                <div class="col-sm-12 bg-collapse-btn">
+                    <button class="btn btn-success radius0" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3">
+                        承办机构设置 <i class="fa fa-angle-down"></i>
+                    </button></div>
+                <div class="collapse in" id="collapseExample3">
+                    <div class="well">
+                        <div class="row">
+                            <div class="alert alert-warning mt10">
+                                <ul class="square">
+                                    <li>承办机构必填，第一项必须为主办方。</li>
+                                    <li>填写时，若某项承办机构为多个，请用半角逗号（,）隔开。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="undertaker_list">
+                            <?php if ($is_new == true): ?>
+                                <div class="row op_undertaker ym_form_field mb20">
+                                    <div class="pull-left btn-group width150 ml12">
+                                        <input type="type" class="form-control" name="useless" value="主办方" disabled />
+                                        <input type="hidden" name="op_undertaker[0][type]" value="1" />
+                                    </div>
+                                    <div class="pull-left width420 ml12">
+                                        <textarea type="text" class="form-control op_undertaker ym_form_field_required" name="op_undertaker[0][name]"
+                                               rows="3" placeholder=""><?php echo $auth['org_name']; ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="pull-left mb20 tishinr" style="min-height: 0px;"></div>
+                                <div class="clear"></div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button type="button" id="btn-undertaker-add" class="btn btn-default radius0 pull-right"><i class="fa fa-plus"></i> 添加</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 col-sm-offset-5">
+                                <button class="btn radius0" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3">
+                                    收起表单 <i class="fa fa-angle-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================== 报名表单 ========================== -->
+            <div class="row">
+                <div class="col-sm-12 bg-collapse-btn">
+                    <button class="btn btn-success radius0" type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
+                        设置报名表单 <i class="fa fa-angle-down"></i>
+                    </button></div>
+                <div class="collapse in" id="collapseExample1">
+                    <div class="well">
+                        <div class="row">
+                            <div class="alert alert-warning mt10">
+                                <ul class="square">
+                                    <li>电子邮箱设为必填，则报名成功后可以通过邮箱来发送电子票，若未设为必填，则只能通过短信发送电子票。</li>
+                                    <li>您可以创建多个公司和职位字段，但只有第一个公司栏位在用户填写后，将会显示在用户参会签到时打印的用户标签上。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 表单开始 -->
+                        <div class="row sign-form">
+                            <div class="options-content">
+                                <div class="form-header"><h4>默认项</h4></div>
+                                <div class="row"><!-- 默认项 -->
+                                    <div class="pull-left checkbox ml12">
+                                        <label>
+                                            <input type="checkbox" disabled="disabled" checked="checked"> 必填
+                                        </label>
+                                    </div>
+                                    <div class="pull-left mandatory"><input type="hidden" name="real_name" value="姓名" readonly/>姓名</div>
+                                    <div class="pull-left width360 ml12"><input type="text" name="real_name_note" class="form-control" value="报名用户的姓名" readonly /></div>
+                                </div>
+                                <div class="row"><!-- 默认项 -->
+                                    <div class="pull-left checkbox ml12">
+                                        <label>
+                                            <input type="checkbox" disabled="disabled" checked="checked"> 必填
+                                        </label>
+                                    </div>
+                                    <div class="pull-left mandatory"><input type="hidden" name="mobile" value="手机号码" readonly/>手机号码</div>
+                                    <div class="pull-left width360 ml12"><input type="text" name="mobile_note" class="form-control" value="报名用户的手机号码" readonly /></div>
+                                </div>
+
+                                <div class="form-header"><h4>其他</h4></div>
+                                <div id="other_form_items">
+                                    <?php foreach($build_info as $k => $b): ?>
+                                        <?php if(in_array($b['ym_type'], array('real_name', 'mobile'))){continue;}?>
+                                        <div id="fi_<?php echo $k; ?>" class="row ym_form_field">
+                                            <div>
+                                                <input type="hidden" name="items[<?php echo $k; ?>][ym_type]" value="<?php echo $b['ym_type']?>" />
+                                                <input type="hidden" name="items[<?php echo $k; ?>][html_type]" value="<?php echo $b['html_type']?>" />
+                                                <div class="pull-left checkbox ml12">
+                                                    <label><input type="checkbox" value="1" name="items[<?php echo $k; ?>][is_required]" <?php echo ($b['is_required']==1) ? 'checked' : '';?> /> 必填 </label>
+                                                </div>
+                                                <div class="pull-left width110 ml12">
+                                                    <input type="text" class="form_required form-control ym_form_signup_field_required" placeholder="表单名称" name="items[<?php echo $k; ?>][name]" value="<?php echo $b['name']?>">
+                                                </div>
+                                                <div class="pull-left width320 ml12">
+                                                    <input type="text" class="form-control" name="items[<?php echo $k; ?>][note]" placeholder="提示信息在这儿写！" value="<?php echo $b['note']; ?>">
+                                                </div>
+                                                <div class="pull-left"><button type="button" class="btn btn-delete" onclick="javascript:removeFormItem('<?php echo $k; ?>');" title="删除栏位"><i class="glyphicon glyphicon-trash"></i></button></div>
+                                            </div>
+                                            <?php $html_type = $b['html_type'];
+                                            if(in_array($html_type, array('radio', 'checkbox', 'select'))):
+                                                ?>
+                                                <div class="create-options-list">选项列表
+                                                    <div class="options-list" id="fio_<?php echo $k; ?>">
+                                                        <?php foreach($option_info[$b['guid']] as $key => $o): ?>
+                                                            <div id="<?php echo $k.'_'.$key; ?>">
+                                                                <input type="text" class="form_required form-control width110  ym_form_signup_field_required" placeholder="选项" name="items[<?php echo $k; ?>][options][<?php echo $key; ?>]" value="<?php echo $o['value']?>" />
+                                                                <?php if (!in_array($b['ym_type'], array('sex'))): ?>
+                                                                    <span name="event_form_item_ctrl" class="btn-delete-options" onclick="javascript:removeFormItemOption(<?php echo $k; ?>, <?php echo $key; ?>);"></span>
+                                                                <?php endif; ?>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                        <?php if (!in_array($b['ym_type'], array('sex'))): ?>
+                                                            <button type="button" class="btn-add-options" onclick="javascript:addFormItemOption(<?php echo $k?>);return false;"><span class="icon-event-label-add" name="event_form_item_ctrl"></span></button>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
+                                            <div class="clear"></div>
+                                            <div class="tishinr ml30" style="min-height: 0px;"></div><div class="clear"></div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+
+                            </div>
+                            <div class="options-column">
+                                <h5>常用栏位</h5>
+                                <button type="button" onclick="javascript:addFormCommonItem(0);" class="btn btn-default btn-half">邮箱</button>
+                                <button type="button" onclick="javascript:addFormCommonItem(1);" class="btn btn-default btn-half">公司</button>
+                                <button type="button" onclick="javascript:addFormCommonItem(2);" class="btn btn-default btn-half">职位</button>
+                                <button type="button" onclick="javascript:addFormCommonItem(3);" class="btn btn-default btn-half">性别</button>
+                                <h5>自定义栏位</h5>
+                                <button type="button" onclick="javascript:addFormCommonItem(100);" class="btn btn-default btn-all">单行文本框</button>
+                                <button type="button" onclick="javascript:addFormCommonItem(101);" class="btn btn-default btn-all">多行文本框</button>
+                                <button type="button" onclick="javascript:addFormCommonItem(102);" class="btn btn-default btn-all">单选按钮框</button>
+                                <button type="button" onclick="javascript:addFormCommonItem(103);" class="btn btn-default btn-all">复选按钮框</button>
+                                <button type="button" onclick="javascript:addFormCommonItem(104);" class="btn btn-default btn-all">日期选择框</button>
+                                <button type="button" onclick="javascript:addFormCommonItem(105);" class="btn btn-default btn-all">下拉选择框</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 表单结束 -->
+
+
+            <!-- ========================= 票务 ========================= -->
+            <div class="row">
+                <div class="col-sm-12 bg-collapse-btn">
+                    <button class="btn btn-primary radius0" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+                        设置票务 <i class="fa fa-angle-down"></i>
+                    </button></div>
+                <div class="collapse in" id="collapseExample2">
+                    <div class="well">
+
+                        <div class="row">
+                            <div class="alert alert-warning mt10">
+                                <strong>注意：</strong>如果您设置了票务的价格，则为收费票，否则为免费票。
+                            </div>
+                        </div>
+                        <table class="table tickettable">
+                            <thead>
+                            <tr class="tr-bgcolor">
+                                <td>票种名称</td>
+                                <td>价格</td>
+                                <td>票数</td>
+                                <td>可验证次数</td>
+                                <td>是否售票</td>
+                                <td>操作</td>
+                            </tr>
+                            </thead>
+                            <tbody id="ticket_list" class="ticketbody">
+<!--                                <tr class="op_ticket">-->
+<!--                                    <td><span class="ticket_0_name">普通票</span><input type="hidden" name="op_ticket[0][name]" class="t_name" value="普通票"/></td>-->
+<!--                                    <td><span class="ticket_0_num">100</span><input type="hidden" name="op_ticket[0][num]" class="t_num" value="100"/></td>-->
+<!--                                    <td><span class="ticket_0_verifynum">10</span><input type="hidden" name="op_ticket[0][verify_num]" class="t_verifynum" value="10"/></td>-->
+<!--                                    <td><input id="switch-offText" data-on-color="success" type="checkbox" class="t_forsale ticket_0_forsale" name="op_ticket[0][is_for_sale]" value="1" data-size="small" data-on-text="是" data-off-text="否" checked></td>-->
+<!--                                    <td><button type="button" class="btn bg-white radius0 btn-ticket-edit" ticket_key="0" title="设置"><i class="fa fa-cog fa-lg"></i></button></td>-->
+<!--                                </tr>-->
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button type="button" id="btn-ticket-add" class="btn btn-default radius0 pull-right"><i class="fa fa-plus"></i> 添加</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 col-sm-offset-5">
+                                <button class="btn radius0" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+                                    收起表单 <i class="fa fa-angle-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity-header">其他设置<span>（非必填项）</span></div>
+            <!-- ========================== 活动流程 ========================== -->
+            <div class="row">
+                <div class="col-sm-12 bg-collapse-btn"><button class="btn btn-primary radius0" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        活动流程（非必填项） <i class="fa fa-angle-down"></i>
+                    </button></div>
+                <div class="collapse" id="collapseExample">
+                    <div class="well">
+
+                        <div id="flow_list"></div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button type="button" id="btn-flow-add" class="btn btn-default radius0 pull-right"><i class="fa fa-plus"></i> 添加</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 col-sm-offset-5">
+                                <button class="btn radius0" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                    收起表单 <i class="fa fa-angle-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================= 报名开始时间 ========================= -->
+            <div class="row ym_form_field">
+                <div class="pull-left width104 mt7 ml-24">报名开始时间：</div>
+                <div class="pull-left width190">
+                    <div class="input-group date form_datetime">
+                        <div>
+                            <?php $start = isset($activity_info['start']) ? date('Y-m-d H:i',$activity_info['start']) : ''; ?>
+                            <input type="text" readonly="" id="start" name="start" value="<?php echo $start;?>" data-field="datetime" size="16" class="form-control valid" aria-required="true" aria-invalid="false"></div>
+                        <label class="input-group-addon radius0" for="start"><span class="glyphicon glyphicon-th"></span></label>
+                    </div>
+                    <div id="conTimeS" class="tswidth200 tishinr"></div>
+                </div>
+                <div class="pull-left width420 mt7 ml12"><nameh1>若不填，则默认活动发布成功即可报名</nameh1></div>
+            </div>
+
+            <!-- ========================= 报名结束时间 ========================= -->
+            <div class="row ym_form_field">
+                <div class="pull-left width104 mt7 ml-24">报名结束时间：</div>
+                <div class="pull-left width190">
+                    <div class="input-group date form_datetime">
+                        <div>
+                            <?php $end = isset($activity_info['end']) ? date('Y-m-d H:i',$activity_info['end']) : ''; ?>
+                            <input type="text" readonly="" id="end" name="end" value="<?php echo $end;?>" data-field="datetime" size="16" class="form-control"></div>
+                        <label class="input-group-addon radius0" for="end"><span class="glyphicon glyphicon-th"></span></label>
+                    </div>
+                    <div id="conTimeE" class="tswidth200 tishinr"></div>
+                </div>
+                <div class="pull-left width420 mt7 ml12"><nameh1>若不填，则默认活动结束前1小时即停止报名</nameh1></div>
+            </div>
+
+            <!-- ========================= 是否公开 ========================= -->
+            <include file="_form_field_is_public" />
+            <!-- ========================= 是否发布 ========================= -->
+            <include file="_form_field_is_publish" />
+            <!-- ========================= 是否继续添加 ========================= -->
+            <include file="_form_field_add_again" />
+
+            <!-- 按钮 -->
+            <include file="_form_field_button" />
+        </form>
+    </div>
+
+</div>
+
+ <include file="Activity:_modal_ticket" />
+ <include file="_form_field_signup_undertaker" />
+ <include file="_form_field_signup_flow" />
+
+ <script type="text/javascript">
+     $(document).ready(function(){
+         <?php if($is_new): ?>
+             if(!$("#other_form_items").data("default")){
+                 addFormCommonItem(1);
+                 addFormCommonItem(2);
+             }
+         <?php endif;  ?>
+
+    	 <present name="activity_info.keyword">
+   	         $('.js-search-map').click();
+    	 </present>
+         // 上传海报
+         $('#poster').ajaxUploadPrompt({
+             url : '<?php echo U('Common/ajax_upload', array('t'=>'activity_poster')) ?>',
+             type: "POST",
+             dataType: "json",
+             data: { '<?php echo session_name()?>':'<?php echo session_id()?>', guid:'<?php echo session('auth')['org_guid']?>' },
+             beforeSend : function () {
+                 $('#poster').append('<i id="loading" class="fa fa-spinner fa-spin"></i>');
+//                $('img#poster_preview').after('<div id="loading-cover"><i id="loading" class="fa fa-spinner fa-spin"></i></div>');
+             },
+             error : function () {
+                 alertTips($('#tips-modal'),'服务器出错, 请稍后重试!');
+             },
+             success : function (data) {
+                 $('#loading').remove();
+                 output = data.data;
+                 if(data.status == 'ok') {
+                     $('img#poster_preview').attr('src', output.path+'?'+$.now());
+                     $('input[name=poster]').val(output.val);
+                 } else {
+                     alertTips($('#tips-modal'), data.msg);
+                 }
+             }
+         });
+     });
+ </script>
+ <import type="js" file="home.js.signup"/>
+ <import type="js" file="home.js.ticket"/>
+ <import type="js" file="common.js.map"/>
+<script type="text/javascript">
+	var check_banned_words_url = '<?php echo U('Activity/check_banned_words');?>';
+</script>
+ <import type='js' file="home.js.censor" />

@@ -1,0 +1,43 @@
+<link href="__PUBLIC__/meetelf/upload/css/cropper.min.css" rel="stylesheet" />
+<link href="__PUBLIC__/meetelf/upload/css/main.css" rel="stylesheet" />
+<div class="modal fade bs-example-modal-lg" id="cropper-upload-modal" aria-hidden="true" aria-labelledby="bootstrap-modal-label" role="dialog" tabindex="-1" style="display: none;">
+  <div class="modal-dialog modal-lg modal-uploadimg">
+    <form action="<?php echo u_abs('Img/Upload/crop');?>" enctype="multipart/form-data" method="post" id="cropperForm">
+    <input type="hidden" name="cropdata" id="cropData"/>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <input type="hidden" name="guid" value="<?php echo $auth['guid'];?>">
+        <input type="hidden" name="type" id="cropDataType" value="">
+        <input type="hidden" name="size" id="returnSize" value="">
+        <h4 class="modal-title" id="bootstrap-modal-label">图片上传</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-12">
+            <a class="btn btn-save"><input type="file" name="upload" id="cropperInputImage"/>浏览</a>
+            <span class="prompt">图片不超过3MB，支持格式：JPG、JPEG、PNG</span>
+          </div>
+        </div>
+        <div class="row mt10">
+          <div class="col-xs-8">
+            <img class="img-responsive" id="cropperDefaultImage" src="__PUBLIC__/common/images/portraitup.png" alt="Picture">
+          </div>
+          <div class="col-xs-4">
+            <div class="docs-preview clearfix">
+              <div class="img-preview img-preview-lg"><img src=""></div>
+              <div class="img-preview img-preview-sm"><img src=""></div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt20">
+          <div class="col-xs-12">
+            <button type="button" class="btn btn-save" id="upload-submit">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+<iframe name="cropperUploadIframe" style="display: none;"></iframe>

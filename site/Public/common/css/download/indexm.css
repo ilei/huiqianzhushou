@@ -1,0 +1,234 @@
+@charset "utf-8";
+body {
+  background-color: #fff;
+  font-family:"Microsoft Yahei";
+}
+a,
+a:hover,
+a:focus { text-decoration: none; outline: none;}
+p {margin: 0;}
+/*
+ * 头部fp
+ */
+.container .row { margin-left: 0; margin-right: 0;}
+.section { position: relative; display: block; overflow: hidden; height: 100%;}
+.section .imgWrapper {
+  position: absolute;
+  opacity: 0;
+  overflow: hidden;
+  -webkit-transition:all .6s .4s ease-out;
+       -o-transition:all .6s .4s ease-out;
+          transition:all .6s .4s ease-out;
+}
+.section .imgWrapper img { display: none;}
+.section.active .imgWrapper { opacity: 1;}
+
+.section_2 .imgWrapper {
+  right: 0;
+  bottom: 30px;
+  width: 100%;
+  height: 55%;
+  max-height: 917px;
+  text-align: right;
+  -webkit-transform: translate(50%,0);
+      -ms-transform: translate(50%,0);
+       -o-transform: translate(50%,0);
+          transform: translate(50%,0);
+}
+.section_2 .imgWrapper img{ width: auto; height: 100%;}
+.section_2.active .imgWrapper {
+  -webkit-transform: translate(0,0);
+      -ms-transform: translate(0,0);
+       -o-transform: translate(0,0);
+          transform: translate(0,0);
+}
+.section_3 .imgWrapper {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 55%;
+  max-height: 944px;
+  -webkit-transform: translate(-30%,0);
+      -ms-transform: translate(-30%,0);
+       -o-transform: translate(-30%,0);
+          transform: translate(-30%,0);
+}
+.section_3 .imgWrapper img { 
+  height: 100%;
+  width: auto;
+}
+.section_3.active .imgWrapper {
+  -webkit-transform: translate(0,0);
+      -ms-transform: translate(0,0);
+       -o-transform: translate(0,0);
+          transform: translate(0,0);
+}
+.section_4 .imgWrapper {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  max-height: 1186px;
+  -webkit-transform: translate(0, 70%);
+      -ms-transform: translate(0, 70%);
+       -o-transform: translate(0, 70%);
+          transform: translate(0, 70%);
+}
+.section_4 .imgWrapper img { width: auto; height: 100%; }
+.section_4.active .imgWrapper {
+  -webkit-transform: translate(0,10%);
+      -ms-transform: translate(0,10%);
+       -o-transform: translate(0,10%);
+          transform: translate(0,10%);
+}
+
+.section.section_1 { background: #8691a6 url(../images/indexbgm.jpg) no-repeat fixed; background-size: cover;}
+.section.section_2,
+.section.section_4,
+.section.section_6 { background-color: #f2f2f2;}
+.section.section_3, 
+.section.section_5 { background-color: #fff;}
+
+.section .textWrapper { position: relative; z-index: 2; margin-top: 40px;}
+.section .textWrapper.right { text-align: right;}
+.section h1 { margin: 0 0 20px; font-size: 28px; color: #555;}
+.section p { font-size: 14px; color: #666;}
+
+/*item1 start*/
+.logotopmt { 
+  position: absolute; 
+  top: 0; 
+  margin-top: 80px;
+  width: 100%; 
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.section_1 .logo {margin-bottom: 10px; width: 120px;height: auto;}
+.section_1_text { 
+  margin: 0 40px;
+  height: 140px;
+  text-align: center;
+
+}
+.section_1 h1 { margin-top: 48px; font-size: 32px; color: #fff;}
+.section_1_text p {
+  /*position: absolute;
+  left: 50%;
+  margin-left: -30px;*/
+  font-size: 16px;
+  color: #fff;
+}
+.section_footer { 
+  position: absolute; 
+  bottom: 0; 
+  padding-bottom: 45px;
+  width: 100%; 
+  z-index:900;
+}
+.btn-top-dl { 
+  position: relative;
+  background-color: transparent;
+  font-size: 12px;
+  color: #fff;
+  border-color: #fff;
+  border-radius: 4px;
+}
+.btn-top-dl:active, 
+.btn-top-dl:focus, 
+.btn-top-dl:hover {
+  background-color: #fff;
+  color: #1bbc9b;
+  border-color: #fff;
+  text-shadow: none;
+}
+.btn-download {
+  position: relative;
+  background-color: #1b9af7;
+  font-size: 12px;
+  color: #fff;
+  border-color: #1b9af7;
+  border-radius: 4px;
+}
+.btn-download:hover, 
+.btn-download:focus {
+  background-color: #4cb0f9;
+  color: #fff;
+  border-color: #4cb0f9;
+  outline: none;
+}
+.btn-download:active, 
+.btn-download.active,
+.btn-download:active:focus,
+.btn-download.active:focus {
+  transition-duration: 0.15s;
+  transition-property: all;
+  background-color: #2798eb;
+  border-color: #2798eb;
+  color: #0880d7;
+  outline: none;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+
+.section_next { margin-bottom: 35px;}
+a.to_next { display: block; color: #1b9af7;}
+.section_1 a.to_next { color: #fff;}
+/*item1 end*/
+/*item2 start*/
+/*item2 end*/
+/*item3 start*/
+/*item3 end*/
+/*item4 start*/
+/*item4 end*/
+/*item5 start*/
+.section_5_text,
+.section_6_text { margin-top: 90px;}
+
+.section.section_6 p { margin-bottom: 5px;}
+.section_6 .lianxi { margin: 20px 0;}
+.section_6 .indexfooter {
+  background-color: #464c59;
+  position: absolute;
+  bottom: 0;
+  padding: 15px;
+  width: 100%;
+  height: 60px;
+  font-size: 12px;
+  line-height: 24px;
+  color: #999;
+  text-align: center;
+}
+.section_6 .indexfooter a { color: #999;}
+.add-ym { 
+  width: 14px;
+  height: 12px; 
+  vertical-align: -1px;
+  margin-right: 10px;
+  line-height: 12px; 
+  display: inline-block;
+  background:url(../images/address.png) no-repeat 100% 0 #f2f2f2; 
+}
+.add-email { background-position: 0 0;}
+.add-phone { background-position: -14px 0;}
+.add-qq { background-position: 0 -12px;}
+.add-add { background-position: -14px -12px;}
+.section_6_position { position: relative;margin-top: 20px;}
+/*下载页*/
+.section.section_dl { background: #44bade url(../images/indexbgm.jpg) no-repeat fixed; background-size: cover;}
+.section_dl .wrong { position: absolute; top: 0; right: 0; width: 100%; max-width: 375px; z-index: 2000;}
+.section_dl .aboutus { width: 100px; height: 100px; border-radius:20px;}
+.btn-top-dl.btn-lg { font-size: 14px; z-index:900;}
+.section_dl .section_center { 
+  position: absolute;
+  top: 50%;
+  margin-top: -120px;
+  width: 100%;
+  color: #fff;
+}
+.section_dl_footer { 
+  position: absolute; 
+  bottom: 0; 
+  padding-bottom: 55px;
+  width: 100%;
+}
+.section_dl .section_dl_footer .text-center { margin-top: 20px; color: #fff;}
+.wrongbg { position: fixed; top: 0; left: 0; height: 100%; width: 100%; background-color: #000; z-index: 999; opacity: .5;}

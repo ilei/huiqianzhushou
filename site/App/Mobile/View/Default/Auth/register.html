@@ -1,0 +1,21 @@
+<input type="hidden" value="<?php echo U('Mobile/Auth/register');?>" id="register-url"/>
+<input type="hidden" value="<?php echo U('Mobile/Auth/check', array('type' => 'email'));?>" id="email-url"/>
+<input type="hidden" value="<?php echo U('Mobile/Auth/check', array('type' => 'mobile'));?>" id="mobile-url"/>
+<input type="hidden" value="<?php echo U('Mobile/Auth/ajax_send_code');?>" id="send-url"/>
+<div class="wrapper-signin">
+	<form id="register-form" method="post">
+		<h2>新用户注册</h2>
+		<label class="sr-only" for="inputMobile">手机</label>
+		<input type="tel" autofocus="" placeholder="手机" autocomplete="off" name="mobile" class="form-control" id="inputMobile">
+		<div class="check-code">
+			<input type="text" placeholder="校验码" autocomplete="off" name="code" class="form-control" id="inputCode">
+			<button type="button" class="btn btn-submit send">立即发送	</button>
+		</div>
+		<label class="sr-only" for="inputEmail">邮箱</label>
+		<input type="text" autofocus=""  placeholder="邮箱" name="email" autocomplete="off" class="form-control" id="inputEmail">
+		<label class="sr-only" for="inputPassword">密码</label>
+		<input type="password" placeholder="密码" name="password" autocomplete="off" class="form-control" id="inputPassword">
+		<i class="fa fa-eye lock_e" id="i_eye"></i>
+		<button type="submit" class="btn btn-submit btn-block">注册</button>
+	</form>
+</div>

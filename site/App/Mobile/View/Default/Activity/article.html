@@ -1,0 +1,90 @@
+<include file="head" />
+
+    <body>
+        <div class="container">
+            <!-- 或不在APP中打开, 显示会签助手头 -->
+            <include file="Public:_top-copyright" />
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>
+                        <?php echo $article_info['name']; ?>
+                        <?php if(!empty($activity_info['subject_guid'])):?>
+                            <br><small>主题：<?php echo $subject_info['name'];?></small>
+                        <?php endif; ?>
+                    </h3>
+                    <p class="f2 mb20">
+                    有效时间: <?php if(empty($activity_info['end_time'])): ?>
+                        无限制
+                        <?php else: ?>
+                            <?php echo date('Y-m-d H:i',$activity_info['start_time']);?>&nbsp;至&nbsp;<?php echo date('Y-m-d H:i',$activity_info['end_time']);?>
+                        <?php endif; ?>
+                        &nbsp;&nbsp;<?php echo $org_name;?>
+                    </p>
+                    <?php echo htmlspecialchars_decode($article_info['content']);?>
+                </div>
+            </div>
+            <div class="row mt20 mb40">
+                <div class="col-xs-12">
+                    <div class="pull-left">
+                        <a class="f1">阅读&nbsp;<?php echo $activity_info['total_view']; ?></a>
+                    </div>
+                    <div class="yunmaizan <?php echo ($activity_info['is_like'] > 0) ? 'active' : ''; ?>">
+                        <span class="zanicon"></span>
+                        <a class="yunmaizan_count f1"><?php echo $activity_info['total_like']; ?></a>
+                    </div>
+                    <div class="pull-right">
+                        <?php if(session('preview') == 0): ?>
+                            <?php if(I('get.app') == 1): ?>
+                                <a id="report_a" href="javascript:void(0);" class="f1">举报</a>
+                            <?php endif;?>
+                        <?php else: ?>
+                            <a href="javascript:void(0);" class="f1">举报</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <include file="Public:_footer"/>
+        </div>
+        <?php if(session('preview') == 0 && I('get.app') == 1) :?>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $('#report_a').click(function(){
+                        window.location.href = "<?php echo U('Activity/report', array('aid'=>I('get.aid'), 'uid' =>I('get.uid')))?>";
+                    });
+                    $('.yunmaizan').click(function(){
+                        var is_active = $(this).hasClass('active'),
+                            is_like = 1;
+                        if (is_active == true) {
+                            var is_like = 0;
+                        }
+                        $.ajax({
+                            type: 'POST',
+                            url: '<?php echo U('Activity/ajax_like', array('token' => I('get.token'))); ?>',
+                            data: { aid: "<?php echo $activity_info['guid'] ?>", is_like: is_like},
+                            beforeSend: function(){
+                                $(".yunmaizan").attr({"disabled":"disabled"});
+                            },
+                            dataType: 'json',
+                            success: function(data) {
+                                if(data.status == 'ok') {
+                                    var count = $('.yunmaizan_count').text();
+                                    if(is_active) {
+                                        $('.yunmaizan').removeClass('active');
+                                        $('.yunmaizan_count').text(parseInt(count)-1);
+                                    } else {
+                                        $('.yunmaizan').addClass('active');
+                                        $('.yunmaizan_count').text(parseInt(count)+1);
+                                    }
+                                    $(".yunmaizan").removeAttr("disabled");
+                                } else {
+                                    alert(data.msg);
+                                }
+                            }
+                        });
+                    });
+                });
+            </script>
+        <?php endif; ?>
+    </body>
+</html>

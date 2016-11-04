@@ -1,0 +1,24 @@
+
+<!-- JiaThis Button BEGIN -->
+<?php if(I('get.app') != 1): ?>
+    <?php if(!in_array(ACTION_NAME, array('signup_userinfo', 'signup_user'))): ?>
+        <?php if($is_public == 1):?>
+            <div class="row">
+                <div class="bdsharebuttonbox">
+                    <style>.bdsharebuttonbox a{ float: right; }</style>
+                    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+                    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                    <span style="float: right; font-size: 16px; line-height: 36px; margin-right: 7px;">分享: </span>
+                </div>
+                <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+            </div>
+        <?php endif;?>
+    <?php endif;?>
+<?php endif; ?>
+<!-- JiaThis Button END -->
+
+<div class="row">
+    <div class="text_footer text-center">© 会签助手</div>
+</div>

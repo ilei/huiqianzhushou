@@ -1,0 +1,238 @@
+<?php
+/**
+ * 配置主页面
+ *
+ * CT: 2014-09-15 10:00 by RTH
+ * UT: 2014-09-17 10:00 by RTH
+ */
+?>
+<div id="content-head">网站设置</div>
+<?php
+$breadcrumbs = array(
+    'base' => '首页',
+    'list' => array(
+        array('url' => '', 'v' => '网站设置'),
+    ));
+?>
+<include file="Public:_breadcrumbs"/>
+<div class="content-border">
+    <div class="container-fluid">
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#common" role="tab" data-toggle="tab">公共</a></li>
+                <li role="presentation"><a href="#admin" role="tab" data-toggle="tab">超级管理后台</a></li>
+                <li role="presentation"><a href="#home" role="tab" data-toggle="tab">社团管理后台</a></li>
+                <li role="presentation"><a href="#api" role="tab" data-toggle="tab">API</a></li>
+                <li role="presentation"><a href="#mobile" role="tab" data-toggle="tab">3G Web</a></li>
+                <li role="presentation"><a href="#site" role="tab" data-toggle="tab">APP网站</a></li>
+                <li role="presentation"><a href="#notice" role="tab" data-toggle="tab">通知设置</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content mt20">
+                <!-- common -->
+                <div role="tabpanel" class="tab-pane active" id="common">
+                    <form class="form-horizontal" role="form" id="common_form" method="post">
+                        <?php foreach ($common as $c): ?>
+                            <div class="form-group">
+                                <label for="name" class="col-xs-3 control-label"><?php echo $c['name']; ?></label>
+
+                                <div class="col-xs-6">
+                                    <input type="text" id="name" name="<?php echo $c['guid']; ?>" class="form-control"
+                                           value="<?php echo $c['value']; ?>" placeholder="输入值">
+                                </div>
+                                <div class="col-xs-3 error-wrap"></div>
+                            </div>
+                        <?php endforeach; ?>
+                        <div class="form-group">
+                            <div class="col-xs-offset-3 col-xs-10">
+                                <button type="button" form="common_form" module="common" class="btn btn-primary  js-submit"><span class="glyphicon glyphicon-open"></span>保存并生成配置文件</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- admin -->
+                <div role="tabpanel" class="tab-pane" id="admin">
+                    <form class="form-horizontal" role="form" id="admin_form" method="post">
+                        <?php foreach ($admin as $c): ?>
+                            <div class="form-group">
+                                <label for="name" class="col-xs-2 control-label"><?php echo $c['name']; ?></label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" id="name" name="<?php echo $c['guid']; ?>" class="form-control"
+                                           value="<?php echo $c['value']; ?>" placeholder="输入值">
+                                </div>
+                                <div class="col-sm-4 error-wrap"></div>
+                            </div>
+                        <?php endforeach; ?>
+                        <div class="form-group">
+                            <div class="col-xs-offset-2 col-xs-10">
+                                <button type="button" form="admin_form" module="admin" class="btn btn-primary  js-submit"><span class="glyphicon glyphicon-open"></span>保存并生成配置文件</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- home -->
+                <div role="tabpanel" class="tab-pane" id="home">
+                    <form class="form-horizontal" role="form" id="home_form" method="post">
+                        <?php foreach ($home as $c): ?>
+                            <div class="form-group">
+                                <label for="name" class="col-xs-2 control-label"><?php echo $c['name']; ?></label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" id="name" name="<?php echo $c['guid']; ?>" class="form-control"
+                                           value="<?php echo $c['value']; ?>" placeholder="输入值">
+                                </div>
+                                <div class="col-sm-4 error-wrap"></div>
+                            </div>
+                        <?php endforeach; ?>
+                        <div class="form-group">
+                            <div class="col-xs-offset-2 col-xs-10">
+                                <button type="button" form="home_form" module="home" class="btn btn-primary  js-submit"><span class="glyphicon glyphicon-open"></span>保存并生成配置文件</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- api -->
+                <div role="tabpanel" class="tab-pane" id="api">
+                    <form class="form-horizontal" role="form" id="api_form" method="post">
+                        <?php foreach ($api as $c): ?>
+                            <div class="form-group">
+                                <label for="name" class="col-xs-2 control-label"><?php echo $c['name']; ?></label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" id="name" name="<?php echo $c['guid']; ?>" class="form-control"
+                                           value="<?php echo $c['value']; ?>" placeholder="输入值">
+                                </div>
+                                <div class="col-sm-4 error-wrap"></div>
+                            </div>
+                        <?php endforeach; ?>
+                        <div class="form-group">
+                            <div class="col-xs-offset-2 col-xs-10">
+                                <button type="button" form="api_form" module="api" class="btn btn-primary  js-submit"><span class="glyphicon glyphicon-open"></span>保存并生成配置文件</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- mobile -->
+                <div role="tabpanel" class="tab-pane" id="mobile">
+                    <form class="form-horizontal" role="form" id="mobile_form" method="post">
+                        <?php foreach ($mobile as $c): ?>
+                            <div class="form-group">
+                                <label for="name" class="col-xs-2 control-label"><?php echo $c['name']; ?></label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" id="name" name="<?php echo $c['guid']; ?>" class="form-control"
+                                           value="<?php echo $c['value']; ?>" placeholder="输入值">
+                                </div>
+                                <div class="col-sm-4 error-wrap"></div>
+                            </div>
+                        <?php endforeach; ?>
+                        <div class="form-group">
+                            <div class="col-xs-offset-2 col-xs-10">
+                                <button type="button" form="mobile_form" module="mobile" class="btn btn-primary  js-submit"><span class="glyphicon glyphicon-open"></span>保存并生成配置文件</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- site -->
+                <div role="tabpanel" class="tab-pane" id="site">
+                    <form class="form-horizontal" role="form" id="site_form" method="post">
+                        <?php foreach ($site as $c): ?>
+                            <div class="form-group">
+                                <label for="name" class="col-xs-2 control-label"><?php echo $c['name']; ?></label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" id="name" name="<?php echo $c['guid']; ?>" class="form-control"
+                                           value="<?php echo $c['value']; ?>" placeholder="输入值">
+                                </div>
+                                <div class="col-sm-4 error-wrap"></div>
+                            </div>
+                        <?php endforeach; ?>
+                        <div class="form-group">
+                            <div class="col-xs-offset-2 col-xs-10">
+                                <button type="button" form="site_form" module="site" class="btn btn-primary  js-submit"><span class="glyphicon glyphicon-open"></span>保存并生成配置文件</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- message -->
+
+                <div role="tabpanel" class="tab-pane" id="notice">
+                    <form class="form-horizontal" role="form" id="notice_form" method="post">
+                        <div class="form-group">
+                            <label for="name" class="col-xs-2 control-label">短信验证码服务商:</label>
+                            <div class="col-sm-6">
+																<?php foreach($notice as $k => $v):?>
+																<?php if($v['name'] == '短信验证码服务商'):?><?php $key1 = $v['guid']; ?><?php endif;?>			
+																<?php if($v['name'] == '短信电子票服务商'):?><?php $key2 = $v['guid']; ?><?php endif;?>			
+																<?php endforeach;?>
+																<select class="form-control valid" name="<?php echo $key1;?>" aria-invalid="false">
+																	<?php foreach(C('VerCodeText') as $key => $v):?>	
+																		<option value="<?php echo $v;?>" <?php echo (C('VERCODE_SENDER') == $v) ? 'selected' : '';?>><?php echo $key;?></option>
+																	<?php endforeach;?>
+                               </select>	
+                            </div>
+                            <div class="col-sm-4 error-wrap"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-xs-2 control-label">短信电子票服务商:</label>
+                            <div class="col-sm-6">
+															 <select class="form-control valid" name="<?php echo $key2;?>" aria-invalid="false">
+																	<?php foreach(C('eTicketText') as $key => $v):?>	
+                                       <option value="<?php echo $v;?>" <?php echo (C('TICKET_SENDER') == $v) ? 'selected' : '';?>><?php echo $key;?></option>
+																	<?php endforeach;?>
+                               </select>	
+                            </div>
+                            <div class="col-sm-4 error-wrap"></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-offset-2 col-xs-10">
+                                <button type="button" form="notice_form" module="notice" class="btn btn-primary  js-submit"><span class="glyphicon glyphicon-open"></span>保存并生成配置文件</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#flash_msg').fadeOut(2000);
+
+        $('.js-submit').click(function () {
+            var obj = $(this);
+            var module = obj.attr('module');
+            var form_id = $(this).attr('form');
+            var data = $("#" + form_id).serialize();
+            $.ajax({
+                url: '<?php echo U('Config/ajax_create_config_file') ?>'+'?module='+module,
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                beforeSend: function () {
+                    obj.button('loading');
+                },
+                success: function (data) {
+                    if (data.status == 'ok') {
+                        alertTips($('#tips-modal'), data.msg);
+                    } else if (data.status == 'ko') {
+                        alertTips($('#tips-modal'), data.msg);
+                    }
+                },
+                complete: function () {
+                    obj.button('reset');
+                }
+            });
+        })
+    });
+</script>

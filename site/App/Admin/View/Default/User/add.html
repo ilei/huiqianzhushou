@@ -1,0 +1,230 @@
+<div id="content-head">创建用户</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('User/index'), 'v'=>'用户管理'),
+array('url'=>'', 'v'=>'创建用户')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a class="btn btn-success pull-right" type="button" href="{:U('index')}"><i class="fa fa-arrow-left"></i> 返回列表</a>
+			</div>
+		</div>
+		<form class="form-horizontal" role="form" id="reguser" novalidate="novalidate">
+			<div class="form-group">
+				<label for="email" class="col-sm-2 control-label">登陆邮箱</label>
+				<div class="col-sm-6">
+					<input type="text" id="email" name="email" class="form-control" placeholder="输入用户邮箱">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+           	<div class="form-group">
+            		<label for="mobile" class="col-sm-2 control-label">手机电话</label>
+          		    <div class="col-sm-6">
+            			<input type="text" id="mobile" name="mobile" class="form-control" placeholder="输入手机电话">
+            		</div>
+            		<div class="col-sm-4 error-wrap"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="userNickName" class="col-sm-2 control-label">用户昵称</label>
+                <div class="col-sm-6">
+                    <input type="text" id="userNickName" name="nickname" class="form-control" placeholder="输入姓名">
+                </div>
+                <div class="col-sm-4 error-wrap"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="userRealName" class="col-sm-2 control-label">真实姓名</label>
+                <div class="col-sm-6">
+                    <input type="text" id="userRealName" name="realname" class="form-control" placeholder="输入姓名">
+                </div>
+                <div class="col-sm-4 error-wrap"></div>
+            </div>
+
+			<div class="form-group">
+				<label for="passwd" class="col-sm-2 control-label">登陆密码</label>
+				<div class="col-sm-6">
+					<input type="password" id="passwd" name="password" class="form-control" placeholder="输入用户密码">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			<!--	<div class="form-group">-->
+				<!--		<label for="phone" class="col-sm-2 control-label">联系电话</label>-->
+				<!--		<div class="col-sm-6">-->
+					<!--			<input type="text" id="phone" name="mobile" class="form-control" placeholder="输入用户电话">-->
+					<!--		</div>-->
+				<!--		<div class="col-sm-4 error-wrap"></div>-->
+				<!--	</div>-->
+			<div class="form-group">
+				<label for="repasswd" class="col-sm-2 control-label">密码确认</label>
+				<div class="col-sm-6">
+					<input type="password" id="repasswd" name="repassword" class="form-control" placeholder="输入密码重复">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			
+
+			<div class="form-group">
+				<label for="description" class="col-sm-2 control-label">账号类型</label>
+				<div class="col-sm-4">
+					<select class="form-control" name="community_types" id="community_types">
+                        <?php foreach ($community_types as $k=>$l): ?>
+                            <option value="<?php echo $k?>" ><?php echo $l?></option>
+                        <?php endforeach;?>
+                    </select>
+					
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			
+			<div class="form-group">
+				<label for="description" class="col-sm-2 control-label">账号种类</label>
+				<div class="col-sm-4">
+					<select class="form-control" name="community_species" id="community_species">
+                        <?php foreach ($community_species as $k=>$l): ?>
+                            <option value="<?php echo $k?>" ><?php echo $l?></option>
+                        <?php endforeach;?>
+                    </select>
+					
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+<!--
+			<div class="form-group">
+				<label for="orgName" class="col-sm-2 control-label">有效期限</label>
+				<div class="col-sm-10">
+					<div class="col-sm-3">
+
+						<div class="input-group date form_datetime" style="margin-left:-15px;">
+								<div>
+									<input class="form-control" size="16" type="datetime" value="" name="startTime" id="startTime" readonly>
+								</div>
+								<span class="input-group-addon radius0"><span class="glyphicon glyphicon-th"></span></span>
+						</div>
+					</div>
+						<div class="col-sm-1 time-center-text">至</div>
+					<div class="col-sm-3">
+							<div class="input-group date form_datetime" style="margin-left:-25px;">
+								<div>
+									<input class="form-control" size="16"  type="datetime" value="" name="endTime" id="endTime" readonly>
+								</div>
+								<span class="input-group-addon radius0"><span class="glyphicon glyphicon-th"></span></span>
+							</div>
+					</div>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>-->
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary js-submit">注册</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var YM = {
+		'regUser' : "{:U('regUser')}",
+		'checkMail': "{:U('checkMail')}",
+		'checkMobile': "{:U('checkMobile')}",
+		'checkGroupName': "{:U('checkGroupName')}",
+		'redirectPath':"{:U('index')}"
+	};
+	$(document).ready(function(){
+		//$('#ym_dtbox').DateTimePicker();
+		/**
+		 * 验证保存社团信息
+		 *
+		 * CT: 2014-12-02 10:50 by QXL
+		 */
+		$('#reguser').validate({
+			errorClass: "invalid",
+			errorPlacement: function(error, element){
+				element.parents('.form-group').find('.error-wrap').append(error);
+			},
+			rules: {
+				email: {
+					required: true,
+					email: true,
+					remote:{
+						url: YM['checkMail'],
+						type:'post'
+					}
+				},
+
+                nickname: {
+					required: true,
+					rangelength: [2, 20]
+
+				},
+
+
+
+				password: {
+					required: true,
+					rangelength: [6, 18]
+				},
+				repassword:{
+					required: true,
+					equalTo:"#passwd"
+				}
+			},
+			messages: {
+				email: {
+					required: "电子邮箱地址不能为空",
+					email: "电子邮箱格式不正确",
+					remote:"该电子邮箱已存在"
+				},
+                nickname: {
+					required: "昵称不能为空",
+					rangelength: "昵称不得少于两个字，不得多于五十个字"
+
+				},
+				password: {
+					required: "用户密码不能为空",
+					rangelength: "用户密码必须为6到18个字符"
+				},
+				repassword: {
+					required: "密码确认不能为空",
+					equalTo: "用户密码和密码确认必须一致"
+				}
+			},
+			submitHandler: function(form) { //通过之后回调
+				var obj=$(this);
+				var data=$("#reguser").serialize();
+                alert('ss');
+				$.ajax({
+					url:YM['regUser'],
+					type:'POST',
+					data:data,
+					dataType:'json',
+					beforeSend:function(){
+						obj.button('loading');
+					},
+					success:function(data){
+						if(data.code=='200'){
+							alertTips($('#tips-modal'),'注册成功',YM['redirectPath']);
+						}else if(data.code=='201'){
+							alertTips($('#tips-modal'),'注册失败');
+						}
+					},
+					complete:function(){
+						obj.button('reset');
+					}
+				});
+			},
+			invalidHandler: function(form, validator) { //不通过回调
+				return false;
+			}
+		});
+	});
+</script>

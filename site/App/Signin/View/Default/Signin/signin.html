@@ -1,0 +1,638 @@
+<div class="row">
+    <div class="col-xs-12">
+        <!-- 标签页 -->
+        <ul class="row nav nav-sigin-tabs" role="tablist" id="signin-tab">
+            <input type="hidden" id="signin_type" value="1" />
+            <li role="presentation" class="active"><a href="#byqrcode" aria-controls="byqrcode" role="tab" data-toggle="tab"><i class="fa fa-qrcode"></i> 扫码签到</a></li>
+            <li role="presentation"><a href="#byhand" aria-controls="byhand" role="tab" data-toggle="tab"><i class="fa fa-pencil"></i> 手动签到</a></li>
+<!--            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#mymodal2"><i class="fa fa-plus"></i> 添加</button>-->
+            <button type="button" class="btn btn-success pull-right radius0 modal-title"
+                     id="add_user_btn"><i class="fa fa-plus"></i> 添加</button>
+
+                   <!--  <button class="btn btn-general pull-right" type="button" id="add_user_btn">
+                                <i class="fa fa-plus"></i> 添加参会者
+                            </button> -->
+        </ul>
+        <div class="row content-area">
+            <div class="col-xs-4" id="preview_holder">
+                <!-- 电子票打印 -->
+                <include file="_print_ticket_model_1" />
+                <div id="preview_loading"></div>
+            </div>
+
+            <div class="col-xs-8">
+                <div class="tab-content">
+                    <!-- 标签页1ticket -->
+                    <div role="tabpanel" class="tab-pane active" id="byqrcode">
+                        <div class="form-group form-inline">
+                            <label for="scanninginput">请扫描二维码<?php echo C('MEDIA_JS.JQPRINT')?></label>
+                            <div>
+                                <input type="text" id="qrcode" name="qrcode" onfocus=" this.style.imeMode='inactive'; " value="" style="width: 0;filter:alpha(opacity=0);opacity: 0;"/>
+                                <img src="__PUBLIC__/meetelf/home/images/scancode.jpg">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 标签页2notice -->
+                    <div role="tabpanel" class="tab-pane" id="byhand">
+                        <div class="form-group form-inline mt20">
+                            <input type="text" value="" id="check_mobile" class="form-control input-lg" placeholder="请输入报名手机号"
+                                   maxlength="11"/>
+                            <button type="button" class="btn btn-default btn-lg" id="btn_check_mobile">确认</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 标签页 -->
+            </div>
+        </div>
+
+        <script>
+            $(function () {
+                $('#signin-tab a:first').tab('show')
+            })
+        </script>
+        <!-- 标签页 -->
+    </div>
+
+</div>
+
+<div class="row sigin-in-other">
+    <div class="col-xs-10 col-xs-offset-1">
+        <div class="sigin-in-table">
+            <table class="table">
+                <thead>
+                <tr class="tr-bgcolor">
+                    <td>序号</td>
+                    <td>姓名</td>
+                    <td>电话</td>
+                    <td>票务</td>
+                    <!-- <td>人员来源</td> -->
+                    <td>电子票状态</td>
+                    <td>其它</td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody id="signin_user_list">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-xs-10 col-xs-offset-1">
+        <div class="row">
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="signin_print" is_print="1">签到并打印(F10)</button>
+            </div>
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-default btn-lg btn-block" id="signin_only" is_print="0">仅签到(F9)</button>
+            </div>
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-default btn-lg btn-block" id="signin_cancel">取消(Esc)</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-10 col-xs-offset-1"><div class="pull-right"><a class="btn btn-link" href="javascript:void(0);"  onclick="javascript:ym_print_test();">打印测试页</a></div></div>
+</div>
+
+<div class="modal fade" id="modal_add_signup_user_ajax" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <iframe class="addmodal-iframe" allowtransparency="true" data-src="<?php echo u_abs("Home/Signup/add_signup", array('guid' => $activity_info['guid'],'status'=>4));?>">
+  </iframe>
+</div>
+
+<include file="_modal_add_signup_user" />
+<script type="text/javascript">
+        document.domain = '<?php echo C('document_domain');?>';
+
+        $("#add_user_btn").click(function(){
+            obj = $('#modal_add_signup_user_ajax');
+            var iframe = obj.find("iframe");
+            iframe.attr('src', iframe.data('src'));
+            obj.modal('show');
+        });
+
+    function focus_on_qrcode() {
+        document.getElementById("qrcode").value = '';
+        document.getElementById("qrcode").focus();
+    }
+
+    // 检测按键
+    function detect_key(event)
+    {
+        event = event || window.event;
+        // #signin_only, #signin_print
+        if(event.keyCode==120) // F9 仅签到
+        {
+            $('#signin_only').trigger('click');
+            focus_on_qrcode();
+        }
+        if(event.keyCode == 121) { // F10 签到并打印
+            $('#signin_print').trigger('click');
+            focus_on_qrcode();
+        }
+        if(event.keyCode == 27) { // Esc 取消
+            $('#signin_cancel').trigger('click');
+            focus_on_qrcode();
+        }
+
+        if(event.keyCode == 13) { //回车
+            if($('#signin_type').val() == 2){
+                $('#btn_check_mobile').trigger('click');
+            }
+        }
+
+    }
+
+    // 打印
+    var LODOP;
+    function ym_print()
+    {
+        $('#ticket_preview').css('border', 'none');
+        $('#ticket_preview').jqprint();
+        $('#ticket_preview').css('border', '1px solid #000');
+
+//        LODOP = getLodop();
+//        LODOP.PRINT_INIT("会签助手3");
+//        LODOP.ADD_PRINT_HTM(0, 0, "51.5mm", h+"mm", document.getElementById("ticket_preview").innerHTML);
+//        LODOP.SET_PRINT_STYLEA(0,"VOrient",2);
+//        LODOP.PREVIEW();
+//        LODOP.PRINT();
+    }
+    // 打印测试页
+    function ym_print_test() {
+        $('#ticket_preview').css('border', 'none');
+        $('#ticket_name').text('姓名');
+        $('#ticket_company').text('您所在的公司名称');
+        $('#ticket_position').text('您的职位');
+        $('#ticket_preview').show();
+        $('#ticket_preview').jqprint();
+        $('#ticket_name').text('');
+        $('#ticket_company').text('');
+        $('#ticket_position').text('');
+        $('#ticket_preview').css('border', '1px solid #000');
+        $('#ticket_preview').hide();
+    }
+
+    $(document).ready(function(){
+        // 会签APP下载
+        $('.hq-dl').popover({
+            content: '<div class="weixinsm">'
+            +'<div class="text-center"><img src="__PUBLIC__/site/images/hq_dl.png" alt="会签助手会签软件下载" style="max-width: 165px;"></div>'
+            +'<div class="text-center"><h5>会签助手会签APP安卓版</h5><h5>扫描安装 (请不要用微信扫描)</h5></div>'
+            +'</div>',
+            html: true,
+            placement: 'bottom',
+            trigger: 'hover'
+        });
+
+        // 焦点回到窗口时，重新激活扫描流程
+        window.onfocus = function() {
+            focus_on_qrcode();
+        }
+
+        // 如果焦点不在窗口则弹出提示
+      //   window.onblur = function() {
+						// if(show){
+						// 	alertModal('签到窗口未激活，请点击确定后继续操作。');
+						// }
+      //       focus_on_qrcode();
+      //   }
+
+        // 自动定位到 #qrcode
+        focus_on_qrcode();
+        $(document).click(function(e){
+            if($(e.target).parents('#signup_add_user_form').length <= 0){ // 当进行现场报到时, 取消定位
+                focus_on_qrcode();
+            }
+        });
+
+//        document.getElementById("qrcode").onfocus = function(){alert('qrcode');}
+
+        // 默认显示 扫码签到 页
+        $('#signin-tab a:first').tab('show');
+        $('#signin-tab a').click(function(){
+            var type = $(this).attr('aria-controls');
+            if(type == 'byqrcode') {
+                $('#signin_type').val(1);
+            } else if(type == 'byhand') {
+                $('#signin_type').val(2);
+            }
+        });
+
+
+        // ajax 查找用户
+        var ajax_find_user = function(obj, value)
+        {
+            var aid = '<?php echo $activity_info['guid']; ?>';
+            $.ajax({
+                url: '<?php echo U('Signin/ajax_signin_check_user'); ?>',
+                type: 'POST',
+                data: { aid: aid, value: value, signin_type: $('#signin_type').val() },
+                dataType: 'json',
+                beforeSend: function(){
+                    obj.attr('disabled', true);
+                    obj.text('查找中...');
+                    $('#ticket_preview').hide();
+                    $('#signin_user_list').text('');
+                    $('#preview_holder').find('#preview_loading').html('<i class="fa fa-spinner fa-spin fa-5x" style="margin: 53px 108px;"></i>');
+                },
+                success: function(data){
+                    $('#preview_holder').find('#preview_loading').text('');
+                    if(data.status == 'ok'){
+                        var info = data.data;
+                        render_userinfo(data);
+                        if(data.msg) {
+                            alertModal(data.msg);
+                        }
+                    }else if(data.status == 'ko'){
+                        alertModal(data.msg);
+                    }
+                    focus_on_qrcode();
+                },
+                complete: function(){
+                    obj.attr('disabled', false);
+                    obj.text('确定');
+                    focus_on_qrcode();
+                }
+            });
+        }
+        $.extend({ajax_find_user:ajax_find_user});
+        var ticket_id ='';
+        // 组装用户信息
+        function render_userinfo(data)
+        {
+           
+            var html ='';
+            $.each(data.data, function(k, info){
+            // 生成票预览
+            $('#ticket_preview').show();
+            $('#ticket_name').text(info.real_name);
+            $('#ticket_company').text((info.company?info.company:''));
+            $('#ticket_position').text((info.position?info.position:''));
+            var print_h = 10;
+            if(info.company) {
+                print_h += 10;
+            }
+            if(info.position) {
+                print_h += 10;
+            }
+            
+                
+                // console.log(info);
+            // 列表
+            var tip_content = "<div class='layer'><div class='pull-left'><p>";
+            if(info.other) {
+                $.each(info.other, function (other_key, o) {
+                    tip_content += "<strong>" + o.key + "：</strong>" + o.value + "<br>";
+                });
+            }else{
+                tip_content += "<strong>没有更多数据。</strong>";
+            }
+            tip_content += "</p></div></div>";
+            var reg = new RegExp("\r\n", "g");
+            tip_content = tip_content.replace(reg, "<br>");
+
+            var ticket_name = (info.ticket.ticket_guid == 'nolimit')?'':info.ticket.ticket_name;
+            html += '<tr class="sigin-in-other-bg">';
+            html += '<td><input type="radio" name="identity" id="identity" value="'+info.id+'" checked/></td>'
+            html += '<td>'+ info.real_name +'</td>';
+            html += '<td>'+ info.mobile +'<input type="hidden" id="user_ticket_guid" value="'+info.ticket.user_ticket_guid+'" /></td>';
+            html += '<td>'+ ticket_name +'</td>';
+            // html += '<td>'+ info.from +'</td>';
+            html += '<td id="ticket_status"><'+ info.ticket.ticket_status_tag +'>'+ info.ticket.ticket_status +'</'+ info.ticket.ticket_status_tag +'></td>';
+            html += '<td>';
+            // html += '<a  title="详细资料" class="detailslayer" data-toggle="modal" data-target="#myModal"><i class="fa fa-info-circle fa-lg"></i></a>';
+
+            <!-- Modal -->
+            // html += '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">';
+            // html += '<div class="modal-dialog" role="document">';
+            // html += '<div class="modal-content">';
+            // html += '<div class="modal-header">';
+            // html += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+            // html += '<h4 class="modal-title" id="myModalLabel">详细资料</h4>';
+            // html += '</div>';
+            // html += '<div class="modal-body">';
+            // html += "<strong>" + '姓名' + "：</strong>" + info.real_name + "<br>";
+            // html += "<strong>" + '手机号' + "：</strong>" + info.mobile + "<br>";
+            // // $.each(info.other, function (other_key, o) {
+            // //     html += "<strong>" + o.key + "：</strong>" + o.value + "<br>";
+            // // });
+            // $.each(info.other, function(other_key, o){
+            //     if (o.userinfo_guid==info.guid) {
+            //         html +='<strong>'+o.key+'：</strong>'+o.value+'<br>'  
+            //         }; 
+            //     });
+            // html += '</div>';
+            // html += '<div class="modal-footer">';
+            // html += '<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>';
+            html += '<a id ="tck" class="detailslayer" data-toggle="modal" data-target="#myModal'+ info.guid +'" ><i class="fa fa-info-circle fa-lg"></i></a>';
+
+                html +='<div class="modal fade" id="myModal'+ info.guid +'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">';
+                html +='<div class="modal-dialog" role="document">';
+                html +='<div class="modal-content">';
+                html +='<div class="modal-header">';
+                html +='<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+                html +='<h4 class="modal-title" id="myModalLabel">详细资料</h4>';
+                html +='</div>';
+                html +='<div class="modal-body">';
+                $.each(info.other, function(other_k, o){
+                if (o.userinfo_guid==info.guid) {
+                    html +='<strong>'+o.key+'：</strong>'+o.value+'<br>'  
+                    }; 
+                });
+                html +='</div>';
+                html +='<div class="modal-footer">';
+                html +='<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+            html += '</td>';
+            html += '<td><input class="btn btn-default" type="button" onclick="javascript:ym_print();" value="仅打印" /></td>';
+            html += '</tr>';
+        
+             return;
+            });
+            $('#signin_user_list').append(html);
+            focus_on_qrcode();
+            var selectedvalue = $("input[name='identity']:checked").val();
+            $(document).ready(function(){
+                $.each(data.data, function(k, info){
+                            if (selectedvalue ==info.id) {
+                            ticket_id = info.ticket.user_ticket_guid;
+                            };
+                        });
+            });
+             $("input[name='identity']").change(
+                function() {
+                var selectedvalue = $("input[name='identity']:checked").val();
+                        $.each(data.data, function(k, info){
+                            if (selectedvalue ==info.id) {
+                            // 生成票预览
+                            $('#ticket_preview').show();
+                            $('#ticket_name').text(info.real_name);
+                            $('#ticket_company').text((info.company?info.company:''));
+                            $('#ticket_position').text((info.position?info.position:''));
+                            var print_h = 10;
+                            if(info.company) {
+                                print_h += 10;
+                            }
+                            if(info.position) {
+                                print_h += 10;
+                            }
+                            ticket_id = info.ticket.user_ticket_guid;
+                            };
+                        });
+                });
+
+        }
+ 
+        // 扫描二维码
+        // var i =2;
+        $('#qrcode').keyup(function(event){
+
+            if(event.keyCode===13){
+                //缓存票号
+                var ticket_code=$(this).val();
+                $(this).val("");//清理文本框内部数据 避免连号
+                if(ticket_code.length == 19) { // 判断票号长度是否正确
+                    // console.log(ticket_code);
+                    // ajax_find_user($(this), ticket_code);
+                    ajax_find_user($(this), ticket_code);
+                    console.log($(this).val());
+                }else{
+                    return false;
+                }
+                
+            }
+
+
+                        
+            // var ticket_code = $(this).val();
+
+            // if(window.event.keyCode == 13) { //回车
+            //     return false;
+            // } else {
+            //     if(ticket_code.length == 19) { // 判断票号长度是否正确
+            //         console.log(ticket_code);
+            //         ajax_find_user($(this), ticket_code);
+            //     }
+            // }
+            
+//            for(var i = 0; i < ticket_code.length; i++) {
+//                if(ticket_code.charCodeAt(i) >= 0x4E00 && ticket_code.charCodeAt(i) <= 0x9FA5) {
+//                    alertModal('请关闭输入法或调为英文.');
+//                    return false;
+//                }
+//            }
+        });
+
+        // 手动签到 - 查找用户
+        $('#btn_check_mobile').click(function(){
+            var obj = $(this);
+            var mobile = $('#check_mobile').val();
+            if(mobile == ''|| mobile.length<4) {
+                alertModal('手机号码为空，或小于4位。');
+                return false;
+            }
+            ajax_find_user(obj, mobile);
+        });
+
+        // 取消签到
+        $('#signin_cancel').click(function(){
+            if($('#signin_user_list').html() != 0){
+                if(window.confirm('确定取消吗？')){
+                    $('#signin_user_list').text('');
+                    $('#check_mobile').val('');
+                    $('#ticket_preview').hide();
+                    focus_on_qrcode();
+                }
+            }
+        });
+
+				var show = true;
+        // 仅签到 或 并打印
+        $('#signin_only, #signin_print').click(function(){
+            // var user_ticket_guid = $('#user_ticket_guid').val();
+            var user_ticket_guid = ticket_id;
+            if(user_ticket_guid == '' || !user_ticket_guid) {
+                alertModal('参数错误, 请刷新页面后重试.');
+            }
+						show = false;
+            var obj = $(this);
+            var is_print = obj.attr('is_print');
+            var ori_text = obj.text();
+            var signin_type = $('#signin_type').val();
+            $.ajax({
+                url: '<?php echo U('Signin/ajax_signin'); ?>',
+                type: 'POST',
+                data: { user_ticket_guid: user_ticket_guid, signin_type : signin_type },
+                dataType: 'json',
+                beforeSend: function(){
+                    obj.attr('disabled', true);
+                    obj.text('签到中...');
+                },
+                success: function(data){
+
+                    if(data.status == 'ok') {
+                        $('#ticket_status').html('<nameb>已签到</nameb>');
+                        if(is_print == '1'){
+                            ym_print();
+                        }
+                        var o = $('#alert');
+                        o.find('#alert_msg').html(data.msg);
+                        o.show();
+                        var t=setTimeout(function(){
+                            o.hide();
+                            clearTimeout(t);
+                        },2000);
+                    } else if (data.status == 'ko') {
+                        alertModal(data.msg);
+                    }
+                    focus_on_qrcode();
+                },
+                complete: function(){
+                    obj.attr('disabled', false);
+                    obj.text(ori_text);
+                    focus_on_qrcode();
+                }
+            });
+        });
+
+        //datetimepicker 时间样式
+        $('.ym_date').datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            minView: 2
+        });
+
+
+        // 现场签到
+        $('#signup_add_user_form').validate({
+            errorPlacement: function(error, element){
+                element.parents('.form_field').next('.tishinr').html(error);
+            },
+            rules: {
+                <?php foreach($build_info as $k => $b): ?>
+                <?php $name = ($b['is_info']==1)?'info':'other'; ?>
+                <?php  if($b['is_info']==1) {
+                    $whole_name = $name.'['.$b["ym_type"].']';
+                } else {
+                    if ($b['html_type'] == 'radio' || $b['html_type'] == 'checkbox') {
+                        $whole_name = $name.'['.$b["guid"].'][value][]';
+                    } else {
+                        $whole_name = $name.'['.$b["guid"].'][value]';
+                    }
+                }
+                ?>
+                // jquery validate rules
+                '<?php echo $whole_name?>': {
+                    required: <?php echo ($b['is_required']==1)?'true':'false'; ?>
+                    <?php if($b['ym_type'] == 'mobile'): ?>
+                    ,digits: true,
+                    rangelength: [11, 11],
+                    remote: {
+                        url:"<?php echo U('Signin/ajax_check_signup_user'); ?>",
+                        type:'post',
+                        dataType: 'json',
+                        data: { aid: '<?php echo I('get.aid'); ?>' }
+                    }
+                    <?php else: ?>
+                    <?php if(!in_array($b['html_type'], array('radio', 'select', 'checkbox'))):  ?>
+                    <?php if($b['ym_type'] == 'company'): ?>
+                    ,rangelength: [1, 20]
+                    <?php elseif($b['ym_type'] == 'position'): ?>
+                    ,rangelength: [1, 10]
+                    <?php else: ?>
+                    ,rangelength: [1, 50]
+                    <?php endif; ?>
+                    <?php endif; ?>
+                    <?php if($b['html_type'] == 'textarea'): ?>
+                    ,rangelength: [1, 200]
+                    <?php endif; ?>
+                    <?php endif; ?>
+                    <?php if($b['ym_type'] == 'email'): ?>
+                    ,email: true
+                    <?php endif;  ?>
+                },
+                <?php endforeach; ?>
+            },
+            messages: {
+                <?php foreach($build_info as $k => $b): ?>
+                <?php $name = ($b['is_info']==1)?'info':'other'; ?>
+                <?php  if($b['is_info']==1) {
+                    $whole_name = $name.'['.$b["ym_type"].']';
+                } else {
+                    if ($b['html_type'] == 'radio' || $b['html_type'] == 'checkbox') {
+                        $whole_name = $name.'['.$b["guid"].'][value][]';
+                    } else {
+                        $whole_name = $name.'['.$b["guid"].'][value]';
+                    }
+                } ?>
+                // jquery validate error message
+                '<?php echo $whole_name ?>': {
+                    required: "<?php echo $b['name']; ?>不能为空"
+                    <?php if($b['ym_type'] == 'mobile'): ?>
+                    ,digits: "手机号码必须为数字",
+                    rangelength: "手机号码长度必须为11位",
+                    remote: "该手机号码已经报名"
+                    <?php else: ?>
+                    <?php if(!in_array($b['html_type'], array('radio', 'select', 'checkbox'))):  ?>
+                    <?php if($b['ym_type'] == 'company'): ?>
+                    ,rangelength: "<?php echo $b['name']; ?>长度必须为1到20个字"
+                    <?php elseif($b['ym_type'] == 'position'): ?>
+                    ,rangelength: "<?php echo $b['name']; ?>长度必须为1到10个字"
+                    <?php else: ?>
+                    ,rangelength: "<?php echo $b['name']; ?>长度必须为1到50个字"
+                    <?php endif; ?>
+                    <?php endif; ?>
+                    <?php if($b['html_type'] == 'textarea'): ?>
+                    ,rangelength: "<?php echo $b['name']; ?>长度必须为1到200个字"
+                    <?php endif; ?>
+                    <?php endif; ?>
+                    <?php if($b['ym_type'] == 'email'): ?>
+                    ,email: "邮箱格式不对"
+                    <?php endif;  ?>
+                },
+                <?php endforeach; ?>
+            },
+            submitHandler: function(form) { //通过之后回调
+                var obj = $(this);
+                var data = $("#signup_add_user_form").serialize();
+                $.ajax({
+                    url: '<?php echo U('Signin/ajax_signup_add_user', array('aid' => $activity_info['guid'], 'signin' => 'true')); ?>',
+                    type: 'POST',
+                    data: data,
+                    dataType: 'json',
+                    beforeSend: function(){
+                        $('#submit_form').button('loading');
+//                        obj.button('loading');
+                    },
+                    success: function(data){
+                        if(data.status == 'ok'){
+                            alertTips($('#tips-modal'), data.msg);
+                            $('#modal_add_signup_user').modal('hide');
+                            var obj = $('#btn_check_mobile');
+                            var mobile = data.data.mobile;
+                            $('#signin_type').val(2);
+                            $('form#signup_add_user_form')[0].reset();
+                            ajax_find_user(obj, mobile);
+                        }else if(data.status == 'ko'){
+                            alertTips($('#tips-modal'), data.msg);
+                        }
+                    },
+                    complete: function(){
+                        $('#submit_form').button('reset');
+                        focus_on_qrcode();
+//                        obj.button('reset');
+                    }
+                });
+            },
+            invalidHandler: function(form, validator) { //不通过回调
+                return false;
+            }
+        });
+
+    });
+</script>
+<!--触发结束-->
+<include file="Public:modal" />
+<input type="hidden" id="unreload" value="1"/>

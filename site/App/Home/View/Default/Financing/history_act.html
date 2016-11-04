@@ -1,0 +1,55 @@
+<body>
+<div class="container js">
+  <div class="page-header js_search">
+    <h1><?php echo date('Y-m-d H:i:s',$activity_list[0]['account_at'])?> 结算信息</h1>
+    <a href="<?php echo U('Financing/history_detail')?>" class="js_b_w_btn pull-right js_click">返回</a>
+  </div>
+  <div class="row note_info">
+    <div class="col-md-12">
+      <p class="bg-warning">下列活动是结算后的状态,以下金额为收费后的金额</p>
+    </div>
+  </div>
+  <div class="table-info">
+    <div class="row">
+      <div class="col-md-12">
+        <table class=" table table-hover">
+          <thead>
+          <tr>
+            <th>
+              活动名称
+            </th>
+            <th>
+              金额
+            </th>
+            <th>
+              结束日期
+            </th>
+            <th>
+              详细信息
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <?php echo $tbody?>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+<!--    <div class="pagin row pull-right">-->
+<!--      <div class="col-md-12 bottom_element">-->
+<!--        <div class="bottom-pagination">-->
+<!--          <ul class="pagination">-->
+<!--            <li><a href="#">&laquo;</a></li>-->
+<!--            <li><a href="#">1</a></li>-->
+<!--            <li><a href="#">2</a></li>-->
+<!--            <li><a href="#">3</a></li>-->
+<!--            <li><a href="#">4</a></li>-->
+<!--            <li><a href="#">5</a></li>-->
+<!--            <li><a href="#">&raquo;</a></li>-->
+<!--          </ul>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+  </div>
+</div>

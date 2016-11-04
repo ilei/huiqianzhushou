@@ -1,0 +1,42 @@
+<?php 
+/**
+ * iframe加载媒体文件
+ * 
+ * CT: 2014-10-10 16:56 by YLX
+ * UT: 2014-10-10 16:56 by YLX
+ */
+?>
+
+<!-- css 文件 -->
+<?php
+echo C('MEDIA_CSS.JQUERYUI')
+    .C('MEDIA_CSS.BOOTSTRAP')
+    .C('MEDIA_CSS.FONT_AWESOME')
+    .C('MEDIA_CSS.BASE')
+    .C('MEDIA_CSS.MODAL');
+?>
+
+<!-- js 文件 -->
+<?php
+echo C('MEDIA_JS.JQUERY')
+    .C('MEDIA_JS.JQUERYUI')
+    .C('MEDIA_JS.BOOTSTRAP')
+    .C('MEDIA_JS.JQUERY_VALIDATE')
+    .C('MEDIA_JS.JQUERY_VALIDATE_ADDITIONAL')
+    .C('MEDIA_JS.JQUERY_LAZYLOAD')
+    .C('MEDIA_JS.JQUERY_AJAXUPLOAD')
+    .C('MEDIA_JS.IFRAME_BOX')
+    .C('MEDIA_JS.ZERO_CLIPBOARD')
+//    .C('MEDIA_JS.DATETIMEPICKER')
+    .C('MEDIA_JS.COMMON');
+?>
+
+<script type="text/javascript">
+//    $(function(){
+//        //图片异步加载
+//        $("img").lazyload({
+//            effect : "show",
+//            threshold: 200
+//        });
+//    })
+</script>

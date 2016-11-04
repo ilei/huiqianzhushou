@@ -1,0 +1,27 @@
+<div class="col-sm-3 col-lg-2">
+    <div class="left-bar">
+        <span class="separator"><i class="fa fa-bookmark"></i> 我的</span>
+        <a class="<?php echo $meta_title=='我的主页' ? 'active' : '' ?>" href="<?php echo U('Home/User/index')?>">主页管理</a>
+        <a class="<?php echo $title=='活动列表' ? 'active' : '' ?>" href="<?php echo U('Home/User/activity')?>">活动管理</a>
+        <a class="<?php echo $title=='我的票券' ? 'active' : '' ?>" href="<?php echo U('Home/User/ticket')?>">票券管理</a>
+        <a class="<?php echo $title=='我的订单' ? 'active' : '' ?>" href="<?php echo U('Home/User/order') ?>">订单管理</a>
+    </div>
+    <div class="left-bar">
+        <span class="separator"><i class="fa fa-cog"></i> 设置</span>
+        <a class="<?php echo $meta_title=='基本信息' ? 'active' : '' ?>" href="<?php echo U('Home/User/base')?>">基本信息</a>
+        <a class="<?php echo $meta_title=='修改密码' ? 'active' : '' ?>" href="<?php echo U('Home/User/password')?>">修改密码</a>
+        <a class="<?php echo $meta_title=='主办方信息' ? 'active' : '' ?>" href="<?php echo U('Home/User/sponsor')?>">主办方信息</a>
+        <a class="<?php echo $meta_title=='签到账号' ? 'active' : '' ?>" href="<?php echo U('Home/User/account')?>">签到账号</a>
+        <!-- <a href="<?php echo U('Information/binding')?>">账号绑定</a> -->
+        <a class="<?php echo $meta_title=='我的钱包' ? 'active' : '' ?>" href="<?php echo U('Home/User/wallet')?>">我的钱包</a>
+        <!-- <a href="#">我的消息</a> -->
+    </div>
+    <div class="left-bar">
+        <span class="separator"><i class="fa fa-money"></i> 结算中心</span>
+        <a class="<?php echo $meta_title=='基本信息' ? 'active' : '' ?>" href="<?php echo U('Financing/index')?>">结算中心</a>
+<!--        <a class="--><?php //echo $meta_title=='基本信息' ? 'active' : '' ?><!--" href="--><?php //echo U('Financing/index')?><!--">等待结算</a>-->
+<!--        <a class="--><?php //echo $meta_title=='修改密码' ? 'active' : '' ?><!--" href="--><?php //echo U('Financing/underway_detail')?><!--">正在结算</a>-->
+<!--        <a class="--><?php //echo $meta_title=='主办方信息' ? 'active' : '' ?><!--" href="--><?php //echo U('Financing/history_detail')?><!--">历史结算</a>-->
+<!--        <a class="--><?php //echo $meta_title=='签到账号' ? 'active' : '' ?><!--" href="--><?php //echo U('Financing/info_set')?><!--">账户管理</a>-->
+    </div>
+</div>

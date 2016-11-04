@@ -1,0 +1,22 @@
+{__NOLAYOUT__}
+
+<?php foreach($datasource as $v):?>
+<tr>
+    <td><?php echo $v['order_number']; ?></td>
+    <td><?php echo yuan_to_fen($v['ticket_price_string'], false); ?></td>
+    <td><?php echo $v['order_ordertime'];?></td>
+    <td><?php echo $v['order_buyer_name'];?></td>
+
+    <?php if($v['order_status']==0||$v['order_status']==3||$v['order_status']==9):?>
+    <td class="text-danger"><?php echo $v['order_status_string']; ?></td>
+    <?php else:?>
+    <td class="text-success"><?php echo $v['order_status_string']; ?></td>
+    <?php endif;?>
+
+
+
+    <td><a href="<?php echo U('Home/Order/detail', array('guid' => $v['order_number']));?>">详情</a></td>
+
+</tr>
+
+<?php endforeach;?>

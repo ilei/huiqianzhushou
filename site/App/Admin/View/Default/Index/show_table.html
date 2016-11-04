@@ -1,0 +1,26 @@
+<?php
+/**
+ * 显示数据库表
+ *
+ * CT: 2014-11-20 09:09 BY YLX
+ */
+?>
+
+
+<table border="1">
+    <tr>
+        <?php foreach($keys as $k): ?>
+            <th><?php echo $k?></th>
+        <?php endforeach; ?>
+    </tr>
+    <?php foreach($list as $l): ?>
+        <tr>
+            <?php $max = count($keys);
+                for($i=0;$i<$max;$i++):
+            ?>
+                    <td><?php echo $l[$keys[$i]]?></td>
+            <?php endfor;?>
+
+        </tr>
+    <?php endforeach; ?>
+</table>

@@ -1,0 +1,78 @@
+<?php
+	/**
+	 * 主题页面
+	 *
+	 * CT: 2014-09-23 12:00 by RTH
+	 * UT: 2014-09-23 12:00 by RTH
+	 */
+ ?>
+<import type='css' file="home.css.basic-information" />
+
+<script type="text/javascript">
+	var YM = {
+		'setting_invite' : "{:U('setting_invite')}",
+		'setting_examine': "{:U('setting_examine')}"
+	};
+</script>
+
+<!-- 导入面包屑 -->
+<?php
+    $breadcrumbs = array(
+        'base' => '基本信息',
+        'list' => array(
+            array('url'=>'', 'v'=>'基本信息')
+        )
+    );
+?>
+<include file="Public:_breadcrumbs" />
+
+<div class="ymnaw">
+    <ul class="nav nav-tabs ymbtn" role="tablist">
+        <li role="presentation"><a href="<?php echo U('Org/info')?>">基本信息</a></li>
+        <li role="presentation"><a href="<?php echo U('Org/authentication')?>">认证信息</a></li>
+        <li role="presentation"><a href="<?php echo U('Org/invite')?>">邀请设置</a></li>
+        <li role="presentation"><a href="<?php echo U('Org/signin')?>">签到账号</a></li>
+        <li role="presentation"><a href="<?php echo U('Org/corporate')?>">等级权限</a></li>
+        <li role="presentation" class="active"><a href="<?php echo U('Org/recharge')?>">充值记录</a></li>
+    </ul>
+</div>
+
+<div class="rightmain">
+  <!--<div class="alert alert-warning mt10">
+        <ul type="square">
+        <li>如需修改基本信息，请点击右则修改按钮，修改现存信息。</li>
+        <li>登陆邮箱为不可修改信息。</li>
+        <li>详细功能与操作信息介绍，请点击页面底部左侧帮助中心按钮查看。</li>
+			</ul>
+    </div>-->
+    <div class="table mt10 mb40">
+        <table class="table">
+            <tbody>
+              <tr class="base-tr1">
+                <td class="wh140">账户名称</td>
+                <td class="wh570"><?php echo $auth['org_name']?></td>
+              </tr>
+              <tr class="base-tr1">
+                <td class="wh140">充值记录ID</td>
+                <td class="wh570"><?php echo $info['order_id']?></td>
+              </tr>
+              <tr class="base-tr1">
+                <td class="wh140">充值金额</td>
+                <td class="wh570"><?php echo yuan_to_fen($info['balance'], false)?>&nbsp;元</td>
+              </tr>
+              <tr class="base-tr1">
+                <td class="wh140">充值时间</td>
+                <td class="wh570"><?php echo date('Y-m-d H:i:s', $info['created_time']);?></td>
+              </tr>
+              <tr class="base-tr1">
+								<td class="wh140">充值状态</td>
+								<td class="wh570"><switch name="info.status">
+										<case value="0">充值失败</case>
+                    <case value="1">充值成功</case>
+									</switch>
+								</td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

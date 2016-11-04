@@ -1,0 +1,138 @@
+<input id="add_edit_type" value="<?php echo $add_edit_type?>" hidden>
+<input id="bank_del_url" value="<?php echo U('Financing/bank_del')?>" hidden>
+<input id="invoice_del_url" value="<?php echo U('Financing/invoice_del')?>" hidden>
+<input id="express_del_url" value="<?php echo U('Financing/express_del')?>" hidden>
+<form id="del_form" method="post" action="" hidden>
+
+</form>
+<body>
+<div class="container js">
+  <div class="page-header">
+      <h1><?php echo $public_list_title?></h1>
+        <?php if($add_edit_type == 'bank'):?>
+          <a href="<?php echo U('Financing/bank_add')?>" class="js_b_w_btn b_w_btn_pos js_click"><i class="fa fa-plus"></i><?php echo $new_content?></a>
+        <?php endif;?>
+        <?php if($add_edit_type == 'express'):?>
+          <a href="<?php echo U('Financing/express_add')?>" class="js_b_w_btn b_w_btn_pos js_click""><i class="fa fa-plus"></i><?php echo $new_content?></a>
+        <?php endif;?>
+        <?php if($add_edit_type == 'invoice'):?>
+          <a href="<?php echo U('Financing/invoice_add')?>" class="js_b_w_btn b_w_btn_pos js_click""><i class="fa fa-plus"></i><?php echo $new_content?></a>
+        <?php endif;?>
+      <a href="<?php echo U('Financing/info_set')?>" class="js_b_w_btn pull-right btn_pos js_click">返回</a>
+  </div>
+  <div class="row note_info">
+    <div class="col-md-12">
+      <p class="bg-warning"><?php echo $public_list_describe?></p>
+    </div>
+  </div>
+  <div class="table-info">
+    <div class="row shumu">
+      <div class="col-md-12">
+        <p>信息管理</p>
+      </div>
+    </div>
+    <?php if(empty($list)):?>
+        <?php if($add_edit_type == 'bank'):?>
+        <a class=" a_btn_jump_1" href="<?php echo U('Financing/bank_add')?>">银行账户为空，点击添加银行账户</a>
+<!--          <a href="--><?php //echo U('Financing/bank_add')?><!--" class="js_b_w_btn b_w_btn_pos js_click"><i class="fa fa-plus"></i>--><?php //echo $new_content?><!--</a>-->
+        <?php endif;?>
+        <?php if($add_edit_type == 'express'):?>
+        <a class=" a_btn_jump_1" href="<?php echo U('Financing/express_add')?>">快递信息为空，点击添加快递信息</a>
+<!--          <a href="--><?php //echo U('Financing/express_add')?><!--" class="js_b_w_btn b_w_btn_pos js_click""><i class="fa fa-plus"></i>--><?php //echo $new_content?><!--</a>-->
+        <?php endif;?>
+        <?php if($add_edit_type == 'invoice'):?>
+        <a class=" a_btn_jump_1" href="<?php echo U('Financing/invoice_add')?>">发票信息为空，点击添加发票信息</a>
+<!--          <a href="--><?php //echo U('Financing/invoice_add')?><!--" class="js_b_w_btn b_w_btn_pos js_click""><i class="fa fa-plus"></i>--><?php //echo $new_content?><!--</a>-->
+        <?php endif;?>
+    <?php else:?>
+      <?php foreach($list as $k=>$v):?>
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="detail_info moren delete-bm">
+<!--              --><?php //if($v['is_default'] == '1'):?>
+<!--              <li class="row"  style="background-color: #00FFFF">-->
+<!--              --><?php //endif;?>
+              <li class="row">
+                <?php if($add_edit_type == 'bank'):?><!--账户-->
+                    <?php if($v['is_default'] == 1):?>
+                      <div class="sub_detail col-sm-12 div_hover moren-color">
+                          <div class="mr_red">
+                              <p>默认</p>
+                          </div>
+                    <?php else:?>
+                      <div class="sub_detail col-sm-12 div_hover">
+                    <?php endif;?>
+<!--                  <div class="sub_detail col-sm-12 div_hover moren-color">-->
+                      <div class="col-sm-10">
+                          <p>开户行地址:<span><?php echo $v['opening_bank']?></span></p>
+                      </div>
+                    <div class="col-sm-10">
+                      <p>银行账户:<span><?php echo $v['bank_account']?></span></p>
+                    </div>
+                  <a href="<?php echo U('Financing/bank_edit',array('guid' => $v['guid']))?>" class="edit-left"><i class="edit fa fa-edit  my-fa-3x" >编辑</i></a>
+                    <span class="delete edit" id="info_del"><i class="fa fa-trash my-fa-3x" >删除</i></span>
+                    <input id="guid" value="<?php echo $v['guid']?>" hidden>
+                  </div>
+                <?php elseif($add_edit_type == 'express'):?><!--收货地址-->
+                    <?php if($v['is_default'] == 1):?>
+                      <div class="sub_detail col-sm-12 div_hover moren-color">
+                          <div class="mr_red">
+                              <p>默认</p>
+                          </div>
+                    <?php else:?>
+                      <div class="sub_detail col-sm-12 div_hover">
+                    <?php endif;?>
+<!--                  <div class="sub_detail col-sm-12 div_hover">-->
+                    <div class="col-sm-10">
+                      <p>收货人姓名:<span><?php echo $v['name']?></span></p>
+                    </div>
+                    <div class="col-sm-10">
+                      <p>收货人电话:<span><?php echo $v['mobile']?></span></p>
+                    </div>
+                    <div class="col-sm-10">
+                      <p>收货人地址:<span><?php echo $v['address']?></span></p>
+                    </div>
+                    <div class="col-sm-10">
+                      <p>邮编:<span><?php echo $v['postcode']?></span></p>
+                    </div>
+
+                     <a href="<?php echo U('Financing/express_edit',array('guid' => $v['guid']))?>" class="edit-left"><i class="edit fa fa-edit  my-fa-3x" >编辑</i></a>
+                    <span class="delete edit" id="info_del"><i class="fa fa-trash my-fa-3x" >删除</i></span>
+                    <input id="guid" value="<?php echo $v['guid']?>" hidden>
+                  </div>
+
+                <?php elseif($add_edit_type == 'invoice'):?><!--发票信息-->
+<!--                  <div class="sub_detail col-sm-12 div_hover">-->
+                    <?php if($v['is_default'] == 1):?>
+                      <div class="sub_detail col-sm-12 div_hover moren-color">
+                          <div class="mr_red">
+                              <p>默认</p>
+                          </div>
+                    <?php else:?>
+                      <div class="sub_detail col-sm-12 div_hover">
+                    <?php endif;?>
+                    <div class="col-sm-10">
+                      <p>名称:<span><?php echo $v['name']?></span></p>
+                    </div>
+                      <div class="col-sm-10">
+                          <p>纳税人识别号:<span><?php echo $v['number']?></span></p>
+                      </div>
+                    <div class="col-sm-10">
+                      <p>地址:<span><?php echo $v['address']?></span></p>
+                    </div>
+                    <div class="col-sm-10">
+                      <p>电话:<span><?php echo $v['mobile']?></span></p>
+                    </div>
+                  <a href="<?php echo U('Financing/invoice_edit',array('guid' => $v['guid']))?>" class="edit-left"><i class="edit fa fa-edit  my-fa-3x" >编辑</i></a>
+                    <span class="delete edit" id="info_del"><i class="fa fa-trash my-fa-3x" >删除</i></span>
+                    <input id="guid" value="<?php echo $v['guid']?>" hidden>
+                  </div>
+                <?php endif;?>
+              </li>
+            </ul>
+          </div>
+        </div>
+      <?php endforeach;?>
+    <?php endif;?>
+  </div>
+</div>

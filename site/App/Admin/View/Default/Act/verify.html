@@ -1,0 +1,131 @@
+<div id="content-head">活动审核</div>
+<import type='js' file="admin.js.orgIndex" />
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Act/index'), 'v'=>'活动管理'),
+array('url' => '', 'v' => '活动列表'),
+array('url' => '', 'v' => '活动审核')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a class="btn btn-success pull-right" type="button" href="{:U('Act/index')}"><i class="fa fa-plus"></i> 返回列表</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<form action="<?php echo U('Act/verify_refuse')?>" id="verifyUserForm" method="post" name="verifyUserForm">
+					<input hidden="true" name="act_guid" value="<?php echo $act_info_w['guid']?>">
+					<table class="table table-bordered">
+						<tr>
+							<th>活动名称</th>
+							<td>
+                                <?php echo $act_info_w['name']?>
+                            </td>
+						</tr>
+						<tr>
+							<th>活动内容</th>
+							<td>
+								<?php echo $str?>
+                                
+                            </td>
+						</tr>
+						<tr>
+							<th>活动地址</th>
+							<td>
+                                <?php echo $act_info_w['areaid_1_name'].$act_info_w['areaid_2_name'].$act_info_w['address']?>
+                            </td>
+						</tr>
+						<tr>
+							<th>活动图片</th>
+							<td>
+								<img alt="4" src="<?php echo get_image_path($act_info_w['poster'])?>" />
+                            </td>
+						</tr>
+						<tr>
+							<th>创建人</th>
+							<td><?php echo $user_info_w['realname']?></td>
+						</tr>
+						<tr>
+							<th>创建人电话</th>
+							<td><?php echo $user_info_w['mobile']?></td>
+						</tr>
+						
+						<tr  id="hidden_tr" hidden="true">
+							<th>拒绝理由</th>
+							<td><textarea id="identity_refuse_reason" name="identity_refuse_reason" placeholder="必填项"></textarea></td>
+						</tr>
+
+						<input type="hidden" name="user_guid" value="<?php echo $user_info_w['guid']?>">
+					</table>
+				</form>
+				<tfoot>
+					<?php  if($act_info_w['is_verify']==0 || $act_info_w['is_verify']==2):?>
+					<input type="button" value="通过审核" id="pass" name="pass" onclick="verify_pass()" class="btn btn-primary">
+					<input type="button" value="拒绝通过" id="not_pass" name="not_pass" onclick="verify_refuse()" class="btn btn-default">
+					<?php  endif ;?>
+					<input type="button" value="提交" id="verify_refuse" name="not_pass_submit" onclick="verify_refuse_submit()" hidden="true" class="btn-default">
+					<input type="button" value="返回" id="return_index" name="return_index" onclick="return_index()" class="btn btn-default">
+					<input type="button" value="返回" id="return_verify" name="return_index" onclick="return_verify()" hidden="true" class="btn-default">
+				</tfoot>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	//返回
+function return_index(){
+	location.href = "<?php echo U('Act/index')?>";
+}
+//审核通过
+function verify_pass(){
+	location.href = "<?php echo U('Act/verify_pass',array('act_guid'=>$act_info_w['guid']))?>";
+}
+//审核拒绝通过
+function verify_refuse(){
+	$("#hidden_tr").removeAttr("hidden");//显示出拒绝理由
+	$("#pass").attr("hidden",true).attr('class', 'btn-default');//隐藏
+	$("#not_pass").attr("hidden",true).attr('class', 'btn-default');
+	$("#verify_refuse").removeAttr("hidden").attr('class', 'btn btn-primary');
+	$("#return_index").attr("hidden",true).attr('class', 'btn-default');
+	$("#return_verify").removeAttr("hidden").attr('class', 'btn btn-default');
+	//        location.href = "<?php echo U('Org/verify_not_pass',array('org_guid'=>$org_info['guid']))?>";
+}
+function verify_refuse_submit(){
+	$("#verifyUserForm").submit();
+
+}
+function return_verify(){
+	$("#hidden_tr").attr("hidden",true);
+	$("#pass").removeAttr("hidden").attr('class', 'btn btn-primary');
+	$("#not_pass").removeAttr("hidden").attr('class', 'btn btn-default');
+	$("#return_index").removeAttr("hidden").attr('class', 'btn btn-default');
+	$("#verify_refuse").attr("hidden",true).attr('class', 'btn-default');
+	$("#return_verify").attr("hidden",true).attr('class', 'btn-default');
+}
+$(document).ready(function () {
+
+	//表单验证
+	$('#verifyUserForm').validate({
+		rules: {
+			identity_refuse_reason: {
+				required: true,
+				rangelength: [1, 30]
+			}
+		},
+		messages: {
+			identity_refuse_reason: {
+				required: "拒绝理由不能为空",
+				rangelength: "拒绝理由不得多于30字"
+			}
+		}
+	});
+});
+</script>

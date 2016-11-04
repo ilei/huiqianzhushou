@@ -1,0 +1,86 @@
+{__NOLAYOUT__}
+<div class="col-sm-4">
+    <div class="showrows-control">
+        <span>每页显示</span>
+        <select class="form-control" id="sel_pageSize">
+            <?php foreach($model->pageSizeArray as $v):?>
+
+            <?php
+                $selected_option=$model->pageSize==$v?'selected':'';
+            ?>
+
+            <option {$selected_option}><?php echo $v; ?></option>
+
+            <?php endforeach;?>
+        </select>
+        <span>条</span>
+<!--        <span style="display: inline-block;" id="spinner">-->
+<!---->
+<!--        </span>-->
+    </div>
+
+</div>
+
+<?php if($model->maxPage>1):?>
+<div class="col-sm-8">
+    <?php
+        $prevPage=(intval($model->currentPage)-1) < 1 ? 1 : (intval($model->currentPage)-1) ;
+        $nextPage=(intval($model->currentPage)+1) > intval($model->maxPage) ? intval($model->maxPage): (intval($model->currentPage)+1);
+    ?>
+    <nav  class="pull-right" id="nav_pagerControl">
+        <ul class="pagination" id="ul_pager">
+            <!--首页-->
+            <li><a href="#" aria-label="Previous" p="1"><span aria-hidden="true">首页</span></a></li>
+            <?php if($model->currentPage > 1):?>
+                <li><a href="#" aria-label="Previous" p="<?php echo $prevPage; ?>"><span aria-hidden="true">上一页</span></a></li>
+            <?php else:?>
+                <li style="display: none;"><a href="#" aria-label="Previous" p="<?php echo $prevPage; ?>"><span aria-hidden="true">上一页</span></a></li>
+            <?php endif;?>
+<!--            <li><a href="#" aria-label="Previous" p="--><?php //echo $prevPage; ?><!--"><span aria-hidden="true">上一页</span></a></li>-->
+
+
+            <?php
+                $startPage=1;
+                $endPage=1;
+            ?>
+
+
+            <?php
+            //当前页 在 1 2 3 显示前5个
+            if($model->currentPage<4){
+               $endPage=$model->maxPage>5 ? 5 : $model->maxPage;
+            }
+            //当前页在倒数1,2,3 显示后5个
+            elseif( ($model->maxPage - $model->currentPage) < 3 ){
+                $endPage=$model->maxPage;
+                $startPage=$endPage-4;
+                $startPage=$startPage<1?1:$startPage;
+            }else{
+                $startPage=$model->currentPage-2;
+                $endPage=$model->currentPage+2;
+            }
+            ?>
+
+            <?php for($i=$startPage ; $i<=$endPage ; $i++):?>
+
+            <?php if ($i == $model->currentPage) :?>
+                 <li class="active"><a href="#" p="<?php echo $i; ?>"><?php echo $i; ?></a></li>
+            <?php else :?>
+                 <li><a href="#" p="<?php echo $i; ?>"><?php echo $i; ?></a></li>
+            <?php endif ;?>
+
+            <?php endfor;?>
+
+            <!--末页-->
+            <?php if($model->currentPage < $model->maxPage):?>
+                <li><a href="#" aria-label="Previous" p="<?php echo $nextPage; ?>"><span aria-hidden="true">下一页</span></a></li>
+            <?php else:?>
+                <li style="display: none;"><a href="#" aria-label="Previous" p="<?php echo $nextPage; ?>"><span aria-hidden="true">下一页</span></a></li>
+            <?php endif;?>
+<!--            <li><a href="#" aria-label="Previous" p="--><?php //echo $nextPage; ?><!--"><span aria-hidden="true">下一页</span></a></li>-->
+            <li><a href="#" aria-label="Previous" p="<?php echo $model->maxPage;?>"><span aria-hidden="true">末页</span></a></li>
+
+        </ul>
+    </nav>
+</div>
+<?php endif;?>

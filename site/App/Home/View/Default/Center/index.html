@@ -1,0 +1,136 @@
+<?php
+/**
+ * 首页
+ *
+ * CT: project start
+ * UT: 2014-11-11 11:39 by YLX
+ */
+?>
+
+
+<import type='css' file="home.css.message-list"/>
+
+<div class="row homepg">
+    <div class="col-xs-2">
+        <img data-original="<?php echo get_image_path($auth['photo'], 120) ?>" class="homeimg lazy">
+    </div>
+    <div class="col-xs-8">
+        <p class="hometit">
+            <?php echo empty($other['realname']) ? $info['email'] : $other['realname']; ?>
+<!--            --><?php //if ($verify_status == 3): ?>
+<!---->
+<!--                <span class="level-com" style="background-color: #1290f7">V 已认证</span>-->
+<!--            --><?php //endif; ?>
+<!--            <span class="level-com">--><?php //echo $vip_name; ?><!--</span>-->
+<!--            <span class="level-com" style="background-color: #ccc">-->
+<!--                --><?php //echo '剩余时间：' ?>
+<!--                --><?php //if ($org['end'] == null): ?>
+<!--                    --><?php //echo '无限制' ?>
+<!--                --><?php //else: ?>
+<!--                    --><?php //if ($org['end'] >= time()): ?>
+<!--                        --><?php //echo(intval(abs($org['end'] - time()) / (3600 * 24)) + 1) ?>
+<!--                    --><?php //else: ?>
+<!--                        --><?php //echo '0' ?>
+<!--                    --><?php //endif; ?>
+<!--                    --><?php //echo '天' ?>
+<!--                --><?php //endif; ?>
+<!--            </span>-->
+        </p>
+
+        <p class="p12"><?php echo $org['mail'] ?></p>
+
+        <p class="p12"><?php echo $quyu . ' ' . $org['address'] ?></p>
+    </div>
+
+    <!--<div class="pull-right ml40"><p class="homebti">365</p><p class="text-center mb0">入社申请</p></div>-->
+<!--    <div class="col-xs-2">-->
+<!--        <a href="--><?php //echo U('Message/index'); ?><!--">-->
+<!--            <span class="homebti">--><?php //echo $OrgNewMsgTotal; ?><!--</span>-->
+<!--            <span>最新消息</span>-->
+<!--        </a>-->
+<!--    </div>-->
+</div>
+
+<!--右侧主体开始-->
+<div class="rightmain">
+    <?php if (!empty($OrgMsgList)): ?>
+        <div class="message-list">
+            <?php foreach ($OrgMsgList as $data) : ?>
+                <div class="row themessage">
+                    <div class="pull-left left10 mt13">
+                        <a href="<?php echo U('Message/history', array('guid' => $data['from_guid'])) ?>"
+                           class="skip_url">
+                            <img data-original="<?php echo get_image_path($data['from_photo']); ?>" alt=""
+                                 class="img70 layzy skip_url">
+                        </a>
+                    </div>
+                    <div class="pull-right right88">
+                        <div class="row margin0 skip_url">
+                            <a href="<?php echo U('Message/history', array('guid' => $data['from_guid'])) ?>"
+                               class="blacknm pull-left">
+                                <name0><?php echo $data['from_name']; ?></name0>
+                            </a>
+
+                            <p class="signature pull-left ml12 skip_url">对你说</p>
+
+                            <p class="signature pull-right skip_url"><?php echo mdate($data['sent_time']); ?></p>
+                        </div>
+                        <div class="row margin0 skip_url">
+                            <div class="pull-left width30 skip_url"><i class="fa fa-quote-left fa-2x"></i></div>
+                            <div class="pull-left mainheight skip_url">
+                                <a href="<?php echo U('Message/history', array('guid' => $data['from_guid'])) ?>">
+                                    <nameh><?php echo $data['content']; ?></nameh>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row margin0">
+                            <div class="message-reply pull-left mt10">
+                                <a class="send_msg" href="javascript:void(0);"
+                                   url="<?php echo U('Home/Message/reply', array('to_guid' => $data['from_guid'])) ?>">
+                                    <i class="fa fa-reply fa-lg"></i> 回复
+                                </a>
+                            </div>
+                            <div class="message-delete pull-left mt10">
+                                <a class="ml30 ym_del" href="javascript:void(0);"
+                                   url="<?php echo U('Home/Message/del', array('guid' => $data['guid'])) ?>"
+                                   class="ml30">
+                                    <i class="fa fa-times fa-lg"></i> 删除
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <div class="row mb30">
+            <a class="pull-right mr25" href="<?php echo U('Message/index'); ?>">查看更多</a>
+        </div>
+    <?php else: ?>
+        <div class="message-list listnone">暂无消息</div>
+    <?php endif; ?>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 发送消息
+        $(".send_msg").click(function () {
+            $.showBox({
+                'src': $(this).attr('url'),
+                'width': 680,
+                'height': 400,
+                // 'data'  : "Say hello to your father",
+                'success': function (data) {
+                    alert(data);
+                }
+            });
+        });
+
+        //消息点击跳转
+        $('.skip_url').click(function () {
+            var href_url = $('.themessage').attr('data_url');
+//            location.href = href_url;
+        });
+
+    });
+</script>

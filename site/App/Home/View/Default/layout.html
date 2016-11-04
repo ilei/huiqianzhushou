@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<!--<meta charset="utf-8"/>-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="Keywords" content="<?php echo implode(',', $keywords);?>">
+<meta name="distribution" content="global" />
+<meta name="Description" content="<?php echo $desc;?>">
+<meta name="Author" content="<?php echo L('_APP_NAME_')?>"/>
+
+<meta http-equiv="Pragma" content="no-cache" />
+<!-- Set render engine for 360 browser -->
+<meta name="renderer" content="webkit">
+<meta property="og:type" content="website" />
+
+<title><?php echo $title?>-<?php echo L('_APP_NAME_')?></title>
+<link rel="shortcut icon" href="<?php echo fixed_resource_url('/Public/common/images/favicon.ico') ?>"
+type="image/vnd.microsoft.icon">
+<link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="<?php echo fixed_resource_url('/Public/meetelf/css/base.min.css')?>" rel="stylesheet"/>
+<?php foreach($css as $key => $value):?>
+<link href="<?php echo fixed_resource_url('/Public/'.$value.'?t='.($debug ? time() : C('last_release')));?>"
+rel="stylesheet"/>
+<?php endforeach;?>
+</head>
+<body data-module="<?php echo implode('  ', $module);?>">
+
+<input type="hidden" id="document_domain" value="<?php echo C('document_domain')?>"/>
+<include file="Public:_index_nav" />
+<div id="main">
+  {__CONTENT__}
+</div>
+<script src="<?php echo fixed_resource_url('/Public/common/js/require.js')?>"
+data-main="<?php echo  $main ? fixed_resource_url($main) : fixed_resource_url('/Public/common/js/main')?>"></script>
+</body>
+<input type="hidden" value="<?php echo $debug ? 1 : C('last_release');?>" id="last_release"/>
+<!--页面加载中间页-->
+<div class="" id="loading_css">
+  <div class="" id="spinner">
+    <div class="rect1"></div>
+    <div class="rect2"></div>
+    <div class="rect3"></div>
+    <div class="rect4"></div>
+    <div class="rect5"></div>
+  </div>
+</div>
+
+<div class="modal fade" id="tips-modal" tabindex="-1" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+            class="sr-only">Close</span></button>
+        <h4 class="modal-title">提示信息</h4>
+      </div>
+      <div class="modal-body">
+        <p class="tips-msg"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+</html>

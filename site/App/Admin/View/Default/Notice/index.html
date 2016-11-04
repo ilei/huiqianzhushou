@@ -1,0 +1,83 @@
+<div id="content-head">通知管理</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>'', 'v'=>'通知管理')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a href="{:U('add')}" type="button" class="pull-right btn btn-success"><span class="glyphicon glyphicon-plus"></span> 新建通知</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>通知标题</th>
+							<th>发送时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<foreach name="list" item="v">
+						<tr data-guid="{$v.guid}">
+							<td><a href="<?php echo U('view', array('guid' => $v['guid']));?>">{$v.title}</a></td>
+							<td class="time"><eq name="v.internal_status" value='1'>{:date('Y-m-d H:i', $v['updated_at'])}</eq></td>
+							<td id="ym_operate" class="status">
+								<switch name="v.internal_status">
+									<case value="0">
+										<span class="btn-link">
+											<a href="javascript:void(0);" data-href="<?php echo U('send')?>" data-value="<?php echo $v['guid'];?>">点击发送</a>
+										</span>
+									</case>
+									<case value="1">
+										<span class="text-green">已发送</span>
+										| <a class="btn-link" href="javascript:void(0);" data-href="<?php echo U('send')?>" data-value="<?php echo $v['guid'];?>">重新发送</a>
+									</case>
+								</switch>
+							</td>
+						</tr>
+						</foreach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<?php echo $page;?>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$("td#ym_operate").find("a").on('click', function(){
+			if(!$(this).data('value')){
+				return false;
+			}
+			$(this).attr('disabled', true).html('发送中....');
+			var obj = $(this);
+			obj.attr('disabled', true).html('发送中...');
+			$.ajax({
+				url:$(this).data('href'), 
+				dataType: 'json',
+				data:{guid:$(this).data('value')},
+				type:'post',
+			}).done(function( data ) {
+				if(data.code == 200){
+					alertModal('发送成功');
+					$(this).attr('disabled', true).html('重新发送');
+					window.location.reload();
+				}else{
+					obj.attr('disabled', false).html('重新发送');
+					alertModal('发送失败,请重试');
+					$(this).attr('disabled', false).html('重新发送');
+					return false;
+				}
+			});
+		})
+	})
+</script>

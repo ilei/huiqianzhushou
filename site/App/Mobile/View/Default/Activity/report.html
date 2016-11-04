@@ -1,0 +1,31 @@
+
+  <body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- // <script src="js/jquery.js"></script> -->
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+   <!--  // <script src="js/bootstrap.min.js"></script>
+    // <script src="icheck/js/jquery.js"></script> -->
+     <!-- // <script src="Public/common/icheck/icheck.js"></script> -->
+    <div class="container">
+      <form role="form" class="form-horizontal" id="report_form" action="<?php echo U('Activity/report',array('aid'=>$aid,'type'=>$type,'guid'=>$user_guid)) ?>" method="post">
+      <p>请选择举报原因</p>
+      <div class="ichecklist">
+        <div class="row report-options"><label>色情<div class="pull-right"><input type="checkbox" value="色情" class="reason" name="reason[]" class="pull-right"></div></label>
+        </div>
+        <div class="row report-options"><label>谣言<div class="pull-right"><input type="checkbox" value="谣言" class="reason" name="reason[]"></div></label>
+        </div>
+        <div class="row report-options"><label>网络钓鱼<div class="pull-right"><input type="checkbox" value="网络钓鱼" class="reason" name="reason[]"></div></label>
+        </div>
+        <div class="row report-options"><label>诱导分享<div class="pull-right"><input type="checkbox" value="诱导分享" class="reason" name="reason[]"></div></label>
+        </div>
+        <div class="row report-options"><label>政治<div class="pull-right"><input type="checkbox" value="政治" class="reason" name="reason[]"></div></label>
+        </div>
+      </div>
+      <div class="row"><textarea class="form-control report-input reason" rows="2" name="more_reason" placeholder="补充说明"></textarea></div>
+      <div class="row mt20">
+        <div class="col-xs-12 col-sm-4"><button type="button" id="sub" class="btn btn-submit btn-block" placeholder="Text input">提交</button></div>
+      </div>
+    </form>
+    </div>
+<!-- End Save for Web Slices -->
+  </body>

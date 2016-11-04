@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta name="Keywords" content="<?php echo L('_SITE_KEYWORDS_');?>">
+    <meta name="Description" content="<?php echo L('_SITE_CONTENT_');?>">
+    <meta name="Author" content="<?php echo L('_APP_NAME_')?>"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="Keywords" content="<?php echo implode(',', $keywords);?>">
+    <meta name="distribution" content="global" />
+    <meta name="Description" content="<?php echo $desc;?>">
+    <meta name="Author" content="<?php echo L('_APP_NAME_')?>"/>
+
+    <meta http-equiv="Pragma" content="no-cache" />
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <meta name="author" content="会签助手" />
+    <meta name="publisher" content="会签助手" />
+    <meta name="rating" content="general" />
+    <meta name="copyright" content="&copy; 津ICP备11001221号" />
+    <meta name="webcrawlers" content="all" />
+    <meta name="company" content="天津云脉三六五科技有限公司" />
+    <meta name="subject" content="Meetelf 不只是会展" />
+    <meta name="abstract" content="领先的活动报名及电子票务平台" />
+    <meta name="description" content="&quot;&quot;活动&quot;&quot;开始结束时间、地址、活动地图、票价、票务说明、报名参加、主办方、照片、讨论、活动海报等" />
+    <meta name="keywords" content="活动详情,报名人数,时间,图片海报,活动地图,票价,票务说明,主办方,活动论坛" />
+    <meta property="og:description" content="&quot;&quot;活动&quot;&quot;开始结束时间、地址、活动地图、票价、票务说明、报名参加、主办方、照片、讨论、活动海报等" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="会签助手" />
+    <title>会签助手-签到系统</title>
+    <?php echo C('MEDIA_FAVICON')?>
+
+    <!-- Bootstrap -->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <?php if(APP_DEBUG):?>
+    <link href="<?php echo fixed_resource_url('/Public/signin/css/sign-system.css') ?>" rel="stylesheet">
+    <?php else:?>
+    <link href="<?php echo fixed_resource_url('/Public/signin/css/sign-system.min.css') ?>" rel="stylesheet">
+    <?php endif;?>
+    <!-- JS -->
+    <?php
+    echo C('MEDIA_JS.JQUERY172')
+        .C('MEDIA_JS.BOOTSTRAP')
+        .C('MEDIA_JS.JQUERY_VALIDATE')
+        .C('MEDIA_JS.JQUERY_VALIDATE_ADDITIONAL')
+        .C('MEDIA_JS.JQUERY_LAZYLOAD')
+        .C('MEDIA_JS.JQUERY_AJAXUPLOAD')
+        .C('MEDIA_JS.IFRAME_BOX')
+        .C('MEDIA_JS.ZERO_CLIPBOARD')
+        .C('MEDIA_JS.COMMON')
+        .C('MEDIA_JS.JQPRINT')
+        .C('MEDIA_JS.BOOTSTRAP_DATETIMEPICKER');
+    ?>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="noprint" onkeydown="detect_key(event)">
+
+<!-- Head Starting -->
+<?php if(CONTROLLER_NAME == 'Index'): ?>
+    <div id="header-signup">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-5">
+                    <a title="会签助手 | 会签管理" class="shetuanb" href="<?php echo U('Index/index', array())?>">会签助手 | 会签管理系统</a>
+                </div>
+                <div class="col-sm-7">
+                    <div class="pull-right">
+                        <ul id="nav-signup-top" class="nav  pull-right">
+                            <!-- <li>
+                              <a href=""><i class="fa fa-home"></i> <span>首页</span></a>
+                            </li> -->
+                            <!-- <li><a href="#"> <i class="fa fa-cog"></i> <span>会签账号01</span></a></li> -->
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <i class="fa fa-user"></i> <span><?php echo session(C('auth_session_name'))['username']?></span><b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="<?php echo U('Auth/logout')?>">登出</a></li>
+                                    <li><a href="<?php echo U('Index/oldlist')?>">历史</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Head Ending -->
+    <div id="header-act">
+        <div class="container">
+            <div class="row">
+                <!-- <div class="col-xs-12"><?php //echo empty($user_detail['realname']) ? $user_info['email'] : $user_detail['realname']?></div> -->
+                <div class="col-xs-8 col-sm-9 col-lg-10"><?php echo $activity_info['name']?></div>
+
+            </div>
+        </div>
+    </div>
+<?php endif;?>
+
+<?php if(CONTROLLER_NAME == 'Signin'): ?>
+    <div id="header-act">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-8 col-sm-9 col-lg-10"><?php echo $activity_info['name']?></div>
+                <div class="col-xs-4 col-sm-3 col-lg-2 top-right">
+                    <a class="active" href="<?php echo U('Signin/signin', array('aid' => $aid))?>" title="在线签到"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="<?php echo U('Signin/signin_chart', array('aid' => $aid))?>" title="查看签到统计"><i class="fa fa-bar-chart"></i></a>
+                    <a href="<?php echo U('Index/index', array())?>" title="返回首页"><i class="fa fa-home"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<!-- Main Starting -->
+<div class="container">
+    {__CONTENT__}
+</div>
+<!-- Foot Starting -->
+<!-- <div class="footer">
+  <div class="container">
+    <p class="pull-right">Copyright © 2014-2016 版权所有 天津云脉三六五科技有限公司</p>
+  </div>
+</div> -->
+<!-- Foot Ending -->
+</body>
+</html>

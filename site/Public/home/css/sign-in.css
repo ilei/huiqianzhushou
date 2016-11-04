@@ -1,0 +1,138 @@
+/*仅签到页使用*/
+body {
+    background-image:url(../images/bg.gif);
+    background-color: #f4f4f4;
+    font-family: "Microsoft Yahei";
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #666;
+}
+nameo { color: #f15e4c;}
+.radius0 { border-radius: 0;}
+.container {
+    width: 1000px;
+    max-width: none !important;
+    min-height: 500px;
+}
+.sigin-in-main {
+    margin-top: 10px;
+    padding: 40px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    min-height: 500px;
+}
+.sigin-in-main h2 { margin-top: 10px; margin-bottom: 25px;}
+.sigin-in-nav{
+    margin: auto;
+    font-size: 16px;
+    height: 32px;
+    text-align: right;
+    width: 100%;
+}
+.sigin-in-nav .active {
+    color: #428bca;
+}
+.sigin-in-nav a {
+    color: #666;
+    text-decoration: none;
+}
+
+.sigin-in-other {
+    margin: 0;
+    padding: 20px 0;
+    min-height: 200px;
+}
+
+.sigin-in-other-bg {
+    background-color: #fff;
+}
+.content-area {
+  padding: 15px;
+  
+}
+/*标签页*/
+.nav-sigin-in {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+.nav-sigin-in > li {
+    float: left;
+}
+.nav-sigin-in > li > a {
+    display: block;
+    margin-right: 10px;
+    padding: 7px 13px;
+    position: relative;
+    background-color: #ccc;
+    font-size: 14px;
+    color: #fff;
+}
+.nav-sigin-in > li > a:hover,
+.nav-sigin-in > li > a:focus {
+    background-color: #bbb;
+    color: #fff;
+}
+.nav-sigin-in> li.active > a,
+.nav-sigin-in > li.active > a:hover,
+.nav-sigin-in > li.active > a:focus {
+    background-color: #43badd;
+    color: #fff;
+}
+/*数据表格*/
+.sigin-in-table table { border: 1px solid #ddd;}
+/*按钮*/
+.mybtn {
+    -moz-user-select: none;
+    background-color: #f5f5f5;
+    background-image: none;
+    border: 1px solid #d3d5d9;
+    border-radius: 0;
+    color: #666666;
+    cursor: pointer;
+    height: 34px;
+    margin-right: 10px;
+}
+.mybtn:active:hover,
+.mybtn.active:focus {
+    background-color: #19abd6;
+}
+.mybtn.active {
+    color: #FFF;
+    background-color: #43badd;
+    border: 1px solid transparent;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.125) inset;
+}
+.mybtn:hover,
+.mybtn:focus {
+    color: #FFF;
+    background-color: #43badd;
+    border: 1px solid transparent;
+}
+
+/*错误提示*/
+.error-message {/*display: inline-block; */color: #f15e4c; line-height: 2;}
+/*统计页面*/
+.mt110 { margin-top: 110px;}
+.stat-prompt span {
+    padding: 0 5px;
+    font-size: 16px;
+    color: #428bca;
+}
+/*签到类型色块*/
+i.sign-col { 
+  display: inline-block; 
+  margin-right: 5px;
+  width: 5px;
+  height: 10px;
+}
+.color-done { background-color: #46bf96;}
+.color-none { background-color: #f7464a;}
+.color-manual { background-color: #33cdc5;}
+.color-automatic { background-color: #508be4;}
+.color-scene { background-color: #fdb45c;}
+/* */
+.mt30 { margin-top: 30px;}
+.copy-account { color: #666;}
+.copy-account:hover,
+.copy-account:focus { text-decoration: none;} 
+.copy-button { margin-left: 10px;}

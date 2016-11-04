@@ -1,0 +1,295 @@
+<input id="hid_start_time" type="hidden" value="<?php echo $view_act['start_time'] ?>"/>
+<input id="hid_server_time" type="hidden" value="<?php echo time();?>">
+<input id="hid_shared_url" type="hidden" value="<?php echo $signup_url;?>"/>
+<input id="hid_activity_status" type="hidden" value="<?php echo $view_act['activity_status']; ?>"/>
+<input id="hid_can_signup" type="hidden" value="<?php echo $view_act['can_signup'];?>"/>
+<input id="hid_now_signup_type" type="hidden" value="<?php echo $view_act['now_signup_type'];?>"/>
+
+<div class="container">
+
+    <?php if($view_act['status']==0):?>
+    <?php else:?>
+        <?php if($view_act['is_verify'] == '0'):?>
+            <div class="alert alert-danger" role="alert">本活动未经官方审核，仅供预览</div>
+        <?php endif;?>
+        <?php if($view_act['is_verify'] == '3'):?>
+            <div class="alert alert-danger" role="alert">本活动未通过审核，仅供预览</div>
+        <?php endif;?>
+    <?php endif;?>
+    <div class="row">
+        <div class="mtelf-head">
+            <?php if($view_act['is_verify'] == '1' ):?>
+                <?php if ($view_act['status']==1):?>
+                <div class="mt-active-state has-sign">活动中</div>
+                <?php elseif ($view_act['status']==3): ?>
+                <div class="mt-active-state has-begun">已关闭</div>
+                <?php elseif ($view_act['status']==2): ?>
+                <div class="mt-active-state has-ended">已结束</div>
+                <?php endif; ?>
+            <?php elseif($view_act['is_verify'] == '3' ): ?>
+                <div class="mt-active-state has-ended">未通过审核</div>
+            <?php elseif($view_act['is_verify'] == '0' ): ?>
+                <?php if($view_act['status']==0):?>
+                    <div class="mt-active-state has-begun">未发布</div>
+                <?php else:?>
+                    <div class="mt-active-state has-begun">未审核</div>
+                <?php endif;?>
+            <?php endif;?>
+            <img src="<?php echo $view_act['image']?>" alt="<?php echo $view_act['name'] ?>">
+
+            <div class="mtelf-head-rt">
+                <div><?php echo $view_act['name'] ?></div>
+                <div>时 间：<?php echo $view_act['time']?></div>
+                <div>地 点：<?php echo $view_act['address']?></div>
+                <div>人 数：<?php echo $view_act['num']?>人</div>
+                <div>标 签：<a href="#"><?php echo $view_act['tags'] ?></a></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-7">
+                    <div class="mtelf-countdown">
+                        <span>距离开始还有：</span>
+
+                        <div>
+                            <div><span id="sp_day"><?php echo $view_act['surplus_time']['date']?></span>Days</div>
+                            <div><span id="sp_hour"><?php echo $view_act['surplus_time']['hour']?></span>Hours</div>
+                            <div><span id="sp_minute"><?php echo $view_act['surplus_time']['minute']?></span>Minutes
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <button type="button" class="btn btn-general mt30">收藏 <span>39</span></button> -->
+                <div class="col-xs-5">
+                    <div class="share mt56">
+                        <span>分享</span>
+
+                        <div class="share-btns">
+                            <div class="bdsharebuttonbox">
+                                <a class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                                <a class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                                <a class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                                <a class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <a href="<?php echo U('Mobile/Activity/report', array('aid' => $view_act['guid'],'type'=>2,'guid'=>$session_auth['guid']), true, true); ?>" class="pull-right mt56 mr8">举报</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 col-lg-8">
+            <div class="mtelf-item">
+                <div class="mtelf-item-title" title="票务信息">票务信息</div>
+                <div class="mtelf-item-main">
+                    <table class="table mtelf-ticket">
+                        <thead>
+                        <tr>
+                            <td>票种</td>
+                            <td class="width75">价格</td>
+                            <td class="width75">剩余数量</td>
+                            <td class="width140">开始日期</td>
+                            <td class="width140">截止日期</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($view_tickets as $m) { ?>
+                        <tr>
+                            <td><?php echo $m['name']?>
+                                <?php if(!empty($m['desc'])):?>
+                                <a data-toggle="tooltip" data-placement="right" title="<?php echo $m['desc'] ?>">？</a>
+                                <?php endif;?>
+                            </td>
+                            <td><?php echo $m['price']?></td>
+                            <td class="stop-sale"><?php echo $m['surplus']?></td>
+                            <td class="stop-sale"><?php echo $m['start_time']?></td>
+                            <td class="stop-sale"><?php echo $m['end_time']?></td>
+                        </tr>
+                        <?php } ?>
+
+                        <tr class="activity_set">
+                            <td colspan="5">
+                                <?php if($is_owner) :?>
+                                    <?php if($view_act['is_verify'] == '1' ):?>
+                                        <span><button type="button" class="btn btn-important pull-right" id="add_user_btn"
+                                                      title="我要报名">我要报名
+                                            </button></span>
+                                    <?php endif;?>
+                                <?php endif;?>
+                            </td>
+                        </tr>
+
+                        <!--
+                        <tr class="activity_set">
+                          <td class="activity_address">
+                              <a class="btn btn-important pull-right" target="_blank" title="活动地址" href="<?php echo $signup_url;?>">活动地址</a>
+                          </td>
+                          <td class="activity_registration">
+                                <button type="button" class="btn btn-important pull-right" id="add_user_btn" title="我要报名">我要报名</button>
+                          </td>
+                        </tr>
+                        -->
+
+
+                        <!--
+                        <tr class="activity_set">
+                            <td class="activity_address">
+                              <a class="btn btn-important pull-right" target="_blank" title="活动地址" href="<?php echo $signup_url;?>">活动地址</a>
+                            </td>
+                            <td class="activity_registration">
+                                <button type="button" class="btn btn-important pull-right" id="add_user_btn" title="我要报名">我要报名</button>
+                            </td>
+                        </tr>
+                        -->
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="mtelf-item">
+                <div class="mtelf-item-title" title="活动详情">活动详情</div>
+                <div class="mtelf-item-main act-img-mb10">
+                    <?php echo htmlspecialchars_decode($view_act['content']) ?>
+                </div>
+            </div>
+            <div class="mtelf-item"
+
+            <?php if(empty($view_flows)): ?>
+
+            style='display:none'
+
+            <?php endif; ?>
+
+            >
+            <div class="mtelf-item-title" title="活动流程">活动流程</div>
+            <div class="mtelf-item-main">
+                <table class="table mtelf-process">
+                    <thead>
+                    <tr>
+                        <td>时间</td>
+                        <td></td>
+                        <td>流程安排</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($view_flows as $m) { ?>
+                    <tr>
+                        <td><?php echo $m['time'] ?></td>
+                        <td><span></span></td>
+                        <td><?php echo $m['name'] ?></td>
+                    </tr>
+                    <?php } ?>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-3 col-lg-4">
+        <!--
+        <div class="mtelf-item mtelf-check-regist">
+            <button class="btn btn-default btn-block" data-toggle="modal" data-target="#informationmodal" title="查看报名信息">查看报名信息</button>
+        </div>-->
+        <div class="mtelf-item">
+            <div class="mtelf-item-title" title="活动地点">活动地点<a
+                    href="http://api.map.baidu.com/geocoder?address=<?php echo $view_act['address']?>&output=html"
+                    target="_blank">（查看大图）</a></div>
+            <div class="mtelf-item-main">
+                <img src="http://api.map.baidu.com/staticimage?center=<?php echo $view_act['lng_lat']?>&width=330&height=240&zoom=11"
+                     class="map">
+
+                <p class="mt10 text-muted"><?php echo $view_act['address']?></p>
+            </div>
+        </div>
+        <div class="mtelf-item">
+            <div class="mtelf-item-title" title="承办机构">承办机构</div>
+            <div class="mtelf-item-main">
+                <table class="table mtelf-organizers">
+                    <tbody>
+
+                    <?php if($view_takers['zb']) {  ?>
+                    <tr>
+                        <td>主办方</td>
+                        <td>
+                            <?php foreach ($view_takers['zb'] as $m) { ?>
+                            <span><?php echo  $m['name'] ?></span>
+                            <?php } ?>
+                        </td>
+                    </tr>
+
+                    <?php  } unset($view_takers['zb']);?>
+
+                    <?php foreach($view_takers as $key => $value){  ?>
+                    <tr>
+                      <td><?php echo htmlspecialchars($key);?></td>
+                        <td>
+                            <?php foreach($value as $v):?>
+                            <span><?php echo htmlspecialchars($v); ?></span>
+                            <?php endforeach;?>
+                        </td>
+                    </tr>
+                    <?php  } ?>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <?php if($view_act['show_front_list']):?>
+        <div class="mtelf-item">
+            <div class="mtelf-item-title" title="报名情况">报名情况</div>
+            <div class="mtelf-item-main">
+                <ul class="user-list">
+                    <!-- <li class="media">
+                      <a target="_blank" href="" class="pull-left"><img alt="" src="images/noportrait.jpg"></a>
+                      <div class="media-body">
+                        <div><a target="_blank" href="" title="报名人">报名人</a></div>
+                        <span>2015/09/17 08:52</span><span>报名</span>
+                      </div>
+                    </li> -->
+                    <?php foreach ($view_userinfo as $m) { ?>
+                    <li class="media">
+                        <img alt="" src="<?php echo $m['photo'] ?>" class="pull-left">
+
+                        <div class="media-body">
+                            <div><p title="报名人"><?php echo $m['name']?></p></div>
+                            <span><?php echo  $m['time'] ?></span><span>报名</span>
+                        </div>
+                    </li>
+                    <?php } ?>
+
+                </ul>
+            </div>
+        </div>
+        <?php endif;?>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="modal_add_signup_user_ajax" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
+    <iframe class="addmodal-iframe" allowtransparency="true"
+            data-src="<?php echo U('Home/Signup/add_signup/', array('guid' => $view_act['guid']));?>">
+    </iframe>
+</div>
+<!-- 提示信息 BEGIN -->
+<div class="modal fade" id="tips-modal" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">提示信息</h4>
+            </div>
+            <div class="modal-body">
+                <p class="tips-msg"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->

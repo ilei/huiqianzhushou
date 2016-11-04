@@ -1,0 +1,225 @@
+<import type='js' file="admin.js.orgAuth"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript">
+    var YM = {
+        'key': "{$Think.get.guid}",
+        'agree': "{:U('agree_auth')}",
+        'refuse': "{:U('refuse_auth')}",
+        'redirectPath': "{:U('index')}"
+    };
+</script>
+<div id="content-head">认证社团</div>
+<?php
+$breadcrumbs = array(
+    'base' => '首页',
+    'list' => array(
+        array('url' => U('Org/index'), 'v' => '社团管理'),
+        array('url' => '', 'v' => '认证社团')
+    )
+);
+?>
+<include file="Public:_breadcrumbs"/>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    body img {
+        height: 300px;
+    }
+</style>
+
+<div class="content-border">
+    <div class="container-fluid">
+        <div class="row mb20">
+            <div class="col-sm-12">
+                <a class="btn btn-success pull-right" type="button" href="{:U('index')}"><i class="fa fa-plus"></i>返回列表</a>
+            </div>
+        </div>
+        <form class="form-horizontal" role="form" id="regorg">
+            <!-- 公共项 -->
+            <div class="form-group">
+                <label class="col-sm-2 control-label">社团名称：</label>
+
+                <div class="col-sm-6">
+                    <h4><strong>{$orgData.name}</strong></h4>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">运营者身份证姓名</label>
+
+                <div class="col-sm-6">
+                    <input type="text" id="name" name="name" class="form-control"
+                           value="<?php echo $orgData['legal_p_name']; ?>" disabled="">
+                </div>
+                <div class="col-sm-4 error-wrap"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label">运营者电话</label>
+
+                <div class="col-sm-6">
+                    <input type="text" id="phone" name="phone" class="form-control"
+                           value="<?php echo $orgData['legal_p_phone']; ?>" disabled="">
+                </div>
+                <div class="col-sm-4 error-wrap"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="card" class="col-sm-2 control-label">运营者身份证正面</label>
+
+                <div class="col-sm-6">
+                    <?php $legal_p_card = get_image_path($orgData['legal_p_card'], 'placeholder.png'); ?>
+                    <a href="<?php echo $legal_p_card?>" data-lightbox="orgauth-image"
+                       data-title="运营者身份证正面"><img src="<?php echo $legal_p_card; ?>" /></a>
+                </div>
+                <div class="col-sm-4 error-wrap"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="card" class="col-sm-2 control-label">运营者身份证反面</label>
+                <div class="col-sm-6">
+                    <?php $legal_p_card_r = get_image_path($orgData['legal_p_card_r'], 'placeholder.png'); ?>
+                    <a href="<?php echo $legal_p_card_r?>" data-lightbox="orgauth-image"
+                       data-title="运营者身份证反面"><img src="<?php echo $legal_p_card_r; ?>" /></a>
+                </div>
+                <div class="col-sm-4 error-wrap"></div>
+            </div>
+
+            <!-- 企业类 -->
+            <?php if ($orgData['type'] == 2): ?>
+                <div class="form-group">
+                    <label for="phone" class="col-sm-2 control-label">企业名称</label>
+                    <div class="col-sm-6">
+                        <input type="text" id="phone" name="phone" class="form-control"
+                               value="<?php echo $orgData['qiye_name']; ?>" disabled="">
+                    </div>
+                    <div class="col-sm-4 error-wrap"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="col-sm-2 control-label">营业执照</label>
+
+                    <div class="col-sm-6">
+                        <input type="text" id="phone" name="phone" class="form-control"
+                               value="<?php echo $orgData['yingye']; ?>" disabled="">
+                    </div>
+                    <div class="col-sm-4 error-wrap"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="card" class="col-sm-2 control-label">营业执照扫描件</label>
+
+                    <div class="col-sm-6">
+                        <?php $qiye_pic = get_image_path($orgData['qiye_pic'], 'placeholder.png'); ?>
+                        <a href="<?php echo $qiye_pic?>" data-lightbox="orgauth-image"
+                           data-title="营业执照扫描件"><img src="<?php echo $qiye_pic; ?>" /></a>
+                    </div>
+                    <div class="col-sm-4 error-wrap"></div>
+                </div>
+            <!-- 组织类 -->
+            <?php elseif ($orgData['type'] == 1):; ?>
+                <div class="form-group">
+                    <label for="phone" class="col-sm-2 control-label">组织名称</label>
+
+                    <div class="col-sm-6">
+                        <input type="text" id="phone" name="phone" class="form-control"
+                               value="<?php echo $orgData['zuzhi_name']; ?>" disabled="">
+                    </div>
+                    <div class="col-sm-4 error-wrap"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="col-sm-2 control-label">组织机构代码</label>
+
+                    <div class="col-sm-6">
+                        <input type="text" id="phone" name="phone" class="form-control"
+                               value="<?php echo $orgData['zuzhi']; ?>" disabled="">
+                    </div>
+                    <div class="col-sm-4 error-wrap"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="card" class="col-sm-2 control-label">组织机构代码证扫描件</label>
+
+                    <div class="col-sm-6">
+                        <?php $zuzhi_pic = get_image_path($orgData['zuzhi_pic'], 'placeholder.png'); ?>
+                        <a href="<?php echo $zuzhi_pic?>" data-lightbox="orgauth-image"
+                           data-title="营业执照扫描件"><img src="<?php echo $zuzhi_pic; ?>" /></a>
+                    </div>
+                    <div class="col-sm-4 error-wrap"></div>
+                </div>
+            <?php endif; ?>
+
+            <div class="form-group">
+
+                <div class="col-sm-6 col-sm-offset-2">
+                    <?php $status = $orgData['status']; ?>
+                    <?php if($status == 3): ?>
+                        <div class="certification certification-success"><strong>已同意</strong></div>
+                    <?php elseif($status == 4): ?>
+                        <div class="certification certification-success"><strong>已拒绝</strong></div>
+                    <?php else :?>
+                        <button type="button" id="agreed" class="btn btn-default pull-left js_handle_btn" data-loading-text="操作中..">同意</button>
+                        <button type="button" id="refuse" class="btn btn-danger pull-left js_handle_btn" data-loading-text="操作中.." style="margin-left: 10px;" onClick="disp_prompt()">拒绝</button>
+                        <div class="certification certification-success" id="refuse_w" style="display:none"><strong>已拒绝</strong></div>
+                        <div class="certification certification-success" id="agreed_w" style="display:none"><strong>已同意</strong></div>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+        </form>
+
+
+    </div>
+</div>
+
+<import type='js' file="common.js.lightbox.js.lightbox"/>
+<import type='css' file="common.js.lightbox.css.lightbox"/>
+<script language='javascript'>
+    function disp_prompt() {
+        var refuseMsg = prompt("请输入拒绝理由", "");
+        if (refuseMsg != null) {
+            $('.js_handle_btn').button('loading');
+            $.ajax({
+                type: "POST",
+                url: "<?php echo U('Org/refuse_auth'); ?>",
+                data: {key: "{$Think.get.guid}", refuseMsg: refuseMsg},
+                dataType: "json",
+                success: function (data) {
+                    alertModal(data.msg);
+                    $('.js_handle_btn').button('reset');
+                    if(data.status == 'ok') {
+                        $('#refuse').css("display", "none");
+                        $('#agreed').css("display", "none");
+                        $('#refuse_w').css("display", "block");
+                    }
+                }
+            });
+        }
+    }
+    // 点击同意按钮
+    $('#agreed').click(function () {
+        if(!confirm('确定要审核通过吗？')){
+            return false;
+        }
+        $('.js_handle_btn').button('loading');
+        $.ajax({
+            type: "POST",
+            url: "<?php echo U('Org/agree_auth'); ?>",
+            data: {key: "{$Think.get.guid}"},
+            dataType: "json",
+            success: function (data) {
+                alertModal(data.msg);
+                $('.js_handle_btn').button('reset');
+                if(data.status == 'ok') {
+                    $('#refuse').css("display", "none");
+                    $('#agreed').css("display", "none");
+                    $('#agreed_w').css("display", "block");
+                }
+            }
+        });
+
+    });
+</script>

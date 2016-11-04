@@ -1,0 +1,20 @@
+<?php if (!empty($breadcrumbs)): ?>
+    <div id="breadcrumb">
+        <a href="<?php echo U('Org/index'); ?>"><i class="fa fa-home"></i> <?php echo $breadcrumbs['base']; ?></a>
+        <?php foreach ($breadcrumbs['list'] as $l): ?>
+            <i class="fa fa-angle-right"></i>
+            <?php
+            if (mb_strlen($l['v'], 'UTF-8') > 18) {
+                $v = mb_substr($l['v'], 0, 18, 'UTF-8') . '...';
+            } else {
+                $v = $l['v'];
+            }
+            ?>
+            <?php if (!empty($l['url'])): ?>
+                <a class="" href="<?php echo $l['url'] ?>" title="<?php echo $v; ?>"><?php echo $v; ?></a>
+            <?php else: ?>
+                <a class="active" href="javascript:void(0);" title="<?php echo $v; ?>"><?php echo $v; ?></a>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>

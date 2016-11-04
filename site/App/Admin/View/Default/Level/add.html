@@ -1,0 +1,50 @@
+<import type='js' file="admin.js.levelAdd" />
+<script type="text/javascript">
+	var YM = {
+		'saveLevel' : "{:U('save_level')}",
+		'checkName': "{:U('check_name')}",
+		'redirectPath':"{:U('index')}"
+	};
+</script>
+<div id="content-head">创建等级</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Level/index'), 'v'=>'等级管理'),
+array('url'=>'', 'v'=>'创建等级')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a href="{:U('index')}" type="button" class="pull-right btn btn-success"><i class="fa fa-arrow-left"></i> 返回列表</a>
+			</div>
+		</div>
+		<form class="form-horizontal" role="form" id="regorg">
+			<div class="form-group">
+				<label for="name" class="col-sm-2 control-label">等级名称</label>
+				<div class="col-sm-6">
+					<input type="text" id="name" name="name" class="form-control"  value="{$levelData.name}" placeholder="输入等级名称">
+					<input type="hidden"  name="guid"  value="{$Think.get.guid}">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			<div class="form-group">
+				<label for="sort" class="col-sm-2 control-label">等级排序</label>
+				<div class="col-sm-6">
+					<input type="text" id="sort" name="sort" class="form-control"  value="{$levelData.sort}" placeholder="输入等级标识">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary js-submit">保存</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

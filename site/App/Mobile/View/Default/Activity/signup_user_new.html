@@ -1,0 +1,88 @@
+<div class="title text-center"><?php echo $activity_info['name']?>-报名表</div>
+<div id="wrapper-form">
+	<div class="row">
+		<div class="col-md-12">
+			<p class="f2">报名时间：<?php echo date('Y-m-d H:i', $activity_info['published_at']) ?>&nbsp;&nbsp;<?php echo session('org_name')?></p>
+		</div>
+	</div>
+	<form role="form" class="form-horizontal">
+		<div class="form-group">
+			<label for="ticket"><span>* </span>票务：</label>
+			<select class="form-control" id="ticket">
+				<?php foreach($tickets as $t): ?>
+        <option value="<?php echo $t['guid']?>"><?php echo $t['name'] . ' - ￥' . yuan_to_fen($t['price'], false); ?></option>
+        <?php endforeach; ?>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="username">姓名：</label>
+			<input type="contact" class="form-control" name="username" id="username" placeholder="您的姓名">
+		</div>
+		<div class="form-group">
+			<label for="mobile">手机号：</label>
+			<input type="mobile" class="form-control" maxlength="11" name="mobile" id="mobile" placeholder="您的手机号">
+		</div>         
+		<div class="form-group">
+			<label for="email">邮箱：</label>
+			<input type="email" class="form-control" id="email" name="email"  placeholder="您的邮箱">
+		</div>
+
+		<div class="form-group">
+			<label for="area">所属区域：</label>
+			<div role="form" id="area">
+				<select class="form-control">
+					<option>北京</option>
+					<option>上海</option>
+					<option>天津</option>
+				</select>
+				<select class="form-control">
+					<option>北京市</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="address">地址：</label>
+			<input type="text" class="form-control" id="address" placeholder="">
+		</div>
+
+		<div class="form-group">
+			<label for="inlineRadio0-2">性别：</label>
+			<div class="radio">
+				<input type="radio" name="radio-gender" id="inlineRadio0-1" checked="" value="option1">
+				<label for="inlineRadio0-1">男</label> 
+			</div>
+			<div class="radio">
+				<input type="radio" name="radio-gender" id="inlineRadio0-2" checked="" value="option1">
+				<label for="inlineRadio0-2">女</label> 
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="optionsRadios1-1">这里是单选：</label>
+			<div class="radio">
+				<input type="radio" name="optionsRadios" id="optionsRadios1-1" value="option1">
+				<label for="optionsRadios1-1">Checkbox 1</label>
+			</div>
+			<div class="radio">
+				<input type="radio" name="optionsRadios" id="optionsRadios1-2" value="option2">
+				<label for="optionsRadios1-2">Checkbox 1</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="optionsRadios2-1">这里是多选：</label>
+			<div class="checkbox">
+				<input type="checkbox" id="optionsRadios2-1" value="">
+				<label for="optionsRadios2-1">这里是多选：这里是多选：这里是多选：这里是多选：这里是多选：这里是多选：</label>
+			</div>
+			<div class="checkbox">
+				<input type="checkbox" id="optionsRadios2-2" value="">
+				<label for="optionsRadios2-2">Checkbox 1</label>
+			</div>
+		</div>
+
+		<button type="button" class="btn btn-submit btn-block" placeholder="Text input">提交报名</button>
+	</form>
+
+</div>

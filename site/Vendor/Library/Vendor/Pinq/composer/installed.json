@@ -1,0 +1,99 @@
+[
+    {
+        "name": "nikic/php-parser",
+        "version": "v1.2.2",
+        "version_normalized": "1.2.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/nikic/PHP-Parser.git",
+            "reference": "08f97eb4efa029e2fafb6d8c98b71731bf0cf621"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/08f97eb4efa029e2fafb6d8c98b71731bf0cf621",
+            "reference": "08f97eb4efa029e2fafb6d8c98b71731bf0cf621",
+            "shasum": ""
+        },
+        "require": {
+            "ext-tokenizer": "*",
+            "php": ">=5.3"
+        },
+        "time": "2015-04-03 14:33:59",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.2-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Nikita Popov"
+            }
+        ],
+        "description": "A PHP parser written in PHP",
+        "keywords": [
+            "parser",
+            "php"
+        ]
+    },
+    {
+        "name": "timetoogo/pinq",
+        "version": "3.2.3",
+        "version_normalized": "3.2.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/TimeToogo/Pinq.git",
+            "reference": "ef72714908d5b0f60bc3f6ea6786252873357325"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/TimeToogo/Pinq/zipball/ef72714908d5b0f60bc3f6ea6786252873357325",
+            "reference": "ef72714908d5b0f60bc3f6ea6786252873357325",
+            "shasum": ""
+        },
+        "require": {
+            "nikic/php-parser": "~1.2.0",
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "doctrine/cache": "1.3.*",
+            "phpunit/phpunit": "4.6.*",
+            "satooshi/php-coveralls": "0.6.1"
+        },
+        "time": "2015-07-08 06:23:50",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Pinq\\": "Source/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Elliot Levin",
+                "email": "elliotlevin@hotmail.com"
+            }
+        ],
+        "description": "PHP Integrated Query - A real LINQ library for PHP",
+        "homepage": "http://www.github.com/TimeToogo/Pinq",
+        "keywords": [
+            "collection",
+            "pinq",
+            "query"
+        ]
+    }
+]

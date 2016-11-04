@@ -1,0 +1,37 @@
+{__NOLAYOUT__}
+<?php if (!empty($list)): ?>
+                <?php foreach ($list as $k => $l): ?>
+            <tr>
+              <td><?php echo $l['order_id'] ?></td>
+              <td><?php echo $l['title'] ?></td>
+              <td><?php echo date('Y-m-d H:i', $l['payment_time']); ?></td>
+              <td><?php echo $l['payment_type'] == 1 ? '自主购买' : '系统赠送';?></td>
+              <td><?php echo yuan_to_fen($l['total_price'], false) ?>元</td>
+              	<?php if ($l['status']  == 0): ?>
+              	<td><a href="<?php echo U('Home/Paymsg/repay',array('guid'=>$l['guid']))?>">新的订单</a></td>
+              	<?php elseif ($l['status']  == 1): ?>
+                 <td><nameg>支付成功</nameg></td>
+              	<?php elseif($l['status']  == 2): ?>
+              	<td><a href="<?php echo U('Home/Paymsg/repay',array('guid'=>$l['guid']))?>">支付失败</a></td>
+              	<?php elseif( $l['status']  == 3): ?>
+                 <td><nameh1>订单取消</nameh1></td>
+              	<?php elseif( $l['status']  == 4): ?>
+              	<td>已发货</td>
+              	<?php elseif( $l['status']  == 5): ?>
+              	<td><nameg>交易成功</nameg></td>
+              	<?php elseif( $l['status']  == 6): ?>
+                 <td><nameo>待审核</nameo></td>
+              	<?php elseif( $l['status']  == 7): ?>
+              	<td>审核通过</td>
+              	<?php elseif( $l['status']  == 8): ?>
+              	<td><nameo>审核被拒</nameo></td>
+              	<?php endif; ?>
+            </tr>
+            <?php endforeach; ?>
+<?php else: ?>
+                <tr>
+                    <td colspan="6">
+		               暂无交易记录
+		              </td>
+                </tr>
+<?php endif; ?>

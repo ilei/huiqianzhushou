@@ -1,0 +1,274 @@
+<import type='js' file="admin.js.orgIndex" />
+<import type='js' file="admin.js.ajax_post" />
+<div id="content-head">APP更新编辑页 - <?php echo C('APP_TYPE.'.$type);?></div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Upload/index'), 'v'=>'APP更新'),
+array('url' => '', 'v' =>  'APP更新编辑页 - '.  C('APP_TYPE.'.$type))
+));
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<form action="<?php echo U('Upload/edit?guid='.$app_upload_info['guid'].'');?>"  class="form-horizontal" id="loadForm" method="post">
+			<input type="hidden" id ="type"  name="type" value="<?php echo $type;?>" />
+			<input type="hidden" id ="url"  name="url" value="<?php echo U('Upload/ajax_upload', array('type' => $type));?>" />
+			<div class="form-group">
+				<label class="col-sm-2 control-label" >选择版本：</label>
+				<div class="col-sm-6" id=div_r>
+					<label class="radio-inline">
+						<input type="radio" id="version_beta" name="version_status" value="1" checked onchange="myFunction()"> beta
+					</label>
+					<label class="radio-inline">
+						<input type="radio" id="version_release" name="version_status" value="0" onchange="myFunction()"> release 
+					</label>
+				</div>
+				<div class="col-sm-4 tishinr" id=""></div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">当前内部版本：</label>
+				<div class="col-sm-6">
+					<div class="col-sm-2 control-label" id ="old_v"><?php echo $old_version;?></div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">新内部版本号：</label>
+				<div class="col-sm-6">
+					<input type="text" value="<?php echo $app_upload_info['version'];?>" class="form-control" name="version" id="version">
+				</div>
+				<div class="col-sm-4 tishinr" id="tishinr_version"></div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">当前外部版本：</label>
+				<div class="col-sm-6">
+					<div class="col-sm-2 control-label" id ="old_e"><?php echo $external_version;?></div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">新外部版本号：</label>
+				<div class="col-sm-6">
+					<input type="text" placeholder="必填项" value="<?php echo $app_upload_info['external_version'];?>" class="form-control" name="external_version" id="external_version">
+				</div>
+				<div class="col-sm-4 tishinr invalid" id="tishinr_version"></div>
+			</div>	
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">更新内容：</label>
+				<div class="col-sm-6">
+					<textarea id="contents" name="content" value="" rows="10"
+							  class="form-control" ><?php echo str_replace("&lt;br/&gt;","\n",$app_upload_info['content']);?></textarea>
+				</div>
+				<div class="col-sm-4 tishinr" id="tishinr_content"></div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">文件上传：</label>
+				<div class="col-sm-6">
+					<input type="file" name="fileToUpload" id="fileToUpload" onchange="fileSelected(uploadFile());"/>
+					<?php $path ='';?>
+					<?php if ($type == 1) {
+					$path = UPLOAD_PATH.'/ym/apk/shetuanbang.apk';
+					}elseif ($type == 2) {
+					$path = UPLOAD_PATH.'/ym/ios/shetuanbang.ipa';
+					}elseif ($type == 3) {
+					$path = UPLOAD_PATH.'/ym/huiqian/huiqian.apk';
+					}elseif ($type == 4) {
+					$path = UPLOAD_PATH.'/ym/apk/shetuanbang-beta.apk';
+					}elseif ($type == 5) {
+					$path = UPLOAD_PATH.'/ym/ios/shetuanbang-beta.ipa';
+					}elseif ($type == 6) {
+					$path = UPLOAD_PATH.'/ym/huiqian/huiqian-beta.apk';
+					}
+					?>
+					<p>当前文件：<?php echo $path;?></p>
+
+					<div id="progressNumber"></div> 
+					<div id="MD5_num"></div>
+					<div id="oldMD5_num"></div>
+					<div class="progress progress-striped active" id="pro">
+						<div class="progress-bar progress-bar-success" role="progressbar" 
+							aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" type="hidden"
+							style="width: 10%;" id ="notrepeat">
+						</div>
+					</div> 
+				</div>
+				<div class="col-sm-4 tishinr" id="tishinr_apkFile"></div>
+			</div> 
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label" >强制更新：</label>
+				<div class="col-sm-6">
+					<label class="radio-inline">
+						<input type="radio" name="is_force" value="1"> 是
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="is_force" value="0" checked> 否
+					</label>
+				</div>
+				<div class="col-sm-4 tishinr" id=""></div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label" >是否发布：</label>
+				<div class="col-sm-6">
+					<label class="radio-inline">
+						<input type="radio" name="status" value="1"  > 是
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="status" value="0" checked   > 否
+					</label>
+				</div>
+				<div class="col-sm-4 tishinr" id=""></div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 col-sm-offset-2">
+					<button type="submit" id="submit" class="btn btn-success btn-block" autocomplete="off">保存</button>
+					<input type="hidden" >
+				</div>
+				<div class="col-sm-2 col-sm-offset-2">
+					<button type="button" id="return" class="btn btn-success btn-block" onclick="return_index()" autocomplete="off">返回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		var type = <?php echo  $type;?>;
+		var android_beta_status =  <?php echo $android_beta_status?>;
+		var ios_beta_status = <?php echo $ios_beta_status?>;
+		var huiqian_beta_status = <?php echo $huiqian_beta_status?>;
+		var android_status = <?php echo $android_status?>;
+		var ios_status = <?php echo $ios_status?>;
+		var huiqian_status = <?php echo $huiqian_status?>;
+		if (type ==1) {
+			$("input[name='version_status']").eq(0).attr("checked","checked");
+			$("input[name='version_status']").eq(1).removeAttr("checked");
+			$("input[name='version_status']").eq(1).click();
+			if (android_beta_status !=0) {
+				$("#version_beta").attr("disabled", true);
+			};
+
+		}
+		else if (type ==2) {
+			$("input[name='version_status']").eq(0).attr("checked","checked");
+			$("input[name='version_status']").eq(1).removeAttr("checked");
+			$("input[name='version_status']").eq(1).click();
+			if ( ios_beta_status !=0) {
+				$("#version_beta").attr("disabled", true);
+			};
+		}
+
+		else if (type ==3) {
+			$("input[name='version_status']").eq(0).attr("checked","checked");
+			$("input[name='version_status']").eq(1).removeAttr("checked");
+			$("input[name='version_status']").eq(1).click();
+			if ( huiqian_beta_status !=0) {
+				$("#version_beta").attr("disabled", true);
+			};
+		}
+		else if (type ==4) {
+			$("input[name='version_status']").eq(0).removeAttr("checked");
+			$("input[name='version_status']").eq(1).attr("checked","checked");
+			$("input[name='version_status']").eq(0).click();
+			if ( android_status !=0) {
+
+				$("#version_release").attr("disabled", true);
+			};
+
+		}else if (type ==5) {
+			$("input[name='version_status']").eq(0).removeAttr("checked");
+			$("input[name='version_status']").eq(1).attr("checked","checked");
+			$("input[name='version_status']").eq(0).click();
+			if ( ios_status !=0) {
+				$("#version_release").attr("disabled", true);
+			};
+
+		}else if (type ==6) {
+			$("input[name='version_status']").eq(0).removeAttr("checked");
+			$("input[name='version_status']").eq(1).attr("checked","checked");
+			$("input[name='version_status']").eq(0).click();
+			if ( huiqian_status !=0) {
+
+				$("#version_release").attr("disabled", true);
+			};
+
+		};
+
+
+		// 注册FORM验证
+		$("#loadForm").validate({
+			errorPlacement: function (error, element) {
+				element.parent().next('.tishinr').append(error);
+			},
+			rules: {
+				version: {
+					required: true,
+					// number:true
+				},
+				content: {
+					required: true,
+					rangelength: [2, 500]
+				}
+			},
+			messages: {
+				version: {
+					required: "版本号不能为空",
+					// number: "版本号必须为数字"
+				},
+				content: {
+					required: "更新内容不能为空",
+					rangelength: "内容不得少于2个字，不得多于500个字"
+				}
+			}
+		});
+
+		//判断是否有文件被上传
+		$('#submit').click(function(){
+			if($('input[name=fileToUpload]').val()){
+				var filename = $('input[type=file]').val().split('\\').pop();
+				var ext = filename.split('.').pop();
+				if(ext == 'apk' || ext == 'ipa'){
+					$('#tishinr_apkFile').html('') ;
+				}else{
+					$('#tishinr_apkFile').html('<b>文件格式不正确</b>');
+					return false;
+				}
+			}
+		})
+
+	});
+	//返回主页列表
+	function return_index(){
+		location.href = "<?php echo U('Upload/index')?>";
+	}
+
+	function myFunction()
+	{
+
+		var version = $("input[name='version_status']:checked").val();
+		var type = <?php echo  $type;?>;
+		$.ajax({
+			type: "POST",
+			url: "<?php echo U('Upload/ajaxversion')?>",
+			data: {type:type,version:version},
+			dataType: "json",
+			success: function(data){
+				// console.log(data);
+				if (data.status=='ok') {
+					$("#old_v").text(data.msg);
+					$("#old_e").text(data.version_external);
+				}
+			}
+		});
+
+	}
+</script>

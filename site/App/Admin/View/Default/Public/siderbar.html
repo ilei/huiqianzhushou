@@ -1,0 +1,101 @@
+<div id="leftbar">
+    <ul class="nav navbar-nav">
+        <li class="<?php echo in_array(CONTROLLER_NAME, array('Index')) ? 'active' : '' ?>">
+            <a href="<?php echo U('Index/index'); ?>"><i class="fa fa-home"></i> 平台主页</a></li>
+        <li class="submenu <?php echo in_array(CONTROLLER_NAME, array('User', 'Authority', 'Level')) ? 'open' : '' ?>">
+            <a href="#"><i class="fa fa-users"></i> 用户管理 <i class="fa fa-angle-down"></i></a>
+            <ul>
+                <li class="<?php echo in_array(CONTROLLER_NAME, array('Org')) ? 'active' : '' ?>"><a
+                        href="{:U('User/index')}"><i class="fa fa-users"></i> 用户管理</a></li>
+<!--                <li class="--><?php //echo in_array(CONTROLLER_NAME, array('Authority')) ? 'active' : '' ?><!--"><a-->
+<!--                        href="{:U('Authority/index')}"><i class="fa fa-cogs"></i> 权限管理</a></li>-->
+<!--                <li class="--><?php //echo in_array(CONTROLLER_NAME, array('Level')) ? 'active' : '' ?><!--"><a-->
+<!--                        href="{:U('Level/index')}"><i class="fa fa-signal"></i> 等级管理</a></li>-->
+            </ul>
+        </li>
+        <!-- <li class="<?php echo in_array(CONTROLLER_NAME, array('Act')) ? 'active' : '' ?>"><a href="{:U('Act/index')}"><i
+                class="fa fa-file-text-o"></i> 活动管理</a></li> -->
+
+        <li class="submenu <?php echo in_array(CONTROLLER_NAME, array('Act')) ? 'open' : '' ?>">
+            <a href="#"><i class="fa fa-bell"></i> 活动管理 <i class="fa fa-angle-down"></i></a>
+            <ul>
+                <li class="<?php echo in_array(ACTION_NAME, array('index')) ? 'active' : '' ?>"><a
+                        href="{:U('Act/index')}"><i class="fa fa-twitch"></i> 活动列表</a></li>
+
+                <li class="<?php echo in_array(ACTION_NAME, array('report')) ? 'active' : '' ?>"><a
+                        href="{:U('Act/report')}"><i class="fa fa-fax"></i> 活动举报</a></li>
+            </ul>
+        </li>
+
+
+
+
+
+
+        <li class="submenu <?php echo in_array(CONTROLLER_NAME, array('Task', 'Notice', 'Upload')) ? 'open' : '' ?>">
+            <a href="#"><i class="fa fa-th-large"></i> APP管理 <i class="fa fa-angle-down"></i></a>
+            <ul>
+<!--                <li class="--><?php //echo in_array(CONTROLLER_NAME, array('Task')) ? 'active' : '' ?><!--"><a-->
+<!--                        href="{:U('Task/index')}"><i class="fa fa-tasks"></i> 任务管理</a></li>-->
+                <li class="<?php echo in_array(CONTROLLER_NAME, array('Upload')) ? 'active' : '' ?>"><a
+                        href="{:U('Upload/index')}"><i class="fa fa-line-chart"></i> APP更新</a></li>
+            </ul>
+        </li>
+<!--        <li class="submenu --><?php //echo in_array(CONTROLLER_NAME, array('Config', 'Article')) ? 'open' : '' ?><!--">-->
+<!--            <a href="#"><i class="fa fa-desktop"></i> 网站管理 <i class="fa fa-angle-down"></i></a>-->
+<!--            <ul>-->
+<!--                <li class="--><?php //echo in_array(CONTROLLER_NAME, array('Config')) ? 'active' : '' ?><!--"><a-->
+<!--                        href="{:U('Config/index')}"><i class="fa fa-cog"></i> 网站设置</a></li>-->
+<!--                <!--<li class="--><?php //echo in_array(CONTROLLER_NAME, array('Article')) ? 'active' : '' ?><!--"><a-->
+<!--                        href="{:U('Article/index')}"><i class="fa fa-book"></i> 文章管理</a></li>-->
+<!--            </ul>-->
+<!--        </li>-->
+        <li class="submenu <?php echo in_array(CONTROLLER_NAME, array('Opinion', 'App', 'Contact')) ? 'open' : '' ?>">
+            <a href="#"><i class="fa fa-bell"></i> 消息管理 <i class="fa fa-angle-down"></i></a>
+            <ul>
+                <!--<li class="<?php echo in_array(CONTROLLER_NAME, array('Notice')) ? 'active' : '' ?>"><a
+                        href="{:U('Notice/index')}"><i class="fa fa-comment"></i> 通知管理</a></li>-->
+                <li class="<?php echo in_array(CONTROLLER_NAME, array('Opinion')) ? 'active' : '' ?>"><a
+                        href="{:U('Opinion/index')}"><i class="fa fa-twitch"></i> 反馈管理</a></li>
+                <!--<li class="<?php echo in_array(CONTROLLER_NAME, array('App')) ? 'active' : '' ?>"><a
+                        href="{:U('App/index')}"><i class="fa fa-download"></i> 下载申请</a></li>-->
+<!--                <li class="--><?php //echo in_array(CONTROLLER_NAME, array('Contact')) ? 'active' : '' ?><!--"><a-->
+<!--                        href="{:U('Contact/index')}"><i class="fa fa-fax"></i> 联系我们</a></li>-->
+            </ul>
+        </li>
+
+
+
+<!--        <li class="--><?php //echo in_array(CONTROLLER_NAME, array('Group')) ? 'active' : '' ?><!--"><a href="{:U('Group/index')}"><i-->
+<!--                    class="fa fa-file-text-o"></i> 群组管理</a></li>-->
+
+        <!--<li class="submenu <?php //echo in_array(CONTROLLER_NAME, array('Opinion', 'App', 'Contact')) ? 'open' : '' ?>">
+            <a href="#"><i class="fa fa-cogs"></i> 功能修复 <i class="fa fa-angle-down"></i></a>
+            <ul>
+                <li class="<?php// echo in_array(CONTROLLER_NAME, array('Notice')) ? 'active' : '' ?>"><a
+                        href="{:U('Repair/index')}"><i class="fa fa-picture-o"></i> logo修复</a></li>
+            </ul>
+        </li>-->
+
+        <li class="submenu <?php echo in_array(CONTROLLER_NAME, array('Settings')) ? 'open' : '' ?>">
+            <a href="#"><i class="fa fa-bell"></i> 网站配置 <i class="fa fa-angle-down"></i></a>
+            <ul>
+                <li class="<?php echo in_array(ACTION_NAME, array('index')) ? 'active' : '' ?>"><a
+                        href="{:U('Settings/index')}"><i class="fa fa-twitch"></i> 系统配置</a></li>
+            </ul>
+        </li>
+
+
+        <li class="submenu <?php echo in_array(CONTROLLER_NAME, array('Easemob')) ? 'open' : '' ?>">
+            <a href="#"><i class="fa fa-desktop"></i> 数据修复 <i class="fa fa-angle-down"></i></a>
+            <ul>
+                <li class="<?php echo (ACTION_NAME == 'check_user') ? 'active' : '' ?>"><a
+                        href="<?php echo U('Repair/index'); ?>"><i class="fa fa-cog"></i>数据修复</a></li>
+            </ul>
+        </li>
+        <!--<li><a href="&lt;?php echo U('Goods/index')?&gt;"><i class="fa fa-apple"></i> 商品管理</a></li>-->
+        <!-- <li class="<?php echo in_array(CONTROLLER_NAME, array('report')) ? 'active' : '' ?>">
+            <a href="<?php echo U('Act/report'); ?>"><i class="fa fa-home"></i> 举报管理</a></li> -->
+    </ul>
+    <!-- /.nav-list -->
+</div>

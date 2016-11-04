@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+
+body {
+  background-color: #efefef;
+  font-family: "微软雅黑";
+  font-size: 14px;
+  line-height: 1.42857143;
+}
+
+/*头部*/
+.header {
+  position: fixed;
+  top: 0;
+  padding-top: 15px;
+  width: 100%;
+  height: 60px;
+  background-color: #fff;
+  box-shadow: 0 1px 5px 0 rgba(100, 100, 100, 0.3);
+  z-index: 100;
+}
+.form-control:focus {
+  box-shadow: none;
+}
+.mt0 { margin-top: 0;}
+.mt90 { margin-top: 90px;}
+
+.header-btn { 
+  margin-left: 20px;
+  cursor: pointer;
+  display: inline-block;
+  color: #999;
+}
+/*查找*/
+a.input-group-addon {
+  background-color: #428bca;
+  border-color: #357ebd;
+  color: #fff;
+}
+a.input-group-addon:hover,
+a.input-group-addon:focus,
+a.input-group-addon:active {
+  background-color: #3071a9;
+  border-color: #357ebd;
+  color: #fff;
+  text-decoration: none;
+}
+/*退出按钮*/
+.btn-exit:focus,
+.btn-exit:hover,
+.btn-exit:active { color: #e6614f;}
+/*主体*/
+.mainbody { 
+  margin-top: 80px;
+  background-color: #fff;
+  min-height: 420px;
+}
+.ml10 { margin-left: 10px;}
+.mt20 { margin-top: 20px; }
+.page-header {
+  font-size: 24px;
+}
+/*左侧*/
+
+a.list-group-item { font-size: 16px;}
+.list-group-item.active, 
+.list-group-item.active:hover, 
+.list-group-item.active:focus {
+  background-color: #f7f7f7;
+  color: #555; 
+  border: 1px solid #ddd;
+}
+.feedback_content {padding: 10px 20px;}
+.feedback_content p { text-indent:2em;}
+.mt30 { margin-top: 30px;}
+/*社团详情照片*/
+.thumbnail { max-width: 100%;}

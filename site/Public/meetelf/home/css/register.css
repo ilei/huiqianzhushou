@@ -1,0 +1,162 @@
+a,
+a:hover,
+a:focus { outline: none;}
+.bodylg {
+    background-color: #eee;
+    font-family: "Microsoft Yahei";
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+}
+/*.container {
+    max-width: 970px;
+}*/
+.loginwrongtop {
+    padding: 20px;
+    height: 210px;
+    background-color: #1290ce;
+}
+blockquote small:before,
+blockquote .small:before {
+    content: "";
+}
+.top-jump,
+h3 small,
+.h3 .small,
+.toptext {
+    color: #b7ddf0;
+}
+.toptext:hover,
+.toptext:focus {
+    color: #fff;
+}
+.registered-suc p { line-height: 28px; color: #666;}
+.registered-suc p span,
+.welcome { color: #1290ce;}
+.registered-contact { 
+    margin-top: 20px;
+    padding-top: 15px;
+    padding-bottom: 40px;
+    border-top: 1px solid #eee;
+}
+.registered-contact .text-contact {
+    display: block;
+    margin-bottom: 5px;
+    padding: 0 8px;
+    width: 96px;
+    line-height: 30px;
+    color: #fff;
+    background-color: #21adf2;
+}
+.registered-contact p { color: #bbb;}
+/*.loginfoot {
+    margin: 20px 0;
+    width: 100%;
+    color: #999;
+}*/
+.form-horizontal {
+    padding: 0;
+}
+.form-control {
+    height: 36px;
+}
+.per-cet-text {
+    margin-top: -60px;
+    text-align: right;
+    color: #fff;
+}
+
+.form-main {
+    align-self: center;
+    margin-top: -118px;
+    background-color: #fff;
+    border: 1px solid #e4e4e4;
+}
+.paddinglist {
+    padding: 0 30px 15px;
+}
+.forgottext {
+    margin: 30px -15px;
+    padding: 5px 0;
+    background-color: #f7f7f7;
+    color: #ccc;
+    border-top: 1px solid #e4e4e4;
+}
+.forgot-list .form-group { margin-bottom: 0;}
+.forgot-list {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+/*底部注册栏*/
+.forgottext-bt {
+    margin: 30px -15px 0;
+    padding: 20px 0;
+    background-color: #f7f7f7;
+    color: #ccc;
+    border-top: 1px solid #e4e4e4;
+}
+.forgottext-bt .form-group { margin-bottom: 0;}
+.forgot-password {
+    vertical-align: -1px;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    color: #ccc;
+    line-height: 1.42857;
+    padding: 6px;
+}
+label {
+    color: #999;
+}
+.alert {
+    padding: 10px 15px;
+}
+.forgottext .form-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/*验证码*/
+.verification { margin-left: 10px; margin-right: 30px; max-height: 36px;}
+/*提示*/
+.tishi {
+    margin-left: -20px;
+    padding: 5px;
+    color: #ccc;
+}
+label span { vertical-align: -7px; font-size: 20px; color: #d9534f;}
+.tishinr > label{
+    padding: 5px;
+    color: #d9534f;
+}
+.tishinr.tishinr-success { color: #5cb85c;}
+.fa-success { color: #5cb85c;}
+
+/*提交按钮*/
+.btn-primary {
+    padding: 8px 40px;
+    font-size: 18px;
+}
+.btnmt { margin-top: 20px;}
+.btnmb { margin-top: 20px; margin-bottom: 40px;}
+.loginbottomwr {
+    margin-top: 20px;
+    width: 100%;
+    height: 72px;
+    color: #666;
+    font-size: 12px;
+}
+/*会签助手下载*/
+.resize-none { resize: none;}
+.verifyimg { height: 36px; cursor:pointer;}
+.index-verify a { cursor:pointer;}
+.form-control::-moz-placeholder {
+  color: #ccc;
+  opacity: 1;
+}
+.form-control:-ms-input-placeholder {
+  color: #ccc;
+}
+.form-control::-webkit-input-placeholder {
+  color: #ccc;
+}

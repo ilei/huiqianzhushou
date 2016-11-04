@@ -1,0 +1,50 @@
+{__NOLAYOUT__}
+<tbody>
+<?php if(empty($activity_list)):?>
+    <input name="act_guid" value="" hidden>
+
+<!--  <tr class="tr_height">-->
+<!--    <td><div class="tab-content-cont no_tbody_center "> <div class="tab-nodata"> <p class="text-center">没有相关数据</p></div> </div></td>-->
+<!--  </tr>-->
+  <tr>
+    <td></td>
+    <td></td>
+    <td><p class="text-center">没有相关数据</p></td>
+    <td></td>
+    <td></td>
+  </tr>
+<?php else:?>
+    <?php foreach($activity_list as $v):?>
+      <tr>
+        <?php if($ck_act_status != 'set_account'):?>
+          <th scope="row">
+            <div class="checkbox checkboxm">
+              <label>
+                <input type="text" name='act_guid' value="<?php echo $v['guid']?>" hidden>
+                <input type="checkbox" class="ct1" value="">
+              </label>
+            </div>
+          </th>
+        <?php endif;?>
+        <td><?php echo $v['name'];?></td>
+<!--        --><?php //if($page_money_status == 1):?>
+<!--          <td><span name="one_money">--><?php //echo $v['money']*(1-$v['charge']);?><!--</span>元</td>-->
+<!--        --><?php //else:?>
+          <td><span class="red_font" name="one_money"><?php echo $v['money'];?></span>元</td>
+<!--        --><?php //endif;?>
+        <td><?php echo date('Y-m-d H:i:s',$v['end_time']);?></td>
+        <?php if($ck_act_status != 'set_account' || $act_status_page == 'act_status_page'):?>
+            <?php if($act_status_page == 'act_status_page'):?>
+              <?php if(substr_count($_SERVER['PHP_SELF'],'under') > 0 ):?> <!--判断是提交中的还是历史记录-->
+                <td><a href="<?php echo U('Financing/underway_history_ticket',array('action' => 'u','aid' => $v['guid']))?>">查看信息</a></td>
+              <?php else:?>
+                <td><a href="<?php echo U('Financing/underway_history_ticket',array('aid' => $v['guid'],'a' => 'd'))?>">查看信息</a></td>
+              <?php endif;?>
+            <?php else:?>
+              <td><a href="<?php echo U('Financing/public_ticket',array('aid' => $v['guid']))?>">查看信息</a></td>
+            <?php endif;?>
+        <?php endif;?>
+      </tr>
+    <?php endforeach;?>
+<?php endif;?>
+</tbody>

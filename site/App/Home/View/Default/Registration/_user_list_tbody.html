@@ -1,0 +1,33 @@
+{__NOLAYOUT__}
+<?php if(empty($user_list)):?>
+    <tr class="tr_height">
+     <td><div class="tab-content-cont no_tbody_center "> <div class="tab-nodata"> <p class="text-center">没有相关数据,<a href="<?php echo U('Home/Registration/signup_userinfo', array('aid' => $activity_info['guid']),true,true) ?>">点击刷新当前页<i class="fa fa-refresh"></i></a></p></div> </div></td>
+    </tr>
+<?php else:?>
+
+<?php foreach($user_list as $k=>$v):?>
+<tr>
+  <td><input type="checkbox" name="ck" class="ck" value="<?php echo $v['guid']?>"></td>
+  <td><?php echo $v['number']?></td>
+  <td><?php echo $v['real_name']?></td>
+  <?php if (!empty($is_send_mail)): ?>
+  <td><?php echo $v['mobile']."<br>".$v['email']?></td>
+  <?php else:?>
+  <td><?php echo $v['mobile']?></td>
+  <?php endif;?>
+  <td><?php echo $v['ticket']['ticket_name']?></td>
+  <td><<?php echo $v['ticket']['ticket_status_tag']?>><?php echo $v['ticket']['ticket_status']?></td>
+  <td class="font-size-18 text_not_undeline">
+    <a href="#" name="<?php echo $v['guid']?>">
+      <i name="look_info" class="fa fa-search" data-toggle="tooltip" data-placement="top" title="查看"></i>&nbsp;
+    </a>
+    <a class="ml15" href="#" name="<?php echo $v['ticket']['tid'];?>">
+      <i name="update_info" class="fa fa-pencil-square-o" data-toggle="tooltip" data-placement="top" title="修改"></i>&nbsp;
+    </a>
+    <a href="#" class="ml15" name="<?php echo $v['guid']?>">
+      <i name="del_info" class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="删除"></i>
+    </a>
+  </td>
+</tr>
+<?php endforeach;?>
+<?php endif;?>

@@ -1,0 +1,225 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="zh-cn">-->
+<!--<head>-->
+<!--  <meta charset="utf-8">-->
+<!--  <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">-->
+<!--  <title>会签助手财务管理系统</title>-->
+<!--  <!-- bootstrap -->
+<!--  <link rel="shortcut icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">-->
+<!---->
+<!--  <link href="css/bootstrap.css" rel="stylesheet">-->
+<!--  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">-->
+<!--  <link href="css/bootstrap-overrides.css" rel="stylesheet">-->
+<!---->
+<!--  <link href="__PUBLIC__/admin/css/fincaning.css" rel="stylesheet">-->
+<import type='css' file="admin.css.financing"/>
+<import type='css' file="admin.css.bootstrap-overrides"/>
+<!---->
+<!--  <script src="js/jquery.js"></script>-->
+<!--  <script src="js/bootstrap.min.js"></script>-->
+<!---->
+<!--  <!--[if lt IE 9]>-->
+<!--  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>-->
+<!--  <![endif]-->
+<!--</head>-->
+<!--<body>-->
+<!--<nav class="navbar navbar-inverse">-->
+<!--  <div class="container">-->
+<!--    <div class="navbar-header">-->
+<!--      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">-->
+<!--        <span class="sr-only">Toggle navigation</span>-->
+<!--        <span class="icon-bar"></span>-->
+<!--        <span class="icon-bar"></span>-->
+<!--        <span class="icon-bar"></span>-->
+<!--      </button>-->
+<!--      <a class="navbar-brand" href="#">Meetelf</a>-->
+<!--    </div>-->
+<!--    <div class="collapse navbar-collapse" id="navbar-collapse-1">-->
+<!--      <ul class="nav navbar-nav navbar-right">-->
+<!--        <li><a href="#">会签助手</a></li>-->
+<!--        <li class="dropdown">-->
+<!--          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">yangtao <span class="caret"></span></a>-->
+<!--          <ul class="dropdown-menu">-->
+<!--            <li><a href="account.html">我的账号</a></li>-->
+<!--            <li role="separator" class="divider"></li>-->
+<!--            <li><a href="login.html">退出登录</a></li>-->
+<!--          </ul>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
+<!---->
+<nav class="subnavbar">
+<div class="subnavbar-inner">
+  <div class="container">
+    <ul class="mainnav" role="tablist">
+      <li role="presentation" class="active">
+        <a href="#home" aria-controls="home" role="tab" data-toggle="tab">待处理</a>
+      </li>
+      <li role="presentation">
+        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">历史</a>
+      </li>
+    </ul>
+  </div>
+</div>
+</nav>
+<section>
+  <div class="container">
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="home">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th>提交用户</th>
+            <th>提交日期</th>
+            <th>金额</th>
+            <th>详情</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><a href="details.html">查看详情</a></td>
+          </tr>
+          <tr>
+            <td>某某某某某某某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><a href="details.html">查看详情</a></td>
+          </tr>
+          <tr>
+            <td>某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><a href="details.html">查看详情</a></td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="profile">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th>提交用户</th>
+            <th>提交日期</th>
+            <th>金额</th>
+            <th>状态</th>
+            <th>详情</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><span class="label label-success">通过</span></td>
+            <td><a href="history.html">查看详情</a></td>
+          </tr>
+          <tr>
+            <td>某某某某某某某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><span class="label label-grey">二审未操作</span></td>
+            <td><a href="history.html">查看详情</a></td>
+          </tr>
+          <tr>
+            <td>某某某某某某某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><span class="label label-grey">出纳未操作</span></td>
+            <td><a href="history.html">查看详情</a></td>
+          </tr>
+          <tr>
+            <td>某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><span class="label label-danger">财务驳回</span></td>
+            <td><a href="history.html">查看详情</a></td>
+          </tr>
+          <tr>
+            <td>某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><span class="label label-success">通过</span></td>
+            <td><a href="history.html">查看详情</a></td>
+          </tr>
+          <tr>
+            <td>某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><span class="label label-danger">出纳驳回</span></td>
+            <td><a href="history.html">查看详情</a></td>
+          </tr>
+          <tr>
+            <td>某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><span class="label label-success">通过</span></td>
+            <td><a href="history.html">查看详情</a></td>
+          </tr>
+          <tr>
+            <td>某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><span class="label label-success">通过</span></td>
+            <td><a href="history.html">查看详情</a></td>
+          </tr>
+          <tr>
+            <td>某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><span class="label label-success">通过</span></td>
+            <td><a href="history.html">查看详情</a></td>
+          </tr>
+          <tr>
+            <td>某某某</td>
+            <td>2015-12-30 15:00</td>
+            <td>800.00￥</td>
+            <td><span class="label label-success">通过</span></td>
+            <td><a href="history.html">查看详情</a></td>
+          </tr>
+
+          </tbody>
+        </table>
+        <ul class="pagination inverse pull-right">
+          <li><a href="#">&#8249;</a></li>
+          <li class="active"><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">&#8250;</a></li>
+        </ul>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+<!-- <div class="extra">
+	<div class="extra-inner">
+		<div class="container">
+			<div class="row">
+    			<div class="span3">
+    				<h4>会签助手</h4>
+    				<ul>
+    					<li><a href="www.meetelf.com">会签助手</a></li>
+    					<li><a href="admin.meetelf.com">大后台</a></li>
+    					<li><a href="finance.meetelf.com">财务后台</a></li>
+    				</ul>
+    			</div>
+    		</div>
+		</div>
+	</div>
+</div> -->
+<!--<footer>-->
+<!--  <div class="container">-->
+<!--    &copy; 2015 <a href="http://bootstrapadmin.com">Meetelf Finance Admin</a>.-->
+<!--  </div>-->
+<!--</footer>-->
+<!--</body>-->
+<!--</html>-->

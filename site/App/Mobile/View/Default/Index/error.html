@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="state state-bg-fail">
+    <img class="center-block col-404" src="__PUBLIC__/mobile/images/bg-fail.png">
+    <span>抱歉，您的支付失败！</span>
+  </div>
+  <div class="details">订单详情</div>
+  <div class="details-main">
+    <p>票种：<span class="name"><?php echo $order['title'];?></span>
+    <br>金额：<span class="amount"><?php echo yuan_to_fen($order['total_price'], false)?></span>元</p>
+    <div class="row">
+      <div class="col-xs-8 col-xs-offset-2">
+        <div class="btn btn-default btn-block"><a href="<?php echo $order['target_guid'] ? U('Mobile/Activity/view', array('aid' => $order['target_guid'])) : '###';?>">返回活动页</a></div>
+      </div>
+    </div>
+  </div>
+</div>

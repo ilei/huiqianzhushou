@@ -1,0 +1,75 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-siteapp" /><!-- 禁止百度转码 -->
+  <meta name="format-detection" content="telephone=no" /><!-- 禁止ios数字识别为电话号码 -->
+  <meta name="screen-orientation" content="portrait" /><!-- UC强制竖屏 -->
+  <meta name="x5-orientation" content="portrait" /><!-- QQ强制竖屏 -->
+  <meta name="full-scerrn" content="yes" /><!-- UC强制全屏 -->
+  <meta name="x5-fullscreen" content="ture" /><!-- QQ强制全屏 -->
+  <meta name="msapplication-tap-highlight" content="no" /><!-- window phone 点亮无高光 -->
+  <meta name="format-detection" content="email=no" /><!-- 安卓设备不自动识别邮件地址 -->
+  <title><?php echo C('APP_NAME')?></title>
+    <meta name="author" content="<?php echo C('APP_NAME')?>" />
+		<link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+		<?php echo C('MEDIA_FAVICON')?>
+    <!-- Bootstrap -->
+    <?php echo C('MEDIA_CSS.BOOTSTRAP'); ?>
+    <?php echo C('MEDIA_CSS.FONT_AWESOME')?>
+  <link href="__PUBLIC__/site/css/screen.css" rel="stylesheet">
+  <link href="__PUBLIC__/site/css/indexm.css" rel="stylesheet">
+  <link href="__PUBLIC__/site/css/fullpage.css" rel="stylesheet">
+		<!-- Bootstrap -->
+    <?php echo C('MEDIA_JS.JQUERY'); ?>
+    <script src="__PUBLIC__/site/js/jquery.fullPage.min.js"></script>
+    <script>
+    $(function(){
+      $('#dowebok').fullpage({
+        sectionsColor: ['#4db2c4']
+      });
+			var isSafari = navigator.userAgent.indexOf("Safari") > -1 ;
+			var ua       = navigator.userAgent.toLowerCase();
+			var isWeiXin = (ua.match(/MicroMessenger/i) == "micromessenger");
+			if(isWeiXin){
+					$("#notice").show();					
+			}
+			if(!isSafari && !isWeiXin){
+					$(".wrong").attr('src', $("#safra").attr('src'));
+					$("#notice").show();					
+			}
+    });
+    </script>
+</head>
+<body>
+  <div id="dowebok">
+    <div class="section section_dl active">
+			<div id="notice" style="display:none;margin-right:10px;">
+					<img id="safra" style="display:none;" src="__PUBLIC__/site/images/no_safari.png"/>
+          <img class="wrong" src="__PUBLIC__/site/images/wrong.png">
+          <!-- <div class="wrongbg"></div> -->
+      </div>
+      <div class="section_center">
+        <div class="container">
+          <div class="row text-center">
+              <img class="aboutus" src="__PUBLIC__/mobile/images/download_logo.png">
+              <h2>会签助手</h2>
+							<div>版本：<?php echo $version;?> · <?php echo $size;?><br></div>
+          </div>
+        </div>
+      </div>
+      <div class="section_dl_footer">
+        <div class="row">
+          <div class="col-xs-8 col-xs-offset-2">
+            <a class="btn btn-top-dl btn-lg btn-block" href="<?php echo C('DOWNLOAD_ELF_IOS_BETA'); ?>"><i class="fa fa-arrow-circle-down"></i> 下载安装</a>
+          </div>
+        </div>
+        <div class="text-center">© 云脉三六五</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

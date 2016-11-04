@@ -1,0 +1,83 @@
+<import type='js' file="admin.js.orgIndex"/>
+<div id="content-head">APP版本更新</div>
+<?php
+$breadcrumbs = array(
+    'base' => '首页',
+    'list' => array(
+        array('url' => '', 'v' => 'APP更新')
+    )
+);
+?>
+<include file="Public:_breadcrumbs"/>
+<div class="content-border">
+    <div class="container-fluid">
+        <div class="row mb20">
+            <div class="col-sm-6">
+                <select class="form-control" style="width:30%" id="type">
+                    <option value="all">所有</option>
+                    <?php foreach (C('APP_TYPE') as $k => $v): ?>
+                        <option value="<?php echo $k; ?>" <?php echo I('get.type') == $k ? 'selected' : ''; ?>>
+                            <?php echo $v['name']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <div class="pull-right">
+                    <a href="<?php echo U('Upload/upload'); ?>" type="button"
+                       class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> 新增</a>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#type').change(function () {
+                    location.href = '<?php echo U('Upload/index'); ?>/type/' + $(this).val();
+                });
+            });
+        </script>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <table border="1" cellspacing="0" cellpadding="10" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td class="w80 tc">设备</td>
+                        <td class="w80 tc">文件版本</td>
+                        <td>更新内容</td>
+                        <td>上传时间</td>
+                        <td>更新时间</td>
+                        <td>文件状态</td>
+                        <td class="w120 tc">文件操作</td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <notempty name="app_upload_list">
+                        <volist name="app_upload_list" id="vo">
+                            <tr style="height: 30px;">
+                                <td><?php echo C('APP_TYPE.' . $vo['type'])['name']; ?></td>
+                                <td>{$vo['internal_version']}</td>
+                                <td><?php echo str_replace("&lt;br/&gt;", "\n", $vo['content']) ?></td>
+                                <td>{:date('Y-m-d H:i', $vo['created_at'])}</td>
+                                <td>{:date('Y-m-d H:i', $vo['updated_at'])}</td>
+                                <td><?php echo ($vo['status'] == 0) ? '未发布' : '已发布'; ?></td>
+                                <td>
+                                    <?php if ($vo['status'] == 0) {
+                                        echo '<a href = "' . U('Upload/edit', array('guid' => $vo[guid])) . '" >编辑</a>';
+                                    } ?>
+                                </td>
+                            </tr>
+                        </volist>
+                        <else/>
+                        <tr>
+                            <td colspan="10">记录没有找到！</td>
+                        </tr>
+                    </notempty>
+                    </tbody>
+                </table>
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>

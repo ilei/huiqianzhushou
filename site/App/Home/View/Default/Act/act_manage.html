@@ -1,0 +1,193 @@
+<input id="hid_aid" type="hidden" value="<?php echo $activity['activity_guid']; ?>"/>
+<input id="hid_startTime" type="hidden" value="<?php echo $activity['activity_start_time'];?>"/>
+<input id="hid_endTime" type="hidden" value="<?php echo $activity['activity_end_time'];?>"/>
+<input id="hid_server_time" type="hidden" value="<?php echo time();?>">
+<input id="hid_status" type="hidden" value="<?php echo $activity['activity_status'];?>"/>
+<input id="hid_manage_copy_activity_url" type="hidden"
+       value="<?php echo U('Home/act/copy',array('guid'=>$activity['activity_guid'])); ?>"/>
+<input id="hid_manage_close_activity_url" type="hidden"
+       value="<?php echo U('Home/act/ajax_manage_close_activity'); ?>"/>
+
+<input id="activity_is_verify" type="hidden"
+       value="<?php echo $activity['activity_is_verify']; ?>"/>
+<input id="hid_manage_del_activity_url" type="hidden" value="<?php echo U('Home/act/ajax_manage_del_activity'); ?>"/>
+<input id="hid_manage_cancel_activity_url" type="hidden"
+       value="<?php echo U('Home/act/ajax_manage_cancel_activity');?>"/>
+<include file="Public:_act_title"/>
+<div id="pin-nav">
+
+    <include file="Public:nav"/>
+
+    <div class="container">
+        <div class="row">
+            <div id="pin-main" class="col-xs-12 pin-main-sm">
+                <div class="page-header">
+                    <h3>活动管理</h3>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="first_content_left">
+                            <p>售票情况</p>
+
+                            <div class="act_content_padding">
+                                <table class="table">
+                                    <tr>
+                                        <td>已售票数 :</td>
+                                        <td>
+                                            <span class="num"
+                                                  id="sp_selled_ticket"><?php echo $ticket_data['selled']; ?></span>
+                                            / <span class="num"
+                                                    id="sp_total_ticket"><?php echo $ticket_data['total']; ?></span>
+
+                                            <div class="progress">
+                                                <?php
+                                                $percentage=$ticket_data['selled']*100/floatval($ticket_data['total']);
+                                                ?>
+
+                                                <div class="progress-bar" role="progressbar"
+                                                     aria-valuenow="<?php echo $ticket_data['selled'];?>"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="<?php echo $ticket_data['total']; ?>"
+
+                                                <?php echo 'style="width:'.$percentage.'%;min-width:0"' ?>
+
+                                                id="prog_bar_ticket">
+                                                    <span class="sr-only"
+                                                          id="prog_bar_ticket_description"><?php echo $percentage; ?>% Complete</span>
+                                            </div>
+                            </div>
+
+                            </td>
+                            </tr>
+                            <tr>
+                                <td>待审核票 :</td>
+                                <td id="div_unissue_ticket_group">
+                                    <?php foreach($ticket_data['unissue'] as $tdValue):?>
+                                    <div><?php echo $tdValue['ticket_name']; ?> <a href="#"
+                                                                                   class="ticket_num"><?php echo $tdValue['ticket_count'];?></a>
+                                    </div>
+                                    <?php endforeach;?>
+                                </td>
+                            </tr>
+
+                            </table>
+                        </div>
+                            <?php if($act['status'] == '0' || $act['activity_is_verify'] == '0'):?>
+                                <a href="#" class="pull-right" id="look_ticket_info_id">查看售票详情</a>
+                            <?php else:?>
+                                <a href="<?php echo U('Home/Order/review',array('guid'=>$activity['activity_guid'])); ?>"
+                                   class="pull-right">查看售票详情</a>
+                            <?php endif;?>
+                    </div>
+                </div>
+                <div class="col-xs-8">
+                    <div class="first_content_right">
+                        <div class="row">
+                            <div class="col-xs-9">
+                                <div class="width-full">
+                                    <img data-original="<?php echo $activity['activity_poster']; ?>"/>
+
+                                    <div>
+                                        <p class="time" id="p_time">活动当前状态</p>
+                                        <?php if($activity['activity_status']==1): ?>
+
+                                        <p class="time_num text_big"><span id="span_countdown">加载中</span></p>
+                                        <?php else:?>
+
+                                        <p class="time_num text_big"><span
+                                                id="span_countdown"><?php echo $activity['activity_status_string']?></span>
+                                        </p>
+                                        <?php endif;?>
+                                        <?php if($activity['is_verify'] != 0):?>
+                                        <p class="last">持续天数 :<span
+                                                class="orange"><?php echo $activity['time_of_duration']; ?>天</span>
+                                        </p>
+                                        <?php endif;?>
+                                    </div>
+                                </div>
+
+                                <?php if($activity['activity_is_verify'] == 0 && $activity['status']!=0):?>
+                                    <a href="<?php echo U('Home/About/contact','',true,true)?>">
+                                        <div class="alert alert-warning" role="alert">活动已提交审核，如需快速审核。请点击此处。</div>
+                                    </a>
+                                <?php endif;?>
+<!--                                --><?php //elseif($activity['activity_is_verify'] == 1):?>
+<!--                                    <div class="alert alert-warning" role="alert">活动已提交审核，如需快速审核。请点击此处。</div>-->
+<!--                                --><?php //elseif($activity['activity_is_verify'] == 2):?>
+<!--                                    <div class="alert alert-warning" role="alert">活动已提交审核，如需快速审核。请点击此处。</div>-->
+<!--                                --><?php //elseif($activity['activity_is_verify'] == 3):?>
+<!--                                    <div class="alert alert-warning" role="alert">活动已提交审核，如需快速审核。请点击此处。</div>-->
+<!--                                --><?php //endif;?>
+
+
+                                <?php if($activity['activity_status']!=0):?>
+                                <div class="act-site">活动网址 ：<a id="a_copyText"
+                                                               href="<?php echo $activity['mobile_activity_url']; ?>"><?php echo $activity['mobile_activity_url']; ?></a>
+                                    <a href="#" id="a_copyButton"
+                                       data-clipboard-text="<?php echo $activity['mobile_activity_url']; ?>">复制地址</a>
+
+
+                                </div>
+                                <?php endif;?>
+                                <div class="btn-group-manage">
+                                    <a class="btn"
+                                       href="<?php echo U('Home/Act/preview', array('guid'=>$activity['activity_guid'])); ?>">PC预览</a>
+                                    <a class="btn"
+                                       href="<?php echo U('Home/Act/mpreview', array('guid' => $activity['activity_guid'])); ?>">手机预览</a>
+
+                                    <a class="btn" id="btn_copy_activity" style="display: none">复制活动</a>
+
+                                    <?php if($activity['activity_status'] ==1):?>
+
+                                    <a class="btn" id="btn_cancel_activity" style="display: none">取消发布</a>
+                                    <a class="btn" id="btn_close_activity">关闭活动</a>
+                                    <?php elseif($activity['activity_status'] ==0):?>
+                                    <a class="btn" id="btn_edit_activity"  href="<?php echo U('Home/Act/edit',array('guid'=>$activity['activity_guid']))?>">编辑活动</a>
+                                    <a class="btn" id="btn_del_activity">删除活动</a>
+
+                                    <?php endif;?>
+                                </div>
+                            </div>
+                            <?php if($activity['activity_status'] != '0'):?>
+                            <div class="col-xs-3 text-center">
+                                <img src="<?php echo U('Home/Act/qrcode', array('guid' => $activity['activity_guid'])); ?>" id="img_shared_qrcode">
+                                <p><b>活动分享 点击图片下载</b></p>
+                            </div>
+                            <?php endif;?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt30">
+                <div class="col-sm-7">最新订单</div>
+                <?php if($act['status'] == '0' || $act['activity_is_verify'] == '0'):?>
+                    <div class="col-sm-5">
+                        <a href="###" class="pull-right" id="look_all_order_id">查看所有订单</a>
+                    </div>
+                <?php else:?>
+                    <div class="col-sm-5">
+                        <a href="<?php echo U('Home/Order/review',array('guid'=>$activity['activity_guid'])); ?>" class="pull-right">查看所有订单</a>
+                    </div>
+                <?php endif;?>
+            </div>
+            <table class="table mtelf-table-border mtelf-text-center mt10">
+                <thead>
+                <tr>
+                    <th>订单号</th>
+                    <th>金额￥</th>
+                    <th>下单时间</th>
+                    <th>下单人</th>
+                    <th>订单状态</th>
+                    <th>详情</th>
+                </tr>
+                </thead>
+                <tbody id="order_container">
+                <include file="Act:_act_manage_order_item"/>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</div>

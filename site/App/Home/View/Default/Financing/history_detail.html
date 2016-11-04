@@ -1,0 +1,71 @@
+<body>
+<div class="container js">
+  <div class="page-header">
+    <h1>结算</h1>
+    <a href="<?php echo U('Financing/index')?>" class="js_b_w_btn b_w_btn_pos">等待结算</a>
+    <a href="<?php echo U('Financing/underway_detail')?>" class="b_w_btn_pos js_b_w_btn b_w_btn_pos">进行结算</a>
+    <a href="#" class="b_w_btn_pos js_b_w_btn b_w_btn_pos js_click">历史结算</a>
+    <a href="<?php echo U('Financing/info_set')?>" class="b_w_btn_pos js_b_w_btn b_w_btn_pos">管理账户</a>
+  </div>
+  <div class="row note_info">
+    <div class="col-md-12">
+      <p class="bg-warning">历史结算活动,以下金额为收费后的金额</p>
+    </div>
+  </div>
+  <div class="table-info">
+    <div class="row">
+      <div class="col-md-12">
+        <table class=" table table-hover">
+          <thead>
+          <tr>
+            <th>
+              结算日期
+            </th>
+            <th>
+              金额
+            </th>
+<!--            <th>-->
+<!--              状态-->
+<!--            </th>-->
+            <th>
+              详细信息
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <?php if(empty($detail_list)):?><tr>
+              <td></td>
+              <td>无相关数据</td>
+              <td></td>
+              </tr>
+          <?php else:?>
+              <?php foreach ($detail_list as $k=>$v):?>
+                  <tr>
+                      <td><?php echo  date('Y-m-d H:i:s',$v['created_at']);?></td>
+                      <td><?php echo $v['charge_after_money']/100?>元</td>
+                      <td><a href="<?php echo U('Financing/history_act',array('dguid' => $v['guid']))?>">详细信息</a></td>
+                  </tr>
+              <?php endforeach;?>
+          <?php endif;?>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+<!--    <div class="pagin row pull-right">-->
+<!--      <div class="col-md-12 bottom_element">-->
+<!--        <div class="bottom-pagination">-->
+<!--          <ul class="pagination">-->
+<!--            <li><a href="#">&laquo;</a></li>-->
+<!--            <li><a href="#">1</a></li>-->
+<!--            <li><a href="#">2</a></li>-->
+<!--            <li><a href="#">3</a></li>-->
+<!--            <li><a href="#">4</a></li>-->
+<!--            <li><a href="#">5</a></li>-->
+<!--            <li><a href="#">&raquo;</a></li>-->
+<!--          </ul>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+  </div>
+</div>

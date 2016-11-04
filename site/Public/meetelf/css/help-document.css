@@ -1,0 +1,165 @@
+/*帮助文档*/
+body {
+  position: relative;
+  background-color: #f5f5f5;
+  font-family: "PingHei","PingFang SC","Helvetica Neue",Helvetica,"STHeitiSC-Light","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
+/*header */
+#elf-nav {
+  position: absolute;
+  top: 0;
+  padding: 15px 0 10px;
+  width: 100%;
+  height: 75px;
+  background: #f5f5f5 url(../images/bg-top-img.png) repeat;
+  font-size: 16px;
+  z-index: 99;
+}
+#elf-nav ul.nav {
+  float: left;
+}
+#elf-nav ul.nav:last-child {
+  float: right;
+}
+#elf-nav ul.nav > li {
+  float: left;
+}
+#elf-nav ul.nav > li > a {
+  color: rgba(255, 255, 255,.7);
+}
+#elf-nav ul.nav > li > a:hover,
+#elf-nav ul.nav > li > a:focus,
+#elf-nav ul.nav > li > a.active {
+  background-color: rgba(0, 0, 0, 0);
+  color: rgba(255, 255, 255,1);
+}
+#elf-nav .nav .open > a,
+#elf-nav .nav .open > a:hover,
+#elf-nav .nav .open > a:focus {
+  background-color: rgba(0, 0, 0, 0);
+  border-color: #428bca;
+}
+#elf-nav ul.nav > li.dropdown > a { margin-right: 20px;}
+#elf-nav .dropdown-menu {
+  margin: -5px 0 0;
+  border:0;
+  border-radius: 0 0 4px 4px;
+}
+#elf-nav .dropdown-menu > li > a {
+  padding: 6px 20px;
+  border-left: 4px solid #fff;
+}
+#elf-nav .dropdown-menu > li > a:hover,
+#elf-nav .dropdown-menu > li > a:focus,
+#elf-nav .dropdown-menu > li > a.active {
+  background-color: #ffead1;
+  color: #ff9817;
+  border-color: #ff9817;
+}
+
+/*顶部发布按钮*/
+.btn-release {
+  padding: 8px 20px;
+  color: #fff;
+  background-color: #ff9817;
+  border-color: #ff9817;
+  border-radius: 19px;
+}
+.btn-release:hover{
+  color: #fff;
+  background-color: #ffa433;
+  border-color: #ffa433;
+  background-image: none;
+}
+.btn-release:focus,
+.btn-release:active,
+.btn-release.active {
+  color: #fff;
+  background-color: #ff8b12;
+  border-color: #ff8b12;
+  background-image: none;
+}
+.btn-release > i { margin-right: 5px;}
+
+.docs-container { padding-top: 80px;}
+.main {
+  background-color: #f5f5f5;
+  border: none;
+}
+.document-top {
+  padding: 10px 15px;
+}
+.footer_bg_color {
+  margin: 30px 0 0;
+  background-color: #fff;
+}
+.document-top a { font-size: 16px; color: #008cff;}
+.document-top i { font-size: 24px; vertical-align: -3px;}
+.document a:hover,
+.document a:focus { color: #0079dd;}
+.document:focus,
+.document.active a,
+.document.active a:hover,
+.document.active a:focus {background-color: #eee; color: #0079dd;}
+.table {
+  margin-bottom: 0;
+  padding: 15px 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+.table h3 { color: #333;}
+.table h4 { color: #444;}
+.doc_content { padding: 5px 10px;}
+.table img {max-width: 100%;}
+.table a { color: #008cff;}
+.table a:hover,
+.table a:focus { color: #0079dd; text-decoration: underline;}
+/****************************左侧样式****************************/
+.docs-sidebar.affix{ position:fixed;top:50px;width:213px;}
+.docs-sidenav{ margin-top:20px;}
+.docs-sidebar .nav>li>a{
+  display:block;
+  margin-bottom: 5px;
+  padding:4px 10px;
+  background-color:#f5f5f5;
+  font-weight:500;
+  color:#767676;
+  border: 1px solid #ddd;
+}
+.docs-sidebar .nav>li>a:focus,
+.docs-sidebar .nav>li>a:hover{
+  padding-left:10px;
+  background-color:transparent;
+  color:#0079dd;
+  text-decoration:none;
+}
+.docs-sidebar .nav>.active:focus>a,
+.docs-sidebar .nav>.active:hover>a,
+.docs-sidebar .nav>.active>a{
+  padding-left:8px;
+  background-color:#fff;
+  font-weight:700;
+  color:#0079dd;
+  border-left:2px solid #0079dd;
+}
+.docs-sidebar .nav .nav{display:none;padding-bottom:5px;}
+.docs-sidebar .nav .nav>li>a{
+  margin-left: 15px;
+  padding:3px 0 3px 10px;
+  font-size:13px;
+  font-weight:400;
+  border: 0;
+}
+.docs-sidebar .nav .nav>.active:focus>a,
+.docs-sidebar .nav .nav>.active:hover>a,
+.docs-sidebar .nav .nav>.active>a{ padding-left:10px; background-color: #f5f5f5; font-weight:500;border-left: 2px solid #0079dd;}
+.back-to-top{ display:block;margin-top:10px;margin-left:10px;padding:4px 10px;font-weight:500;color:#999;}
+.back-to-top:hover{ color:#0079dd;text-decoration:none;}
+.docs-sidebar .nav>.active>ul{ display:block;}
+.docs-sidebar.affix .docs-sidenav{ margin-top:0;margin-bottom:0;}
+
+/*个人中心帮助中心专用*/
+.help-footer{  color: #999;  margin: 20px 0;}
+.pl10{
+    padding-left: 10px;
+}

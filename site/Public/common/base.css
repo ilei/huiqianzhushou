@@ -1,0 +1,59 @@
+/* * CT: 2015-08-14 12:30 by Hank*/
+
+body {
+  font-family: "Microsoft Yahei";
+  word-wrap:break-word;
+}
+a,
+a:hover,
+a:focus { outline: none;}
+/*header */
+#elf-nav {
+  position: fixed;
+  padding-top: 20px;
+  width: 100%;
+  font-size: 16px;
+  z-index: 1000;
+}
+#elf-nav ul {
+  float: left;
+  margin-left: 15px;
+}
+#elf-nav ul > li {
+  float: left;
+}
+#elf-nav ul:nth-of-type(2) {
+  float: right;
+}
+#elf-nav ul > li > a {
+
+  color: rgba(255, 255, 255,.7);
+}
+#elf-nav ul > li > a:hover,
+#elf-nav ul > li > a:focus,
+#elf-nav ul > li > a.active {
+  background-color: rgba(0, 0, 0, 0);
+  color: rgba(255, 255, 255,1);
+}
+/*顶部发布按钮*/
+.btn-release {
+  padding: 8px 20px;
+  color: #fff;
+  background-color: #ff9817;
+  border-color: #ff9817;
+  border-radius: 19px;
+}
+.btn-release:hover{
+  color: #fff;
+  background-color: #ffa433;
+  border-color: #ffa433;
+  background-image: none;
+}
+.btn-release:focus,
+.btn-release:active,
+.btn-release.active {
+  color: #fff;
+  background-color: #ff8b12;
+  border-color: #ff8b12;
+  background-image: none;
+}

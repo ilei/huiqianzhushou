@@ -1,0 +1,18 @@
+{
+    "name": "topthink/thinkphp",
+    "description": "云脉三六五服务端基础架构",
+    "type": "framework",
+    "keywords": ["framework","thinkphp","ORM"],
+    "homepage": "http://thinkphp.cn/",
+    "license": "Apache2",
+    "authors": [
+        {
+            "name": "yunmai365",
+            "email": "service@yunmai365.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "minimum-stability": "dev"
+}

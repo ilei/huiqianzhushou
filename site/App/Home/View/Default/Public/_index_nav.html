@@ -1,0 +1,40 @@
+<nav id="elf-nav">
+  <div class="container-fluid">
+    <ul class="nav">
+      <li role="presentation"><a href="<?php echo U('Home/User/activity');?>">我的活动</a></li>
+      <li role="presentation"><a href="<?php echo u_abs('Signin/Auth/login');?>">在线签到</a></li>
+    </ul>
+    <ul class="nav">
+      <?php if(!$auth): ?>
+      <li role="presentation"><a
+        href="<?php echo U('/Home/Auth/login', '', true, false, false);?>"><?php echo L('_LOGIN_TITLE_');?></a>
+      </li>
+      <li role="presentation"><a
+        href="<?php echo U('/Home/Auth/register', '', true, false, false);?>"><?php echo L('_REGISTER_TITLE_');?></a>
+      </li>
+      <a class="btn btn-release pull-left" href="<?php echo U('/Home/Act/add');?>"><i
+          class="fa fa-plus-circle"></i><?php echo L('_PUBLISH_ACTIVITY_');?></a>
+      <?php else: ?>
+      <li role="presentation" class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false">
+        <?php echo $auth['nickname'] ? $auth['nickname'] : $auth['mobile'];?> <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li role="presentation"><a href="<?php echo U('Home/User/index')?>">我的主页</a></li>
+        <li role="presentation"><a href="<?php echo U('Home/User/base')?>">账号设置</a></li>
+        <li role="separator" class="divider"></li>
+        <li role="presentation"><a href="<?php echo U('Home/User/order')?>">我的订单</a></li>
+        <li role="presentation"><a href="<?php echo U('Home/User/ticket')?>">我的票券</a></li>
+        <li role="presentation"><a href="<?php echo U('Home/User/activity')?>">我的活动</a></li>
+        <li role="separator" class="divider"></li>
+        <li role="presentation"><a href="<?php echo U('Home/Auth/logout', '', true, false, false)?>">退出登录</a></li>
+      </ul>
+      </li>
+      <a class="btn btn-release pull-left" href="<?php echo U('Home/Act/add');?>" role="button"><i
+          class="fa fa-plus-circle"></i> 发布活动</a>
+      <?php endif; ?>
+
+    </ul>
+  </div>
+</nav>

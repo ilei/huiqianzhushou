@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="Keywords" content="<?php echo L('_SITE_KEYWORDS_');?>">
+		<meta name="Description" content="<?php echo L('_SITE_CONTENT_');?>">
+		<meta name="Author" content="<?php echo L('_APP_NAME_')?>" />
+		<title><?php echo $title?>-<?php echo L('_APP_NAME_')?></title>
+		<link rel="shortcut icon" href="__PUBLIC__/common/images/favicon.ico" type="image/vnd.microsoft.icon">
+		<!-- Bootstrap -->
+		<link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="__PUBLIC__/meetelf/css/base.css" rel="stylesheet" />
+		<link href="__PUBLIC__/meetelf/css/index.css" rel="stylesheet" />
+		<link href="__PUBLIC__/meetelf/css/download.css" rel="stylesheet" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?53bcbe6e5935bc8dfa46a7f3782503cd";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+	</head>
+	<body data-module="<?php echo implode('  ', $module);?>">
+		<nav id="elf-nav">
+			<div class="container-fluid">
+				<a class="pull-left" href="<?php echo C('SITE_HOST_URL');?>"> <img alt="<?php echo L('_APP_NAME_');?>" src="__PUBLIC__/meetelf/images/logo-r.png" /> </a>
+				<ul class="nav">
+            <li role="presentation"><a href="<?php echo U('Home/User/activity');?>">我的活动</a></li>
+            <li role="presentation"><a href="<?php echo U('Home/User/download');?>">下载中心</a></li>
+            <li role="presentation"><a href="<?php echo U('Home/User/help');?>">帮助</a></li>
+				</ul>
+				<ul class="nav">
+					<?php if(!session('auth')): ?>
+		          <li role="presentation"><a href="<?php echo U('/Home/Auth/login', '', true, false, false);?>"><?php echo L('_LOGIN_TITLE_');?></a></li>
+					<li role="presentation"><a href="<?php echo U('/Home/Auth/register', '', true, false, false);?>"><?php echo L('_REGISTER_TITLE_');?></a></li>
+					<a class="btn btn-release pull-left" href="<?php echo U('/home/Act/add');?>"><i class="fa fa-plus-circle"></i><?php echo L('_PUBLISH_ACTIVITY_');?></a>
+		        <?php else: ?>
+		           <li role="presentation" class="dropdown">
+		            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+		              <?php echo $auth['nickname'] ? $auth['nickname'] : $auth['mobile'];?> <span class="caret"></span>
+		            </a>
+		            <ul class="dropdown-menu">
+		            	<li role="presentation"><a href="<?php echo U('Information/index')?>">我的主页</a></li>
+		              <li role="presentation"><a href="<?php echo U('Information/information')?>">账号设置</a></li>
+		              <li role="separator" class="divider"></li>
+                  <li role="presentation"><a href="<?php echo U('Order/Orders')?>">我的订单</a></li>
+                  <li role="presentation"><a href="<?php echo U('Ticket/myTicket')?>">我的票券</a></li>
+                  <li role="presentation"><a href="<?php echo U('Release/index')?>">我的活动</a></li>
+                  <!--<li role="presentation"><a href="">我的收藏</a></li>-->
+		              <li role="separator" class="divider"></li>
+		              <li role="presentation"><a href="<?php echo U('Auth/logout')?>">退出登录</a></li>
+		            </ul>
+		          </li>
+		          <a class="btn btn-release pull-left" href="<?php echo U('Act/add');?>" role="button"><i class="fa fa-plus-circle"></i> 发布活动</a>
+		        <?php endif; ?>
+
+				</ul>
+			</div>
+		</nav>
+		<!-- 背景 -->
+		<div class="head-img">
+			<div class="head-text">下载中心</div>
+		</div>
+		<!-- 背景 end-->
+		 <div class="container">
+		    <div class="row">
+          <!-- <include file="Public:about_bar" /> -->
+          <div class="col-sm-7 col-lg-6">
+            <!-- <div class="page-header">
+						  <h3><strong><?php echo $title?></strong></h3>
+						</div> -->
+            {__CONTENT__}
+          </div>
+				</div>
+		</div>
+		<include file="Public:_index_footer"/>
+		<script src="__PUBLIC__/common/js/require.js" data-main="__PUBLIC__/common/js/main"></script>
+	</body>
+  <input type="hidden" value="<?php echo $debug ? 1 : C('last_release');?>" id="last_release"/>
+</html>

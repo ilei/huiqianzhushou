@@ -1,0 +1,94 @@
+.container { max-width: 720px;}
+body {
+  background-color: #ededed;
+  font-family: "Microsoft Yahei";
+  font-size: 12px;
+  color: #333;
+}
+a,
+a:hover,
+a:focus { outline: none;text-decoration: none;}
+/*关于我们*/
+.aboutus > img {
+  display: block;
+  margin: 25px auto 10px;
+  width: 70px; 
+  height: auto;
+}
+.aboutus p {
+  color: #888;
+}
+.aboutus a {
+  display: block;
+  margin-top: 1px;
+  padding: 15px;
+  width: 100%;
+  background-color: #fff;
+  color: #333;
+  line-height: 12px;
+}
+.aboutus a:hover,
+.aboutus a:focus { 
+  background-color: #e3e3e3;
+  color: #333;
+}
+.aboutus a i {
+  display: block;
+  float: right;
+  width: 9px;
+  height: 14px;
+  background:url(../images/btn-arrow.png) no-repeat;
+  background-size:cover;
+  margin-top: -1px;
+}
+.aboutus-foot {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  color: #0079dd;
+  text-align: center;
+}
+.aboutus-foot a {
+  color: #0079dd;
+  padding: 10px;
+}
+.aboutus-foot p { margin-top: 10px; font-size: 10px; color: #888;}
+
+/*功能介绍*/
+.introduction img {
+ max-width: 100%;
+}
+.introduction h5 { margin-top: 20px;}
+.introduction p {color: #666;}
+/*常见问题*/
+.introduction h4 { 
+  margin-top: 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+.problem .col-xs-8 {
+  padding: 10px 5px 10px 15px;
+}
+.problem .col-xs-4 {
+  padding: 10px 15px 10px 5px;
+}
+.problem .col-xs-8 .form-control {
+  box-shadow: none;
+}
+.form-control::-moz-placeholder {
+  color: #ccc;
+  opacity: 1;
+}
+.form-control:-ms-input-placeholder {
+  color: #ccc;
+}
+.form-control::-webkit-input-placeholder {
+  color: #ccc;
+}
+/*404*/
+.col-404 {
+  width: 100%;
+  height: auto;
+  max-width: 300px; 
+}
+.btn:focus, .btn:active:focus, .btn.active:focus { outline: none;}

@@ -1,0 +1,60 @@
+<input id="hid_ticket_download_url" type="hidden" value="<?php echo U('Home/Ticket/download'); ?>" />
+<div class="container">
+    <div class="row">
+        <include file="Public:account_bar"/>
+        <div class="col-sm-9 col-lg-10">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-sm-6 col-md-7">
+                        <h3><strong>我的票券</strong></h3>
+                    </div>
+                    <div class="col-sm-6 col-md-5">
+                        <div class="form-search-group">
+                            <a class="form-control-search" href="javascript:void(0);" id="btn_search"><i class="fa fa-search"></i></a>
+                            <input id="txt_search" type="text" class="form-control" placeholder="请输入活动名称进行搜索" value="<?php echo $keyword = urldecode(I('get.k')); ?>">
+                            <a class="form-control-reset" id="btn_search_reset" href="javascript:void(0);" style="display:none;"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="elf-mytickets">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="mt10" id="tab_status">
+                            <button type="button" class="btn btn-tcket-cl active" v="1,2,3,4"><?php echo $tab_titles['tab_allText']; ?></button>
+                            <button type="button" class="btn btn-tcket-cl" v="1,2,3"><?php echo $tab_titles['tab_unuseText']; ?></button>
+                            <button type="button" class="btn btn-tcket-cl" v="4"><?php echo $tab_titles['tab_usedText']; ?></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="div_container">
+                    <include file="Ticket:_mine_tickets_item"/>
+                </div>
+
+                <div class="row" id="div_pager">
+                    <?php echo $pager; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="preview_modal" tabindex="-1" role="dialog"
+     aria-labelledby="preview_label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="preview_label"></h4>
+            </div>
+            <div class="modal-body">
+                <img id="preview_img" class="img-responsive"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="model-loading" class="hidden">loading...</div>

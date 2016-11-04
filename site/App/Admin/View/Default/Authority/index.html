@@ -1,0 +1,52 @@
+<div id="content-head">权限管理</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>'', 'v'=>'权限管理')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a class="btn btn-success pull-right" type="button" href="{:U('add')}"><i class="fa fa-plus"></i> 创建权限</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>权限名称</th>
+							<th>权限标识</th>
+							<th>创建时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<empty name="authorityList">
+						<tr>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+						</tr>
+						<else /> 
+						<foreach name="authorityList" item="v">
+						<tr data-guid="{$v.guid}">
+							<td>{$v.name}</td>
+							<td>{$v.key}</td>
+							<td>{$v.created_at|date="Y-m-d H:i:s",###}</td>
+							<td><a href="<?php echo U('add', array('guid'=>$v['guid']))?>"><i class="glyphicon glyphicon-search"></i></a></td>
+						</tr>
+						</foreach>
+						</empty> 
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

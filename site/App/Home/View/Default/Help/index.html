@@ -1,0 +1,536 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<?php
+/**
+ * Home模块defalut主题模板
+ *
+ * CT: 2014-09-15 15:00 by YLX
+ * UT: 2014-10-09 15:30 by YLX
+ */
+?>
+<html>
+<!-- head -->
+<include file="Public:head" />
+<link href="__PUBLIC__/meetelf/css/help-document.css" rel="stylesheet">
+
+<script language="javascript" type="text/javascript" src="__PUBLIC__/meetelf/home/js/docs.js"></script>
+<body>
+<include file="Public:_index_nav" />
+<!-- 主体 -->
+<div class="container docs-container">
+<div class="row main">
+<!-- left -->
+<div class="col-xs-12 document-top">
+    <a href="<?php echo U('Index/index')?>" title="会签助手"><i class="fa fa-home"></i> 平台主页</a> >> 帮助中心
+</div>
+
+<div class="col-xs-3" role="complementary">
+    <nav class="docs-sidebar hidden-xs affix">
+        <ul class="nav docs-sidenav">
+            <li>
+                <a href="#register" title="注册会签助手账号">一、注册会签助手账号</a>
+                <ul class="nav">
+                    <li class=""><a href="#register001">1.1 进入注册页面</a></li>
+                    <li><a href="#register002">1.2 完成注册</a></li>
+                </ul>
+            </li>
+            <li><a href="#login" title="登陆账号">二、登陆账号</a>
+                <ul class="nav">
+                    <li class=""><a href="#login001">2.1 进入登录页面</a></li>
+                    <li class=""><a href="#login002">2.2 完成登陆</a></li>
+                    <li class=""><a href="#login003">2.3 忘记密码</a></li>
+                </ul>
+            </li>
+            <li><a href="#member" title="个人中心">三、个人中心</a>
+                <ul class="nav">
+                    <li class=""><a href="#member001">3.1 我的主页</a></li>
+                    <li class=""><a href="#member002">3.2 进本信息维护</a></li>
+                    <li class=""><a href="#member003">3.3 修改密码</a></li>
+                    <li class=""><a href="#member004">3.4 主办方设置</a></li>
+                    <li class=""><a href="#member005">3.5 签到账号管理</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#activity" title="我参与的">四、我的</a>
+                <ul class="nav">
+                    <li><a href="#activity001">4.1 活动管理</a></li>
+                    <li><a href="#activity002">4.2 订单管理</a></li>
+                    <li><a href="#activity003">4.3 票券管理</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#add_activity" title="活动">五、活动</a>
+                <ul class="nav">
+                    <li><a href="#add_activity001">5.1 发布活动</a></li>
+                    <li><a href="#add_activity002">5.2 活动管理</a></li>
+                    <li><a href="#add_activity003">5.3 门票设置</a></li>
+                    <li><a href="#add_activity004">5.4 报名表设置</a></li>
+                    <li><a href="#add_activity005">5.5 参会人员管理</a></li>
+                    <li><a href="#add_activity006">5.6 订单管理</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#signup" title="流程管理">六、流程管理</a>
+                <ul class="nav">
+                    <li><a href="#signup001">6.1 活动报名</a></li>
+                    <li><a href="#signup002">6.2 验票</a></li>
+                </ul>
+            </li>
+        </ul>
+        <a class="back-to-top" href="#top" title="返回顶部">
+            返回顶部
+        </a>
+    </nav>
+</div>
+
+<div class="col-xs-9">
+    <div class="row">
+        <!--右侧开始-->
+        <div class="table">
+            <div id="register">
+                <div class="page-header">
+                    <h3>一、注册会签助手账号</h3>
+                </div>
+                <div class="doc_content" id="register001">
+                    <h4><b>1.1 进入注册页面</b></h4>
+                    <span>
+                        <p>点击注册按钮，进入注册页面</p>
+                    </span>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/register001.png" alt="注册">
+                </div>
+                <div id="register002">
+                    <div class="doc_content">
+                        <h4><b>1.2 完成注册</b></h4>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/register002.png" alt="完成">
+<!--                        <h5>法人身份证扫描件、营业执照扫描件（盖章的复印件）</h5>-->
+<!--                        <img data-original="__PUBLIC__/meetelf/home/images/help/smrz2.jpg" alt="上传认证">-->
+                        <span>
+                            <p>填写注册信息并同意《服务条款》</p>
+                            <p>需要填写的内容包括：用户名（邮箱）、手机号、密码、手机验证码</p>
+                            <p class="pl10">①：用户名为邮箱格式，用户名唯一，已经被绑定的邮箱不能重复使用。</p>
+                            <p class="pl10">②：手机号为绑定手机号，需填写正确格式的手机号，已经被绑定的手机不能重复</p>
+                            <p class="pl10">③：输入未被绑定的手机号，点击发送验证码按钮，会弹出图片验证码，输入正确验证后，系统自动发送短信验证码到手机。</p>
+                        </span>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/register003.png" alt="验证码">
+                        <span>
+                            <p class="pl10">④：输入6位手机验证码。</p>
+                            <p class="pl10">⑤：输入用户密码，必须6位以上18位以下，支持数字字母下划线。</p>
+                            <p class="pl10">⑥：点击服务条款进入服务条款页，勾选同意服务条款后，点击注册按钮，完成注册。</p>
+                        </span>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/register004.png" alt="服务条款">
+                        <span>
+                            <p class="pl10">⑦在此页面，点击“已有账号，立即登录”，跳转到登录页面。</p>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="login">
+                <div class="page-header">
+                    <h3>二、登陆账号</h3>
+                </div>
+                <div class="doc_content">
+                    <h4 id="login001"><b>2.1 进入登录页面</b></h4>
+                    <!--<h5>添加活动主题、选择主题开始的时间和结束的时间（结束时间不得早于活动开始时间）</h5>-->
+                    <h5>点击登录按钮，进入登录页面</h5>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/login001.png" alt="登录">
+                </div>
+                <div id="login002">
+                    <div class="doc_content">
+                        <h4><b>2.2 完成登录</b></h4>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/login002.png" alt="登录">
+                        <span>
+                            <p>需要填写的内容包括：用户名（邮箱/手机）、密码</p>
+                            <p class="pl10">①：用户名为邮箱/手机格式，为个人注册的邮箱/手机账户，邮箱必须为已经验证通过。</p>
+                            <p class="pl10">②：密码为个人注册时填写的正确密码(通过手机端报名平台自动注册的用户密码为手机号),信息填写无误后，点击登录按钮，完成登录。</p>
+                            <p class="pl10">③：用户可以使用记住密码功能，勾选后，在下次登录的时候系统会自动记住该用户的密码，直接完成登录。</p>
+                            <p class="pl10">④：如果您忘记自己的密码，可以点击忘记密码按钮，进入忘记密码页面，完成找回密码。</p>
+                            <p class="pl10">⑤：如果您还没有账户，可以点击“没有账号。立即注册”按钮，进入注册页面。</p>
+                        </span>
+                    </div>
+                </div>
+                <div id="login003">
+                    <div class="doc_content">
+                        <h4><b>2.3 忘记密码</b></h4>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/login003.png" alt="登录">
+                        <span>
+                            <p>密码找回支持邮箱和手机号两种找回途径。</p>
+                           <p class="pl10">①：邮箱和手机号系统会根据输入内容判断是邮箱或者邮件，回根据不同的用户名页面随着变化不同的找回途径。</p>
+                           <p class="pl10">②：手机号找回，需要点击发送验证码到手机，并输入验证码到指定区域。</p>
+                           <p class="pl10">③：手机号找回，输入图片验证码内容到指定区域。</p>
+                           <p class="pl10">④：手机找回，点击下一步进入密码重置页面。</p>
+                           <p class="pl10">⑤： 邮箱找回，输入已经验证通过的邮箱，系统会弹出邮箱找回按钮，点击按钮，系统会发送重置邮箱到验证邮箱中，点击邮件进入重置页面。</p>
+                        </span>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/login004.png" alt="登录">
+                        <span>
+                           <p class="pl10">⑥重置密码页，页面中需要输入新密码和确认密码，两次密码需要一致，点击提交后，重置密码成功，跳转到登录页面，需要重新登录。</p>
+                        </span>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/login004.png" alt="登录">
+                    </div>
+                </div>
+            </div>
+
+            <div id="member">
+                <div class="page-header">
+                    <h3>三、个人中心</h3>
+                </div>
+            </div>
+            <div id="member001">
+                <div class="doc_content">
+                    <h4><b>3.1 我的主页</b></h4>
+                    <h5>登录成功后，系统会自动跳转到我的主页。</h5>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/member001.png" alt="个人中心">
+                    <span>
+                       <p class="pl10">①综合显示</p>
+                       <p class="pl10">头像：系统默认分配头像给用户，会用可以在基本设置里面去自定义头像，个人中心会显示用户最新头像。</p>
+                       <p class="pl10">短信余量：显示当前用户可发送短信和可发送邮件的数量，剩余为0不可发送</p>
+                       <p class="pl10">立即购买：用户可以通过点击此按钮，进入购买短信邮件页面进行购买。</p>
+                       <p class="pl10">未发布的活动：显示当前用户已经保存的所有活动，但是活动并未发布，点击数量自动跳转到“我的活动”-“未发布“。</p>
+                       <p class="pl10">发布的活动：显示当前用户已经发布的所有活动，活动状态为已发布、已关闭、已结束的总和，点击数量自动跳转到“我的活动”-“进行中”。</p>
+                       <p class="pl10">参与的活动；显示当前用户已经参与的所有订单，包括完成和取消状态的订单，点击数量自动跳转到”我的订单“-”全部”。</p>
+                       <p class="pl10">退出：点击退出，当前用户退出登录。</p>
+                       <p class="pl10">②完善个人信息</p>
+                       <p class="pl10">点击按钮，页面跳转到“基本信息”页面。</p>
+                       <p class="pl10">③发布活动</p>
+                       <p class="pl10">点击按钮，页面跳转到“发布活动”页面。</p>
+                    </span>
+                </div>
+            </div>
+            <div id="member002">
+                <div class="doc_content">
+                    <h4><b>3.2 基本信息维护</b></h4>
+                    <h4>点击设置中基本信息按钮，进入基本信息页面</h4>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/member002.png" alt="个人中心">
+                    <span>
+                       <p class="pl10">①账号为注册邮箱，手机为绑定手机，不可修改。邮箱绑定后可使用邮箱作为登录账号进行登录，点击绑定按钮系统会发送验证邮件到邮箱，完成验证后邮箱绑定成功，点击解绑按钮，完成解除邮箱绑定操作。</p>
+                       <p class="pl10">②姓名为用户真实姓名，可修改。</p>
+                       <p class="pl10">③昵称为用户登录系统后，在页面顶部显示的登录名</p>
+                       <p class="pl10">④性别、生日、所在地、公司名称、职务、公司电话为可修改。</p>
+                       <p class="pl10">⑤点击图片，出现下图所示窗口。点击浏览即可选取图片，调节正方形网格大小，截取头像显示部位，点击保存即可完成头像修改。</p>
+                    </span>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/member003.png" alt="个人中心">
+                    <span>
+                       <p class="pl10">信息填写无误后，点击保存按钮，完成修</p>
+                    </span>
+                </div>
+            </div>
+            <div id="member003">
+                <div class="doc_content">
+                    <h4><b>3.3 修改密码</b></h4>
+                    <h4>点击设置中”修改密码”按钮，进入修改密码页面</h4>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/member004.png" alt="个人中心">
+                     <span>
+                       <p class="pl10">①原始密码：需要输入当前账户的原始密码。</p>
+                       <p class="pl10">②新密码：输入你想设置的新密码，必须是6-18位的有效字符数字下划线。</p>
+                       <p class="pl10">③确认密码：需要输入和新密码一样的6-18位有效字符数字下划线</p>
+                       <p class="pl10">④信息填写无误后，点击保存按钮，完成修改密码，页面跳转到登录页面，需要重新登录。</p>
+                    </span>
+                </div>
+            </div>
+            <div id="member004">
+                <div class="doc_content">
+                    <h4><b>3.4 主办方设置</b></h4>
+                    <h4>点击设置中”主办方设置”按钮，进入主办方设置页面</h4>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/member005.png" alt="个人中心">
+                    <p>①点击”添加主办方”按钮，弹出主办方添加页面，需要在该页面输入主办方名称、手机号、上传头像、填写备注，同一账号内主办方不能重名。</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/member006.png" alt="添加社员">
+                    <span>
+                       <p class="pl10">②选择某一存在的主办方后点击”编辑”按钮，进入主办方编辑页面，页面如新增页面，但是会载入之前保存的主办方信息包括头像，重新编辑后如未发现错误，点击保存后可以保存编辑信息，点击”取消”按钮放弃修改。</p>
+                       <p class="pl10">③选择某一存在的主办方后点击”删除”按钮，确认后点击”确定”完成删除，点击”取消”撤销删除。</p>
+                       <p class="pl10">④选择某一存在的主办方后点击主办方的名称，页面会弹出主办方的纤细信息，页面如同编辑页面，但是页面内容无法编辑。</p>
+                    </span>
+                </div>
+            </div>
+            <div id="member005">
+                <div class="doc_content">
+                    <h4><b>3.5 签到账号设置</b></h4>
+                    <h4>点击设置中”签到账号”按钮，进入签到账号设置页面</h4>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/member007.png" alt="个人中心">
+                    <p>①点击”添加签到账号”按钮，弹出签到账号添加页面，需要在该页面输入签到账号名称、密码(6-10位字符数字下划线)、填写备注，选择账号状态(启用、禁用)同一账号签到账号不能重名。</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/member008.png" alt="个人中心">
+                    <p class="pl10">②选择某一存在的签到账号后点击”编辑”按钮，进入签到账号编辑页面，页面如新增页面，但是会载入之前保存的签到账号信息(账号、备注、状态)，重新编辑后如未发现错误，点击保存后可以保存编辑信息，点击”关闭”按钮放弃修改，密码编辑时默认隐藏，如果不修改保存，默认依旧保存之前的密码信息不变。</p>
+                    <p class="pl10">③选择某一存在的签到账号后点击”删除”按钮，改账号如果处于启用状态不能删除，如果处于禁用状态可以删除，确认后点击”确定”完成删除，点击”取消”撤销删除。</p>
+                </div>
+            </div>
+
+            <div id="activity">
+                <div class="page-header">
+                    <h3>四、我的</h3>
+                </div>
+            </div>
+            <div id="activity001">
+                <div class="doc_content">
+                    <h4><b>4.1 活动管理</b></h4>
+                    <p>点击“活动管理”按钮，进入我的活动页面，页面显示所有当前用户创建的活动，包括已经发布、未发布、已结束、已关闭。</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/activity001.png" alt="我参与的">
+                    <p class="pl10">①活动统计</p>
+                    <p class="pl10">系统提供四种状态查看活动，包括未发布、进行中、已结束、已关闭，可以通过点击进行不同状态活动的切换，活动数量实现在各个页签的顶部，活动状态只有在当前用户对活动产生操作以后活动状态才会变化。</p>
+                    <p class="pl10">②搜索窗</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/activity002.png" alt="我参与的">
+                    <p class="pl10">可以输入任意信息后，直接回车操作进行活动过滤，点击“X”完成搜索重置</p>
+                    <p class="pl10">③活动管理操作</p>
+                    <p class="pl10">管理：所有状态活动均可点击进入活动管理页面</p>
+                    <p class="pl10">编辑：只有未发布的活动可以点击进入活动编辑页，其他状态活动不可点击。</p>
+                    <p class="pl10">复制：所有状态活动均可点击复制活动，可以复制选中活动的所有信息(活动基本信息、票务信息)，进入一个新的活动编辑页。</p>
+                    <p class="pl10">PC预览：所有状态活动均可点击进入活动在PC中的预览页，页面中可以直接给其他用户进行报名(只有进行中且有有效票务的活动)</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/activity003.png" alt="我参与的">
+                    <p class="pl10">手机预览：所有状态活动均可进入手机预览，在该页面用户可以看到活动在手机端展示的内容是什么，扫描二维码可以在手机端打开预览页，但是不能在该页面进入报名。</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/activity004.png" alt="我参与的">
+                </div>
+            </div>
+            <div id="activity002">
+                <div class="doc_content">
+                    <h4><b>4.2 订单管理</b></h4>
+                    <p class="pl10">点击”订单管理”按钮，进入我的订单页面，可以在这个列表里看到所有自己的订单(完成的订单、取消的订单、未完成的订单、被删除的订单，被主办方删除的订单和取消的订单统一在已取消列表中显示)</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/activity005.png" alt="我参与的">
+                    <p class="pl10">①订单统计</p>
+                    <p class="pl10">系统提供四种状态查看订单，包括全部、已完成、未完成、已取消，可以通过点击进行不同状态订单的切换，订单数量实现在各个页签的顶部，订单状态会随着操作自动变化。</p>
+                    <p class="pl10">②搜索窗</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/activity006.png" alt="我参与的">
+                    <p class="pl10">可以输入任意信息后，直接回车操作进行订单过滤，点击“X”完成搜索重置</p>
+                    <p class="pl10">③订单展示</p>
+                    <p class="pl10">展开订单：所有状态的订单均可点击展开订单，如果该订单已经完成发票操作，会在订单内出现三个按钮(查看详情、下载、预览电子票)，点击查看详情会进入订单详情页面。</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/activity007.png" alt="我参与的">
+                    <p class="pl10">如果该订单未完成发票操作，只会在订单内出现一个按钮(查看详情)，点击查看详情会进入订单详情页面，如上图。</p>
+                    <p class="pl10">下载电子票和预览电子票操作，稍后票务流程中介绍。</p>
+                </div>
+            </div>
+            <div id="activity003">
+                <div class="doc_content">
+                    <h4><b>4.3 票卷管理</b></h4>
+                    <h4>点击”票卷管理”按钮，进入我的票卷页面，可以在这个列表里查看到所有自己的票卷信息。</h4>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/activity008.png" alt="我参与的">
+                    <p class="pl10">①票卷统计</p>
+                    <p class="pl10">系统提供三种状态查看票卷，包括全部、未使用、已使用，可以通过点击进行不同状态的票务切换，票务数量实现在各个页签的顶部，订单状态会随着操作自动变化。</p>
+                    <p class="pl10">②搜索窗</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/activity009.png" alt="我参与的">
+                    <p class="pl10">可以输入任意信息后，直接回车操作进行票务过滤，点击“X”完成搜索重置</p>
+                    <p class="pl10">③预览：选择某一票务后，点击预览按钮，弹出电子票预览页。</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/activity010.png" alt="我参与的">
+                    <p class="pl10">④下载：选择某一票务后，点击下载，可以将预览的电子票下载到本地电脑中</p>
+                </div>
+            </div>
+
+            <div id="add_activity">
+                <div class="page-header">
+                    <h3>五、活动</h3>
+                </div>
+                <div class="doc_content">
+                    <h4 id="add_activity001"><b>5.1 发布活动</b></h4>
+                    <!--<h5>添加活动主题、选择主题开始的时间和结束的时间（结束时间不得早于活动开始时间）</h5>-->
+                    <h5>点击首页中”发布活动”按钮可以进入发布活动页面，但是需要登录会签助手系统。</h5>
+                    <h5>① 活动编辑页1：</h5>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity001.png" alt="活动">
+                    <span>
+                            <p class="pl10">标题：需要填写活动标题，限制字数为6-30位字符数字下划线。</p>
+                            <p class="pl10">时间：点击时间区域会弹出时间控件，选择开始时间和结束时间，开始时间不能晚于结束时间，且开始时间要大于系统当前时间。</p>
+                            <p class="pl10">地点：为2级联动式选择，详细地址为手动填写，详细地址内容会自动带入到地图定位中。</p>
+                            <p class="pl10">地图定位：点击地图定位会出现定位选择页面，如下图，输入需要定位的区域点击搜索进行搜索，选择某一地点后，会在下方出现该地点的详细坐标，点击确定后，坐标保存成功。</p>
+                    </span>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity002.png" alt="注册">
+                    <p>活动海报：活动海报支持系统默认和自定义两种上传方式，默认方式系统提供图片供选择，自定义图片需要点击上传按钮后，自定义上传，操作如基本信息头像上传。</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity003.png" alt="注册">
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity004.png" alt="注册">
+                    <p>② 活动编辑页2：</p>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity005.png" alt="注册">
+                    <span>
+                            <p class="pl10">富文本编辑器：在该区域内可以编辑活动正文，可以使用富文本编辑器中提供的任意操作按钮对文档进行编辑。</p>
+                            <p class="pl10">活动流程：可以点击”创建活动流程”，来进行活动流程的新增，活动流程描述不能超过15个字符，且活动流程中的开始时间要不早于活动开始时间，活动流程中的结束时间要不晚于活动结束时间，且新增加的活动流程的开始时间不能早于上一条流程的结束时间，点击删除按钮可以对活动流程进行删除。</p>
+                            <p class="pl10">③ 活动编辑页3：</p>
+                    </span>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity006.png" alt="注册">
+                    <span>
+                            <p class="pl10">票务设置：可以对活动的默认票务进行编辑，点击高级设置可以对票务的开始时间和结束时间进行设置，结束时间要晚于开始时间，点击新增按钮可以为活动增加新的票务。</p>
+                            <p class="pl10">报名表选项：可以对活动报名表中的内容进行设置，设置范围有是否存在项目和是否为必填项目，只有存在报名项才可以设置是否为必填，注意如果邮箱没有设置为必填，将不支持邮件发送电子票。</p>
+                            <p class="pl10">④ 活动编辑页4：</p>
+                    </span>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity007.png" alt="注册">
+                    <span>
+                            <p class="pl10">标签：可以为活动分配某一种标签，会在PC预览页有所体现。</p>
+                            <p class="pl10">主办方：点击选择按钮，弹出主办方选择页，在其中勾选需要的主办方，主办方为多选。</p>
+                    </span>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity008.png" alt="注册">
+                    <span>
+                            <p class="pl10">协办方：需要用户手动输入，如果为多个需要使用逗号进行分割。</p>
+                            <p class="pl10">添加其他合作方：目前支持设置特别鸣谢，设置方式如同协办方。</p>
+                            <p class="pl10">报名展示：此项如果勾选会在PC预览页中显示最新报名的用户信息。</p>
+                            <p class="pl10">设置私有活动：此项如果勾选平台将不提供活动展示功能，不在会签助手公开显示。</p>
+                            <p class="pl10">⑤ 活动编辑页5：</p>
+                    </span>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity009.png" alt="注册">
+                    <span>
+                            <p class="pl10">点击保存按钮，完成对活动的保存，活动状态为未发布。</p>
+                            <p class="pl10">点击发布按钮，完成对活动的发布，活动状态为进行中。</p>
+                            <p class="pl10">点击预览按钮，完成对活动的预览，活动状态为未发布，且页面进入活动手机预览页。</p>
+                            <p class="pl10">发布活动页面下方也同样提供保存于发布按钮，功能与顶部按钮完全相同。</p>
+                    </span>
+                </div>
+                <div id="add_activity002">
+                    <div class="doc_content">
+                        <h4><b>5.2 活动管理</b></h4>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity010.png" alt="完成">
+                        <!--                        <h5>法人身份证扫描件、营业执照扫描件（盖章的复印件）</h5>-->
+                        <!--                        <img data-original="__PUBLIC__/meetelf/home/images/help/smrz2.jpg" alt="上传认证">-->
+                        <span>
+                            <p>在活动列表中，选择某一活动，点击管理进入活动管理->活动管理。</p>
+                        </span>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity011.png" alt="验证码">
+                        <span>
+                            <p class="pl10">① 售票情况：显示当前活动已经销售出去的票数与总票数，被删除与被取消的票务将不计入到有效票中，票务总数会随着活动门票的新增而增加，点击查看售票详情可以进入到订单审核页面。</p>
+                            <p class="pl10">② 活动基本信息：</p>
+                            <p class="pl10">活动海报缩略图，显示活动保存的海报，但是是小图显示。</p>
+                            <p class="pl10">活动地址，展示活动的报名地址，但是未发布的活动无法查看，只有进行中的活动可以进行报名。</p>
+                            <p class="pl10">活动二维码，展示活动的报名二维码，但是未发布的活动无法查看，只有进行中的活动可以进行报名。</p>
+                            <p class="pl10">距离活动开始天数，系统自动计算活动距离开始时间的间隔时间。</p>
+                            <p class="pl10">活动跨越天数，系统自动计算活动的跨越天数。</p>
+                            <p class="pl10">PC预览：点击跳转到PC预览页。</p>
+                            <p class="pl10">手机预览：点击跳转到手机预览页。</p>
+                            <p class="pl10">关闭活动/删除活动：删除活动只处在于状态为未发布的活动管理页中，点击删除，活动会被系统删除，关闭活动只存在于状态为进行中的活动管理页中，点击关闭活动，活动状态变成已关闭，</p>
+                            <p class="pl10">无法编辑也无法报名。</p>
+                            <p class="pl10">③ 最新订单：</p>
+                            <p class="pl10">显示最近报名活动的五位用户，点击查看所有订单，可以进入订单审核页面，选择某一订单可以点击详情查看订单详细信息，被删除和取消的订单不能查看详细信息。</p>
+                        </span>
+
+                        <span>
+                            <p class="pl10">⑦在此页面，点击“已有账号，立即登录”，跳转到登录页面。</p>
+                        </span>
+                    </div>
+                </div><div id="add_activity003">
+                    <div class="doc_content">
+
+                        <h4><b>5.3 门票设置</b></h4>
+                        <p>在活动列表中，选择某一活动，点击管理进入活动管理->门票设置。</p>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity012.png" alt="验证码">
+                        <span>
+                            <p class="pl10">票数统计：在列表中可以显示所有票务的发售/总数，票务的金额、状态</p>
+                            <p class="pl10">票务开关：点击可以停售、开启票务，停售的票务不可报名。</p>
+                            <p class="pl10">新增：点击增加按钮，弹出票务新增页面，维护票务的名称、票务时间、备注，如果票务时间不填写默认为活动的开始时间和结束时间，随着票务数量的增加，在活动管理页中票务的数量会随着改变。</p>
+                        </span>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity013.png" alt="服务条款">
+
+
+
+                        <span>
+                            <p class="pl10">⑦在此页面，点击“已有账号，立即登录”，跳转到登录页面。</p>
+                        </span>
+                    </div>
+                </div><div id="add_activity004">
+                    <div class="doc_content">
+                        <h4><b>5.4 报名表设置</b></h4>
+                        <p>在活动列表中，选择某一活动，点击管理进入活动管理->报名表设置。</p>
+                        <p>报名表设置功能，只针对状态为未发布的活动，已经发布过的活动，报名表设置不可以修改。</p>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity013.png" alt="验证码">
+                        <p class="pl10">①	左边为默认项目，这些项目是之前发布活动中报名选项中已经手动添加的项目，其他项目可以编辑与删除。</p>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity014.png" alt="验证码">
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity015.png" alt="验证码">
+                        <p class="pl10">②	右边为可选项目，分为默认栏目和自定义栏目，选择某一项点击，自动跳转到左侧，也随之保存到报名表中。</p>
+
+                        <span>
+                            <p class="pl10">⑦在此页面，点击“已有账号，立即登录”，跳转到登录页面。</p>
+                        </span>
+                    </div>
+                </div>
+                <div id="add_activity005">
+                    <div class="doc_content">
+
+                        <h4><b>5.5 参会人员管理</b></h4>
+                        <p>在活动列表中，选择某一活动，点击管理进入活动管理->参会人员名单。</p>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity016.png" alt="验证码">
+                        <p class="pl10">①	 搜索窗</p>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity017.png" alt="验证码">
+                        <p class="pl10">可以输入任意信息后，直接回车操作进行参会人员过滤，点击“X”完成搜索重置。</p>
+                        <p class="pl10">②	添加参会人员：可以直接通过添加参会人员到活动，如果添加的用户手机号未注册过，系统将会为该手机号自动注册，密码为手机号。</p>
+                        <p class="pl10">③	选择用户，系统提供勾选窗方式选择用户</p>
+                        <p class="pl10">④	可以通过发送电子票按钮，对选中的用户进行发票操作，如果邮箱为必填项目，系统会发送短息和邮件两种形式的电子票。</p>
+                        <p class="pl10">⑤	更多操作：更多操作支持，短信群发，邮件群发，短信只发送未发送人员，邮件只发送未发送人员功能。</p>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity018.png" alt="验证码">
+                        <p class="pl10">⑥	导出活动人员：支持指导出选中、导出所有人员、导出搜索结果功能，导出形式为excel。</p>
+                        <p class="pl10">⑦	查询票务信息：点击查看当前选择人员的票务信息。</p>
+                        <p class="pl10">⑧	编辑票务信息：点击编辑当前选择人员的票务信息。</p>
+                        <p class="pl10">⑨	删除票务信息：点击删除当前选择人员的票务信息，票务数量返回，票务变成无效票。</p>
+
+                        <span>
+                            <p class="pl10">⑦在此页面，点击“已有账号，立即登录”，跳转到登录页面。</p>
+                        </span>
+                    </div>
+                </div>
+                <div id="add_activity006">
+                    <div class="doc_content">
+                        <h4><b>5.6 订单审核</b></h4>
+                        <p>在活动列表中，选择某一活动，点击管理进入活动管理->订单审核。</p>
+                        <p>目前暂未开发审核订单，后续功能完善，目前只是提供订单查看功能。</p>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/add_activity019.png" alt="验证码">
+                    </div>
+                </div>
+            </div>
+            <div id="signup">
+                <div class="page-header">
+                    <h3>六、流程管理</h3>
+                </div>
+                <div class="doc_content" id="signup001">
+                    <h4><b>6.1 活动报名</b></h4>
+                    <!--<h5>添加活动主题、选择主题开始的时间和结束的时间（结束时间不得早于活动开始时间）</h5>-->
+                    <h5>活动管理者将活动地址和二维码分享出去后，手机扫码进行报名。</h5>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/signup001.png" alt="签到" class="col-xs-6">
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/signup002.png" alt="签到" class="col-xs-6">
+                    <span>
+                        <p>用户点击我要报名按钮进入活动报名页。</p>
+                        <p>填写报名信息后，保存信息后，完成报名，在未登陆情况下如果手机号未注册系统会自动注册该手机号为用户，密码默认为手机号。</p>
+                        <p class="pl10">用户也可以进行登陆和注册操作，点击登录按钮进入登录页面，如果登录后用户再次报名，报名表单上的部分信息可以直接载入到报名表单中，用户注册页功能同PC中注册。</p>
+                    </span>
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/signup003.png" alt="签到" class="col-xs-6">
+                    <img data-original="__PUBLIC__/meetelf/home/images/help/signup004.png" alt="签到" class="col-xs-6">
+                    <span>
+                        <p>查看报名信息以及取消报名，点击查看报名信息后，跳转到报名信息页，在报名信息页里面可以取消报名。</p>
+                    </span>
+                </div>
+                <div id="signup002">
+                    <div class="doc_content">
+                        <h4><b>6.2 验票</b></h4>
+                        <p>① PC签到</p>
+                        <p>主办方需要登录会签助手-签到系统进行验票操作，登录账号为之前在个人中心设置的签到账号。</p>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/signup005.png" alt="签到">
+                        <span>
+                            <p class="pl10">登录成功后，会看到所有正在进行中的活动列表，选择需要签到的活动进行签到。</p>
+                        </span>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/signup006.png" alt="签到">
+                        <span>
+                            <p class="pl10">点击报名表可以查看到所有该活动下报名的人员信息</p>
+                        </span>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/signup007.png" alt="签到">
+                        <span>
+                            <p class="pl10">点击查看签到统计可以查看到当前签到状态</p>
+                        </span>
+                        <img data-original="__PUBLIC__/meetelf/home/images/help/signup008.png" alt="签到">
+                    </div>
+                </div>
+            </div>
+            <!--右侧主体结束-->
+        </div>
+    </div>
+</div>
+<!-- Right -->
+</div>
+</div>
+
+<!-- 提示信息 -->
+<include file="Public:modal" />
+<!-- footer -->
+<include file="Public:footer" />
+
+</body>
+<script type="text/javascript">
+    $(function(){
+        //设置LazyLoad
+        $("img").lazyload({
+            effect: "fadeIn",
+            placeholder:"/Public/meetelf/home/images/portraitup.png",
+            event:"sporty"
+        });
+
+        setTimeout(function(){
+            $("img").trigger("sporty");
+        },1000);
+    })
+</script>
+</html>

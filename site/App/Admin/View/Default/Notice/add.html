@@ -1,0 +1,66 @@
+<div id="content-head">新建通知</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Notice/index'), 'v'=>'通知管理'),
+array('url'=>'', 'v'=>'新建通知')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a href="{:U('index')}" type="button" class="pull-right btn btn-success"><i class="fa fa-arrow-left"></i> 返回列表</a>
+			</div>
+		</div>
+		<form class="form-horizontal" role="form" id="noticeAdd" method="post">
+			<div class="form-group">
+				<label for="email" class="col-sm-2 control-label">通知标题</label>
+				<div class="col-sm-7 col-md-7 col-lg-5">
+					<div>
+						<input type="text" id="title" name="title" class="form-control" placeholder="输入通知标题">
+					</div>
+				</div>
+				<div class="col-sm-3 error-wrap text-red"></div>
+			</div>
+			<div class="form-group">
+				<label for="orgName" class="col-sm-2 control-label">通知内容:</label>
+				<div class="col-sm-6">
+					<div class="pull-left width675">
+						<textarea id="ym_editor" name="content"></textarea>
+					</div>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<input type="hidden" name="status" id="status" />
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button id="status1" type="button" class="btn btn-primary">保存并发送</button>
+					<button id="status0" type="button" class="btn btn-default">保存</button>
+					<button id="status0" type="button" class="btn btn-default" onclick="history.go(-1)">取消</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	var YM = {
+		'ueditor_server_url' : "{:U('ueditor')}"
+	};
+	var date_config = {
+		language: 'zh-CN',
+		todayBtn: 1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+		/*时间默认为5*/
+		minuteStep: 1,
+		showMeridian: 1
+	};
+</script>
+<import type='js' file="admin.js.noticeAdd" />

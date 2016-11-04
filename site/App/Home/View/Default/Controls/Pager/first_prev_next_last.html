@@ -1,0 +1,45 @@
+{__NOLAYOUT__}
+<div class="col-sm-4">
+    <div class="showrows-control">
+        <span>每页显示</span>
+        <select class="form-control" id="sel_pageSize">
+            <?php foreach($model->pageSizeArray as $v):?>
+
+            <?php
+                $selected_option=$model->pageSize==$v?'selected':'';
+            ?>
+
+            <option {$selected_option}><?php echo $v; ?></option>
+
+            <?php endforeach;?>
+        </select>
+        <span>条</span>
+    </div>
+</div>
+<div class="col-sm-8">
+    <nav class="pull-right" id="nav_pagerControl">
+        <ul class="pagination" id="ul_pager">
+
+            <?php if($model->maxPage==1):?>
+
+            <?php elseif($model->currentPage==1 && $model->maxPage>$model->currentPage):?>
+
+            <li><a href="#" p="<?php echo intval($model->currentPage)+1; ?>" >下一页</a></li>
+            <li><a href="#" p="<?php echo $model->maxPage; ?>" aria-label="Next" >末页</a></li>
+
+            <?php elseif($model->currentPage>1 && $model->maxPage>$model->currentPage):?>
+
+            <li><a href="#" p="1" aria-label="Previous" >首页</a></li>
+            <li><a href="#" p="<?php echo intval($model->currentPage)-1; ?>" >上一页</a></li>
+            <li><a href="#" p="<?php echo intval($model->currentPage)+1; ?>" >下一页</a></li>
+            <li><a href="#" p="<?php echo $model->maxPage;?>" aria-label="Next" >末页</a></li>
+
+            <?php elseif($model->currentPage>1 && $model->maxPage<=$model->currentPage):?>
+            <li><a href="#" p="1" aria-label="Previous" >首页</a></li>
+            <li><a href="#" p="<?php echo intval($model->currentPage)-1; ?>" >上一页</a></li>
+
+            <?php endif;?>
+
+        </ul>
+    </nav>
+</div>

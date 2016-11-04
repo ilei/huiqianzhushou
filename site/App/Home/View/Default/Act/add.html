@@ -1,0 +1,622 @@
+<input type="hidden" value="<?php echo C('BAIDU_MAP_AK', null, '383dfe7f0b7663c1c579ba8cf85e8791');?>" id="baidu-apk"/>
+<input type="hidden" value="<?php echo U('Img/Upload/actImg', array('type' => 'act_content'), false, true, true);?>" id="img-upload-url"/>
+<input type="hidden" value="<?php echo U('Home/Act/ajax_censor_words');?>" id="censor_words_url" />
+<div class="container">
+  <div class="row">
+    <h3><?php echo $action;?>活动</h3>
+  </div>
+</div>
+<div id="pin-nav">
+  <form id="act_form" method="post" action="<?php echo isset($act) ? U('Home/Act/edit/', array('aguid' => $act['guid'])) : U('Home/Act/add');?>">
+    <input type="hidden" value="" name="status_post" id="status_post"/>
+    <nav class="pinned">
+      <div class="container">
+        <ul class="nav">
+          <li role="presentation"><a href="<?php echo U('Home/Act/edit/', array('aguid' => $act['guid']));?>" class="active"><i class="fa fa-pencil"></i> 编辑</a></li>
+          <!--<li role="presentation"><a href=""><i class="fa fa-yelp"></i> 设计</a></li>-->
+        </ul>
+        <ul class="nav" id="nav_from_operation">
+          <button  class="btn btn-save-sm act-save" data-status="0" role="button" disabled="disabled">保存</button>
+          <button  class="btn btn-release-sm act-pub" data-status="1" role="button" disabled="disabled">发布</button>
+          <button  class="btn btn-preview-sm act-save preview-save" data-status="0" role="button" disabled="disabled">预览</button>
+          <!-- <?php// echo U('Act/mobile_preview')?> -->
+          <!-- <a  type="submit" class="btn btn-preview-sm act-save" href="" role="button">预览</a> -->
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div id="pin-main" class="col-xs-12">
+          <div class="step">
+            <span>1</span>
+            <h4>基本信息</h4>
+          </div>
+          <div class="step-main">
+            <div class="st-li">
+              <label for="mttitle" class="st-li-item"><span>*</span> 标题</label>
+              <div class="st-li-right">
+                <div class="row">
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="title" value="<?php echo htmlspecialchars($act['name']);?>" name="title" placeholder="活动标题">
+                  </div>
+                </div>
+                <p class="error"></p>
+              </div>
+            </div>
+            <div class="st-li">
+              <label for="startTime" class="st-li-item"><span>*</span> 时间</label>
+              <div class="st-li-right">
+                <div class="row">
+                  <div class="col-sm-5">
+                    <input type="text" class="form-control" data-field="datetime" value="<?php echo isset($act) ? date('Y-m-d H:i:s', $act['start_time']) : '';?>" placeholder="开始时间" id="start_time" name="start_time"  readonly="readonly">
+                  </div>
+                  <div class="col-sm-5">
+                    <input type="text" class="form-control"  value="<?php echo isset($act) ? date('Y-m-d H:i:s', $act['end_time']) : '';?>" data-field="datetime" placeholder="结束时间" id="end_time" name="end_time"  readonly="readonly">
+                  </div>
+                </div>
+                <p class="error"></p>
+              </div>
+            </div>
+            <div class="st-li">
+              <label class="st-li-item"><span>*</span> 地点</label>
+              <div class="st-li-right">
+                <div class="row" role="form">
+                  <div class="col-sm-4">
+                    <select class="form-control" name="area_1" aria-required="true">
+                      <option value>省份/直辖市</option>
+                      <?php foreach($area as $key => $value):?>
+                      <option value="<?php echo $value['id'];?>" <?php echo $act['areaid_1'] == $value['id'] ? 'selected' : '';?>><?php echo $value['name'];?></option>
+                      <?php endforeach;?>
+                    </select>
+                  </div>
+                  <div class="col-sm-4">
+                    <select class="form-control" name="area_2">
+                      <?php if($act['areaid_2']):?>
+                      <?php foreach($area_2 as $key => $value):?>
+                      <option value="<?php echo $value['id'];?>" <?php echo $act['areaid_2'] == $value['id'] ? 'selected' : '';?>><?php echo $value['name'];?></option>
+                      <?php endforeach;?>
+                      <?php else:?>
+                      <option value>市/区</option>
+                      <?php endif;?>
+                    </select>
+                  </div>
+                  <div class="col-sm-8 mt10">
+                    <input type="text" class="form-control" name="address" value="<?php echo htmlspecialchars($act['address']);?>" placeholder="详细地址">
+                  </div>
+                  <div class="col-sm-2 mt10">
+                    <input name="lng" value="<?php echo $act['lng'];?>" type="hidden"/>
+                    <input name="lat" value="<?php echo $act['lat'];?>" type="hidden"/>
+                    <a class="btn btn-save" href="###" data-toggle="modal" data-target="#mapModal">地图定位</a>
+                  </div>
+                </div>
+                <p class="error" id="select-error"></p>
+                <p class="error" id="address-error"></p>
+              </div>
+            </div>
+            <div class="st-li">
+              <label class="st-li-item">上传海报</label>
+              <div class="st-li-right">
+                <?php if(isset($act) && $act['poster']):?>
+                <img src="<?php echo get_image_path($act['poster']);?>" class="upload-posters" id="defaultPoster">
+                <?php else:?>
+                <img src="__PUBLIC__/meetelf/images/shiyi.jpg" class="upload-posters" id="defaultPoster">
+                <?php endif;?>
+                <div class="upload-prompt">
+                  <?php if(isset($act)):?>
+                  <input type="hidden" value="<?php echo $act['poster'];?>" name="poster" id="poster"/>
+                  <?php else:?>
+                  <input type="hidden" value="__PUBLIC__/meetelf/images/shiyi.jpg" name="poster" id="poster"/>
+                  <?php endif;?>
+                  <button class="btn btn-save mt20" data-toggle="modal" type="button" data-target="#postersModal">选择海报</button>
+                  <a class="btn btn-general mt10" id="upload-poster-modal" data-target="#cropper-upload-modal" data-toggle="modal">自定义海报</a>
+                  <p class="mt10">推荐尺寸：540*338</p>
+                </div>
+              </div>
+            </div>
+            <div class="st-li">
+              <label class="st-li-item"><span>*</span> 详情</label>
+              <!-- <div class="st-li-right"><textarea  id="ym_editor" name="content">
+                  <?php echo $act['content'];?>
+              </textarea></div> -->
+              <div>
+                <textarea id="container" name="content"><?php echo htmlspecialchars_decode($act['content']);?></textarea>
+              </div>
+              <p class="error" id="ueditor-error"></p>
+            </div>
+            <div class="st-li">
+              <label class="st-li-item">活动流程</label>
+              <div class="st-li-process" id="item-process">
+                <p class="error" id="item-process-error"></p>
+                <div class="st-li-process-item">
+                  <?php if(isset($flows) && $flows):?>
+                  <?php foreach($flows as $key => $value):?>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control datePicker" data-field="datetime"  value="<?php echo date('Y-m-d H:i:s', $value['start_time']);?>" readonly="readonly" name="op_flow[<?php echo $key;?>][start_time]">
+                    </div>
+                    <div class="pull-left">至</div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control datePicker"  value="<?php echo date('Y-m-d H:i:s', $value['end_time']);?>" data-field="datetime" readonly="readonly" name="op_flow[<?php echo $key;?>][end_time]">
+                    </div>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" placeholder="活动标题,限15字" maxlength="15" name="op_flow[<?php echo $key;?>][title]" value="<?php echo htmlspecialchars($value['title']);?>">
+                    </div>
+                    <div class="pull-right"><button class="btn btn-times" id="btn-del-0"><i class="fa fa-times fa-2x"></i></button></div>
+                  </div>
+                  <?php endforeach;?>
+                  <?php else:?>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control datePicker" data-field="datetime"  readonly="readonly" name="op_flow[0][start_time]">
+                    </div>
+                    <div class="pull-left">至</div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control datePicker" data-field="datetime" readonly="readonly" name="op_flow[0][end_time]">
+                    </div>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" maxlength="15" placeholder="活动标题,限15字" name="op_flow[0][title]">
+                    </div>
+                    <div class="pull-right"><button class="btn btn-times" id="btn-del-0"><i class="fa fa-times fa-2x"></i></button></div>
+                  </div>
+                  <?php endif;?>
+                </div>
+                <div class="st-li-process-item">
+                  <button type="button" class="btn btn-default create-flow"><i class="fa fa-plus"></i> 创建活动流程</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <span>2</span>
+            <h4>报名设置</h4>
+          </div>
+
+          <div class="step-main">
+            <div class="st-li-lg">
+              <table class="table mtelf-table-border mtelf-text-center">
+                <thead>
+                  <tr>
+                    <th>票券名称</th>
+                    <th>数量</th>
+                    <th>价格（元)</th>
+<!--                    <th>是否审核</th>-->
+                    <th class="text-left" style="padding-left: 40px;">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <?php if(isset($tickets) && $tickets):?>
+                <?php foreach($tickets as $key => $ticket):?>
+                <tr id="ticket-tbody" class="ticket-tr-for">
+                  <input name="op_ticket[old][<?php echo $key;?>][guid]" value="<?php echo $ticket['guid'];?>" type="hidden"/>
+                  <td><input type="text" class="form-control" name="op_ticket[old][<?php echo $key;?>][name]" value="<?php echo htmlspecialchars($ticket['name']);?>"  placeholder="票券名称"></td>
+                  <td><input type="text" class="form-control" value="<?php echo intval($ticket['num']);?>"  name="op_ticket[old][<?php echo $key;?>][num]" ></td>
+                  <td><input type="text" class="form-control"  value="<?php echo yuan_to_fen($ticket['price'], false);?>" name="op_ticket[old][<?php echo $key;?>][price]"></td>
+<!--                  <td><input type="checkbox" name="op_ticket[old][--><?php //echo $key;?><!--][is_need_verify]" value="1" --><?php //echo intval($ticket['is_need_verify']) == 1 ? 'checked' : '';?><!--></td>-->
+                  <td class="text-left">
+                    <button  type="button" class="btn btn-advanced collapsed" data-toggle="collapse" data-target="#collapseExample-<?php echo $key;?>" aria-expanded="false" aria-controls="collapseExample-<?php echo $key;?>"><i class="fa fa-cog fa-lg"></i> 高级设置</button>
+                    <button class="btn btn-times" type="button" id="ticket-btn-del-<?php echo $ticket['guid'];?>"><i class="fa fa-times fa-2x"></i></button>
+                  </td>
+                </tr>
+                <tr class="table-collapse">
+                  <td colspan="5">
+                    <div class="collapse" id="collapseExample-<?php echo $key;?>" style="height: 0px;">
+                      <div class="well">
+                        <div class="row">
+                          <label for="prstartTime" class="col-sm-3 col-sm-offset-1 control-label">售票时间</label>
+                          <div class="col-sm-3">
+                            <input type="text" class="form-control" data-field="datetime" id="prstartTime" value="<?php echo $ticket['start_time'] ? date('Y-m-d H:i:s', $ticket['start_time']) : '';?>" name="op_ticket[old][<?php echo $key;?>][start_time]" readonly="readonly">
+                          </div>
+                          <div class="pull-left">至</div>
+                          <div class="col-sm-3">
+                            <input type="text" class="form-control" data-field="datetime" value="<?php echo $ticket['end_time'] ? date('Y-m-d H:i:s', $ticket['end_time']) : '';?>"  name="op_ticket[old][<?php echo $key;?>][end_time]" id="prendTime" value="" readonly="readonly">
+                          </div>
+                          <div class="col-sm-8 col-sm-offset-4">
+                            <p class="prompt">默认为活动发布到活动结束</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <?php endforeach;?>
+                <?php else:?>
+                <tr id="ticket-tbody" class="ticket-tr-for">
+                  <td><input type="text" class="form-control" value="免费票" name="op_ticket[new][0][name]" placeholder="票券名称"></td>
+                  <td><input type="text" class="form-control" value="100"  name="op_ticket[new][0][num]" ></td>
+                  <td><input type="text" class="form-control"  value="0" name="op_ticket[new][0][price]" placeholder="填写0即为免费票"></td>
+<!--                  <td><input type="checkbox" name="op_ticket[new][0][is_need_verify]" value="1"></td>-->
+                  <td class="text-left">
+                    <button  type="button" class="btn btn-advanced collapsed" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1"><i class="fa fa-cog fa-lg"></i> 高级设置</button>
+                  </td>
+                </tr>
+                <tr class="table-collapse">
+                  <td colspan="5">
+                    <div class="collapse" id="collapseExample1" style="height: 0px;">
+                      <div class="well">
+                        <div class="row">
+                          <label for="prstartTime" class="col-sm-3 col-sm-offset-1 control-label">售票时间</label>
+                          <div class="col-sm-3">
+                            <input type="text" class="form-control" data-field="datetime" id="prstartTime" value="" name="op_ticket[new][0][start_time]" readonly="readonly">
+                          </div>
+                          <div class="pull-left">至</div>
+                          <div class="col-sm-3">
+                            <input type="text" class="form-control" data-field="datetime" name="op_ticket[new][0][end_time]" id="prendTime" value="" readonly="readonly">
+                          </div>
+                          <div class="col-sm-9 col-sm-offset-4">
+                            <p class="prompt">默认为活动发布到活动结束</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <?php endif;?>
+                <tr id="ticket-hook" style="display:none;"></tr>
+                <tr>
+                  <td colspan="5" class="text-left">
+                    <button type="button" class="btn btn-save" id="add-free-ticket"><i class="fa fa-plus"></i>添加票务</button>
+                    <a data-toggle="tooltip" data-placement="right" title="收费票的结算比例，按照结算总金额的<?php echo $charge*100 . '%'?>收取。">？</a>
+                  </td>
+                </tr>
+<!--                <div>--><?php //echo $charge*100 . '%'?><!--</div>-->
+                </tbody>
+                <p class="error" id="ticket-error"></p>
+              </table>
+            </div>
+            <div class="st-li">
+              <label class="st-li-item">报名收集项</label>
+              <div class="st-li-right" data-toggle="buttons" id="signin-form">
+                <div class="btn-option active" disabled>姓名<span class="btn-option active">必填</span></div>
+                <div class="btn-option active" disabled>手机<span class="btn-option active">必填</span></div>
+
+                <?php if(isset($build_info) && $build_info):?>
+                <div class=" btn-option <?php $email = in_array('email', array_keys($build_info)); echo $email ? 'active' : '';?>" data-name="email">
+                  <input type="checkbox" <?php echo $email ? 'checked' : '';?> name="items[0][name]" value="邮箱" />邮箱
+                  <input type="hidden" name="items[0][type]" value="email" />
+                  <span class="btn-option <?php echo $email && $build_info['email'] ? 'active' : '';?> ">
+                    <input type="checkbox"  <?php echo $email && $build_info['email'] ? 'checked' : '';?> name="items[0][is_required]" value="1" />必填
+                  </span>
+                </div>
+                <div class="btn-option <?php $company = in_array('company', array_keys($build_info)); echo $company? 'active' : '';?>" data-name="company">
+                  <input type="checkbox" <?php echo $company ? 'checked' : '';?> name="items[1][name]" value="公司" />公司/机构
+                  <input type="hidden" name="items[1][type]" value="company" />
+                  <span for="opt4" class="btn-option <?php echo $company && $build_info['company'] ? 'active' : '';?> ">
+                    <input type="checkbox" <?php echo $company && $build_info['company'] ? 'checked' : '';?>  name="items[1][is_required]" value="1" />必填
+                  </span>
+                </div>
+                <div class="btn-option <?php $position = in_array('position', array_keys($build_info)); echo $position ? 'active' : '';?>" data-name="position">
+                  <input type="checkbox" <?php echo $position ? 'checked' : '';?> name="items[2][name]" value="职位" />职位
+                  <input type="hidden" name="items[2][type]" value="position" />
+                  <span class="btn-option <?php echo $position && $build_info['position'] ? 'active' : '';?>">
+                    <input type="checkbox" <?php echo $position && $build_info['position'] ? 'checked' : '';?> name="items[2][is_required]" value="1" />必填
+                  </span>
+                </span>
+              </div>
+              <div class="btn-option <?php $addr = in_array('address', array_keys($build_info)); echo $addr ? 'active' : '';?>" data-name="addr">
+                <input type="checkbox" name="items[3][name]" value="地址" <?php echo $addr ? 'checked' : '';?>/>地址
+                <input type="hidden" name="items[3][type]" value="addr" />
+                <span class="btn-option <?php echo $addr && $build_info['address'] ? 'active' : '';?>">
+                  <input type="checkbox" <?php echo $addr && $build_info['address'] ? 'checked' : '';?> name="items[3][is_required]" value="1" />必填
+                </span>
+              </div>
+              <div class="btn-option <?php $sex = in_array('sex', array_keys($build_info)); echo $sex ? 'active' : '';?>" data-name="sex">
+                <input type="checkbox" name="items[4][name]" value="性别" <?php echo $sex ? 'checked' : '';?>/>性别
+                <input type="hidden" name="items[4][type]" value="sex" />
+                <span class="btn-option <?php echo $sex && $build_info['sex'] ? 'active' : '';?>">
+                  <input type="checkbox" <?php echo $sex && $build_info['sex'] ? 'checked' : '';?> name="items[4][is_required]" value="1" />必填
+                </span>
+              </div>
+              <div class="btn-option <?php $age = in_array('age', array_keys($build_info)); echo $age ? 'active' : '';?>" data-name="age">
+                <input type="checkbox" name="items[5][name]" value="年龄" <?php echo $age ? 'checked' : '';?>/>年龄
+                <input type="hidden" name="items[5][type]" value="age" />
+                <span class="btn-option <?php echo $age && $build_info['age'] ? 'active' : '';?>">
+                  <input type="checkbox" <?php echo $age && $build_info['age'] ? 'checked' : '';?> name="items[5][is_required]" value="1" />必填
+                </span>
+              </div>
+              <?php else:?>
+
+              <div class=" btn-option active" data-name="email">
+                <input type="checkbox" checked name="items[0][name]" value="邮箱" />邮箱
+                <input type="hidden" name="items[0][type]" value="email" />
+                <span class=" btn-option">
+                  <input type="checkbox" name="items[0][is_required]" value="1" />必填
+                </span>
+              </div>
+              <div class=" btn-option active" data-name="company">
+                <input type="checkbox" checked name="items[1][name]" value="公司" />公司/机构
+                <input type="hidden" name="items[1][type]" value="company" />
+                <span for="opt4" class=" btn-option">
+                  <input type="checkbox" name="items[1][is_required]" value="1" />必填
+                </span>
+              </div>
+              <div class=" btn-option active" data-name="position">
+                <input type="checkbox" checked name="items[2][name]" value="职位" />职位
+                <input type="hidden" name="items[2][type]" value="position" />
+                <span class=" btn-option">
+                  <input type="checkbox" name="items[2][is_required]" value="1" />必填
+                </span>
+              </span>
+            </div>
+            <div class=" btn-option" data-name="addr">
+              <input type="checkbox" name="items[3][name]" value="地址" />地址
+              <input type="hidden" name="items[3][type]" value="addr" />
+              <span class=" btn-option">
+                <input type="checkbox" name="items[3][is_required]" value="1" />必填
+              </span>
+            </div>
+            <div class=" btn-option" data-name="sex">
+              <input type="checkbox" name="items[4][name]" value="性别" />性别
+              <input type="hidden" name="items[4][type]" value="sex" />
+              <span class=" btn-option">
+                <input type="checkbox" name="items[4][is_required]" value="1" />必填
+              </span>
+            </div>
+            <div class=" btn-option" data-name="age">
+              <input type="checkbox" name="items[5][name]" value="年龄" />年龄
+              <input type="hidden" name="items[5][type]" value="age" />
+              <span class=" btn-option">
+                <input type="checkbox" name="items[5][is_required]" value="1" />必填
+              </span>
+            </div>
+            <?php endif;?>
+            <p class="prompt">想要收集更多报名信息您可以先保存活动后去“活动管理>报名表设置”进行设置</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span>3</span>
+        <h4>其他设置</h4>
+      </div>
+
+      <div class="step-main">
+        <div class="st-li">
+          <label class="st-li-item">标签</label>
+          <div class="st-li-right">
+            <div class="btn-group" data-toggle="buttons" id="act-tab">
+              <?php foreach($labels as $key => $value):?>
+              <?php if($act['subject_guid']):?>
+              <div class="btn btn-option <?php echo $act['subject_guid'] == $value['guid'] ? 'active' : '';?>">
+                <input type="radio" name="options" id="option<?php echo $key?>" <?php echo $act['subject_guid'] == $value['guid'] ? 'checked' : '';?> value="<?php echo $value['guid'];?>" autocomplete="off"><?php echo $value['name'];?>
+              </div>
+              <?php else:?>
+              <div class="btn btn-option <?php echo !$key ? 'active' : '';?>">
+                <input type="radio" name="options" id="option<?php echo $key?>" <?php echo !$key ? 'checked' : '';?> value="<?php echo $value['guid'];?>" autocomplete="off"><?php echo $value['name'];?>
+              </div>
+              <?php endif;?>
+              <?php endforeach;?>
+            </div>
+            <a data-toggle="tooltip" data-placement="right" title="标签可以让其他人更方便精准的找到您的活动。 同时也方便您在活动列表页进行管理">？</a>
+          </div>
+        </div>
+        <include file="Act:add_partner" />
+        <div class="st-li st-li-sm">
+          <label class="st-li-item">报名展示</label>
+          <div class="st-li-right">
+            <label><input type="checkbox" <?php echo intval($act['show_front_list']) ? 'checked' : '';?> data-switch-no-init="" name="show_front_list"> 在活动页显示已报名人员</label>
+          </div>
+        </div>
+
+        <div class="st-li">
+          <label class="st-li-item">隐私设置</label>
+          <div class="st-li-right">
+
+            <?php if(empty($build_info)):?>
+            <label><input type="checkbox" data-switch-no-init="" name="is_public" > 设为私人活动（选中此项，则不在会签助手公开显示）</label>
+            <?php else:?>
+            <label><input type="checkbox" <?php echo intval(!$act['is_public']) ? 'checked' : '';?> data-switch-no-init="" name="is_public" > 设为私人活动（选中此项，则不在会签助手公开显示）</label>
+            <?php endif;?>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="pin-footer">
+          <!-- <button type="button" class="btn btn-default">设计页面</button> -->
+          <input type="hidden" name="status" value="1" id="act-status"/>
+          <button  class="btn btn-save act-save" data-status="0" disabled="disabled">保存</button>
+          <button  class="btn btn-important act-pub" data-status="1" disabled="disabled">立即发布</button>
+          <!--<button type="button" class="btn btn-general" data-status="2" id="act-preview">预览</button>-->
+          <p class="prompt">更多设置请保存后在我的活动管理中进行设置，活动一经发布不可修改</p>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="postersModal" tabindex="-1" role="dialog" aria-labelledby="postersmodal">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="organizersmodal">选择海报</h4>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal" role="form">
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#tabitem1" aria-controls="tabitem1" role="tab" data-toggle="tab">常用</a></li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" data-toggle="buttons" class="tab-pane fade in active" id="tabitem1">
+          <div class="btn item active">
+            <input type="radio" id="postersoption1">
+            <img src="__PUBLIC__/meetelf/images/posters-sm/posters-sm1.jpg" />
+          </div>
+          <div class="btn item">
+            <input type="radio" id="postersoption2">
+            <img src="__PUBLIC__/meetelf/images/posters-sm/posters-sm2.jpg" />
+          </div>
+          <div class="btn item">
+            <input type="radio" id="postersoption3">
+            <img src="__PUBLIC__/meetelf/images/posters-sm/posters-sm3.jpg" />
+          </div>
+          <div class="btn item">
+            <input type="radio" id="postersoption4">
+            <img src="__PUBLIC__/meetelf/images/posters-sm/posters-sm4.jpg" />
+          </div>
+          <div class="btn item">
+            <input type="radio" id="postersoption5">
+            <img src="__PUBLIC__/meetelf/images/posters-sm/posters-sm5.jpg" />
+          </div>
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="tabitem2">...
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="tabitem3">...
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="tabitem4">...
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-save">保存</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+  </div>
+</div>
+</div>
+</div>
+<div id="mt_dtbox"></div>
+<div id="flow-default" style="display:none;">
+<div class="st-li-process-item">
+<div class="row">
+  <div class="col-sm-3">
+    <input type="text" class="form-control datePicker" data-field="datetime" readonly="readonly" name="start_time">
+  </div>
+  <div class="pull-left">至</div>
+  <div class="col-sm-3">
+    <input type="text" class="form-control datePicker" data-field="datetime" readonly="readonly" name="end_time">
+  </div>
+  <div class="col-sm-5">
+    <input type="text" class="form-control" placeholder="活动标题,限15字" maxlength="15" name="title">
+  </div>
+  <div class="pull-right"><button class="btn btn-times" id="btn-del"><i class="fa fa-times fa-2x"></i></button></div>
+</div>
+</div>
+</div>
+<div id="ticket-tr" style="display:none;">
+<table>
+<tr class="ticket-tr-for">
+  <td><input type="text" class="form-control" value="" name="name" placeholder="票券名称"></td>
+  <td><input type="text" class="form-control" value="100"  name="num" ></td>
+  <td><input type="text" class="form-control"  value="0" name="price" placeholder="填写0即为免费票"></td>
+<!--  <td><input type="checkbox" name="is_need_verify" value="1"></td>-->
+  <td class="text-left">
+    <button class="btn btn-advanced collapsed" type="button" data-toggle="collapse" data-target="" aria-expanded="false" aria-controls=""><i class="fa fa-cog fa-lg"></i> 高级设置</button>
+    <button class="btn btn-times" type="button" id="ticket-btn-del"><i class="fa fa-times fa-2x"></i></button>
+  </td>
+</tr>
+<tr class="table-collapse">
+  <td colspan="5">
+    <div class="collapse target-class" id="" style="height: 0px;">
+      <div class="well">
+        <div class="row">
+          <label for="prstartTime" class="col-sm-3 col-sm-offset-1 control-label">售票时间</label>
+          <div class="col-sm-3">
+            <input type="text" class="form-control datePicker" data-field="datetime" name="start_time" value="" readonly="readonly">
+          </div>
+          <div class="pull-left">至</div>
+          <div class="col-sm-3">
+            <input type="text" class="form-control datePicker" data-field="datetime" name="end_time" value="" readonly="readonly">
+          </div>
+          <div class="col-sm-9 col-sm-offset-4">
+            <p class="prompt">默认为活动发布到活动结束</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </td>
+</tr>
+</table>
+</div>
+<div id="undertaker-default" style="display:none;">
+<div class="st-li-process-item">
+<div class="row">
+  <div class="col-sm-2">
+    <select class="form-control add-combobox ">
+      <?php foreach($partners as $key => $partner):?>
+      <option value="<?php echo $partner['guid'];?>"><?php echo htmlspecialchars($partner['name']);?></option>
+      <?php endforeach;?>
+    </select>
+  </div>
+  <div class="col-sm-7">
+    <input type="text" class="form-control" placeholder="多个单位或个人请用','分开" name="name">
+  </div>
+  <div class="col-sm-2">
+    <button class="btn btn-times" id="undertaker-del-1" type="button"><i class="fa fa-times fa-2x"></i></button>
+  </div>
+</div>
+</div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="mapModal" tabindex="-1" role="dialog" style="height:800px;" aria-labelledby="mapModalTitle">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" id="mapModalTitle">地图定位</h4>
+    <div class="row">
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="keywords" placeholder="输入地址点击搜索并点击地图位置完成标注">
+      </div>
+      <button type="button" class="btn btn-save address-search">搜索</button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div id="mapzoom" class="width420" style="height:360px;"></div>
+  </div>
+  <div class="modal-footer">
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="modal-lat" placeholder="地址经度">
+    </div>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="modal-lng" placeholder="地址纬度">
+    </div>
+    <button type="button" class="btn btn-save address-save">确定</button>
+  </div>
+</div>
+</div>
+</div>
+<?php if(isset($organizer) && $organizer):?>
+<!-- 主办方--->
+<div class="modal fade" id="zhubanModal" tabindex="-1" role="dialog" aria-labelledby="zhubanModal">
+  <div class="modal-dialog" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title" >选择主办方</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="undertaker-all"> 全选
+          </label>
+        </div>
+        <?php $i=0;foreach($organizer as $key => $value):?>
+        <?php if(!$value['name']){continue;}?>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="checkbox-<?php echo $value['guid'];?>" data-key="<?php echo $i;?>" data-value="<?php echo htmlspecialchars($value['name']);?>" data-guid="<?php echo $value['guid'];?>"><?php echo htmlspecialchars($value['name']);?>
+          </label>
+        </div>
+        <?php $i++;endforeach;?>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-save">确定</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+  </div>
+</div>
+  </div>
+</div>
+<?php endif;?>
+<!-- 主办方--->
+<include file="Public:_upload_modal" />
+ <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=<?php echo C('BAIDU_MAP_AK', null, '382dfe7f0b7663c1c579ba8cf85e8791')?>"></script>
+
+

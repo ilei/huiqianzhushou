@@ -1,0 +1,45 @@
+
+<import type='js' file="admin.js.distribution" />
+<script type="text/javascript">
+	var YM = {
+		'save_distribution' : "{:U('save_distribution')}",
+		'redirectPath' : "{:U('index')}"
+	};
+</script>
+<div id="content-head">权限分配</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Level/index'), 'v'=>'等级管理'),
+array('url'=>'', 'v'=>'权限分配')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a href="{:U('index')}" type="button" class="pull-right btn btn-success"><span class="glyphicon glyphicon-plus"></span> 返回列表</a>
+			</div>
+		</div>
+		<form class="form-horizontal" role="form" id="regorg">
+			<input type="hidden"  name="level_guid" value="{$Think.get.guid}" />
+			<foreach name="authorityList" item="v">
+			<div class="form-group">
+				<label for="name" class="col-sm-3 control-label">{$v.name}</label>
+				<div class="col-sm-6">
+					<input type="text" id="name" name="{$v.guid}" class="form-control"  value="{$v.value}" placeholder="输入{$v.name}">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			</foreach>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="button" class="btn btn-primary js-submit">保存</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

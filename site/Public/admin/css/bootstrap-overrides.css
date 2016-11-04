@@ -1,0 +1,79 @@
+/* * CT: 2015-12-10 18:00 by Hank*/
+/* * LT: 2015-12-11 18:00 by Hank*/
+
+.navbar-inverse {
+	min-height: 48px;
+	margin-bottom: 0;
+	border-radius: 0;
+}
+/* navbar-nav*/
+.navbar-inverse .navbar-nav {
+	padding-right: 20px;
+}
+/* menu toggler */
+.navbar-inverse .navbar-toggle {
+	float: left;
+	margin-top: 10px;
+	margin-left: 15px;
+}
+/* navbar brand*/
+.navbar-inverse .navbar-brand {
+	color: #fff;
+	padding: 15px 20px;
+}
+.navbar-logo { max-height: 205px;}
+.label {
+  padding: 0.3em 0.6em;
+}
+.label-success,
+.badge-success {
+	background-color: #81bd82;
+}
+.label-info,
+.badge-info {
+	background-color: #68a3d5;
+}
+.label-product,
+.badge-product {
+	background-color: #5ba0a3;
+}
+.label-danger,
+.badge-danger {
+	background-color: #f3674c;
+}
+.label-grey,
+.badge-grey {
+	background-color: #ccc;
+}
+/*input[type="file"] {
+	font-size: 12px;
+	line-height: 12px;
+	display: inline-block;
+}
+*/
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  color: #9ba0a5;
+  font-size: 13px;
+}
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: #9ba0a5;
+  font-size: 12px;
+}
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #9ba0a5;
+  font-size: 12px;
+}
+.pagination > li > a, .pagination > li > span {
+  background-color: #fff;
+  border: 1px solid #e0e5ea;
+  color: #68a3d5;
+}
+.pagination > .active > a,
+.pagination > .active > a:hover,
+.pagination > .active > a:focus {
+  background-color: #68a3d5;
+  border-color: #68a3d5;
+}

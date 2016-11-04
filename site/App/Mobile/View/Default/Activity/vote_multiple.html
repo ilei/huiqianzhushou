@@ -1,0 +1,131 @@
+<include file="head" />
+
+<body>
+
+<div class="container">
+    <!-- 或不在APP中打开, 显示会签助手头 -->
+    <include file="Public:_top-copyright" />
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3><?php echo $vote_info['name']?><br><small><?php echo $subject_info['name']?></small></h3>
+            <p class="f2 mb20"><?php echo date('Y-m-d H:i',$activity_info['start_time']);?> 至 <?php echo date('Y-m-d H:i',$activity_info['end_time']);?>&nbsp;&nbsp;<?php echo $org_name?></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p><?php echo $vote_info['content']?></p>
+            <!--投票-->
+            <form id="vote_form" action="<?php echo U('Activity/vote_process')?>" method="post">
+                <div class="container votemain">
+                    <?php if($vote_info['multiple_num'] == 0):?>
+                    <div class="row"><p class="f1 mb0">以下选项为多选，选项个数不限。</p></div>
+                    <?php else:?>
+                    <div class="row"><p class="f1 mb0">以下选项为多选，最多选<?php echo $vote_info['multiple_num']?>项</p></div>
+                    <?php endif;?>
+
+                    <?php $bar_colors = array('green', 'brown', 'cyan', 'orange', 'red'); $i=0;?>
+                    <?php foreach($option_info as $o):?>
+                    <?php if($i>4) $i=0;?>
+                    <div class="row">
+                        <div class="checkbox myoptions">
+                            <label>
+                                <?php if(!isset($is_vote)):?>
+                                <div class="activity-vote-options"><input type="checkbox" name="option[]" value="<?php echo $o['guid']?>"></div>
+                                <?php endif;?>
+                                <?php echo $o['content']?>
+                            </label>
+                        </div>
+                        <?php if(!empty($o['pic_url'])):?>
+                        <div class="col-xs-12 pdinglfrt0">
+                            <img data-original="<?php echo get_image_path($o['pic_url'])?>"  class="lazy img-thumbnail" />
+                        </div>
+                        <?php endif; ?>
+                        <div class="col-xs-9 pding5-lf">
+                            <div class="progress">
+                                <div class="progress-bar bar-<?php echo $bar_colors[$i]?>" role="progressbar" aria-valuenow="<?php echo $option_static[$o['guid']]['percent']?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $option_static[$o['guid']]['percent']?>%;">
+                                    <?php echo $option_static[$o['guid']]['sum']?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 pding5-rt"><?php echo $option_static[$o['guid']]['percent']?>%
+                        </div>
+                    </div>
+                    <?php $i++; ?>
+                    <?php endforeach; ?>
+
+                </div>
+                <input type="hidden" name="vid" value="<?php echo $vote_info['guid']?>">
+                <input type="hidden" name="uid" value="<?php echo $user_guid?>">
+                <script>
+                    $(document).ready(function(){
+                        $('input').iCheck({
+                            checkboxClass: 'icheckbox_square-blue',
+                            radioClass: 'iradio_square-blue',
+                            increaseArea: '20%'
+                        });
+                    });
+                </script>
+                <!--投票-->
+                <div id="error" class="row mt20" style="display: none;">
+                    <div class="alert alert-danger"></div>
+                </div>
+
+                <div class="row mb40">
+                    <?php $time = time();?>
+                    <?php if(!isset($is_over)){?>
+                        <?php if(!isset($is_vote)){?>
+                            <div class="col-xs-6 col-xs-offset-6">
+                                <button type="button" class="ym_submit btn btn-primary btn-block" <?php echo session('preview')==1 ? 'disabled' : ''; ?>>提交</button>
+                            </div>
+                        <?php }else{ ?>
+                            <div class="col-xs-6 col-xs-offset-6"><button type="button" class="js-reload btn btn-primary btn-block">刷新</button></div>
+                        <?php }?>
+                    <?php }?>
+                </div>
+                 <div class="pull-right">
+                        <?php if(session('preview') == 0): ?>
+                            <?php if(I('get.app') == 1): ?>
+                                <a href="javascript:void(0);" id="report_a" class="f1">举报</a>
+                            <?php endif;?>
+                        <?php else: ?>
+                            <a href="javascript:void(0);" class="f1">举报</a>
+                        <?php endif; ?>
+                </div> 
+            </form>
+        </div>
+    </div>
+
+    <include file="Public:_footer"/>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#report_a').click(function(){
+            window.location.href = "<?php echo U('Activity/report', array('aid'=>I('get.aid'), 'uid' =>I('get.uid')))?>";
+        });
+    	$('.js-reload').click(function(){
+    		location.reload() 
+    	})
+    	
+        $('.ym_submit').click(function(){
+            var num = $('input[type=checkbox]:checked').length;
+            if(num < 1){
+                $('div#error').show();
+                $('div#error div').text('您必须至少选择一个选项.');
+                return false;
+            }
+            if(num > '<?php echo $vote_info['multiple_num'] ?>' && '<?php echo $vote_info['multiple_num'] ?>' != 0)
+            {
+                    $('div#error').show();
+                    $('div#error div').text('该投票最多可选<?php echo $vote_info['multiple_num'] ?>个, 请重新选择.');
+                    return false;
+            }
+            $('form#vote_form').submit();
+        });
+    });
+</script>
+
+<!-- End Save for Web Slices -->
+</body>
+</html>

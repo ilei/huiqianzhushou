@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta name="Keywords" content="<?php echo L('_SITE_KEYWORDS_');?>">
+    <meta name="Description" content="<?php echo L('_SITE_CONTENT_');?>">
+    <meta name="Author" content="<?php echo L('_APP_NAME_')?>"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="Keywords" content="<?php echo implode(',', $keywords);?>">
+    <meta name="distribution" content="global" />
+    <meta name="Description" content="<?php echo $desc;?>">
+    <meta name="Author" content="<?php echo L('_APP_NAME_')?>"/>
+
+    <meta http-equiv="Pragma" content="no-cache" />
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <meta name="author" content="会签助手" />
+    <meta name="publisher" content="会签助手" />
+    <meta name="rating" content="general" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="会签助手" />
+    <title><?php echo $meta_title?>-<?php echo L('_APP_NAME_')?></title>
+    <link rel="shortcut icon" href="<?php echo fixed_resource_url('/Public/common/images/favicon.ico'); ?>" type="image/vnd.microsoft.icon">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="<?php echo fixed_resource_url('/Public/meetelf/css/base.min.css')?>" rel="stylesheet"/>
+    <link href="<?php echo fixed_resource_url('/Public/meetelf/css/information.min.css')?>" rel="stylesheet"/>
+    <link href="<?php echo fixed_resource_url('/Public/meetelf/css/create-activities.min.css')?>" rel="stylesheet"/>
+    <?php foreach($css as $value):?>
+    <link href="<?php echo fixed_resource_url('/Public/'.$value);?>" rel="stylesheet"/>
+    <?php endforeach;?>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?53bcbe6e5935bc8dfa46a7f3782503cd";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body data-module="<?php echo  implode('  ', $module);?>">
+
+<input type="hidden" id="document_domain" value="<?php echo C('document_domain')?>"/>
+<include file="Public:_index_nav" />
+<div id="main">
+    <div class="container">
+        <div class="row">
+            <?php if ($meta_title =='使用记录' || $meta_title =='更改手机') :?>
+            <?php else :?>
+            <include file="Public:account_bar"/>
+            <?php endif; ?>
+            <div class="col-sm-9 col-lg-10">
+                {__CONTENT__}
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <!-- <div class="bg-footer-img"></div> -->
+    <div class="footer-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="row">
+                        <ul class="pagination">
+                            <li><a href="<?php echo U('About/about')?>"><?php echo L('_ABOUT_US_');?></a></li>
+                            <!--<li><a>|</a></li>
+                            <li><a href="###"><?php echo L('_FUNCTION_DESC_');?></a></li>
+          -->
+                            <li><a>|</a></li>
+                            <li><a href="<?php echo U('Auth/terms');?>"><?php echo L('_SERVICE_TERMS_');?></a></li>
+                            <!--
+                                              <li><a>|</a></li>
+                                              <li><a href="###"><?php echo L('_HELP_CENTOR_');?></a></li>
+                            -->
+                            <li><a>|</a></li>
+                            <li><a href="<?php echo U('About/recruiting');?>"><?php echo L('_ADVICE_MAN_');?></a></li>
+                            <li><a>|</a></li>
+                            <li><a href="<?php echo U('About/contact');?>"><?php echo L('_CONTACT_US_');?></a></li>
+                            <li><a>|</a></li>
+                            <li><a href="<?php echo U('About/feedback');?>"><?php echo L('_ADVICE_US_');?></a></li>
+                            <li><a>|</a></li>
+                            <li><a href="<?php echo U('Download/index');?>"><?php echo L('_DOWNLOAD_');?></a></li>
+                            <li><a>|</a></li>
+                            <li><a href="<?php echo U('Home/Help/index');?>"><?php echo "帮助中心";?></a></li>
+                            <!--<li><a>|</a></li>
+                            <li><a href="###"><?php echo L('_SITE_MAP_');?></a></li>
+          -->
+                        </ul>
+                        <p>&copy;<?php echo L('_APP_NAME_');?>&nbsp;<?php echo L('_FILING_NUMBER_');?></p>
+
+                        <p><?php echo C('VERSION_NUMBER');?></p>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="row official-account">
+                        <!--<a id="weiboimg"></a>
+                        <a id="weixinimg"></a>
+        -->
+                        <div>
+                            <h4><i></i>电话：022-84180365</h4>
+
+                            <p>周一至周五 9:00 - 18:00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="<?php echo fixed_resource_url('/Public/common/js/require.js')?>"
+data-main="<?php echo  $main ? fixed_resource_url($main) : fixed_resource_url('/Public/common/js/main')?>"></script>
+</body>
+<input type="hidden" value="<?php echo $debug ? 1 : C('last_release');?>" id="last_release"/>
+
+<div class="modal fade" id="tips-modal" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">提示信息</h4>
+            </div>
+            <div class="modal-body">
+                <p class="tips-msg"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+</html>

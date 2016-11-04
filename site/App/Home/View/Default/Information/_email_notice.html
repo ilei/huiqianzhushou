@@ -1,0 +1,8 @@
+{__NOLAYOUT__}
+<layout name="layout_email" />
+
+<p style="margin-top:0;font-weight:bold;">尊敬的用户，您好：</p>
+<!-- <?php //echo U('Home/Email/email_verify', array('t' => $token), true, true)?> -->
+<a href='<?php echo C('SITE_HOST_URL')."/Email/email_verify?t=".$token."&e=".$email?>' target=
+'_blank'>请点击链接认证邮箱<span><br><?php echo C('SITE_HOST_URL')."/Email/email_verify?t=".$token."&e=".$email?></span></a><br/>
+    如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问，该链接24小时内有效。; 

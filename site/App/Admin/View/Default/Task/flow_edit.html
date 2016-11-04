@@ -1,0 +1,127 @@
+<script type="text/javascript">
+	var YM = {
+		'saveFlow' : "{:U('save_flow')}",
+		'redirectPath':"{:U('flow')}",
+		'guid':"{$Think.get.guid}"
+	};
+</script>
+<div id="content-head"><?php echo isset($task_flow_info) && $task_flow_info ? '编辑任务流' : '新增任务流';?></div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Task/flow'), 'v'=>'任务流管理'),
+array('url'=>'', 'v'=> isset($task_flow_info) && $task_flow_info ? '编辑任务流' : '新增任务流')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a href="{:U('Task/flow')}" type="button" class="pull-right btn btn-success"><i class="fa fa-arrow-left"></i> 返回列表</a>
+			</div>
+		</div>
+		<form class="form-horizontal" role="form" id="regorg">
+			<div class="form-group">
+				<label for="name" class="col-sm-2 control-label">任务流名称</label>
+				<div class="col-sm-6">
+					<input type="hidden" name="guid" value="{$Think.get.guid}" />
+					<input type="text" id="name" name="flowname" class="form-control"  value="{$task_flow_info.name}" placeholder="输入任务名称">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<div class="form-group">
+				<label for="name" class="col-sm-2 control-label">任务列表</label>
+				<div class="col-sm-10">
+					<table id="example" class="table table-bordered display" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>任务编号</th>
+								<th>任务名称</th>
+								<th>操作</th>
+							</tr>
+						</thead>             
+						<tbody>
+							<foreach name="task_list" item="vo" >
+							<tr class="task_flow_item" data-guid="{$vo.guid}">
+								<td>{$vo.id}</td>
+								<td class="task_flow_name">{$vo.name}</td>
+								<td><a class="js_add_flow" href="javascript:void(0);">添加</a></td>
+							</tr>
+							</foreach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="name" class="col-sm-2 control-label">已选任务</label>
+				<div class="col-sm-6">
+					<ul class="selected_task_list list-group" style="margin-top:0;">
+						<!-- 已选任务列表 -->
+						<foreach name="selected_task_list" item="vo" >
+						<li class="list-group-item"><input type="hidden" name="selected_guid" value="{$vo.guid}" /><i class="fa fa-trash-o pull-right js_del_task"></i><span class="selected_task_name">{$vo.name}</span></li>
+						</foreach>
+					</ul>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="ym_editor" class="col-sm-2 control-label">任务流状态</label>
+				<div class="col-sm-6">
+					<label class="radio-inline">
+						<input type="radio" name="is_del" value="0" <eq name="task_flow_info[is_del]" value="0">checked=true</eq>> 开启
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="is_del" value="1" <eq name="task_flow_info[is_del]" value="1">checked=true</eq>> 关闭
+					</label>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="button" class="btn btn-default js-submit">保存</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#example').dataTable({
+			"info": false,
+			"language": {
+				"processing": "玩命加载中...",
+				"lengthMenu": "显示 _MENU_ 项结果",
+				"zeroRecords": "没有匹配结果",
+				"info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+				"infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+				"infoFiltered": "(由 _MAX_ 项结果过滤)",
+				"infoPostFix": "",
+				"search": "",
+				"url": "",
+				"paginate": {
+					"first":    "首页",
+					"previous": "上页",
+					"next":     "下页",
+					"last":     "末页"
+				}
+			}
+		});
+		$('#example_length').hide();
+		$('#example_filter').addClass('pull-left');
+		$('#example_filter').find('input').addClass('form-control');
+		$('#example_filter').find('input').css({'margin-left':'0','font-weight':'normal'});
+		$('#example_filter').find('input').attr('placeholder','查找任务信息');
+	} );
+</script>
+
+<import type='js' file="common.js.jquery#dataTables" />
+<import type='css' file="common.css.datatables.jquery#dataTables" />
+<import type='js' file="admin.js.taskflow" />

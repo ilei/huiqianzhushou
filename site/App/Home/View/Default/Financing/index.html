@@ -1,0 +1,67 @@
+<input id="get_not_settle_act_url" value="<?php echo U('Financing/get_not_settle_act')?>" hidden>
+<input id="local_index_url" value="<?php echo U('Financing/index')?>" hidden>
+<form id="hidden_form" method="post" action="<?php echo U('Financing/set_account')?>">
+  <input id="ck_act_guids" name="ck_act_guids" value="" hidden>
+</form>
+<input id="set_account_url" value="<?php echo U('Financing/set_account')?>" hidden>
+<body>
+<div class="container js">
+  <div class="page-header">
+    <h1>结算</h1>
+    <a href="#" class="js_b_w_btn b_w_btn_pos js_click">等待结算</a>
+    <a href="<?php echo U('Financing/underway_detail')?>" class="b_w_btn_pos js_b_w_btn b_w_btn_pos ">进行结算</a>
+    <a href="<?php echo U('Financing/history_detail')?>" class="b_w_btn_pos js_b_w_btn b_w_btn_pos">历史结算</a>
+    <a href="<?php echo U('Financing/info_set')?>" class="b_w_btn_pos js_b_w_btn b_w_btn_pos">管理账户</a>
+  </div>
+  <div class="row note_info">
+    <div class="col-md-12">
+      <p class="bg-warning">只有活动正常结束并且存在付费票并有购买的活动才能结算</p>
+    </div>
+  </div>
+  <div class="table-info">
+    <div class="row shumu">
+      <div class="col-md-12">
+        <p>总计:<span id="sum_money">0</span>元</p>
+        <a href="###" class="js_b_w_btn pull-right js_click" id="go_set_account">结算</a>
+<!--        <a href="#" class="js_b_w_btn pull-right js_click" id="go_set_account">结算</a>-->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class=" table table-hover">
+          <thead>
+          <tr>
+            <th>
+              <div class="checkbox checkboxm">
+                <label>
+                  <input type="checkbox" class="ct" value="" id="ck_all">
+                </label>
+              </div>
+            </th>
+            <th>
+              名称
+            </th>
+            <th>
+              金额(元)
+            </th>
+            <th>
+              结束日<span id="zzz">期</span>
+            </th>
+            <th>
+              详细信息
+            </th>
+          </tr>
+          </thead id='tbody_act_list'>
+            <?php echo $tbody;?>
+        </table>
+      </div>
+    </div>
+    <?php if(count($activity_list) >= 200):?>
+      <div class="row more">
+        <div class="col-md-12">
+          <a href="#" class="js_b_w_btn" id="ajax_get_act">显示更多</a>
+        </div>
+      </div>
+    <?php endif;?>
+  </div>
+</div>

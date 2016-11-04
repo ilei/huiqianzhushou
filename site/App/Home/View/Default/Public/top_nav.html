@@ -1,0 +1,36 @@
+<?php 
+/**
+ * 顶部导航栏
+ * 
+ * CT: 2014-10-09 16:47 by YLX
+ * UT: 2014-10-09 16:47 by YLX
+ */
+?>
+
+<!-- Head Starting -->   
+<div class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-7">
+        <a class="topwd" href="<?php echo U('Center/index')?>"><?php echo C('APP_NAME')?> | 个人中心 <small style="color: #ccc;">Preview 1.0</small></a>
+      </div>
+      <div class="col-xs-5">
+        <div class="pull-right">
+            <div class="row">
+                <div class="headicon">
+                    <a href="<?php echo U('Info/base')?>">
+                        <img id="top_photo" data-original="<?php echo get_image_path($auth['photo'], 70)?>" class="lazy headicon">
+                    </a>
+                </div>
+                <div class="ligeticon mt3 mr5">
+                    <a class="user_logout" href="<?php echo U('Auth/logout')?>" title="退出登陆"><i class="fa fa-power-off"></i></a>
+                </div>
+            </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- Head Ending --> 
+       

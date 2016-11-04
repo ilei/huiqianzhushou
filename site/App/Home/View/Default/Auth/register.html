@@ -1,0 +1,60 @@
+
+<div class="container">
+  <div class="mt-login">
+    <form class="form-horizontal" data-href="<?php echo U('Home/Auth/register');?>" role="form" id="register_form" method="post">
+      <div class="form-group">
+        <a><?php echo L('_NEW_REGISTER_');?></a> 
+        <a href="<?php echo U('/Home/Auth/login', '', true, false, false);?>"><?php echo L('_LOGIN_WITH_EXIST_');?></a>
+      </div> 
+      <div class="form-group"> 
+        <div class="input-error" for="email"></div>
+        <input id="txt_email" type="text" name="email" class="form-control" data-href="<?php echo U('Home/Auth/check', array('type' => 'email'));?>" placeholder="<?php echo L('_EMAIL_');?>" autocomplete="off" value="<?php echo $authdata['email'];?>"/>
+      </div> 
+      <div class="form-group phone-check-inline">  
+        <div class="input-error" for="phone"></div>
+        <button id="btn_send_verify" type="button" class="btn btn-save send" disabled data-href="<?php echo U('Home/Auth/ajax_send_code');?>"><?php echo L('_SEND_VERIFY_CODE_');?></button>
+        <input  id="txt_phone" type="text" name="phone" class="form-control input-lg phone" data-href="<?php echo U('Home/Auth/check', array('type' => 'mobile'));?>"  placeholder="<?php echo L('_MOBILE_');?>" autocomplete="off" value="<?php echo $authdata['phone'];?>"/>
+      </div> 
+
+      <div class="form-group"> 
+        <div class="input-error" for="verify"></div> 
+        <input id="txt_verify" type="text" name="verify" autocomplete="off"  data-href="<?php echo U('Home/Auth/ajax_check_code');?>" class="form-control input-lg code" placeholder="<?php echo L('_VERIFY_CODE_');?>">
+      </div>
+      <div class="form-group">  
+        <div class="input-error" for="password"></div>
+				<input id="txt_password" type="password" class="form-control" name="password"  placeholder="<?php  echo L('_PASSWORD_');?>" autocomplete="off"/>
+				<i class="fa fa-eye fa-1x lock_e" id="i_eye"></i>
+      </div>
+
+      <div class="checkbox form-group"> 
+        <label><input  id="chk_agree" type="checkbox" name="agree" value="1"/><?php echo L('_AGGRE_');?></label>
+        <a href="<?php echo U('Auth/terms', '', true, false, false);?>" target="_blank"><?php echo L('_COMPANY_DEAL_');?></a>
+      </div> 
+      <div class="form-group mt20"> 
+        <button id="btn_submit"  type="button" class="btn btn-save btn-block" disabled><?php echo L('_REGISTER_TITLE_');?></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!--模态窗体-->
+<div class="modal fade" id="imgcode_verify_modal" tabindex="-1" role="dialog"
+     aria-labelledby="preview_label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="preview_label"></h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group phone-check-inline">
+          <div class="input-error" for="code-verify"></div>
+          <input type="text" name="code_verify" class="form-control input-lg phone" id="txt_code_verify" placeholder="<?php echo L('_INPUT_IMAGE_VERIFY_CODE_')?>" autocomplete="off" value="" data-href="<?php echo U('Home/Auth/check_verify'); ?>"/>
+          <img  src="<?php echo U('Home/Auth/verify');?>" id="img_verify"/>
+          <a href="#" style="cursor:pointer" id="change_image" class="email_hidden"><?php echo L('_NOT_LOOK_')?></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

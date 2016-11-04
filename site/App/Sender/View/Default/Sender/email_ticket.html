@@ -1,0 +1,17 @@
+<!--{__NOLAYOUT__}-->
+<layout name="layout_email" />
+
+<p style="margin-top:0;font-weight:bold;"><?php echo $real_name; ?>，您好：</p>
+<p>您申请参加『<?php echo $activity_name; ?>』已通过审核，时间地点详见电子票。活动当天需要现场验票, 请留存下面的链接。</p>
+<div style="padding: 15px; border-top: 1px solid #e7e7e7;">
+  <div style="position: relative;float: left;width: 310px;">
+    <p>您的电子票: </p><a style="color: #0070cd;" target="_blank" href="<?php echo $ticket_url?>"><?php echo $ticket_url?></a>
+  </div>
+<!--  <div style="position: relative; padding-left: 10px; float: left; width: 165px;">-->
+<!--    <img style="width: 155px;" src="--><?php //echo C('SITE_HOST_URL').'/Upload/org/qrcode/activity/ticket/'.$tguid.'.png';?><!--">-->
+<!--  </div>-->
+  <div style="clear:both; height:0;"></div>
+</div>
+<p style="margin-top:0; padding-top: 10px; color:#999; border-top: 1px solid #e7e7e7;">
+如果此活动不是由您报名，我们建议你前往 <a style="color:#4c8cc1; text-decoration: none;" target="_blank" href="http://www.meetelf.com/auth/login"><?php echo C('APP_NAME');?>个人中心</a> 更改您的密码，然后查看 您的账号信息 获取更多帮助</p>
+<a target="_blank" href="http://www.meetelf.com" style="color:#4c8cc1; text-decoration: none;"><?php echo C('APP_NAME');?>-做有温度的会签平台</a>

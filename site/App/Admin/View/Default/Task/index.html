@@ -1,0 +1,65 @@
+<import type='js' file="admin.js.orgIndex" />
+<div id="content-head">任务管理</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>'', 'v'=>'任务管理')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a class="js-creat-file pull-right btn btn-danger ml10" style="margin-left:10px;" type="button" href="{:U('Task/flow')}"><span class="fa fa-stack-overflow"></span> 任务流管理</a>
+				<a href="{:U('Task/edit')}" type="button" class="pull-right btn btn-success"><span class="glyphicon glyphicon-plus"></span> 新增任务</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<table border="1" cellspacing="0" cellpadding="10" class="table table-bordered">
+					<thead>
+						<tr>
+							<td class="w80 tc">任务编号</td>
+							<td>任务名称</td>
+							<td>任务类型</td>
+							<td>任务状态</td>
+							<td class="w120 tc">操作</td>
+						</tr>
+					</thead>
+
+					<tbody>
+						<notempty name="task_list">
+						<volist name="task_list" id="vo">
+						<tr>
+							<td>{$vo['id']}</td>
+							<td>{$vo['name']}</td>
+							<td>
+								<switch name="vo.type">
+									<case value="1">普通</case>
+									<case value="2">日常</case>
+								</switch>
+							</td>
+							<td>
+								<switch name="vo.is_del">
+									<case value="0">开启</case>
+									<case value="1">关闭</case>
+								</switch>
+							</td>
+							<td><a href="<?php echo U('edit',array('guid'=>$vo['guid']));?>"><i class="glyphicon glyphicon-search"></i></a></td>
+						</tr>
+						</volist>
+						<else />
+						<tr>
+							<td colspan="10">记录没有找到！</td>
+						</tr>
+						</notempty>
+					</tbody>
+				</table>
+				{$page}
+			</div>
+		</div>
+	</div>
+</div>

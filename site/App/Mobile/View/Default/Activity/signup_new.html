@@ -1,0 +1,59 @@
+<div class="row">
+	<?php if (!empty($activity_info['poster'])) : ?>
+	<img data-original="<?php echo get_image_path($activity_info['poster']) ?>" src="<?php echo get_image_path($activity_info['poster']) ?>" class="lazy postersimg">
+	<?php else:?>
+	<img src="__PUBLIC__/mobile/images/postersimg.jpg" class="postersimg">
+	<?php endif; ?>
+</div>
+<div class="title"><?php echo $activity_info['name']; ?></div>
+<!--<div class="author"><span>from </span>会签助手</div>-->
+<div class="row">
+	<div class="col-regist"><img src="__PUBLIC__/mobile/images/regist01.png"><span>时间地点</span></div>
+	<div class="col-xs-12">									
+		<p><?php echo date('Y年m月d日 H:i', $activity_info['start_time']) . ' ~ ' . date('Y年m月d日 H:i', $activity_info['end_time']); ?><br><?php echo $activity_info['areaid_1_name'] . ' ' . $activity_info['areaid_2_name'] . ' ' . $activity_info['address'] ?></p>
+	</div>
+		<?php if (!empty($activity_info['lng']) && !empty($activity_info['lat'])): ?>
+		<img
+		data-original="http://api.map.baidu.com/staticimage?height=100&zoon=14&copyright=1&markers=<?php echo $activity_info['lng'] . ',' . $activity_info['lat']; ?>"
+		class="lazy">
+		<a class="btn btn-default" style="margin-top: 5px;width: 100%;"
+			href="http://api.map.baidu.com/marker?location=<?php echo $activity_info['lat'] . ',' . $activity_info['lng']; ?>&title=活动地点&content=<?php echo $address; ?>&output=html">点击导航</a>
+		<?php endif; ?>
+</div>
+<div class="row">
+	<div class="col-regist"><img src="__PUBLIC__/mobile/images/regist02.png"><span>活动简介</span></div>
+	<div class="col-xs-12">
+		<div class="td-wd"><?php echo htmlspecialchars_decode($activity_info['content']);?></div> 
+	</div>
+</div>
+<?php if (!empty($flow)): ?>
+<div class="row">
+	<div class="col-regist"><img src="__PUBLIC__/mobile/images/regist03.png"><span>活动流程</span></div>
+	<div class="col-xs-12">
+		<?php foreach ($flow as $f): ?>
+		<div class="td-wd">
+			<div><?php echo $f['title'] ?></div>
+			<div><?php echo date('Y-m-d H:i', $f['start_time']); ?>
+				～<?php echo date('Y-m-d H:i', $f['end_time']); ?></div>
+			<div><?php echo $f['content'] ?></div>
+		</div>
+		<?php endforeach; ?>
+	</div>
+</div>
+<?php endif; ?>
+<?php if (!empty($undertaker)): ?>
+<div class="row">
+	<div class="col-regist"><img src="__PUBLIC__/mobile/images/regist04.png"><span>承办机构</span></div>
+	<div class="col-xs-12">
+    <?php foreach($undertaker as $key => $value):?>
+		<div class="organizers">
+      <div><?php echo htmlspecialchars($key);?>:&nbsp;</div>
+      <?php foreach($value as $v):?>
+      <div><?php echo htmlspecialchars($v);?></div>
+    <?php endforeach;?>
+		</div>
+    <?php endforeach;?>
+	</div>
+</div>
+<?php endif; ?>
+<a href="<?php echo U('Activity/report',array('aid' => $activity_info['guid'],'type'=>1))?>" class="pull-right mt56 mr8">举报</a>

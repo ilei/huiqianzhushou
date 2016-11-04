@@ -1,0 +1,31 @@
+.mt-login {
+	position: relative;
+	display: block;
+	margin: auto;
+	width: 380px;
+}
+@media (max-width: 768px) {
+    .mt-login {
+		position: relative;
+		display: block;
+		padding: 0 15px;
+		width: 100%;
+	}
+}
+.mt-login .form-group { margin-bottom: 0;}
+.mt-login .form-group:first-child > a:first-child,
+.mt-login .form-group:first-child > a:first-child:hover,
+.mt-login .form-group:first-child > a:first-child:focus { font-size:24px; color: #333;line-height: 24px;text-decoration: none;}
+.mt-login .form-group:first-child > a:last-child {float: right; line-height: 24px;}
+.mt-login .form-group .input-error { display: block; margin: 5px; min-height: 10px; color: #ff4317;}
+.mt-login .phone-check-inline { padding-right: 150px; width: 100%;}
+.mt-login .phone-check-inline button {
+	position: absolute;
+	right: -15px;
+	width: 150px;
+}
+@media (max-width: 768px) {
+	.mt-login .phone-check-inline button {
+		right: 0;
+	}
+}

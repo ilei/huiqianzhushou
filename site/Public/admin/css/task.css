@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+.condition_item{
+	position:relative;
+}
+.del-icon{
+ 	position:absolute;
+	left:98%;
+	top:6px;
+}
+.time-center-text{
+	text-align:center;
+	line-height:34px;
+	height:34px;
+	width:20px;
+	padding:0;
+}
+.icon-chevron-up{
+	background-position:-288px -120px;
+}
+.icon-chevron-down{
+	background-position:-313px -119px;
+}
+i {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-top: 1px;
+	line-height: 14px;
+	vertical-align: text-top;
+	background-image: url("../images/glyphicons-halflings.png");
+	background-position: 14px 14px;
+	background-repeat: no-repeat;
+}

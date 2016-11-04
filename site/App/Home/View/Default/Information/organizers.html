@@ -1,0 +1,214 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-6 col-md-7">
+            <h3><strong>主办方信息</strong></h3>
+        </div>
+        <div class="col-sm-6 col-md-5">
+            <button class="btn btn-header-add" data-toggle="modal" data-target="#myModalorg"><strong>+添加新的主办方</strong></button>
+        </div>
+    </div>
+</div>
+<table class="table mtelf-table-border">
+    <thead>
+        <th>主办方</th>
+        <th>活动</th>
+        <!-- <th>总收入</th> -->
+        <!-- <th>账号绑定</th> -->
+        <th>操作</th>
+    </thead>
+    <tbody class="activity_list_tbody">
+            <?php if (!empty($list)): ?>
+                <?php foreach ($list as $k => $l): ?>
+                    <tr class="hasportrait key-<?php echo $k; ?>">
+                        <td><img width="80" height="80"  class="lazy" src="/Public/common/images/noportrait.png" data-original="<?php echo get_image_path($l['photo'],1); ?>" ><a href="###" data-toggle="modal" data-target="#<?php echo $k; ?>lookModalorg"><?php echo $l['name']; ?></a></td>
+                        <td><?php echo $l['activity_num']; ?></td>
+                        <!-- <td>￥0.00</td> -->
+                        <!-- <td>未绑定</td> -->
+                        <td class="wh98">
+                             <a class="edit_f" href="###" data-toggle="modal" data-target="#<?php echo $k; ?>myModalorg" data-id="poster_photo_<?php echo $k;?>">编辑</a>&nbsp;|
+                            <?php if ($l['is_active']): ?>
+                                <a href="###" class="del" data-able="0">删除</a>
+                            <?php else: ?>
+                                <a href="###" class="del"
+                                   data-href="<?php echo U('Information/del', array('guid' => $l['guid'])) ?>"
+                                   data-key="<?php echo $k; ?>" data-able="1">删除</a>
+                            <?php endif; ?>
+                            <input type="hidden" name="guid" value="<?php echo $auth['guid']; ?>"/>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="10">暂无主办方.</td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+</table>
+<!-- Modal -->
+<div class="modal fade" id="myModalorg" tabindex="-1" role="dialog" aria-labelledby="organizersmodal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="organizersmodal">添加主办方</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" name="form_add" id="form_add" role="form" method="post" action="<?php echo U('Information/organizer_add') ?>" data-href="<?php echo U('Information/organizer_add') ?>">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">主办方</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" name="account" id="account" placeholder="主办方名称">
+                </div>
+                <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">手机</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" name="mobile" id="mobile" placeholder="联系人手机号">
+                </div>
+                <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">头像</label>
+                <div class="col-sm-7">
+                    <div><img id="ImgPr_add" class="imgpro" width="120" height="120" src="<?php echo get_image_path('',1); ?>"/></div>
+                    <input type="hidden" id="poster" name="poster" value=""/>
+                        <div><button data-target="#cropper-upload-modal" data-toggle="modal" id="user_photoV_add" type="button" class="btn btn-save mt20">上传头像</button></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">简介</label>
+                <div class="col-sm-7">
+                    <textarea class="form-control" rows="3" name="desc" id="desc"></textarea>
+                </div>
+                <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-7 col-sm-offset-2">
+                    <button type="button" class="btn btn-save" id="save">保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php if (!empty($list)): ?>
+    <?php foreach ($list as $k => $l): ?>
+        <div class="modal fade" id="<?php echo $k; ?>myModalorg" tabindex="-1" role="dialog" aria-labelledby="organizersmodal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="organizersmodal">编辑主办方</h4>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal" id="edit_form<?php echo $k; ?>" role="form" method="post" action="<?php echo U('Information/organizer_edit',array('guid' => $l['guid'])) ?>">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">主办方</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" name="account" id="account" placeholder="主办方名称" value="<?php echo $l['name'];?>">
+                        </div>
+                        <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">手机</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" name="mobile" id="mobile" placeholder="联系人手机号" value="<?php echo $l['mobile'];?>">
+                        </div>
+                        <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">头像</label>
+                        <div class="col-sm-7">
+                            <div><img id="ImgPr_edit" class="imgpro" width="120" height="120" data-original="<?php echo get_image_path($l['photo'],1); ?>" src="<?php echo get_image_path($l['photo'],1); ?>"/></div>
+                        <input type="hidden" id="poster_photo_<?php echo $k;?>"  name="poster_photo" value="<?php echo $l['photo']; ?>"/>
+                        <div><button data-target="#cropper-upload-modal" data-toggle="modal" id="user_photoV_edit" type="button" class="btn btn-save mt20">上传头像</button></div>
+
+
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">简介</label>
+                        <div class="col-sm-7">
+                            <textarea class="form-control" rows="3" name="desc"><?php echo $l['desc'];?></textarea>
+                        </div>
+                        <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-7 col-sm-offset-2">
+                            <button type="submit" class="btn btn-save">保存</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+<?php if (!empty($list)): ?>
+    <?php foreach ($list as $k => $l): ?>
+        <div class="modal fade" id="<?php echo $k; ?>lookModalorg" tabindex="-1" role="dialog" aria-labelledby="organizersmodal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="organizersmodal">查看主办方</h4>
+              </div>
+              <div class="modal-body">
+                <form class="form-horizontal" id="edit_form<?php echo $k; ?>" role="form" method="post" action="<?php echo U('Information/organizer_edit',array('guid' => $l['guid'])) ?>">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">主办方</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" name="account" id="account" placeholder="主办方名称" value="<?php echo $l['name'];?>" disabled="true">
+                        </div>
+                        <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">手机</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" name="mobile" id="mobile" placeholder="联系人手机号" value="<?php echo $l['mobile'];?>" disabled="true">
+                        </div>
+                        <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">头像</label>
+                        <div class="col-sm-7">
+                            <div><img id="ImgPr_check" width="120" height="120" src="<?php echo get_image_path($l['photo'],1); ?>"/></div>
+                    <input type="hidden" name="poster" value="<?php echo $l['photo']; ?>"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">简介</label>
+                        <div class="col-sm-7">
+                            <textarea class="form-control" rows="3" name="desc" disabled="true"><?php echo $l['desc'];?></textarea>
+                        </div>
+                        <div class="col-sm-7 col-sm-offset-2error_prompt tishinr"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-7 col-sm-offset-2">
+                            <!-- <button type="submit" class="btn btn-save">保存</button> -->
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+<include file="Public:_upload_modal" />

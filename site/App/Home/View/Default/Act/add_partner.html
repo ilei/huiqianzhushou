@@ -1,0 +1,72 @@
+<?php foreach($undertakers as $key => $value):?>
+<?php if($value['type'] == 1):?>
+<?php $master .= $value['name'] . ','; $master_guid .= $value['organizer_guid'] . ',';unset($undertakers[$key]);?>
+<?php endif;?>
+<?php endforeach;?>
+<div class="st-li">
+  <label class="st-li-item"><span>*</span> 主办方</label>
+  <div class="st-li-process">
+    <div class="st-li-process-item">
+      <div class="row">
+        <input name="op_undertaker[0][guid]" value="<?php echo trim($master_guid, ',');?>" type="hidden" id="zhubanfang_input"/>
+        <div class="col-sm-2">
+          <select name="op_undertaker[0][type]" class="form-control" disabled>
+            <option value="1">主办方</option>
+          </select>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" value="<?php echo htmlspecialchars(trim($master, ','));?>" name="op_undertaker[0][name]" placeholder="多个单位或个人请用','分开" id="undertaker-master">
+        </div>
+        <?php if(isset($organizer) && $organizer):?>
+        <div class="col-sm-2">
+          <a class="btn btn-default btn-block" data-toggle="modal" data-target="#zhubanModal"><i class="fa fa-check-square-o"></i> 选择</a>
+        </div>
+        <?php endif;?>
+      </div>
+    </div>  
+    <?php if(isset($undertakers) && $undertakers):?>
+    <?php foreach($undertakers as $key => $value):?>
+    <div class="st-li-process-item">
+      <div class="row edit-row">
+        <div class="col-sm-2">
+          <input type="hidden" name="op_undertaker[<?php echo $value['guid'];?>][guid]"  value="<?php echo $value['partner_guid'];?>"/>
+          <select class="form-control" name="op_undertaker[<?php echo $value['guid'];?>][type]">
+            <?php foreach($partners as $key => $partner):?>
+            <option data-value="<?php echo $partner['guid'];?>" value="<?php echo htmlspecialchars($partner['name']);?>" <?php echo $value['partner_guid'] == $partner['guid'] ? 'selected' : '';?>><?php echo htmlspecialchars($partner['name']);?></option>
+            <?php endforeach;?>
+          </select>
+        </div>
+        <div class="col-sm-7">
+          <input type="text" class="form-control" value="<?php echo htmlspecialchars($value['name']);?>" name="op_undertaker[<?php echo $value['guid'];?>][name]" placeholder="多个单位或个人请用','分开">
+        </div>
+        <div class="col-sm-2">
+          <button class="btn btn-times" id="undertaker-del-<?php echo $value['guid']; ?>" type="button"><i class="fa fa-times fa-2x"></i></button>
+        </div>
+      </div>
+    </div>
+    <?php endforeach;?>
+    <?php else:?>
+    <div class="st-li-process-item">
+      <div class="row">
+        <div class="col-sm-2">
+          <select class="form-control combobox">
+            <?php foreach($partners as $key => $partner):?>
+            <option value="<?php echo $partner['guid'];?>"><?php echo htmlspecialchars($partner['name']);?></option>
+            <?php endforeach;?>
+          </select>
+      </div>
+      <div class="col-sm-7">
+        <input type="text" class="form-control" placeholder="多个单位或个人请用','分开" name="op_undertaker[1][name]">
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-times" id="undertaker-del-1" type="button"><i class="fa fa-times fa-2x"></i></button>
+      </div>
+    </div>
+  </div>
+  <?php endif;?>
+  <div class="st-li-process-item">
+    <button type="button" class="btn btn-default" id="undertaker-add-button"><i class="fa fa-plus"></i> 添加其他合作方</button>
+  </div>
+</div>
+<p class="error" id="undertaker-error"></p>
+</div>

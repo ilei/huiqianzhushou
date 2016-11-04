@@ -1,0 +1,91 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Keywords" content="<?php echo implode(',', $keywords);?>">
+    <meta name="Description" content="<?php echo $desc;?>">
+    <meta name="Author" content="<?php echo L('_APP_NAME_')?>" />
+    <title><?php echo C('APP_NAME')?></title>
+    <link rel="shortcut icon" href="<?php echo fixed_resource_url('/Public/common/images/favicon.ico') ?>"
+          type="image/vnd.microsoft.icon">
+		<link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <import type="css" file="meetelf.css.base" />
+    <import type="css" file="meetelf.css.index" />
+		<?php foreach($css as $key => $value):?>
+    <link href="<?php echo fixed_resource_url('/Public/'.$value.'?t='.($debug ? time() : C('last_release')));?>"
+          rel="stylesheet"/>
+		<?php endforeach;?>
+  </head>
+  <body>
+<!-- 导航 -->
+<include file="Public:_index_nav" />
+<!-- 导航 end-->
+<!-- 背景 -->
+<div class="head-img">
+  <div class="head-text">下载中心</div>
+</div>
+<!-- 背景 end-->
+<!-- 内容 -->
+<div class="container">
+  <div class="row dl-instructions">
+    <div class="col-sm-10 col-sm-offset-1 mt30">
+      <h2>手机签到，一键扫描</h2>
+      <p>仅限会签助手签到使用，用轻量化、便捷的签到方式，提高签到效率，缩减您的活动成本</p>
+      <div><img src="__PUBLIC__/meetelf/images/dl-instructions01.jpg"></div>
+    </div>
+
+    <div class="col-sm-10 col-sm-offset-1">
+      <h2>手动签到更准确</h2>
+      <p>没带票券？报上手机号码直接签到，再也不用担心</p>
+      <div><img src="__PUBLIC__/meetelf/images/dl-instructions02.jpg"></div>
+    </div>
+  </div>
+  <div class="row mt30">
+    <div class="col-xs-12 col-xs-offset-0 col-lg-10 col-lg-offset-1">
+      <div class="row">
+        <div class="col-sm-8 text-center">
+          <img src="__PUBLIC__/meetelf/images/dl-instruct01.jpg">
+          <h2>在线签到APP</h2>
+        </div>
+        <div class="col-sm-4 text-center">
+          <img src="__PUBLIC__/meetelf/images/dl-instruct02.jpg">
+          <h2>离线签到客户端</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt20">
+    <div class="col-xs-12 col-xs-offset-0 col-lg-10 col-lg-offset-1">
+      <div class="row btn-download-text">
+        <div class="col-xs-4">
+          <a class="btn btn-download-lg btn-block" id="downloadandr" data-original-title="" title="">
+            <div class="pull-left"><i class="fa fa-android"></i></div>
+            <div class="pull-left">安卓下载<span>Android4.0及以上版本</span></div>
+          </a>
+          <p class="text-center">支持安卓手机及pad</p>
+        </div>
+        <div class="col-xs-4">
+          <a class="btn btn-download-lg btn-block" id="downloadios" data-original-title="" title="">
+            <div class="pull-left"><i class="fa fa-apple"></i></div>
+            <div class="pull-left">iOS下载<span>iOS 7.0及以上版本</span></div>
+          </a>
+          <p class="text-center">支持iPhone及iPad</p>
+        </div>
+        <div class="col-xs-4">
+          <a class="btn btn-download-lg btn-block" id="downloadiop" data-original-title="" title="" href="<?php echo APP_DEBUG?C('DOWNLOAD_ELF_PC_BETA'):C('DOWNLOAD_ELF_PC');?>">
+            <div class="pull-left"><i class="fa fa-windows"></i></div>
+            <div class="pull-left">PC下载<span>windows 7及以上版本</span></div>
+          </a>
+          <p class="text-center">仅供PC端使用</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<include file="Public:_index_footer" />

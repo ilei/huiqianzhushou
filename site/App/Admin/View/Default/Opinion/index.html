@@ -1,0 +1,40 @@
+<div id="content-head">反馈管理</div>
+<import type='js' file="admin.js.orgIndex" />
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>'', 'v'=>'反馈管理')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-bordered col-sm-12">
+					<thead>
+						<tr>
+							<th>用户名</th>
+							<th>创建时间</th>
+							<th>简短内容</th>
+							<th>查看</th>
+						</tr>
+					</thead>
+					<?php foreach($list_opinion as $l):?>
+					<tr>
+						<td><?php echo $l['real_name'];?></td>
+						<!--<td class="text-danger"><?php echo date('Y-m-d H:i',$l['created_at']);?></td>-->
+						<td><?php echo date('Y-m-d H:i',$l['created_at']);?></td>
+						<!--<td class="text-info"><?php echo mb_substr($l['content'],0,9,'utf-8');?>...</td>-->
+						<td><?php echo mb_substr($l['content'],0,9,'utf-8');?>...</td>
+						<td ><a href="<?php echo U('Opinion/content', array('opinion_guid'=>$l['guid']))?>"><i class="glyphicon glyphicon-search"></i></a></td>
+					</tr>
+					<?php endforeach; ?>
+				</table>
+				<?php echo $page;?>
+			</div>
+		</div>
+	</div>
+</div>

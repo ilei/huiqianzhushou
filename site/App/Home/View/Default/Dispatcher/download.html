@@ -1,0 +1,92 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!-- 禁止百度转码 -->
+    <meta name="format-detection" content="telephone=no"/>
+    <!-- 禁止ios数字识别为电话号码 -->
+    <meta name="screen-orientation" content="portrait"/>
+    <!-- UC强制竖屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <!-- QQ强制竖屏 -->
+    <meta name="full-scerrn" content="yes"/>
+    <!-- UC强制全屏 -->
+    <meta name="x5-fullscreen" content="ture"/>
+    <!-- QQ强制全屏 -->
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <!-- window phone 点亮无高光 -->
+    <meta name="format-detection" content="email=no"/>
+    <!-- 安卓设备不自动识别邮件地址 -->
+    <title><?php echo C('APP_NAME')?>-有温度的会展平台</title>
+    <!--<meta name="Keywords" content="社团邦,社团联盟商会组织管理工具APP软件,成员管理,活动发布,票务,会签,yunmai365">-->
+    <!--<meta name="Description" content="社团邦，为社团联盟商会组织而生的互联网管理工具APP软件。一款高效的社团活动、交流、组织、管理工具">-->
+    <meta name="author" content="<?php echo C('APP_NAME')?>"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+    <?php echo C('MEDIA_FAVICON')?>
+    <!-- Bootstrap -->
+    <?php echo C('MEDIA_CSS.BOOTSTRAP'); ?>
+    <?php echo C('MEDIA_CSS.FONT_AWESOME')?>
+    <link href="__PUBLIC__/common/css/download/screen.css" rel="stylesheet">
+    <link href="__PUBLIC__/common/css/download/indexm.css" rel="stylesheet">
+    <link href="__PUBLIC__/common/css/download/fullpage.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <?php echo C('MEDIA_JS.JQUERY'); ?>
+    <script src="__PUBLIC__/common/js/jquery.fullPage.min.js"></script>
+    <script>
+        $(function () {
+            $('#dowebok').fullpage({
+                sectionsColor: ['#8691a6']
+            });
+            var isSafari = navigator.userAgent.indexOf("Safari") > -1;
+            var ua = navigator.userAgent.toLowerCase();
+            var isWeiXin = (ua.match(/MicroMessenger/i) == "micromessenger");
+            if (isWeiXin) {
+                $("#notice").show();
+            }
+            if (!isSafari && !isWeiXin) {
+                $(".wrong").attr('src', $("#safra").attr('src'));
+                $("#notice").show();
+            }
+        });
+    </script>
+</head>
+<body>
+<div id="dowebok">
+    <div class="section section_dl active">
+        <div id="notice" style="display:none;margin-right:10px;">
+            <?php if($type=='a'): ?>
+            <img class="wrong" src="__PUBLIC__/common/images/download/android.png">
+            <?php elseif($type=='i'):?>
+            <img id="safra" style="display:none;" src="__PUBLIC__/common/images/download/no_safari.png"/>
+            <img class="wrong" src="__PUBLIC__/common/images/download/wrong.png">
+            <?php endif;?>
+            <!-- <div class="wrongbg"></div> -->
+        </div>
+        <div class="section_center">
+            <div class="container">
+                <div class="row text-center">
+                    <img class="aboutus" src="__PUBLIC__/mobile/images/app_icon.png">
+
+                    <h2><?php echo $name?></h2>
+
+                    <div>版本：<?php echo $version;?> · <?php echo $size;?> <br><?php echo $updateTime;?> </div>
+                </div>
+            </div>
+        </div>
+        <div class="section_dl_footer">
+            <div class="row">
+                <div class="col-xs-8 col-xs-offset-2">
+                    <a class="btn btn-top-dl btn-lg btn-block" href="<?php echo $download_path;?>"><i
+                            class="fa fa-arrow-circle-down"></i>下载安装</a>
+                </div>
+            </div>
+            <div class="text-center">© 云脉三六五</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

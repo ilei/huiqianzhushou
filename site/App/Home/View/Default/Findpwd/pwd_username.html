@@ -1,0 +1,74 @@
+<input id="email_hidden_input" type="text" is_email="" is_true="" value="" hidden="true"/>
+<input type="text" id="check_mobile_code_url" value="<?php echo U('Home/Findpwd/ajax_check_mobile_code')?>" hidden="true"/>
+<input id="send_button_url" value="<?php echo U('Home/Findpwd/ajax_send_code');?>" hidden="true"/>
+<input id="verify_url" value="<?php echo U('Home/Findpwd/ajax_check_verify')?>" hidden="true"/>
+<input id="ajax_check_username" value="<?php echo U('Home/Findpwd/ajax_check_username')?>" hidden="true"/>
+<input id="find_pwd_pwd_url" value="<?php echo U('Home/Findpwd/pwd_pwd');?>" hidden="true"/>
+<div class="container">
+  <div class="mt-login">
+    <form class="form-horizontal pwdForm" id="pwdMobileForm" role="form" action="" method="post" name="pwdMobileForm">
+      <div class="form-group">
+        <a><?php echo L('_FIND_PWD_')?></a>
+        <a href="<?php echo U('/Home/Auth/login', '', true, false, false);?>">返回登录</a>
+      </div>
+      <div class="form-group mt20">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="alert alert-warning mb0" role="alert">邮箱找回，只适用于已通过认证的邮箱账号</div>
+          </div>
+        </div>
+        <label class="radio-inline">
+          <input type="radio" name="findpwdOptions" id="mobile_find_pwd_btn" value="option1" checked> 手机找回
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="findpwdOptions" id="email_find_pwd_btn" value="option2"> 邮箱找回
+        </label>
+        <div class="tishinr input-error" id="username_tishinr"></div>
+        <div class="row">
+          <div class="col-xs-12">
+            <input type="text" name="username" class="form-control input-lg " id="username" placeholder="<?php echo L('_EMAIL_OR_PHONE_')?>" value=""/>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="tishinr input-error" id="checkcode_tishinr"></div>
+        <div class="row">
+            <div class="col-xs-4">
+                <input type="text" class="form-control code email_hidden" name="checkcode" id="checkcode" placeholder="<?php echo L('_CHECK_CODE_')?>" />
+            </div>
+            <div class="col-xs-8" id="send_code_div">
+                <button type="button" class="btn btn-save btn-block check_code" id="send_verify_code" disabled><?php echo L('_SEND_CODE_')?></button>
+                <div class="click_text"></div>
+            </div>
+        </div>
+      </div>
+      <div class="form-group mt30">
+        <button type="submit" class="btn btn-save btn-block email_hidden" id="next_submit" name="next_submit" disabled>下一步</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!--模态窗体-->
+<div class="modal fade" id="imgcode_verify_modal" tabindex="-1" role="dialog"
+     aria-labelledby="preview_label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="preview_label"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group phone-check-inline">
+                    <div class="input-error" for="code-verify" id="txt_code_verify_tishinr"></div>
+                    <input type="text" name="code_verify" class="form-control input-lg phone" id="txt_code_verify" placeholder="<?php echo L('_INPUT_IMAGE_VERIFY_CODE_')?>" autocomplete="off" value="" data-href="<?php echo U('Home/Auth/check_verify'); ?>"/>
+                    <img  src="<?php echo U('Home/Auth/verify');?>" id="img_verify" class="verifyimg"/>
+                    <a onclick="refresh_verify();" style="cursor:pointer" id="click_verify" class=""><?php echo L('_NOT_LOOK_')?></a>
+<!--                    <a href="#" style="cursor:pointer" id="change_image" class="email_hidden">--><?php //echo L('_NOT_LOOK_')?><!--</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

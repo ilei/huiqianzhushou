@@ -1,0 +1,53 @@
+<input type="hidden" id="login-url" value="<?php echo U('Mobile/Auth/login');?>"/>
+<input type="hidden" id="check-mobile-url" value="<?php echo U('Mobile/Findpwd/check_mobile','',true,true);?>"/>
+<input type="hidden" id="ajax_check_mobile_code_url" value="<?php echo U('Mobile/Findpwd/ajax_check_mobile_code','',true,true);?>"/>
+<input type="hidden" id="verify_url" value="<?php echo U('Mobile/Findpwd/ajax_check_verify','',true,true);?>"/>
+<input id="send_button_url" value="<?php echo U('Mobile/Findpwd/ajax_send_code');?>" hidden="true"/>
+<div class="wrapper-signin">
+  <form class="form-signin" id="username-pwd-form" method="post" action="<?php echo U('Mobile/Findpwd/pwd_username','',true,true);?>">
+    <h2>找回密码</h2>
+<!--    <div class="tishi"></div>-->
+    <div class="">
+<!--      <div class="tishi" id="username_tishi"></div>-->
+      <input type="text" placeholder="手机号" class="form-control" id="username" name="username">
+    </div>
+    <div class="row">
+      <div class="col-xs-5">
+<!--        <div class="tishi"></div>-->
+        <input type="text" placeholder="验证码" class="form-control" id="verify" name="verify"  disabled="disabled">
+      </div>
+      <div class="col-xs-7">
+        <button type="button" class="btn btn-submit btn-yanz btn-block" id="send_verify_code">发送验证码</button>
+        <div class="click_text"></div>
+      </div>
+
+    </div>
+    <button type="submit" class="btn btn-submit btn-block">下一步</button>
+    <div class="row"><a href="<?php echo U('Mobile/Auth/login');?>" class="btn btn-link pwd-position">返回登录</a></div>
+  </form>
+</div>
+
+<!--模态窗体-->
+<div class="modal fade" id="imgcode_verify_modal" tabindex="-1" role="dialog"
+     aria-labelledby="preview_label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="preview_label"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group phone-check-inline">
+                    <div class="input-error" for="code-verify" id="txt_code_verify_tishinr"></div>
+                    <input type="text" name="code_verify" class="form-control input-lg phone" id="txt_code_verify"
+                           placeholder="<?php echo L('_INPUT_IMAGE_VERIFY_CODE_')?>"
+                           autocomplete="off" value="" data-href="<?php echo U('Home/Auth/check_verify'); ?>"/>
+                    <img  src="<?php echo U('Mobile/Findpwd/verify','',true,true);?>" id="img_verify" class="verifyimg"/>
+                    <a onclick="refresh_verify();" style="cursor:pointer" id="click_verify" class=""><?php echo L('_NOT_LOOK_')?></a>
+                    <!--                    <a href="#" style="cursor:pointer" id="change_image" class="email_hidden">--><?php //echo L('_NOT_LOOK_')?><!--</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

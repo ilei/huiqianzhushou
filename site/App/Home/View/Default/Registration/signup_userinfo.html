@@ -1,0 +1,267 @@
+<!--页面地址-->
+<input type="hidden" name="activity_info_url" id="activity_info_url" value="<?php echo U('Home/Registration/signup_userinfo', array('aid' => $activity_info['guid']),true,true) ?>"/>
+<!--给全部人员发送电子票--><!---->
+<input type="hidden" name="ajax_send_ticket" id="ajax_send_ticket" value="<?php echo U('Home/Registration/ajax_send_ticket_a','',true,true) ?>"/>
+<!--活动guid-->
+<input type="hidden" name="activity_guid" id="activity_guid_hidden" value="<?php echo $activity_info['guid'] ?>"/><!---->
+<!--活动状态-->
+<input type="hidden" name="activity_status" id="activity_status_hidden" value="<?php echo $activity_info['status'] ?>"/><!---->
+<!--活动名称-->
+<input type="hidden" name="activity_name" id="activity_name_hidden" value="<?php echo $activity_info['name'] ?>"/>
+<!--人员总数-->
+<input type="hidden" name="user_count" id="user_count_hidden" value="<?php echo $user_count ?>"/>
+<!--票务状态筛选地址-->
+<input type="hidden"  id="ajax_userinfo_url_hidden" value="<?php echo U('Home/Registration/ajax_signup_userinfo','',true,true); ?>;"/>
+<!--邮件类型-->
+<input type="hidden" id="hidden_email" value="<?php if(!empty($is_send_mail)){echo '1';}else{echo '0';}?>">
+<!--报名用户详情地址-->
+<input type="hidden" id="hidden_user_info_url" value="<?php echo U('Home/Registration/ajax_signin_user_info','',true,true);?>">
+<!--删除报名用户地址-->
+<input type="hidden" id="hidden_del_user_info_url" value="<?php echo U('Home/Registration/ajax_del_user_info','',true,true);?>">
+<!--修改信息url-->
+<input type="hidden" id="hidden_update_user_info_url" value="<?php echo U("Home/Signup/add_signup", array('guid' => $activity_info['guid']));?>">
+<!--修改信息js页面唯一控制-->
+<input id="unload" value="1" hidden>
+<?php //var_dump($user_info_list)?>
+<!--现场报名地址-->
+<input type="hidden"  id="add_user_url_hidden" value="<?php echo U('Home/signup/add_signup',array('guid' => $activity_info['guid']),true,true); ?>"/>
+<form id="checked_export" method="get" action="<?php echo U('Home/Registration/signup_export_other',array('aid' => $activity_info['guid']),true,true)?>" hidden>
+    <!--选中要导出的guid-->
+    <input type="hidden" id="checked_guids" name="derive_type" value="">
+</form>
+
+
+
+
+<!--<div id="main">-->
+<div class="container">
+    <div class="row">
+        <div class="elf-act-title">
+            <!--                --><?php //var_dump($activity_info)?>
+            <?php echo $Page?>
+            <!--                --><?php //var_dump($message_nums,$user_list_url,$user_list,$user_count,$is_last_page,$page,$tickets,$build_info,$option_info,$tickets_filter,$subject_info)?>
+            <div><?php echo $activity_info['name']?></div>
+<!--            --><?php //echo activity_status($activity_info['status']);?>
+
+            <?php if($act['is_verify'] == 0): ?>
+                <?php echo activity_status(4); ?>
+            <?php elseif($act['is_verify'] == 1): ?>
+                <?php echo activity_status($act['status']); ?>
+            <?php else: ?>
+                <?php echo activity_status($act['is_verify']); ?>
+            <?php endif; ?>
+            
+            <?php if($avtivity_info['published_at'] == ''):?>
+            <?php else:?>
+                <?php if($activity_info['start_time'] == ''):?>
+                    <p><?php echo weekday('Y年M月d日',$activity_info['published_at'])?></p>
+                <?php else:?>
+                    <?php if(($activity_info['end_time'] - $activity_info['start_time']) <= 86400):?>
+                        <p><?php echo weekday($activity_info['start_time'],'Y年m月d日 星期{w}').' '.weekday($activity_info['start_time'],'H:i').' ~ '.weekday($activity_info['end_time'],'H:i')?></p>
+                    <?php else:?>
+                        <p><?php echo weekday($activity_info['start_time'],'Y年m月d日 星期{w}').' '.weekday($activity_info['start_time'],'H:i').' ~ '.weekday($activity_info['start_time'],'Y年m月d日 星期{w}').' '.weekday($activity_info['end_time'],'H:i')?></p>
+                    <?php endif;?>
+                <?php endif;?>
+            <?php endif;?>
+        </div>
+    </div>
+</div>
+<div id="pin-nav">
+    <include file="Public:nav" />
+    <!--        </nav>-->
+    <div class="container">
+        <div class="row">
+            <div id="pin-main" class="col-xs-12 pin-main-sm">
+                <div class="page-header">
+                    <h3>参会者人员名单</h3>
+                </div>
+                <h5 class="ml15">总人数: <span id="user_count"><?php echo $count;?></span>人&nbsp;&nbsp;当前页人数: <span id="surplus_count"><?php echo $surplus_count;?></span>人</h5>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="form-search-group">
+                            <a class="form-control-search" href="javascript:void(0);" id="btn_search"><i class="fa fa-search"></i></a>
+                            <input id="search" name="search" type="text" class="form-control" placeholder="请输入姓名或电话进行搜索" value="<?php echo $keyword = urldecode(I('get.k')); ?>">
+                            <a class="form-control-reset" id="btn_search_reset" href="javascript:void(0);" style="display:none;"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <?php if($act['status'] == '1'):?>
+                            <!--<button class="btn btn-general pull-right" type="button">-->
+                                <!--<i class="fa fa-plus"></i><a href ="<?php echo U('Home/Muti/import', array('guid' => $act['guid']));?>">批量添加</a> -->
+                            <!--</button>-->
+                            <button class="btn btn-general pull-right" type="button" id="add_user_btn">
+                                <i class="fa fa-plus"></i> 添加参会者
+                            </button>
+                        <?php else:?>
+                            <button class="btn btn-general pull-right" type="button" id="not_status_add_user_btn">
+                                <i class="fa fa-plus"></i> 添加参会者
+                            </button>
+                        <?php endif;?>
+<!--                        </a>-->
+                    </div>
+                </div>
+
+                <form id="signup_user_list_form" method="post">
+
+                    <table class="table mtelf-table-border mtelf-text-center mt20 table-hover">
+                        <thead>
+                        <tr>
+                            <th class="bg-col-white" colspan="8">
+                                已选择 <span id="ck_user_guid_count">0</span> 位参会者
+                                <?php if($act['status'] == '1'):?>
+                                    <button class="btn btn-default myModaltongzhi_button" type="button" v="sms" disabled>发送短信电子票</button>
+                                    <?php if(!empty($is_send_mail)):?>
+                                        <button class="btn btn-default myModaltongzhi_button" type="button" v="email" disabled>发送邮件电子票</button>
+                                    <?php endif;?>
+                                <?php else:?>
+                                    <button class="btn btn-default" type="button" id="not_status_myModaltongzhi_button_1" disabled>发送短信电子票</button>
+                                    <button class="btn btn-default" type="button" id="not_status_myModaltongzhi_button_1" disabled>发送邮件电子票</button>
+                                <?php endif;?>
+<!--                                <button class="btn btn-default" type="button" data-toggle="modal" id="myModaltongzhi_button" data-target="#myModaltongzhi" disabled>发送电子票</button>-->
+                                <div class="dropdown dropdown-inline">
+                                    <?php if($act['status'] == '1'):?>
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="moreoperation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            更多操作 <i class="fa fa-angle-down"></i>
+                                        </button>
+                                    <?php else:?>
+                                        <button class="btn btn-default" type="button" id="not_status_moreoperation" aria-haspopup="true" aria-expanded="true">
+                                            更多操作 <i class="fa fa-angle-down"></i>
+                                        </button>
+                                    <?php endif;?>
+                                    <ul class="dropdown-menu" aria-labelledby="moreoperation">
+                                        <li data-type="sms" data-loading-text="发送中..." data-target="other"
+                                        class="btn_send_all radius0 pull-left"><a id="btn_send_other_sms" href="javascript:void(0);">发送电子票-未发送人员-短信</a>
+                                        </li>
+                                        <li data-type="sms" data-loading-text="发送中..." data-target="all"
+                                        class="btn_send_all radius0 pull-left"><a id="btn_send_all_sms" href="javascript:void(0);">发送电子票-全部人员-短信</a>
+                                        </li>
+                                        <?php if (!empty($is_send_mail)): ?>
+                                            <li data-type="email" data-loading-text="发送中..." data-target="other"
+                                                    class="btn_send_all radius0 pull-left"><a id="btn_send_other_email" href="javascript:void(0);">发送电子票-未发送人员-邮件</a>
+                                            </li>
+                                            <li data-type="email" data-loading-text="发送中..." data-target="all"
+                                                    class="btn_send_all radius0 pull-left"><a id="btn_send_all_email" href="javascript:void(0);">发送电子票-全部人员-邮件</a>
+                                            </li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                                <a data-toggle="tooltip" data-placement="right" title="若用户电子票为已查看，重新发送电子票后，该状态将改为已发送。">？</a>
+                                <div class="dropdown dropdown-inline pull-right">
+                                    <button class="btn btn-save dropdown-toggle" type="button" id="exportData" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        导出 <i class="fa fa-angle-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="exportData">
+                                        <li><a id="download_all_data" href="<?php echo U('Home/Registration/signup_export',array('aid' => $activity_info['guid'],'derive_type' => 'all'))?>">全部导出</a></li><!--全部导出-->
+                                        <li><a id="download_other_data" href="<?php echo U('Home/Registration/signup_export_other',array('aid' => $activity_info['guid'],'derive_type' => 'other'))?>">导出搜索结果</a></li><!--导出搜索结果-->
+                                        <li><a id="download_checked_data" href="javascript:void(0);">导出选中</a></li><!--导出选中-->
+                                    </ul>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th><input type="checkbox" id="ckall"></th>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>联系方式</th>
+<!--                            --><?php //if (!empty($is_send_mail)): ?>
+<!--                            <th>邮箱</th>-->
+<!--                            --><?php //endif;?>
+                            <!--                            <th>签到码</th>-->
+                            <th class="table-dropdown">
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        票种
+                                        <span>(<nameo id="ajax_ticket_name">全部</nameo>)</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="ticket_fiter">
+                                            <li><a href="#" value="all">全部</a></li>
+                                        <?php foreach($tickets_filter_ticket as $k=>$v):?>
+                                            <li><a href="#" value="<?php echo $v['guid']?>"><?php echo $v['name']?></a></li>
+                                        <?php endforeach;?>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th class="table-dropdown">
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        状态
+                                        <span>(<nameo id="ajax_ticket_status">全部</nameo>)</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2" id="ticket_status">
+                                        <li><a ticket_type="all" href="javascript:void(0);">全部</a></li>
+                                        <li><a ticket_type="yes" href="javascript:void(0);">已签到</a></li>
+                                        <li><a ticket_type="no" href="javascript:void(0);">未签到</a></li>
+                                        <li><a ticket_type="u0" href="javascript:void(0);">未发送</a></li>
+                                        <li><a ticket_type="u5" href="javascript:void(0);">正在发送</a></li>
+                                        <li><a ticket_type="u1" href="javascript:void(0);">发送失败</a></li>
+                                        <li><a ticket_type="u2" href="javascript:void(0);">已发送</a></li>
+                                        <li><a ticket_type="u3" href="javascript:void(0);">已查看</a></li>
+                                        <li><a ticket_type="i1" href="javascript:void(0);">扫码签到</a></li>
+                                        <li><a ticket_type="i2" href="javascript:void(0);">手动签到</a></li>
+                                        <li><a ticket_type="i3" href="javascript:void(0);">现场报名</a></li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="user_list_tbody"">
+                            <div class="" id="loading_css">
+                                <div class="" id="spinner">
+                                    <div class="rect1"></div>
+                                    <div class="rect2"></div>
+                                    <div class="rect3"></div>
+                                    <div class="rect4"></div>
+                                    <div class="rect5"></div>
+                                </div>
+                            </div>
+                            <?php echo $user_list_tbody;?>
+                        </tbody>
+                    </table>
+
+                </form>
+                <div class="row" id="pager_container">
+                    <!--分页-->
+                    <?php echo $pager;?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="mt_dtbox"></div>
+
+<!-- 报名用户信息 BEGIN -->
+<div class="modal fade" id="user-view-modal" tabindex="-1" data-backdrop="static">
+    <div class="modal-dialog modal-required">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">报名信息</h4>
+            </div>
+            <div class="user-view-modal-body">
+<!--                <p class="tips-msg"></p>-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="hidden">
+<include file="_modal_view_signup_user"/>
+</div>
+<div class="modal fade" id="modal_add_signup_user_ajax" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <iframe class="addmodal-iframe" allowtransparency="true" data-src="<?php echo U("Home/Signup/add_signup", array('guid' => $activity_info['guid']));?>">
+  </iframe>
+</div>
+<div class="modal fade" id="modal_update_signup_user_ajax" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <iframe id="updatemodal-iframe" class="addmodal-iframe" allowtransparency="true" data-src="">
+  </iframe>
+</div>
+  <iframe name="upload-iframe" style="display:none;"> </iframe>
+<div class="modal fade" id="upload-file" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+</div>

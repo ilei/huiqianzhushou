@@ -1,0 +1,52 @@
+<div class="title text-center"><?php echo $activity_info['name']?>-报名表</div>
+<div id="wrapper-table">
+	<div class="row">
+		<div class="col-md-12">
+			<p class="f2">报名时间：<?php echo date('Y-m-d H:i', $info['created_at']) ?></p>
+		</div>
+	</div>
+	<form role="form" class="form-horizontal">
+		<?php if($ticket_info['ticket_guid'] != 'nolimit'): ?>
+		<div class="form-group">
+			<label for="ticket"><span></span>票务：</label>
+			<div><?php echo htmlspecialchars(trim($ticket_info['ticket_name']));?></div>
+		</div>
+		<?php endif; ?>
+
+		<div class="form-group">
+			<label for="username">姓名：</label>
+			<div><?php echo htmlspecialchars(trim($info['real_name']));?></div>
+		</div>
+		<div class="form-group">
+			<label for="mobile">手机号：</label>
+			<div><?php echo htmlspecialchars(trim($info['mobile']));?></div>
+		</div>         
+		<?php foreach($other as $o): ?>
+		<div class="form-group">
+			<label ><?php echo htmlspecialchars(trim($o['key']));?>：</label>
+			<div>
+				<?php
+				$vals = explode('_____', $o['value']);
+				if(count($vals) <= 1) {
+				echo htmlspecialchars(trim($o['value'])).'<br />';
+				} else {
+				foreach($vals as $v) {
+				echo htmlspecialchars(trim($v)).'<br />';
+				}
+				}
+				?>
+			</div>
+		</div>
+		<?php endforeach; ?>
+    <button class="btn btn-submit btn-block" type="button" onclick="javascript:history.go(-1);">返回</button>
+		<?php if($needRepay):?>
+			<a type="button" class="btn btn-submit btn-block"  href="<?php echo U('Mobile/Pay/repay', array('guid' => $order_guid))?>">立即支付</a>
+		<?php endif;?>
+     <?php if($ticket_info['status'] < 3): ?>
+		<a type="button" class="btn btn-cancel btn-block" placeholder="Text input" data-href="<?php echo U('Activity/signup_cancel', array('aid' => I('get.aid'), 'iid' => $info['guid'], 'token'=>I('get.token')))?>">取消报名</a>
+		<?php endif;?>
+
+
+	</form>
+
+</div>

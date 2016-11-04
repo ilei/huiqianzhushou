@@ -1,0 +1,45 @@
+<nav class="pinned" id="pinned-nav">
+  <div class="container">
+    <ul class="nav">
+      <li role="presentation" class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="###" role="button" ><i class="fa fa-th-large"></i> 活动管理 <i class="fa fa-sort-desc"></i></a>
+      <ul class="dropdown-menu">
+        <li role="presentation"><a href="<?php echo U('Home/Act/manage/', array('guid' => $act['guid']));?>">活动管理</a></li>
+        <?php if($act['activity_is_verify'] == '0' && $act['status'] != '0'):?>
+          <li role="presentation" id="signup_ticket_li"><a href="###">门票设置</a></li>
+          <li role="presentation" id="signin_form_li"><a href="###">报名表设置</a></li>
+        <?php else:?>
+          <li role="presentation"><a href="<?php echo U('Home/Act/tmanage/', array('guid' => $act['guid']));?>">门票设置</a></li>
+          <li role="presentation"><a href="<?php echo U('Home/Form/setting/', array('guid' => $act['guid']));?>">报名表设置</a></li>
+        <?php endif;?>
+      </ul>
+      </li>
+      <li role="presentation" class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" ><i class="fa fa-user"></i> 报名管理 <i class="fa fa-sort-desc"></i></a>
+      <ul class="dropdown-menu">
+        <?php if($act['status'] == '0' || $act['activity_is_verify'] == '0'):?>
+          <li role="presentation" id="signup_user_info_li"><a href="###">参会人员名单</a></li>
+          <li role="presentation" id="order_verify_li"><a href="###">订单管理</a></li>
+        <?php else:?>
+          <li role="presentation" id="signup_user_info_li"><a href="<?php echo U('Home/Signup/users', array('guid' => $act['guid']));?>">参会人员名单</a></li>
+          <li role="presentation" id="order_verify_li"><a href="<?php echo U('Home/Order/review/', array('guid' => $act['guid']));?>">订单管理</a></li>
+        <?php endif;?>
+      </ul>
+      </li>
+      <li role="presentation">
+<!--        --><?php //if($act['status'] == '0' || $act['activity_is_verify'] == '0'):?>
+<!--          <a target="_blank" href="#" id="signup_and_verify_ticket"><i class="fa fa-mobile"></i> 签到/检票</a>-->
+<!--        --><?php //else:?>
+<!--          <a target="_blank" href="--><?php //echo u_abs('Signin/Index/index');?><!--"><i class="fa fa-mobile"></i> 签到/检票</a>-->
+          <a target="_blank" href="http://qd.meetelf.com/auth/login"><i class="fa fa-mobile"></i> 签到/检票</a>
+<!--        --><?php //endif;?>
+      </li>
+    </ul>
+    <ul class="nav">
+        <?php if($needEdit) :?>
+      <li role="presentation"><a href="<?php echo U('Home/Act/edit', array('guid' => $act['guid'])); ?>"><i class="fa fa-pencil"></i> 编辑</a></li>
+        <?php endif;?>
+      <!--<li role="presentation"><a href=""><i class="fa fa-yelp"></i> 设计</a></li>-->
+    </ul>
+  </div>
+</nav>

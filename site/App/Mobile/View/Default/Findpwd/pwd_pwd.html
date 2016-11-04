@@ -1,0 +1,19 @@
+<input type="hidden" id="login-url" value="<?php echo U('Mobile/Auth/login');?>"/>
+<input type="hidden" id="check-url" value="<?php echo U('Mobile/Auth/check', array('type' => 'username'));?>"/>
+<div class="wrapper-signin">
+<!--  <form class="form-signin" id="pwd_pwd_form" method="post" action="--><?php //echo U('Mobile/Findpwd/pwd_pwd',array('mobile' =>$mobile))?><!--">-->
+  <form class="form-signin" id="pwd_pwd_form" method="post" action="<?php echo U('Mobile/Findpwd/pwd_pwd')?>">
+    <h2>重置密码</h2>
+    <div>
+      <div class="tishi"></div>
+      <input type="password" placeholder="新密码" class="form-control" id="password" name="password">
+    </div>
+    <div>
+      <div class="tishi"></div>
+      <input type="password" placeholder="确认新密码" class="form-control" id="re_password" name="re_password">
+    </div>
+
+    <button type="submit" class="btn btn-submit btn-block">完成</button>
+    <div class="row"><a href="<?php echo U('Mobile/Auth/login');?>" class="btn btn-link pwd-position">返回登录</a></div>
+  </form>
+</div>

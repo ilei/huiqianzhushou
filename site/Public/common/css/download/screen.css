@@ -1,0 +1,58 @@
+html,body{overflow:hidden;color:#444;}
+
+
+/*right side scroll bar start*/
+@media (max-width: 768px) {
+  .wrap .navwrap { display: none !important; visibility: hidden !important;}
+}
+.wrap .navwrap .nav {
+  position:fixed;
+  top:50px;
+  right:20px;
+  z-index:900;
+  cursor:pointer;
+  width:14px;
+  height:14px;
+  background:url(../images/circle.png) no-repeat scroll;
+  background-position:-13px 0;
+
+}
+.wrap .navwrap .nav.cur { background-position: 1px 0;}
+.wrap .navwrap .nav_1 { top: 50%; margin-top: -100px;}
+.wrap .navwrap .nav_2 { top: 50%; margin-top: -75px;}
+.wrap .navwrap .nav_3 { top: 50%; margin-top: -50px;}
+.wrap .navwrap .nav_4 { top: 50%; margin-top: -25px;}
+.wrap .navwrap .nav_5 { top: 50%; margin-top: 0px;}
+.wrap .navwrap .nav_6 { top: 50%; margin-top: 25px;}
+.wrap .navwrap .nav_7 { top: 50%; margin-top: 50px;}
+
+
+.tipsy{
+  position: absolute;
+  padding: 5px;
+  z-index: 100000;
+  font-size: 14px;
+}
+.tipsy-inner{
+  padding: 5px 8px 4px 8px;
+  max-width: 200px;
+  color: white;
+  text-align: center;
+  background-color: black;
+}
+.tipsy-inner{ border-radius: 3px;}
+.tipsy-arrow{
+  position: absolute;
+  width: 9px;
+  height: 5px;
+  background: url('../images/tipsy.gif') no-repeat top left;
+}
+.tipsy-n .tipsy-arrow{ top: 0; left: 50%; margin-left: -4px;}
+.tipsy-nw .tipsy-arrow{ top: 0; left: 10px;}
+.tipsy-ne .tipsy-arrow{ top: 0; right: 10px;}
+.tipsy-s .tipsy-arrow{ bottom: 0; left: 50%; margin-left: -4px; background-position: bottom left;}
+.tipsy-sw .tipsy-arrow{ bottom: 0; left: 10px; background-position: bottom left;}
+.tipsy-se .tipsy-arrow{ bottom: 0; right: 10px; background-position: bottom left;}
+.tipsy-e .tipsy-arrow{ top: 50%; margin-top: -4px; right: 0; width: 5px; height: 9px; background-position: top right;}
+.tipsy-w .tipsy-arrow{ top: 50%; margin-top: -4px; left: 0; width: 5px; height: 9px;}
+/*right side scroll bar eng*/

@@ -1,0 +1,78 @@
+<?php
+  /**
+   * 社团等级页面
+   *
+   * CT: 2014-09-23 12:00 by RTH
+   * UT: 2014-09-23 12:00 by RTH
+   */
+ ?>
+<import type='css' file="home.css.basic-information" />
+
+<script type="text/javascript">
+  var YM = {
+    'setting_invite' : "{:U('setting_invite')}",
+    'setting_examine': "{:U('setting_examine')}"
+  };
+</script>
+
+<!-- 导入面包屑 -->
+<?php
+    $breadcrumbs = array(
+        'base' => '等级权限',
+        'list' => array(
+            array('url'=>'', 'v'=>'等级权限')
+        )
+    );
+?>
+<include file="Public:_breadcrumbs" />
+
+<div class="ymnaw">
+    <ul class="nav nav-tabs ymbtn" role="tablist">
+        <li role="presentation"><a href="<?php echo U('Org/info')?>">基本信息</a></li>
+        <li role="presentation"><a href="<?php echo U('Org/authentication')?>">认证信息</a></li>
+        <li role="presentation"><a href="<?php echo U('Org/invite')?>">邀请设置</a></li>
+        <li role="presentation"><a href="<?php echo U('Org/signin')?>">签到账号</a></li>
+        <li role="presentation" class="active"><a href="<?php echo U('Org/corporate')?>">等级权限</a></li>
+        <li role="presentation"><a href="<?php echo U('Org/recharge')?>">充值记录</a></li>
+    </ul>
+</div>
+
+      <div class="rightmain">
+        <div class="table mt10 mb40">
+          <div class="width798">
+            <h4>当前等级：<nameg><?php echo $vip_name?></nameg></h4>
+          </div>
+          <table class="table">
+            <tbody>
+              <tr class="base-tr1">
+                <td class="wh570">当前可享权限</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="wh570">社团每日可发送通知数量</td>
+                <td><?php echo $activity_value[1]?>条</td>
+              </tr>
+              <tr>
+                <td class="wh570">社团每日可创建的主题数量</td>
+                <td><?php echo $activity_value[2]?>个</td>
+              </tr>
+              <tr>
+                <td class="wh570">社团每日可创建活动数量</td>
+                <td><?php echo $activity_value[3]?>次</td>
+              </tr>
+              <tr>
+                <td class="wh570">社团每日可发布的活动数量</td>
+                <td><?php echo $activity_value[4]?>次</td>
+              </tr>
+              <tr>
+                <td class="wh570">社团社员最大数量</td>
+                <td><?php echo $activity_value[5]?>位</td>
+              </tr>
+              <tr>
+                <td class="wh570">社团分组最大数量</td>
+                <td><?php echo $activity_value[6]?>组</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>

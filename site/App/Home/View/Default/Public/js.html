@@ -1,0 +1,30 @@
+<?php 
+/**
+ * 加载JS文件
+ * 
+ * CT: 2014-10-09 16:47 by YLX
+ * UT: 2014-10-09 16:47 by YLX
+ */
+?>
+
+<!-- js 文件 -->
+<?php
+echo C('MEDIA_JS.JQUERY')
+    .C('MEDIA_JS.JQUERYUI')
+    .C('MEDIA_JS.BOOTSTRAP')
+    .C('MEDIA_JS.JQUERY_VALIDATE')
+    .C('MEDIA_JS.JQUERY_VALIDATE_ADDITIONAL')
+    .C('MEDIA_JS.JQUERY_LAZYLOAD')
+    .C('MEDIA_JS.JQUERY_AJAXUPLOAD')
+    .C('MEDIA_JS.IFRAME_BOX')
+    .C('MEDIA_JS.ZERO_CLIPBOARD')
+    .C('MEDIA_JS.COMMON')
+    .C('MEDIA_JS.DATETIMEPICKER');
+?>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->

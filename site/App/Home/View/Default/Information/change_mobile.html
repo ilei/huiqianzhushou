@@ -1,0 +1,50 @@
+<input id="email_hidden_input" type="text" is_email="" is_true="" value="" hidden="true"/>
+<input type="text" id="check_mobile_code_url" value="<?php echo U('Home/Information/ajax_check_mobile_code')?>" hidden="true"/>
+<input id="send_button_url" value="<?php echo U('Home/Information/ajax_send_code');?>" hidden="true"/>
+<input id="verify_url" value="<?php echo U('Home/Information/ajax_check_verify')?>" hidden="true"/>
+<!-- <input id="ajax_check_username" value="<?php echo U('Home/Findpwd/ajax_check_username')?>" hidden="true"/> -->
+<div class="container">
+  <div class="mt-login">
+    <form class="form-horizontal pwdForm" id="MobileForm" role="form" action="<?php echo U('Home/Information/change_mobile_step2');?>" method="post" name="MobileForm">
+      <div class="form-group">
+        <h3>更换手机- <small>第一步</small></h3>
+        <a href="javascript:history.go(-1)">返回上一步</a>
+      </div>
+      <div class="form-group">
+        <div class="tishinr input-error" id="username_tishinr"></div>
+        <div class="row">
+            <div class="col-xs-12">
+              <input type="text" name="mobile" class="form-control input-lg " id="mobile" placeholder="当前手机号" value="<?php echo $auth['mobile'];?>" readOnly="true"/>
+            </div>
+          </div>
+      </div>
+      <div class="form-group">
+        <div class="tishinr input-error" id="checkcode_tishinr"></div>
+        <div class="row">
+            <div class="col-xs-4">
+                <input type="text" class="form-control code email_hidden" name="checkcode" id="checkcode" placeholder="<?php echo L('_CHECK_CODE_')?>" />
+              </div>
+            <div class="col-xs-8" id="send_code_div">
+                <button type="button" class="btn btn-save btn-block check_code" id="send_verify_code" ><?php echo L('_SEND_CODE_')?></button>
+                <div class="click_text"></div>
+              </div>
+          </div>
+      </div>
+      <div class="form-group">
+            <div class="tishinr input-error" id="verify_tishinr"></div>
+            <div class="row">
+              <div class="col-xs-4">
+                <input type="text" class="form-control code check_code email_hidden" placeholder="<?php echo L('_WIRTER_VERIFY_')?>" id="verify" name="verify">
+              </div>
+              <div class="col-xs-8">
+                <img src="<?php echo U('Home/Information/verify');?>" class="input-verification verifyimg email_hidden" id="verifyimg">
+                <a  style="cursor:pointer" id="click_verify" class="email_hidden"><?php echo L('_NOT_LOOK_')?></a>
+              </div>
+            </div>
+          </div>
+            <div class="form-group mt30">
+                 <button type="submit" class="btn btn-save btn-block email_hidden" id="next_submit" name="next_submit" disabled>下一步</button>
+            </div>
+    </form>
+  </div>
+</div>

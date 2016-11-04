@@ -1,0 +1,95 @@
+<?php
+/**
+ * 签到管理主页面 
+ *
+ * CT: 2014-04-22 14:42 by wangleiming 
+ */
+?>
+
+
+<import type='css' file="home.css.member-list" />
+<import type='css' file="home.css.modal-geren" />
+
+
+<!-- 导入面包屑 -->
+<?php
+$breadcrumbs = array(
+    'base' => '基本信息',
+    'list' => array(
+        array('url'=>'', 'v'=>'充值记录')
+    )
+);
+?>
+<include file="Public:_breadcrumbs" />
+
+<div class="ymnaw">
+    <ul class="nav nav-tabs ymbtn" role="tablist">
+        <li role="presentation"><a href="<?php echo U('Org/info')?>">基本信息</a></li>
+        <li role="presentation"><a href="<?php echo U('Org/authentication')?>">认证信息</a></li>
+				<li role="presentation"><a href="<?php echo U('Org/invite')?>">邀请设置</a></li>
+        <li role="presentation"><a href="<?php echo U('Org/signin')?>">签到账号</a></li>
+        <li role="presentation"><a href="<?php echo U('Org/corporate')?>">等级权限</a></li>
+        <li role="presentation" class="active"><a href="<?php echo U('Org/recharge')?>">充值记录</a></li>
+    </ul>
+</div>
+
+<!--右侧主体开始-->
+<div class="rightmain">
+    <!--<div class="alert alert-warning mt10">
+        <ul type="square">
+        <li>签到账号为社团线下活动，移动端手机签到账号。</li>
+        <li>详细功能操作与信息介绍，请点击页面底部左侧帮助中心按钮查看。</li>
+        </ul>
+    </div>
+		-->
+    <div class="btn-group width798 pdlf10">
+        <div class="pull-right">
+            <a href="{:U('Pay/dopay')}">
+                <button type="button" class="btn mybtn"><i class="fa fa-plus"></i>立即充值</button>
+            </a>
+        </div>
+    </div>
+    <div class="table mt10">
+          <table class="table table-hover">
+              <thead>
+              <tr>
+                  <td class="wh400"><name0>记录ID</name0></td>
+                  <td class="wh400"><name0>充值金额</name0></td>
+                  <td class="wh160"><a class="ml40"><name0>充值时间</name0></a></td>
+                  <td class="wh70"><a class="ml5"><name0>状态</name0></a></td>
+                  <td class="wh98"><a class="ml18"><name0>操作</name0></a></td>
+              </tr>
+              </thead>
+              <tbody class="activity_list_tbody">
+              <?php if(!empty($list)):?>
+                <?php foreach($list as $k => $l):?>
+                    <tr class="key-<?php echo $k;?>">
+                          <td class="wh400"><nameh><?php echo $l['order_id']?></nameh></td>
+                          <td class="wh400"><nameh><?php echo yuan_to_fen($l['balance'], false);?>&nbsp;元</nameh></td>
+                          <td class="wh160 timealine"><?php echo date('Y-m-d H:i:s',$l['created_time']);?></td>
+                          <td class="wh70">
+                          	<switch name="l.status">
+                          		<case value="0">充值失败</case>
+                              <case value="1">充值成功</case>
+						                </switch>
+                          </td>
+                          <td class="wh98">
+                            <a href="<?php echo U('Org/recharge_info', array('guid'=>$l['guid']))?>">详情</a>&nbsp;
+                            <?php if(!$l['status']):?>
+														|&nbsp;<a href="<?php echo U('Pay/repay', array('guid' => $l['guid']));?>" target="_blank" class="del" data-able="0">重新充值</a>
+                            <?php endif;?>
+                          </td>
+                      </tr>
+                  <?php endforeach; ?>
+              <?php else: ?>
+                  <tr><td colspan="10">无充值记录.</td></tr>
+              <?php endif; ?>
+              </tbody>
+          </table>
+      </div>
+    <div class="btn-group mb40">
+      <ul class="pagination pagination-sm">
+        <?php echo $page;?>
+      </ul>
+    </div>
+</div>

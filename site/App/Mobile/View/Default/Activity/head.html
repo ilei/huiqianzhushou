@@ -1,0 +1,65 @@
+{__NOLAYOUT__}
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><!-- 禁止百度转码 -->
+    <meta name="format-detection" content="telephone=no" /><!-- 禁止ios数字识别为电话号码 -->
+    <meta name="screen-orientation" content="portrait" /><!-- UC强制竖屏 -->
+    <meta name="x5-orientation" content="portrait" /><!-- QQ强制竖屏 -->
+    <meta name="full-scerrn" content="yes" /><!-- UC强制全屏 -->
+    <meta name="x5-fullscreen" content="ture" /><!-- QQ强制全屏 -->
+    <meta name="msapplication-tap-highlight" content="no" /><!-- window phone 点亮无高光 -->
+    <meta name="format-detection" content="email=no" /><!-- 安卓设备不自动识别邮件地址 -->
+    <meta name="Keywords" content="会签助手,社团联盟商会组织管理工具APP软件,成员管理,活动发布,票务,会签,yunmai365">
+    <meta name="Description" content="会签助手，为社团联盟商会组织而生的互联网管理工具APP软件。一款高效的社团活动、交流、组织、管理工具">
+    <meta name="Author" content="会签助手" />
+    <title><?php echo $meta_title; ?></title>
+    <?php echo C('MEDIA_FAVICON'); ?>
+    <!-- css -->
+    <?php
+    echo C('MEDIA_CSS.BOOTSTRAP')
+        .C('MEDIA_CSS.FONT_AWESOME')
+        .C('MEDIA_CSS.ICHECK_SKIN_ALL');
+    ?>
+    <import type='css' file="common.css.bootstrap-datetimepicker#min" />
+    <import type='css' file="common.mobiscroll.css.mobiscroll#custom-2#6#2#min" />
+    <import type='css' file="mobile.css.article" />
+    <style>
+        html, body { overflow-x: hidden; }
+        .main img, img{display:block;max-width:100%;}
+    </style>
+
+    <!--JS-->
+    <?php
+    echo C('MEDIA_JS.JQUERY')
+        .C('MEDIA_JS.BOOTSTRAP')
+        .C('MEDIA_JS.JQUERY_LAZYLOAD')
+        .C('MEDIA_JS.ICHECK')
+        .C('MEDIA_JS.ICHECK_CUSTOM')
+        .C('MEDIA_JS.JQUERY_VALIDATE')
+        .C('MEDIA_JS.JQUERY_VALIDATE_ADDITIONAL');
+    ?>
+    <!-- datetimepicker js 加载 -->
+    <import type='js' file="common.js.bootstrap-datetimepicker#min" />
+    <import type='js' file="common.js.locales.bootstrap-datetimepicker#zh-CN" />
+    <import type='js' file="common.mobiscroll.js.mobiscroll#custom-2#6#2#min" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]> -->
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <!--[endif]-->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //图片异步加载
+            $("img").lazyload({
+                effect : "fadeIn",
+                threshold: 200
+            });
+        });
+    </script>
+</head>

@@ -1,0 +1,142 @@
+<div id="content-head">主页</div>
+<div id="breadcrumb">
+	<a href="/admin/index/index"><i class="fa fa-home"></i> 首页</a>
+</div>
+<div class="content-border">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="<?php echo U('User/index', array())?>">最新注册用户</a>
+                <table class="table table-bordered">
+                    <thead>
+		                <tr>
+			                <th>姓名</th>
+			                <th>昵称</th>
+			                <th>电话</th>
+                            <th>邮件</th>
+			                <th>申请时间</th>
+			                <th>查看</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		            	<foreach name="userList" item="v">
+		                <tr>
+			                <td><?php echo $v['realname']; ?></td>
+			                <td><?php echo $v['nickname']; ?></td>
+			                <td><?php echo $v['mobile']; ?></td>
+                            <td><?php echo $v['email']; ?></td>
+			                <td><?php echo date('Y-m-d H:i',$v['created_at']) ?></td>
+			                <td><a href="<?php echo U('User/verify', array('user_guid' => $v['guid']))?>"><i class="glyphicon glyphicon-search"></i></a></td>
+		                </tr>
+		                </foreach>
+		            </tbody>
+				
+                </table>
+                <div style="margin-left:45%;margin-top:-10px;">
+			                <a href="<?php echo U('User/index', array())?>"><i class="fa fa-chevron-down"></i>查看更多</a>
+				</div>
+
+                <a href="<?php echo U('Act/index', array())?>">等待审批活动</a>
+                <table class="table table-bordered">
+                    <thead>
+		                <tr>
+			                <th>活动名称</th>
+			                <th>创建者</th>
+			                <th>创建时间</th>
+			                <th>查看</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		            	<foreach name="actList" item="v">
+		                <tr>
+			                <td><?php echo $v['name']; ?></td>
+			                <td><?php echo $v['realname']; ?></td>
+			                <td><?php echo date('Y-m-d H:i',$v['updated_at']) ?></td>
+			                <td><a href="<?php echo U('Act/verify', array('act_guid' => $v['guid'])); ?>"><i class="glyphicon glyphicon-search"></i></a></td>
+		                </tr>
+		                </foreach>
+		            </tbody>
+                </table>
+                <div style="margin-left:45%;margin-top:-10px;">
+			                <a href="<?php echo U('Act/index', array())?>"><i class="fa fa-chevron-down"></i>查看更多</a>
+				</div>
+
+            </div>
+            <div class="col-sm-6">
+                <a href="<?php echo U('Upload/index', array())?>">App更新</a>
+                <table class="table table-bordered">
+                    <thead>
+		                <tr>
+			                <th>设备</th>
+			                <th>会签系统</th>
+			                <th>会签助手助手</th>
+			                <th>会签助手</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		            <?php foreach ($app_upload_list as $k=>$value): ?>
+		            
+	                  <tr>
+	                  	<?php if($k == 0):?>
+	                  	<th>Android</th>
+	                  	<?php endif?>
+	                  	<?php if($k == 1):?>
+	                  	<th>Android_Beta</th>
+	                  	<?php endif?>
+	                  	<?php if($k == 2):?>
+	                  	<th>iOS</th>
+	                  	<?php endif?>
+	                  	<?php if($k == 3):?>
+	                  	<th>iOS_Beta</th>
+	                  	<?php endif?>
+	                  	<?php for($i = 0; $i < 3; $i++){?>
+	                  		<td>
+	                  		<?php if($i == 0):?><?php $arr = array(3,6,7,8);?><?php endif;?>
+	                  		<?php if($i == 1):?><?php $arr = array(9,10,11,12);?><?php endif;?>
+	                  		<?php if($i == 2):?><?php $arr = array(1,2,4,5);?><?php endif;?>
+	                  		<?php foreach($value as $v):?>
+		                   <?php echo in_array($v['type'], $arr) ? date('Y-m-d H:i',$v['updated_at']) : '' ;?>
+		                   	<?php endforeach;?>
+		                   	</td>
+		                <?php }?>
+	                  </tr>
+                  
+                   <?php endforeach;?>
+		            </tbody>
+                </table>
+                <div style="margin-left:45%;margin-top:-10px;">
+			                <a href="<?php echo U('Upload/index', array())?>"><i class="fa fa-chevron-down"></i>查看更多</a>
+				</div>
+                <a href="<?php echo U('Opinion/index', array())?>">App反馈</a>
+                <table class="table table-bordered">
+                    <thead>
+		                <tr>
+			                <th>用户名</th>
+			                <th>创建时间</th>
+			                <th>简短内容</th>
+			                <th>查看</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		            	<foreach name="list_opinion" item="v">
+		                <tr>
+			                <td><?php echo $v['real_name']; ?></td>
+			                <td><?php echo date('Y-m-d H:i',$v['updated_at']); ?></td>
+			                <td><?php echo $v['content']; ?></td>
+			                <td><a href="<?php echo U('Opinion/content', array('opinion_guid'=>$v['guid']))?>"><i class="glyphicon glyphicon-search"></i></a></td>
+		                </tr>
+		            	</foreach>
+		            </tbody>
+                </table>
+                <div style="margin-left:45%;margin-top:-10px;">
+			                <a href="<?php echo U('Opinion/index', array())?>"><i class="fa fa-chevron-down"></i>查看更多</a>
+				</div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="content-footer">
+&copy; 2015-2018 <a href="http://www.meetelf.com/">会签助手</a>
+</div>

@@ -1,0 +1,335 @@
+<input type="hidden" value="<?php echo $act['guid'];?>" id="act-guid" />
+<input type="hidden" value="<?php echo U('Home/Form/form_build_del', array('aguid' => $act['guid'])) ;?>" id="act-del" />
+<input type="hidden" value="<?php echo U('Home/Form/form_build_add', array('aguid' => $act['guid'])) ;?>" id="act-add" />
+<input type="hidden" value="<?php echo U('Home/Form/ajax_check_item_name/', array('guid' => $act['guid']));?>" id="ajax_check_item_name" />
+<input type="hidden" value="<?php echo $act['is_verify'];?>" id="is_verify" />
+<input type="hidden" value="<?php echo $act['status'];?>" id="act_status" /><!--活动状态-->
+<include file="Public:_act_title" />
+<div id="pin-nav">
+  <include file="Public:nav"/>
+  <div class="container">
+    <div class="row">
+      <div id="pin-main" class="col-xs-12 pin-main-sm">
+        <div class="page-header">
+          <h3>报名表设置</h3>
+        </div>
+        <div class="row mt30">
+          <div class="col-md-8">
+            <div class="left-content">
+              <div class="form-horizontal list_up">
+                <h4>默认项</h4>
+                <div class="form-group">
+                  <label for="" class="col-sm-3 control-label text-right"><span>*</span>姓名
+                    <input type="hidden" name="real_name" value="姓名"/>
+                  </label>
+                  <div class="col-sm-7">
+                    <input type="" class="form-control" name="real_name_note" placeholder="请输入您的姓名" disabled>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="" class="col-sm-3 control-label text-right"><span>*</span>手机
+                    <input type="hidden" name="mobile" value="手机"/>
+                  </label>
+                  <div class="col-sm-7">
+                    <input type="text"  name="mobile_note" class="form-control" placeholder="请输入您的手机" disabled>
+                  </div>
+                </div>
+              </div>
+              <form action="<?php echo U('Home/Form/form_set_edit', array('aguid' => $act['guid']));?>" method="post">
+                <div class="form-horizontal list_down">
+                  <h4>其他项</h4>
+
+                  <?php foreach($build_info as $k => $b):?>
+                  <?php if(in_array($b['ym_type'], array('real_name', 'mobile'))){continue;}?>
+                  <?php if($b['html_type'] == 'textarea'):?>
+                  <div class="form-group">
+                    <div class="arrow icon_hidde"><i class="fa fa-arrows"></i></div>
+                    <label for="" class="col-sm-3 control-label text-right"><?php if($b['is_required']== 1):?><span>*</span><?php endif;?><?php echo htmlspecialchars($b['name']);?></label>
+                    <div class="col-sm-7">
+                      <textarea class="form-control" rows="3" name="<?php echo ($b['id']);?>" placeholder="<?php echo htmlspecialchars($b['note']);?>" readOnly="true"></textarea>
+                    </div>
+                    <div class="col-sm-2">
+                      <!-- <div class="row icon_hidde"
+                        <button class="btn btn-times jump_modal" name="job" type="button" data-toggle="modal" data-target="#target-<?php //echo $b['guid'];?>"><span class="fa fa-pencil fa-lg"></span></button>
+                        <button class="btn btn-times remove" type="button" data-guid="<?php echo $b['guid'];?>"><span class="fa fa-trash fa-lg"></span></button>
+                      </div> -->
+                      <div class="row icon_hidde">
+                        <button class="btn btn-times jump_modal" name="job" type="button" data-toggle="modal" data-target="#target-<?php echo $b['guid'];?>"><span class="fa fa-pencil fa-lg"></span></button>
+                        <button class="btn btn-times remove" type="button" data-guid="<?php echo $b['guid'];?>"><span class="fa fa-trash fa-lg"></span></button>
+                      </div>
+                    </div>
+                  </div>
+                  <?php elseif(in_array($b['html_type'], array('checkbox', 'radio'))):?>
+                  <div class="form-group">
+                    <div class="arrow icon_hidde"><i class="fa fa-arrows"></i></div>
+                    <label for="" class="col-sm-3 control-label text-right"><?php if($b['is_required']== 1):?><span>*</span><?php endif;?><?php echo htmlspecialchars($b['name']);?></label>
+                    <div class="col-sm-7">
+                      <?php foreach($option_info[$b['guid']] as $key => $o):?>
+                      <input type="hidden" name="<?php echo ($b['id']);?>" value="">
+                      <div class="checkbox "readOnly="true">
+                        <label>
+                          <input type="<?php echo $b['html_type'];?>" name="<?php echo ($b['id']);?>" value="" readOnly="true">
+                          <?php echo htmlspecialchars($o['value']);?>
+                        </label>
+                      </div>
+                      <?php endforeach;?>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="row icon_hidde">
+                        <button class="btn btn-times jump_modal" name="job" type="button" data-toggle="modal" data-target="#target-<?php echo $b['guid'];?>"><span class="fa fa-pencil fa-lg"></span></button>
+                        <button class="btn btn-times remove" type="button" data-guid="<?php echo $b['guid'];?>"><span class="fa fa-trash fa-lg"></span></button>
+                      </div>
+                    </div>
+                  </div>
+                  <?php elseif($b['html_type'] == 'select'):?>
+                  <div class="form-group">
+                    <div class="arrow icon_hidde"><i class="fa fa-arrows"></i></div>
+                    <label class="col-sm-3 control-label text-right"><?php if($b['is_required']== 1):?><span>*</span><?php endif;?><?php echo htmlspecialchars($b['name']);?></label>
+                    <div class="col-sm-7">
+                      <select class="form-control" name="<?php echo ($b['id']);?>" readOnly="true">
+                        <?php foreach($option_info[$b['guid']] as $key => $o):?>
+                        <option><?php echo htmlspecialchars($o['value']);?></option>
+                        <?php endforeach;?>
+                      </select>
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="row icon_hidde">
+                        <button class="btn btn-times jump_modal" name="job" type="button" data-toggle="modal" data-target="#target-<?php echo $b['guid'];?>"><span class="fa fa-pencil fa-lg"></span></button>
+                        <button class="btn btn-times remove" type="button" data-guid="<?php echo $b['guid'];?>"><span class="fa fa-trash fa-lg"></span></button>
+                      </div>
+                    </div>
+                  </div>
+                  <?php else:?>
+                  <div class="form-group">
+                    <div class="arrow icon_hidde"><i class="fa fa-arrows"></i></div>
+                    <label for="" class="col-sm-3 control-label text-right"><?php if($b['is_required']== 1):?><span>*</span><?php endif;?><?php echo htmlspecialchars($b['name']);?></label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" name="<?php echo ($b['id']);?>"  value="" placeholder="<?php echo htmlspecialchars($b['note']);?>" readOnly="true">
+                    </div>
+                    <div class="col-sm-2">
+                      <div class="row icon_hidde">
+                        <button class="btn btn-times jump_modal" name="job" type="button" data-toggle="modal" data-target="#target-<?php echo $b['guid'];?>"><span class="fa fa-pencil fa-lg"></span></button>
+                        <button class="btn btn-times remove" type="button" data-guid="<?php echo $b['guid'];?>"><span class="fa fa-trash fa-lg"></span></button>
+                      </div>
+                    </div>
+                  </div>
+                  <?php endif;?>
+                  <?php endforeach;?>
+                </div>
+                <div class="row" style="margin:0;margin-bottom:30px;">
+                  <div class="col-sm-3 col-sm-offset-3 mt20">
+                    <button class="btn btn-save btn-block">保存</button>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+
+          </div>
+
+          <div class="col-md-4">
+            <div class="right-content">
+              <h5>默认栏目</h5>
+              <div class="row">
+                <div class="col-xs-6">
+                  <button id="up_1" class="btn">邮箱</button>
+                  <button id="up_2" class="btn">性别</button>
+                  <button id="up_3" class="btn">年龄</button>
+                </div>
+                <div class="col-xs-6">
+                  <button id="up_4" class="btn">公司</button>
+                  <button id="up_5" class="btn">职务</button>
+                  <button id="up_6" class="btn">地址</button>
+                </div>
+              </div>
+              <h5 class="mt20">自定义栏目</h5>
+              <div class="row">
+                <div class="col-xs-12">
+                  <button id="down_1" class="btn">单行文本框</button>
+                  <button id="down_2" class="btn">多行文本框</button>
+                  <button id="down_3" class="btn">单选文本框</button>
+                  <button id="down_4" class="btn">复选文本框</button>
+                  <button id="down_5" class="btn">日期选择框</button>
+                  <button id="down_6" class="btn">下拉选择框</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="form_edit">
+<?php foreach($build_info as $k => $b):?>
+<?php if(in_array($b['ym_type'], array('real_name', 'mobile'))){continue;}?>
+<?php if($b['html_type'] == 'textarea'):?>
+<div class="modal fade" id="target-<?php echo $b['guid'];?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <form action="<?php echo U('Home/Form/form_build_edit', array('aguid' => $act['guid']));?>" method="post" />
+    <input type="hidden" value="<?php echo $b['guid'];?>" name="guid" />
+    <input type="hidden" value="<?php echo $b['ym_type'];?>" name="ym_type" />
+    <input type="hidden" value="<?php echo $b['html_type'];?>" name="html_type" />
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <span class="modal-title" id="myModalLabel">编辑选项</span>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+              <div class="mt20"><span>标题</span></div>
+              <input type="text" class="form-control mt5" name="name" id="item-name" data-guid="<?php echo $b['guid'];?>" value="<?php echo htmlspecialchars($b['name']);?>">
+              <div class="error_prompt tishinr" style="min-height:20px"></div><!--提示信息-->
+              <div><span>提示</span></div>
+              <textarea class="form-control mt5" rows="3" name="note"><?php echo htmlspecialchars($b['note']);?></textarea>
+              <div class="checkbox mt20">
+                <label>
+                  <input type="checkbox" name="is_required" value="1" <?php echo intval($b['is_required']) ? 'checked' :'';?>>必填项目
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-xs-8 col-xs-offset-2 modal_end">
+              <button type="submit" class="btn btn-save">保存</button>
+              <!--<button type="button" class="btn btn-default">删除</button>-->
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<?php elseif(in_array($b['html_type'], array('checkbox', 'radio', 'select'))):?>
+<div class="modal fade" id="target-<?php echo $b['guid'];?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <form action="<?php echo U('Home/Form/form_build_edit', array('aguid' => $act['guid']));?>" method="post" />
+    <input type="hidden" value="<?php echo $b['guid'];?>" name="guid" />
+    <input type="hidden" value="<?php echo $b['ym_type'];?>" name="ym_type" />
+    <input type="hidden" value="<?php echo $b['html_type'];?>" name="html_type" />
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <span class="modal-title" id="myModalLabel">编辑选项</span>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+              <div class="mt20"><span>标题</span></div>
+              <input type="text" class="form-control mt5" name="name" id="item-name"  data-guid="<?php echo $b['guid'];?>" value="<?php echo htmlspecialchars($b['name']);?>">
+              <div class="error_prompt tishinr" style="min-height:20px"></div><!--提示信息-->
+              <div>
+                <?php foreach($option_info[$b['guid']] as $key => $o):?>
+                <div class="sub_option">
+                  <input type="hidden" name="options[<?php echo $key;?>][guid]" value="<?php echo $o['guid'];?>">
+                  <div class="col-xs-10 col-xs-offset-1">
+                    <input type="text" class="form-control" name="options[<?php echo $key;?>][value]" value="<?php echo htmlspecialchars($o['value']);?>">
+                  </div>
+                  <div class="col-xs-1">
+                    <button class="btn button-square" type="button"><i class="fa fa-minus"></i></button>
+                  </div>
+                </div>
+                <?php endforeach;?>
+                <div class="sub_option">
+                  <div class="col-xs-10 col-xs-offset-1">
+                    <button class="btn button-square_1" type="button"><i class="fa fa-plus"></i></button>
+                    <span class="btn text_add">添加选项</span>
+                  </div>
+                </div>
+                <div class="checkbox mt20">
+                  <label>
+                    <input type="checkbox" name="is_required" value="1" <?php echo intval($b['is_required']) ? 'checked' : '';?>/>必填项目
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row ">
+            <div class="col-xs-8 col-xs-offset-2 modal_end">
+              <button type="submit" class="btn btn-save">保存</button>
+              <!--<button type="button" class="btn btn-default">删除</button>-->
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<?php else:?>
+<div class="modal fade" id="target-<?php echo $b['guid'];?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <form action="<?php echo U('Home/Form/form_build_edit', array('aguid' => $act['guid']));?>" method="post" />
+    <input type="hidden" value="<?php echo $b['guid'];?>" name="guid" />
+    <input type="hidden" value="<?php echo $b['ym_type'];?>" name="ym_type" />
+    <input type="hidden" value="<?php echo $b['html_type'];?>" name="html_type" />
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <span class="modal-title" id="myModalLabel">编辑选项</span>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-8 col-xs-offset-2">
+              <div class="mt20"><span>标题</span></div>
+              <input type="text" class="form-control mt5" name="name" id="item-name"  data-guid="<?php echo $b['guid'];?>"  value="<?php echo htmlspecialchars($b['name']);?>"/>
+              <div class="error_prompt tishinr" style="min-height:20px"></div><!--提示信息-->
+              <div><span>提示</span></div>
+              <input class="form-control mt5"  name="note" value="<?php echo htmlspecialchars($b['note']);?>"/>
+              <div class="checkbox mt20">
+                <label>
+                  <input type="checkbox" name="is_required" value="1" <?php echo intval($b['is_required']) ? 'checked' :'';?>>必填项目
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-xs-8 col-xs-offset-2 modal_end">
+              <button type="submit" class="btn btn-save">保存</button>
+              <!--<button type="button" class="btn btn-default">删除</button>-->
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<?php endif;?>
+<?php endforeach;?>
+<div id="target-list" style="display:none;">
+  <div class="sub_option">
+    <div class="col-xs-10 col-xs-offset-1">
+      <input type="text" class="form-control valid" name="value" value="" placeholder="请输入信息" aria-invalid="false">
+    </div>
+    <div class="col-xs-1">
+      <button class="btn button-square"><i class="fa fa-minus"></i></button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 提示信息 BEGIN -->
+<div class="modal fade" id="tips-modal" tabindex="-1" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+              class="sr-only">Close</span></button>
+        <h4 class="modal-title">提示信息</h4>
+      </div>
+      <div class="modal-body">
+        <p class="tips-msg"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div><!-- /.modal -->

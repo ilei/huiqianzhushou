@@ -1,0 +1,182 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<meta name="Author" content="会签助手" />
+<title>会签助手</title>
+<link rel="shortcut icon" href="/Public/common/images/favicon.ico" type="image/vnd.microsoft.icon">
+<!-- Bootstrap -->
+<link href="/Public/meetelf/css/bootstrap.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/Public/common/css/bootstrap-datetimepicker.min.css" />
+<link rel="stylesheet" type="text/css" href="/Public/common/mobiscroll/css/mobiscroll.custom-2.6.2.min.css" />
+<link href="/Public/common/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link href="/Public/meetelf/css/base.css" rel="stylesheet" />
+<link href="/Public/meetelf/css/form-set.css" rel="stylesheet"/>
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/common/js/bootstrap-datetimepicker.min.js"></script>
+<script src="__PUBLIC__/common/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="__PUBLIC__/common/mobiscroll/js/mobiscroll.custom-2.6.2.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/meetelf/home/js/home.signup.add.js"></script>
+</head>
+<body class="modal-open" style="background-color:transparent">
+<style>
+.tishinr { margin-top: 7px; padding-left: 0; color: #d9534f; }
+</style>
+  <input type="hidden" id="document_domain" value="<?php echo C('document_domain')?>"/>
+<div class="modal fade in" id="modal_add_signup_user" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display:block;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-window"><span
+            aria-hidden="true">&times;</span></button>
+              <?php if(isset($user_ticket)):?>
+              <h4 class="modal-title" i="export-import"><strong>编辑报名</strong></h4>
+              <?php else:?>
+              <h4 class="modal-title" i="export-import"><strong>添加报名</strong></h4>
+              <?php endif;?>
+      </div>
+      <form id="signup_add_user_form" role="form" class="form-horizontal main-form" data-action="<?php echo U('Home/Signup/post_signup/', array('guid' => $activity_info['guid']));?>" method="post">
+        <input name="user_ticket_status" type="hidden" value="<?php echo isset($user_ticket_status) ? $user_ticket_status : 0;?>" />
+        <input name="user_ticket_guid" value="<?php echo $user_ticket['guid'];?>" type="hidden"/>
+        <div class="modal-body modal-required">
+          <?php if (!empty($tickets)): ?>
+          <div class="form-group">
+            <!--<label for="area" class="col-sm-2 control-label"><span>* </span>票务：</label>-->
+            <label for="area" class="col-sm-2 control-label text-right"><span>*</span> 票务：</label>
+            <div class="col-sm-6">
+              <?php if(isset($user_ticket)):?>
+              <input name="ticket" value="<?php echo $user_ticket['ticket_guid'];?>" type="hidden"/>
+              <?php endif;?>
+              <select class="form-control" name="ticket" data-require="1" <?php echo isset($user_ticket) ?  'disabled' : ''; ?>>
+                <?php foreach ($tickets as $t): ?>
+                <option value="<?php echo $t['guid'] ?>" <?php echo isset($user_ticket) && $user_ticket['ticket_guid'] == $t['guid'] ?  'selected' : ''; ?>><?php echo $t['name'] ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <?php endif; ?>
+
+          <?php foreach ($build_info as $k => $b): ?>
+          <!-- 获取当前表单类型 -->
+          <?php if ($b['is_info'] != 1): ?>
+          <input type="hidden" name="<?php echo 'other[' . $b['guid'] . ']' ?>[ym_type]"
+          value="<?php echo $b['ym_type'] ?>" data-require="<?php echo intval($b['is_required']);?>" data-type="<?php echo $b['ym_type'];?>"/>
+          <input type="hidden" name="<?php echo 'other[' . $b['guid'] . ']' ?>[build_guid]"
+          value="<?php echo $b['guid']; ?>" data-require="<?php echo intval($b['is_required']);?>" data-type="<?php echo $b['ym_type'];?>"/>
+          <?php endif; ?>
+
+          <!-- form 主题 -->
+          <div class="form-group">
+            <label for="contact" class="col-sm-2 control-label">
+              <?php if ($b['is_required']): ?><span>* </span><?php endif;
+              echo $b['name'] ?>：
+            </label>
+            <?php if($b['is_info'] != 1):?>
+            <input type="hidden" value="<?php echo $other[$b['guid']]['guid']; ?>" name="other[<?php echo $b['guid'];?>][guid]"/> 
+            <?php endif;?>
+            <div class="col-sm-6 form_field">
+              <!-- form -->
+              <?php $name = ($b['is_info'] == 1) ? 'info' : 'other'; ?>
+              <?php if ($b['html_type'] == 'text'): ?>
+              <?php if ($b['is_info'] == 1): ?>
+              <input data-require="<?php echo intval($b['is_required']);?>" type="text" data-type="<?php echo $b['ym_type'];?>"
+              class="form-control <?php echo ($b['ym_type'] == 'date') ? 'ym_date' : ''; ?>"
+              <?php echo ($b['ym_type'] == 'date') ? 'data-field="date"' : ''; ?>
+              name="<?php echo $name . '[' . $b['ym_type'] . ']' ?>"
+              value="<?php echo isset($info) ? htmlspecialchars($info[$b['ym_type']]) : '';?>"
+              placeholder="<?php echo $b['note'] ?>" <?php echo ($b['ym_type'] == 'date') ? 'readonly' : '';?>
+              />
+              <?php else: ?>
+              <?php
+              if ($b['ym_type'] == 'company') {
+              $maxlength = 20;
+              } elseif ($b['ym_type'] == 'position') {
+              $maxlength = 10;
+              } else {
+              $maxlength = 50;
+              }
+              ?>
+              <input data-require="<?php echo intval($b['is_required']);?>" type="text" data-type="<?php echo $b['ym_type'];?>"
+              class="form-control <?php echo ($b['ym_type'] == 'date') ? 'ym_date' : ''; ?>"
+              name="<?php echo $name . '[' . $b['guid'] . ']' ?>[value]"
+              maxlength="<?php echo $maxlength; ?>"
+              <?php echo ($b['ym_type'] == 'date') ? 'data-field="date"' : ''; ?>"
+              placeholder="<?php echo $b['note'] ?>"  <?php echo ($b['ym_type'] == 'date') ? 'readonly' : '';?> value="<?php echo isset($other) ? htmlspecialchars($other[$b['guid']]['value']) : '';?>"/>
+              <input  data-require="<?php echo intval($b['is_required']);?>" data-type="<?php echo $b['ym_type'];?>" type="hidden" class="form-control"
+              name="<?php echo $name . '[' . $b['guid'] . ']' ?>[key]"
+              value="<?php echo $b['name'] ?>"/>
+              <?php endif; ?>
+
+              <?php elseif ($b['html_type'] == 'textarea'): ?>
+              <textarea data-require="<?php echo intval($b['is_required']);?>" data-type="<?php echo $b['ym_type'];?>" class="form-control"
+                name="<?php echo $name . '[' . $b['guid'] . ']' ?>[value]"
+                placeholder="<?php echo $b['note'] ?>"><?php echo isset($other) ? htmlspecialchars($other[$b['guid']]['value']) : '';?></textarea>
+              <input  data-require="<?php echo intval($b['is_required']);?>" data-type="<?php echo $b['ym_type'];?>" type="hidden" class="form-control"
+              name="<?php echo $name . '[' . $b['guid'] . ']' ?>[key]"
+              value="<?php echo $b['name'] ?>"/>
+
+              <?php elseif ($b['html_type'] == 'select'): ?>
+              <div class="select">
+                <select  data-type="<?php echo $b['ym_type'];?>" data-require="<?php echo intval($b['is_required']);?>" name="<?php echo $name . '[' . $b['guid'] . ']' ?>[value]"
+                  class="form-control">
+                  <option value=""></option>
+                  <?php foreach ($option_info[$b['guid']] as $ok => $ov): ?>
+                  <option
+                  value="<?php echo $ov['value'] ?>" <?php echo isset($other) && $other[$b['guid']]['value'] == $ov['value'] ? 'selected' : '';?>><?php echo $ov['value'] ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <input data-type="<?php echo $b['ym_type'];?>"  data-require="<?php echo intval($b['is_required']);?>" type="hidden" class="form-control"
+              name="<?php echo $name . '[' . $b['guid'] . ']' ?>[key]"
+              value="<?php echo $b['name'] ?>">
+
+              <?php elseif ($b['html_type'] == 'radio' || $b['html_type'] == 'checkbox'): ?>
+              <?php foreach ($option_info[$b['guid']] as $ok => $ov): ?>
+              <?php if ($b['is_info'] == 1): ?>
+              <div class="<?php echo $b['html_type'] ?>">
+                <label>
+                  <div class="activity-vote-options"><input data-type="<?php echo $b['ym_type'];?>" data-require="<?php echo intval($b['is_required']);?>" 
+                    type="<?php echo $b['html_type'] ?>"
+                    name="<?php echo $name . '[' . $b['ym_type'] . ']' ?>"
+                    class="" value="<?php echo $ov['value'] ?>"></div>
+                  <?php echo $ov['value'] ?>
+                </label>
+              </div>
+              <?php else: ?>
+              <div class="<?php echo $b['html_type'] ?>">
+                <label>
+                  <div class="activity-vote-options"><input  data-type="<?php echo $b['ym_type'];?>"  data-require="<?php echo intval($b['is_required']);?>" 
+                    type="<?php echo $b['html_type'] ?>"
+                    name="<?php echo $name . '[' . $b['guid'] . ']' ?>[value][]"
+                    class="" value="<?php echo $ov['value'] ?>" <?php echo isset($other) && $other[$b['guid']]['value'] == $ov['value'] ? 'checked' : '';?>></div>
+                  <?php echo $ov['value'] ?>
+                </label>
+              </div>
+              <input type="hidden" class="form-control" data-type="<?php echo $b['ym_type'];?>"  data-require="<?php echo intval($b['is_required']);?>" 
+              name="<?php echo $name . '[' . $b['guid'] . ']' ?>[key]"
+              value="<?php echo $b['name'] ?>" >
+              <?php endif; ?>
+              <?php endforeach; ?>
+              <?php endif; ?>
+            </div>
+            <div class="col-sm-4 tishinr"></div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="submit_form" data-loading-text="提交..." class="btn btn-default mybtn">提交
+          </button>
+          <button type="button" class="btn btn-danger mybtn" data-dismiss="modal" id="btn-cancel">取消</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

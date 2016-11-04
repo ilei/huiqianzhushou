@@ -1,0 +1,71 @@
+{__NOLAYOUT__}
+<?php foreach($build_info as $k => $b):?>
+<?php if($b['html_type'] == 'textarea'):?>
+<div class="form-group">
+  <div class="arrow icon_hidde"><i class="fa fa-arrows"></i></div>
+  <label for="" class="col-sm-3 control-label text-right"><?php echo htmlspecialchars($b['name']);?></label>
+  <div class="col-sm-7">
+    <textarea class="form-control" rows="3" placeholder="<?php echo htmlspecialchars($b['note']);?>" disabled></textarea>
+  </div>
+  <div class="col-sm-2">
+    <div class="row icon_hidde">
+      <button class="btn btn-times jump_modal" name="job" type="button" data-toggle="modal" data-target="#target-<?php echo $b['guid'];?>"><span class="fa fa-pencil fa-lg"></span></button>
+      <button class="btn btn-times remove" type="button" data-guid="<?php echo $b['guid'];?>"><span class="fa fa-trash fa-lg"></span></button>
+    </div>
+  </div>
+</div>
+<?php elseif(in_array($b['html_type'], array('checkbox', 'radio'))):?>
+<div class="form-group">
+  <div class="arrow icon_hidde"><i class="fa fa-arrows"></i></div>
+  <label for="" class="col-sm-3 control-label text-right"><?php echo htmlspecialchars($b['name']);?></label>
+  <div class="col-sm-7">
+    <?php foreach($option_info[$b['guid']] as $key => $o):?>
+    <div class="checkbox disabled">
+      <label>
+        <input type="<?php echo $b['html_type'];?>" value="" disabled>
+        <?php echo htmlspecialchars($o['value']);?>
+      </label>
+    </div>
+    <?php endforeach;?>
+  </div>
+  <div class="col-sm-2">
+    <div class="row icon_hidde">
+      <button class="btn btn-times jump_modal" name="job" type="button" data-toggle="modal" data-target="#target-<?php echo $b['guid'];?>"><span class="fa fa-pencil fa-lg"></span></button>
+      <button class="btn btn-times remove" type="button" data-guid="<?php echo $b['guid'];?>"><span class="fa fa-trash fa-lg"></span></button>
+    </div>
+  </div>
+</div>
+<?php elseif($b['html_type'] == 'select'):?>
+<div class="form-group">
+  <div class="arrow icon_hidde"><i class="fa fa-arrows"></i></div>
+  <label class="col-sm-3 control-label text-right"><?php echo htmlspecialchars($b['name']);?></label>
+  <div class="col-sm-7">
+    <select class="form-control">
+      <?php foreach($option_info[$b['guid']] as $key => $o):?>
+      <option><?php echo htmlspecialchars($o['value']);?></option>
+      <?php endforeach;?>
+    </select>
+  </div>
+  <div class="col-sm-2">
+    <div class="row icon_hidde">
+      <button class="btn btn-times jump_modal" name="job" type="button" data-toggle="modal" data-target="#target-<?php echo $b['guid'];?>"><span class="fa fa-pencil fa-lg"></span></button>
+      <button class="btn btn-times remove" type="button" data-guid="<?php echo $b['guid'];?>"><span class="fa fa-trash fa-lg"></span></button>
+    </div>
+  </div>
+</div>
+<?php else:?>
+<div class="form-group">
+  <div class="arrow icon_hidde"><i class="fa fa-arrows"></i></div>
+  <label for="" class="col-sm-3 control-label text-right"><!-- <span>*</span> --><?php echo htmlspecialchars($b['name']);?></label>
+  <div class="col-sm-7">
+    <input type="text" class="form-control" placeholder="<?php echo htmlspecialchars($b['note']);?>" disabled>
+  </div>
+  <div class="col-sm-2">
+    <div class="row icon_hidde">
+      <button class="btn btn-times jump_modal" name="job" type="button" data-toggle="modal" data-target="#target-<?php echo $b['guid'];?>"><span class="fa fa-pencil fa-lg"></span></button>
+      <button class="btn btn-times remove" type="button" data-guid="<?php echo $b['guid'];?>"><span class="fa fa-trash fa-lg"></span></button>
+    </div>
+  </div>
+</div>
+<?php endif;?>
+<?php endforeach;?>

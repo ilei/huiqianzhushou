@@ -1,0 +1,51 @@
+<import type='js' file="Admin.js.orgIndex" />
+<div id="content-head">任务流管理</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>'', 'v'=>'任务流管理')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a href="{:U('Task/flow_edit')}" type="button" class="pull-right btn btn-danger ml10" style="margin-left:10px;"><span class="glyphicon glyphicon-plus"></span> 新增任务流</a>
+				<a href="{:U('Task/index')}" type="button" class="pull-right btn btn-success"><span class="fa fa-tasks"></span> 任务管理</a>
+			</div>
+		</div>
+		<form id="form" method="post" action="<?php echo U('Upload/index')?>">
+			<table border="1" cellspacing="0" cellpadding="10" class="table table-bordered">
+				<thead>
+					<tr>
+						<td class="w80 tc">任务流编号</td>
+						<td>任务数量</td>
+						<td>状态</td>
+						<td class="w120 tc">操作</td>
+					</tr>
+				</thead>
+
+				<tbody>
+					<notempty name="flow_list">
+					<volist name="flow_list" id="vo">
+					<tr>
+						<td>{$vo['id']}</td>
+						<td>{$vo['name']}</td>
+						<td><eq name="vo.is_del" value="1">关闭<else/>开启</eq></td>
+						<td><a href="<?php echo U('flow_edit',array('guid'=>$vo['guid']));?>"><i class="glyphicon glyphicon-search"></i></a></td>
+					</tr>
+					</volist>
+					<else />
+					<tr>
+						<td colspan="4">记录没有找到！</td>
+					</tr>
+					</notempty>
+				</tbody>
+			</table>
+			{$page}
+		</form>
+	</div>
+</div>

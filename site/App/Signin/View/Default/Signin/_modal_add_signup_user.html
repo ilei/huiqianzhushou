@@ -1,0 +1,142 @@
+<!-- modal - 添加新报名人员 -->
+<style>
+    .tishinr { color: #d9534f; }
+</style>
+<div class="modal fade bs-example-modal-lg" id="modal_add_signup_user" tabindex="-1" role="dialog"
+     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="export-import"><strong>添加报名</strong></h4>
+            </div>
+            <form id="signup_add_user_form" role="form" class="form-horizontal main-form" method="post">
+                <div class="modal-body">
+
+                    <?php if (!empty($tickets)): ?>
+                        <div class="form-group">
+                            <label for="area" class="col-sm-2 control-label"><span>* </span>票务：</label>
+
+                            <div class="col-sm-6">
+                                <select class="form-control" name="ticket">
+                                    <?php foreach ($tickets as $t): ?>
+                                        <option value="<?php echo $t['guid'] ?>"><?php echo $t['name'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php foreach ($build_info as $k => $b): ?>
+                        <!-- 获取当前表单类型 -->
+                        <?php if ($b['is_info'] != 1): ?>
+                            <input type="hidden" name="<?php echo 'other[' . $b['guid'] . ']' ?>[ym_type]"
+                                   value="<?php echo $b['ym_type'] ?>"/>
+                            <input type="hidden" name="<?php echo 'other[' . $b['guid'] . ']' ?>[build_guid]"
+                                   value="<?php echo $b['guid']; ?>"/>
+                        <?php endif; ?>
+
+                        <!-- form 主题 -->
+                        <div class="form-group">
+                            <label for="contact" class="col-sm-2 control-label">
+                                <?php if ($b['is_required']): ?><span>* </span><?php endif;
+                                echo $b['name'] ?>：
+                            </label>
+
+                            <div class="col-sm-6 form_field">
+                                <!-- form -->
+                                <?php $name = ($b['is_info'] == 1) ? 'info' : 'other'; ?>
+                                <?php if ($b['html_type'] == 'text'): ?>
+                                    <?php if ($b['is_info'] == 1): ?>
+                                        <input type="text"
+                                               class="form-control <?php echo ($b['ym_type'] == 'date') ? 'ym_date' : ''; ?>"
+                                            <?php echo ($b['ym_type'] == 'date') ? 'data-field="date"' : ''; ?>
+                                               name="<?php echo $name . '[' . $b['ym_type'] . ']' ?>"
+                                               placeholder="<?php echo $b['note'] ?>" <?php echo ($b['ym_type'] == 'date') ? 'readonly' : ''; ?>/>
+                                    <?php else: ?>
+                                        <?php
+                                        if ($b['ym_type'] == 'company') {
+                                            $maxlength = 20;
+                                        } elseif ($b['ym_type'] == 'position') {
+                                            $maxlength = 10;
+                                        } else {
+                                            $maxlength = 50;
+                                        }
+                                        ?>
+                                        <input type="text"
+                                               class="form-control <?php echo ($b['ym_type'] == 'date') ? 'ym_date' : ''; ?>"
+                                               name="<?php echo $name . '[' . $b['guid'] . ']' ?>[value]"
+                                               maxlength="<?php echo $maxlength; ?>"
+                                        <?php echo ($b['ym_type'] == 'date') ? 'data-field="date"' : ''; ?>"
+                                        placeholder="<?php echo $b['note'] ?>"  <?php echo ($b['ym_type'] == 'date') ? 'readonly' : ''; ?>/>
+                                        <input type="hidden" class="form-control"
+                                               name="<?php echo $name . '[' . $b['guid'] . ']' ?>[key]"
+                                               value="<?php echo $b['name'] ?>"/>
+                                    <?php endif; ?>
+
+                                <?php elseif ($b['html_type'] == 'textarea'): ?>
+                                    <textarea class="form-control"
+                                              name="<?php echo $name . '[' . $b['guid'] . ']' ?>[value]"
+                                              placeholder="<?php echo $b['note'] ?>"></textarea>
+                                    <input type="hidden" class="form-control"
+                                           name="<?php echo $name . '[' . $b['guid'] . ']' ?>[key]"
+                                           value="<?php echo $b['name'] ?>"/>
+
+                                <?php elseif ($b['html_type'] == 'select'): ?>
+                                    <div class="select">
+                                        <select name="<?php echo $name . '[' . $b['guid'] . ']' ?>[value]"
+                                                class="form-control">
+                                            <option value=""></option>
+                                            <?php foreach ($option_info[$b['guid']] as $ok => $ov): ?>
+                                                <option
+                                                    value="<?php echo $ov['value'] ?>"><?php echo $ov['value'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <input type="hidden" class="form-control"
+                                           name="<?php echo $name . '[' . $b['guid'] . ']' ?>[key]"
+                                           value="<?php echo $b['name'] ?>">
+
+                                <?php elseif ($b['html_type'] == 'radio' || $b['html_type'] == 'checkbox'): ?>
+                                    <?php foreach ($option_info[$b['guid']] as $ok => $ov): ?>
+                                        <?php if ($b['is_info'] == 1): ?>
+                                            <div class="<?php echo $b['html_type'] ?>">
+                                                <label>
+                                                    <div class="activity-vote-options"><input
+                                                            type="<?php echo $b['html_type'] ?>"
+                                                            name="<?php echo $name . '[' . $b['ym_type'] . ']' ?>"
+                                                            class="" value="<?php echo $ov['value'] ?>"></div>
+                                                    <?php echo $ov['value'] ?>
+                                                </label>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="<?php echo $b['html_type'] ?>">
+                                                <label>
+                                                    <div class="activity-vote-options"><input
+                                                            type="<?php echo $b['html_type'] ?>"
+                                                            name="<?php echo $name . '[' . $b['guid'] . ']' ?>[value][]"
+                                                            class="" value="<?php echo $ov['value'] ?>"></div>
+                                                    <?php echo $ov['value'] ?>
+                                                </label>
+                                            </div>
+                                            <input type="hidden" class="form-control"
+                                                   name="<?php echo $name . '[' . $b['guid'] . ']' ?>[key]"
+                                                   value="<?php echo $b['name'] ?>">
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                            <div class="col-sm-4 tishinr"></div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="submit_form" data-loading-text="保存..." class="btn btn-default mybtn">保存
+                    </button>
+                    <button type="button" class="btn btn-danger mybtn" data-dismiss="modal">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div id="content-head">功能修复</div>
+<div id="breadcrumb">
+    <a href="<?php echo U('Repair/index')?>"><i class="fa fa-home"></i> logo修复</a>
+</div>
+<div class="content-border">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <table class="table table-bordered">
+                    <thead>
+<!--                    <tr>-->
+<!--                        <button type="button" id="repair">点击修复logo</button>-->
+<!--                    </tr>-->
+                    <tr>
+                        <button type="button" id="repair_user_name">点击修复现场报名姓名缺失</button>
+                    </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="content-footer">
+    &copy; 2015-2018 <a href="http://www.meetelf.com/">会签助手</a>
+</div>
+<script type="text/javascript">
+    $('#repair').click(function(){
+        location.href = "<?php echo U('Repair/repair_org_logo')?>";
+    });
+    $("#repair_user_name").click(function(){
+        location.href = "<?php echo U('Repair/repair_user_name')?>"
+    });
+</script>

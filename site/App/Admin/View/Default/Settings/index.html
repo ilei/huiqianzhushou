@@ -1,0 +1,482 @@
+<script type="text/javascript">
+
+
+    function return_index() {
+        location.href = "<?php echo U('Admin/Settings/index')?>";
+    }
+</script>
+<style>
+    .mt-0{
+        padding:0;
+    }
+    .modal-body {
+        padding-left:20px;
+        padding-right:20px;
+    }
+    .modal-body .col-sm-12 {
+        margin-bottom:20px;
+        line-height:30px;
+
+    }
+</style>
+<div id="content-head">系统管理</div>
+<?php
+$breadcrumbs = array(
+    'base' => '网站配置',
+'list' => array(
+array('url' => '', 'v' => '系统管理')
+)
+);
+?>
+<!--父级隐藏域-->
+<input type="hidden" id="hid_pid" value="">
+<input type="hidden" id="hid_loadData_url" value='<?php echo U("Admin/Settings/load_data") ?>'>
+<input type="hidden" id="hid_checkKey_url" value='<?php echo U("Admin/Settings/check_duplicate_key")?>'>
+<input type="hidden" id="hid_add_url" value='<?php echo U("Admin/Settings/add_item")?>'>
+<input type="hidden" id="hid_update_url" value='<?php echo U("Admin/Settings/update_item")?>'>
+<input type="hidden" id="hid_delete_url" value='<?php echo U("Admin/Settings/delete_item")?>'>
+<input type="hidden" id="hid_reload_url" value='<?php echo U("Admin/Settings/reload_settings")?>'>
+<include file="Public:_breadcrumbs"/>
+<div class="content-border">
+    <div class="container-fluid">
+        <div class="row mb20">
+            <div class="col-sm-6">
+                <h5 id="father_name"></h5>
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-default pull-right" href="#" role="button"
+                   style="margin-left:10px;" id="btn_back">上一级</a>
+                <a class="btn btn-primary pull-right" style="margin-left:10px;" type="button" href="#"
+                   id="btn_add">添加</a>
+                <a class="btn btn-primary pull-right" type="button" href="#" id="btn_reload">更新配置</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>标签</th>
+                <th>Key</th>
+                <th>Value</th>
+                <th>说明</th>
+                <th>类型</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="main_tbody">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!--模态框体(添加)-->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addModalLabel">添加</h4>
+                <span class="modal-title" id="add_message" style="color:red"></span>
+            </div>
+            <div class="modal-body row">
+                <!--类型选择-->
+                <div class="col-sm-12">
+                    <span class="col-sm-2">类型</span>
+                    <div class="col-sm-10 mt-0">
+                        <select class="form-control" id="add_type">
+                            <option value="String">String</option>
+                            <option value="Int">Int</option>
+                            <option value="Float">Float</option>
+                            <option value="Bool">Bool</option>
+                            <option value="Array">Array</option>
+                            <option value="Object">Object</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <span class="col-sm-2">Key</span>
+                    <input class="col-sm-10" type="text" id="add_key">
+                </div>
+                <div class="col-sm-12">
+                    <span class="col-sm-2">Value</span>
+                    <input class="col-sm-10" type="text" id="add_value">
+                </div>
+                <div class="col-sm-12">
+                    <span class="col-sm-2">说明</span>
+                    <input class="col-sm-10" type="text" id="add_description">
+                </div>
+                <div class="col-sm-12">
+                    <span class="col-sm-2">标签</span>
+                    <input class="col-sm-10" type="text" id="add_category">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="add_submit">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--模态框体(修改)-->
+<div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="changeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="changeModalLabel">修改属性</h4>
+            </div>
+            <div class="modal-body row">
+                <div class="col-sm-12">
+                    <span class="col-sm-2">类型</span>
+
+                    <div class="col-sm-10 mt-0">
+                        <select class="form-control" id="change_type">
+                            <option value="String">String</option>
+                            <option value="Int">Int</option>
+                            <option value="Float">Float</option>
+                            <option value="Bool">Bool</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <span class="col-sm-2">Value</span>
+                    <input class="col-sm-10" type="text" id="change_value">
+                </div>
+
+                <div class="col-sm-12">
+                    <span class="col-sm-2">说明</span>
+                    <input class="col-sm-10" type="text" id="change_description">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="change_submit">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    //导航栈
+    var navigationStack = [];
+    $(document).ready(function () {
+        //加载数据
+        loadData();
+        //注册按钮事件
+        $("#btn_add").click(function () {
+            $("#addModal").modal("show");
+        });
+
+        $("#btn_back").click(function () {
+
+            if (navigationStack.length > 0) {
+                //弹出1个
+                var pid = navigationStack.pop();
+                //重新加载数据 不压栈
+                loadData(pid, false);
+            }
+        });
+        $("#btn_reload").click(function () {
+            $.ajax({
+                url: $("#hid_reload_url").val(),
+                type: "POST",
+                success:function(){
+                    alert("配置更新完成");
+                },
+                error: function () {
+                    alert("配置更新失败");
+                }
+            });
+        });
+
+        //注册委托
+        $("#main_tbody").delegate("a", "click", function () {
+
+            var type = $(this).data("type");
+            var cache = $(this).data("cache");
+
+            var self = $(this);
+
+            switch (type) {
+                case "detail":
+                {
+                    //进一步判断类型
+
+                    if (cache.type == "Object" || cache.type == "Array") {
+                        //对象类型 重新加载数据 并压栈
+                        loadData(cache.id, true);
+
+
+                    } else {
+                        //基础类型
+                        //进行值的修改
+                        $("#changeModalLabel").text("修改:"+cache.key);
+                        $("#change_value").val(cache.value);
+                        $("#change_description").val(cache.description);
+                        $("#change_type").val(cache.type);
+                        $("#change_submit").data("cache", cache.id);
+                        $("#changeModal").modal("show");//弹出弹窗
+
+                    }
+                    break;
+
+                }
+                case "delete":
+                {
+                    //是否要删除配置
+                    var message="你确认删除 "+(cache.description==''?cache.key:cache.description)+ " ?";
+
+                    if(confirm(message)) {
+
+                        console.log("啦啦啦啦");
+
+                        $.ajax({
+                            url: $("#hid_delete_url").val(),
+                            type: "POST",
+                            data: {
+                                id: cache.id
+                            },
+                            success: function (data) {
+                                if (data.isSuccess) {
+
+                                    //这里不是同一个Context
+                                    self.parent().parent().remove();
+
+
+                                } else {
+                                    console.log('删除失败');
+                                }
+                            },
+                            error: function (err) {
+                                console.log(err);
+                            }
+                        });
+                    }
+
+                    break;
+                }
+            }
+        });
+
+
+        //注册Type选择变化
+        $("#add_type").change(function () {
+
+            //占坑
+
+            if ($(this).val() == "Object") {
+                $("#add_value").parent().hide();
+
+            } else if ($(this).val() == "Array") {
+                $("#add_value").parent().hide();
+            }
+            else {
+                $("#add_value").parent().show();
+            }
+        });
+
+        //注册模态窗体关闭界面(自我清理)
+        $("#addModal").on('hide.bs.modal', function () {
+
+            $("#add_type").get(0).selectedIndex = 0;
+            $("#add_key").val("");
+            $("#add_value").val("").parent().show();
+            $("#add_description").val("");
+            $("#add_message").text("");
+            $("#add_category").val("");
+        });
+        $("#changeModal").on('hide.bs.modal', function () {
+            $("#change_type").get(0).selectedIndex = 0;
+            $("#change_value").val("").parent().show();
+            $("#change_description").val("");
+            $("#change_submit").data("cache", null);
+        });
+
+
+        $("#add_submit").click(function () {
+            checkDuplicateKey(function () {
+
+                $.ajax({
+                    url: $("#hid_add_url").val(),
+                    type: "POST",
+                    data: {
+                        pid: $("#hid_pid").val(),
+                        key: $("#add_key").val(),
+                        value: $("#add_value").val(),
+                        description: $("#add_description").val(),
+                        type: $("#add_type").val(),
+                        category:$("#add_category").val(),
+                    },
+                    success: function (data) {
+                        if (data.isSuccess) {
+
+                            var element = data.data;
+                            //获取容器
+                            var container = $("#main_tbody");
+                            var row = $("<tr>");
+                            row.append($("<td>").text(element.category).addClass("col-sm-1"));
+                            row.append($("<td>").text(element.key).addClass('col-sm-3'));
+                            row.append($("<td>").text(element.value));
+                            row.append($("<td>").text(element.description));
+                            row.append($("<td>").text(element.type).addClass('col-sm-1'));
+
+
+
+
+                            var btn_detail = $('<a href="#"><i class="glyphicon glyphicon-search col-sm-1"></i></a>');
+                            var btn_delete = $('<a href="#"><i class="fa fa-trash-o js-del col-sm-1"></i></a>')
+
+
+                            //缓存数据
+                            btn_detail.data("type", "detail");
+                            btn_detail.data("cache", element);
+                            btn_delete.data("type", "delete");
+                            btn_delete.data("cache", element);
+
+                            row.append($("<td>").addClass('col-sm-1').append(btn_detail).append(btn_delete));
+
+                            //行数据添加到容器中
+                            row.prependTo(container);
+
+                            //关闭弹窗
+                            $("#addModal").modal("hide");
+
+                        } else {
+                            console.log("添加失败");
+                        }
+
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                });
+
+
+            });
+        });
+
+        $("#change_submit").click(function () {
+            $.ajax({
+                url: $("#hid_update_url").val(),
+                type: "POST",
+                data: {
+                    id: $(this).data("cache"),
+                    value: $("#change_value").val(),
+                    description: $("#change_description").val(),
+                    type: $("#change_type").val()
+                },
+                success: function (data) {
+
+                    if (data.isSuccess) {
+
+                        //重新刷新数据 不入栈
+                        loadData($("#hid_pid").val(), false);
+
+                        $("#changeModal").modal('hide');
+                    }
+                    console.log(data);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        })
+    });
+
+
+    //操作函数
+    //加载数据
+    function loadData(pid, isStack) {
+
+
+        $.ajax({
+            url: $('#hid_loadData_url').val(),
+            type: "POST",
+            data: {
+                pid: pid
+            },
+            success: function (data) {
+                //获取容器
+                var container = $("#main_tbody");
+                //清除历史数据
+                container.empty();
+
+
+                //循环拼接数据
+                $.each(data.items || [], function (idx, element) {
+                    var row = $("<tr>");
+                    row.append($("<td>").text(element.category).addClass("col-sm-1"));
+                    row.append($("<td>").text(element.key).addClass('col-sm-3'));
+                    row.append($("<td>").text(element.value));
+                    row.append($("<td>").text(element.description));
+                    row.append($("<td>").text(element.type).addClass('col-sm-1'));
+
+                    var btn_detail = $('<a href="#"><i class="glyphicon glyphicon-search col-sm-1"></i></a>');
+                    var btn_delete = $('<a href="#"><i class="fa fa-trash-o js-del col-sm-1"></i></a>')
+
+
+                    console.log(element);
+
+                    //缓存数据
+                    btn_detail.data("type", "detail");
+                    btn_detail.data("cache", element);
+                    btn_delete.data("type", "delete");
+                    btn_delete.data("cache", element);
+
+                    row.append($("<td>").addClass('col-sm-1').append(btn_detail).append(btn_delete));
+
+                    //行数据添加到容器中
+                    row.appendTo(container);
+                });
+
+                //将历史压栈 并且用新的parent_id替换
+                if (isStack) {
+                    navigationStack.push($("#hid_pid").val());
+                }
+
+                $("#father_name").text(data.pname);
+                $("#hid_pid").val(data.pid);
+
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+    //检查重复key
+    function checkDuplicateKey(callback) {
+        $.ajax({
+            url: $("#hid_checkKey_url").val(),
+            type: "POST",
+            data: {
+                pid: $("#hid_pid").val(),
+                key: $("#add_key").val()
+            },
+            success: function (data) {
+                if (data.duplicate) {
+                    console.log("重复的key")
+                    $("#add_message").text("有重复的key");
+                }
+                else {
+                    callback = callback || function () {
+                            };
+                    callback();
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+    }
+
+</script>

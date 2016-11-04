@@ -1,0 +1,165 @@
+<body>
+<div class="container js ac_edit">
+  <div class="page-header">
+    <h1><?php echo $add_edit_title;?></h1>
+    <a href="<?php echo $add_edit_return_url;?>" class="js_b_w_btn pull-right btn_pos  js_click">返回</a>
+  </div>
+  <div class="row note_info">
+    <div class="col-md-12">
+      <p class="bg-warning"><?php echo $add_edit_describe;?></p><!--描述-->
+    </div>
+  </div>
+  <div class="table-info">
+    <div class="row shumu">
+      <div class="col-md-12">
+        <p>信息设置</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="detail_info moren">
+          <li class="row">
+            <div class="sub_detail col-sm-12 add_count">
+              <form class="form-horizontal" method="post" id="form_id" name="form_name" action="">
+                <?php if($add_edit_type == 'bank'):?><!--账户-->
+                <div class="form-group">
+                  <label for="ac_phone" class="col-sm-2 control-label">开户行:</label>
+                  <div class="col-sm-10">
+                    <p></p>
+                    <?php if($add_edit_status == 'edit'):?>
+                      <input type="text" class="form-control" id="ac_phone" name="open_bank" placeholder="开户行" value="<?php echo $info['opening_bank']?>">
+                    <?php else:?>
+                      <input type="text" class="form-control" id="ac_phone" name="open_bank" placeholder="开户行">
+                    <?php endif;?>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="ac_name" class="col-sm-2 control-label">账号:</label>
+                    <div class="col-sm-10">
+                      <p></p>
+                      <?php if($add_edit_status == 'edit'):?>
+                        <input type="text" class="form-control" id="ac_name" name="bank_num" placeholder="账号" value="<?php echo $info['bank_account']?>">
+                      <?php else:?>
+                        <input type="text" class="form-control" id="ac_name" name="bank_num" placeholder="账号">
+                      <?php endif;?>
+                    </div>
+                  </div>
+                <?php elseif($add_edit_type == 'express'):?><!--收货地址-->
+                  <div class="form-group">
+                    <label for="ac_name" class="col-sm-2 control-label">收货人姓名:</label>
+                    <div class="col-sm-10">
+                      <p></p>
+                      <?php if($add_edit_status == 'edit'):?>
+                        <input type="text" class="form-control" id="ac_name" name="express_name" placeholder="收货人姓名" value="<?php echo $info['name']?>">
+                      <?php else:?>
+                        <input type="text" class="form-control" id="ac_name" name="express_name" placeholder="收货人姓名">
+                      <?php endif;?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="ac_phone" class="col-sm-2 control-label">收货人电话:</label>
+                    <div class="col-sm-10">
+                      <p></p>
+                      <?php if($add_edit_status == 'edit'):?>
+                        <input type="text" class="form-control" id="ac_name" name="express_mobile" placeholder="收货人电话" value="<?php echo $info['mobile']?>">
+                      <?php else:?>
+                        <input type="text" class="form-control" id="ac_name" name="express_mobile" placeholder="收货人电话">
+                      <?php endif;?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="ac_address" class="col-sm-2 control-label">收货人地址:</label>
+                    <div class="col-sm-10">
+                      <p></p>
+                      <?php if($add_edit_status == 'edit'):?>
+                        <input type="text" class="form-control" id="ac_name" name="express_address" placeholder="收货人地址" value="<?php echo $info['address']?>">
+                      <?php else:?>
+                        <input type="text" class="form-control" id="ac_name" name="express_address" placeholder="收货人地址">
+                      <?php endif;?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="ac_address" class="col-sm-2 control-label">邮编:</label>
+                    <div class="col-sm-10">
+                      <p></p>
+                      <?php if($add_edit_status == 'edit'):?>
+                        <input type="text" class="form-control" id="ac_name" name="express_postcode" placeholder="邮编" value="<?php echo $info['postcode']?>">
+                      <?php else:?>
+                        <input type="text" class="form-control" id="ac_name" name="express_postcode" placeholder="邮编">
+                      <?php endif;?>
+                    </div>
+                  </div>
+                <?php elseif($add_edit_type == 'invoice'):?><!--发票信息-->
+                  <div class="form-group">
+                    <label for="ac_name" class="col-sm-2 control-label">名称:</label>
+                    <div class="col-sm-10">
+                      <p></p>
+                      <?php if($add_edit_status == 'edit'):?>
+                        <input type="text" class="form-control" id="ac_name" name="invoice_name" placeholder="名称" value="<?php echo $info['name']?>">
+                      <?php else:?>
+                        <input type="text" class="form-control" id="ac_name" name="invoice_name" placeholder="名称">
+                      <?php endif;?>
+                    </div>
+                  </div>
+                <div class="form-group">
+                  <label for="ac_address" class="col-sm-2 control-label">纳税人识别号：</label>
+                  <div class="col-sm-10">
+                    <p></p>
+                    <?php if($add_edit_status == 'edit'):?>
+                      <input type="text" class="form-control" id="ac_name" name="invoice_num" placeholder="纳税人识别号" value="<?php echo $info['number']?>">
+                    <?php else:?>
+                      <input type="text" class="form-control" id="ac_name" name="invoice_num" placeholder="纳税人识别号">
+                    <?php endif;?>
+                  </div>
+                </div>
+                  <div class="form-group">
+                    <label for="ac_phone" class="col-sm-2 control-label">地址：</label>
+                    <div class="col-sm-10">
+                      <p></p>
+                      <?php if($add_edit_status == 'edit'):?>
+                        <input type="text" class="form-control" id="ac_name" name="invoice_address" placeholder="地址：" value="<?php echo $info['address']?>">
+                      <?php else:?>
+                        <input type="text" class="form-control" id="ac_name" name="invoice_address" placeholder="地址">
+                      <?php endif;?>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="ac_address" class="col-sm-2 control-label">电话：</label>
+                    <div class="col-sm-10">
+                      <p></p>
+                      <?php if($add_edit_status == 'edit'):?>
+                        <input type="text" class="form-control" id="ac_name" name="invoice_mobile" placeholder="电话" value="<?php echo $info['mobile']?>">
+                      <?php else:?>
+                        <input type="text" class="form-control" id="ac_name" name="invoice_mobile" placeholder="电话">
+                      <?php endif;?>
+                    </div>
+                  </div>
+                <?php endif;?>
+                  <div class="form-group">
+                    <label for="ac_address" class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                      <label>
+                        <?php if($add_edit_status == 'edit'):?>
+                            <?php if($info['is_default'] == '1'):?>
+                            <input id="is_default" name="is_default" type="checkbox" value="1" checked> 设为默认
+                          <?php else:?>
+                            <input id="is_default" name="is_default" type="checkbox" value="0"> 设为默认
+                          <?php endif;?>
+                        <?php else:?>
+                          <input id="is_default" name="is_default" type="checkbox" value="0"> 设为默认
+                        <?php endif;?>
+                      </label>
+                    </div>
+                  </div>
+                <div class="form-group ">
+<!--                  <a class="back-btn pull-right js_b_w_btn" href="#">提交</a>-->
+                  <button id="submit_button" type="button" class="back-btn pull-right  js_b_w_btn js_click">提交</button>
+                </div>
+              </form>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

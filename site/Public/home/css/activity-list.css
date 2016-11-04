@@ -1,0 +1,46 @@
+/*
+ * Home 模块定制CSS
+ * 
+ * CT: 2014-10-11 16:50 by H
+ */
+
+.table > tbody > tr.activity-tr > td {
+  border-bottom: 1px solid #ddd;
+}
+.table > tbody > tr > td {
+  line-height: 2;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.table > thead > tr > td.wh520,
+.table > tbody > tr > td.wh520 {
+  width: 520px;
+  padding-left: 30px;
+}
+.table > thead > tr > td.wh180,
+.table > tbody > tr > td.wh180 {
+  width: 180px;
+}
+.table > thead > tr > td.wh98,
+.table > tbody > tr > td.wh98 {
+  width: 98px;
+}
+
+/*按钮*/
+.table > thead > tr > td.wh400,
+.table > tbody > tr > td.wh400 {
+  width: 400px;
+  padding-left: 30px;
+}
+.table > thead > tr > td.wh70,
+.table > tbody > tr > td.wh70 {
+  width: 70px;
+}
+.table > thead > tr > td.wh160,
+.table > tbody > tr > td.wh160 {
+  width: 160px;
+}
+.table > thead > tr > td.wh98,
+.table > tbody > tr > td.wh98 {
+  width: 98px;
+}

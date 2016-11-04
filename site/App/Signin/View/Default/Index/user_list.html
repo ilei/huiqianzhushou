@@ -1,0 +1,198 @@
+<div class="row">
+    <div class="col-xs-12">
+       
+       <a class="btn btn-success pull-right" style="margin-bottom:10px"  href="javascript:document.location.reload()"><i class="fa fa-refresh"></i>刷新报名表</a>
+        <div class="item">
+            <div class="item-header">报名表
+            </div>
+            <div class="item-content item-pd0">
+                <div class="">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr class="functionbar">
+                            <td colspan="8">
+                                <div class="list-btn-group">
+                                    <div class="inputinline pull-left">
+                                        
+                                        <div class="input-group">
+                                            <input type="text" name="search" id="search" class="form-control" placeholder="请输入姓名或电话"
+                                                   onkeypress="press_target(event, 'btn_search');"
+                                                   value="<?php echo $keyword = urldecode($_GET['keyword']); ?>" />
+                                            <a class="input-group-addon btn-default" id="btn_search" href="javascript:void(0);"><i class="fa fa-search"></i></a>
+                                            <a class="input-group-addon btn-default" id="btn_search_reset" href="javascript:void(0);" style="display: none;">重置</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr class="tr-bgcolor">
+                           
+                            <td class="width70" style="text-align: left; padding-left: 21px;">
+                                <input type="checkbox" id="ckall">
+                            </td>
+                            <td>编号</td>
+                            <td>姓名</td>
+                            <td>电话</td>
+                            
+                            <td class="width110">
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle dropdown-mybtn" type="button" id="ticketmenu" data-toggle="dropdown">
+                                        全部票务 <i class="fa fa-angle-down"></i>
+                                    </button>
+                                    <ul class="ym_filter dropdown-menu radius0" role="menu" aria-labelledby="ticketmenu">
+                                        <li role="presentation">
+                                            <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="t" v="all">全部票务</a></li>
+                                        <?php foreach($tickets_filter as $k => $t): ?>
+                                            <li role="presentation">
+                                                <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="t" v="<?php echo $t['guid']?>">
+                                                    <?php echo $t['name']?>
+                                                </a>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            </td>
+                            
+<!--                            <td class="width141">-->
+<!--                            <div class="dropdown">-->
+<!--                                <button class="btn dropdown-toggle dropdown-mybtn" type="button" id="sourcetmenu" data-toggle="dropdown">-->
+<!--                                    全部人员来源 <i class="fa fa-angle-down"></i>-->
+<!--                                </button>-->
+<!--                                <ul class="ym_filter dropdown-menu radius0" role="menu" aria-labelledby="sourcetmenu">-->
+<!--                                    <li role="presentation">-->
+<!--                                        <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="f" v="all">全部</a>-->
+<!--                                    </li>-->
+<!--                                    --><?php //foreach(C('ACTIVITY_SIGNUP_FROM') as $k => $v): ?>
+<!--                                        <li role="presentation">-->
+<!--                                            <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="f" v="--><?php //echo $k?><!--">-->
+<!--                                                --><?php //echo $v; ?>
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                    --><?php //endforeach; ?>
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                            </td>-->
+
+                         
+
+                            <td class="width141">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle dropdown-mybtn ml12" type="button" id="statemenu" data-toggle="dropdown">
+                                电子票状态 <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="ym_filter dropdown-menu radius0" role="menu" aria-labelledby="statemenu">
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="s" v="all">全部</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="s" v="u0">未发送</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="s" v="u1">发送失败</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="s" v="u2">已发送</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="s" v="u3">对方已查看</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="s" v="u4">已签到</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="s" v="no">未签到</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="s" v="i1">扫码签到</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="s" v="i2">手动签到</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="javascript:void(0);" k="s" v="i3">现场报名</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                     
+                        <tbody id="user_list_body">
+                        <?php if(empty($user_list)): ?>
+                            <tr><td colspan="8">暂无人员报名</td></tr>
+                        <?php else: ?>
+                            <?php $i=1; foreach($user_list as $l): ?>
+                                <tr>
+                                    <td class="checkbox-align"><input name="ck[]" type="checkbox" value="<?php echo $l['guid']?>" class="ck"></td>
+                                    <td><?php echo $i; $i++; ?></td>
+                                    <!-- <td><a href="<?php //echo U('Index/signup_userdetail', array('uid' => $l['guid']))?>" data-toggle="tooltip" data-placement="top" title="查看详细资料"><?php //echo $l['real_name']; ?></a></td> -->
+                                    <td><?php echo $l['real_name']; ?></td>
+                                    <td><?php echo $l['mobile']; ?></td>
+                                    <td><?php echo $l['ticket']['ticket_guid'] == 'nolimit' ? '' : $l['ticket']['ticket_name'];?></td>
+<!--                                    <td>--><?php //echo $l['from']?><!--</td>-->
+                                    <td><<?php echo $l['ticket']['ticket_status_tag']?>><?php echo $l['ticket']['ticket_status']?></<?php echo $l['ticket']['ticket_status_tag']?>></td>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="myModal<?php echo $l['guid']?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                          <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">详细资料</h4>
+                                              </div>
+                                              <div class="modal-body">
+                                                                            
+                                                                                <?php  foreach($l['other'] as $key => $o): ?>
+                                                                                    <!--<?php if($o['userinfo_guid'] ==$l['guid']): ?>-->
+                                                                                     <strong><?php echo $o['key']; ?>：</strong><?php echo $o['value']; ?><br>
+                                                                                    <!--<?php endif; ?>-->
+                                                                                <?php endforeach; ?>
+                                                                           
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    <td>
+                                    <a   class="detailslayer" data-toggle="modal" data-target="#myModal<?php echo $l['guid']?>">
+                                      <i class="fa fa-info-circle fa-lg"></i>
+                                    </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        
+                        </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="8"  style="margin-left: 7px;">
+                                            <?php echo $page;?>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                    </table>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+        $('#ckall').on('change', function () {
+            $("input.ck").prop('checked', $(this).prop("checked"));
+        });
+
+        // $('.detailslayer').popover({
+        //   //  content: '<div class="layer">'
+        //   // +'<div class="pull-left">'
+        //   // +'<p><strong>年龄：</strong><?php echo $l['real_name']; ?><br><strong>性别：</strong><?php echo $l['mobile']; ?><br></p>'
+        //   // +'</div>',
+        //    html: true,
+        //    placement: 'left',
+        //    trigger: 'hover'
+        // });
+});     
+
+var show_resend = false;   
+</script>
+<?php $user_list_url = U('Index/ajax_signup_user_next_page', array('aid' => $activity_info['guid']));?>
+<include file="Public/_signup_userlist_js" />

@@ -1,0 +1,121 @@
+/*registration-list.html*/
+/*报名详情*/
+.upload-posters { 
+  width: 320px; 
+  /*height: 200px;*/
+}
+.pre-activities-lt {
+  margin: 0 30px;
+  padding: 78px 15px 87px;
+  width: 308px;
+  height: 605px;
+  float: left;
+  background-image: url(../images/bg-iphone.jpg);
+}
+.pre-activities-lt iframe {
+  width: 100%;
+  height: 100%;
+}
+.pre-activities-rt { 
+  margin: 160px 15px 0 0; 
+  float: left;
+  width: 179px;
+}
+.pre-activities-rt img {
+  display: block;
+  margin: 0 auto;
+  width: 155px;
+  height: 155px;
+}
+.pre-activities-rt a.btn {
+  display: block;
+  margin: 20px auto;
+  width: 100px;
+}
+.pre-activities-rt a.text-center {
+  display: block;
+  margin: 0 auto;
+}
+/*报名列表start*/
+.table > tbody > tr > td {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.width798 table { border: 1px solid #ddd;}
+.tr-bgcolor { background-color: #f5f5f5;}
+.table > tbody > tr > td,
+.table > thead > tr > td { vertical-align: middle;}
+
+.tr-bgcolor > td > .dropdown > button { background-color: #f5f5f5;}
+.btn-mybtn {background-color: #fff;}
+table > tbody > tr > th,
+table > tbody > tr > td { font-size: 12px;}
+table > tbody > tr > td > i { font-size: 14px;}
+.table > thead > tr.tr-bgcolor > td,
+.table > thead > tr.tr-bgcolor > th,
+.table > tbody > tr > td { text-align: center;}
+.list-btn-group .dropdown,
+.list-btn-group .inputinline { display: inline-block;}
+.dropdown-menu { min-width: 80px;}
+td.width53 { width: 53px;}
+td.width70 { width: 70px;}
+td.width90 { width: 90px;}
+td.width110 { width: 110px;}
+td.width141 { width: 141px;}
+
+tbody > tr > td.checkbox-align { text-align:left;}
+tbody > tr > td.checkbox-align > input { margin-left: 13px;}
+
+thead > tr.functionbar > td { padding: 20px 8px;}
+/*弹出层*/
+.detailslayer { cursor: pointer;}
+.popover { max-width: 460px; }
+/*报名列表end*/
+label span {
+  color: #d9534f;
+  font-size: 20px;
+  vertical-align: -7px;
+}
+.tishinr {
+  line-height: 30px;
+}
+/*下拉菜单*/
+select > option { max-width: 353px; overflow: hidden;}
+.form-inline.form-area .form-control { width: 184px;}
+/*二维码*/
+.registration-code { max-width: 150px;}/*报名详细页*/
+/*标签页主体*/
+.reg-tab-main { 
+  margin: 15px;
+  padding: 15px 0;
+  border: 1px solid #e5e5e5; 
+/*  border-radius: 4px;*/
+}
+/*发电子票*/
+.nav-tab > li > a {
+  margin-right: 5px;
+  background-color: #eee;
+  border-radius: 0;
+}
+/*票务设置start*/
+.table > tbody > tr > td { vertical-align: middle;}
+.error-pr { 
+  text-align: left; 
+  line-height: 34px; 
+  color: #f15e4c;
+}
+.modal-lg {
+  width: 900px;
+}
+.modal-tk-position { 
+  position: fixed; 
+  top: 50%; 
+  left: 50%;
+  margin-top: -180px;
+  margin-left: -450px;
+}
+/*票务设置end*/
+/*活动预览外框*/
+#activity-preview {
+  margin-top: -3px;
+}

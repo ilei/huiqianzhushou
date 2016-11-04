@@ -1,0 +1,85 @@
+<input id="underway_history_ticket_url" value="<?php echo U('Financing/underway_history_ticket',array('aid' => $aid))?>" hidden>
+<body>
+<div class="container js">
+  <div class="page-header js_search">
+    <h1><?php echo $act_name?></h1>
+    <a href="<?php echo $return_url?>" class="js_b_w_btn pull-right js_click">返回</a>
+  </div>
+  <div class="row note_info">
+    <div class="col-md-12">
+      <p class="bg-warning">活动的票务信息</p>
+    </div>
+  </div>
+  <div class="table-info">
+    <div class="row">
+      <div class="col-md-12 pdt">
+        <div class="row sum-money pull-left">
+          <div class="col-md-12 ">
+            <p>总计：<span id="sum_money"><?php echo $sum_money?></span>元</p>
+          </div>
+        </div>
+        <table class=" table table-hover">
+          <thead>
+          <tr>
+            <th>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        style="background-color:#F5F5F5;border:0">
+                  活动票名(<span id="ticket_name" class="ticket_state">全部</span>)<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" name="li_guid">全部</a></li>
+                  <?php foreach($goods_name as $v):?>
+                    <li><a href="#" name="li_guid"><?php echo $v?></a></li>
+                  <?php endforeach;?>
+                </ul>
+              </div>
+            </th>
+            <th>
+              购票时间
+            </th>
+            <th>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        style="background-color:#F5F5F5;border:0">
+                  状态 (<span id="ticket_status" class="ticket_state">全部</span>)<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" name="li_status">全部</a></li>
+                  <?php foreach($ticket_status_name as $k=>$v):?>
+                    <li><a href="#" name="li_status"><?php echo $v?></a></li>
+                  <?php endforeach;?>
+                </ul>
+              </div>
+            </th>
+            <th>
+              票价
+            </th>
+            <th>
+              购票人
+            </th>
+          </tr>
+          </thead>
+          <tbody id="ticket_tbody">
+            <?php echo $tbody?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+<!--    <div class="pagin row pull-right">-->
+<!--      <div class="col-md-12 bottom_element">-->
+<!--        <div class="bottom-pagination">-->
+<!--          <ul class="pagination">-->
+<!--            <li><a href="#">&laquo;</a></li>-->
+<!--            <li><a href="#">1</a></li>-->
+<!--            <li><a href="#">2</a></li>-->
+<!--            <li><a href="#">3</a></li>-->
+<!--            <li><a href="#">4</a></li>-->
+<!--            <li><a href="#">5</a></li>-->
+<!--            <li><a href="#">&raquo;</a></li>-->
+<!--          </ul>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<?php 
+/**
+ * 加载JS文件
+ * 
+ * CT: 2014-10-09 17:47 by YLX
+ * UT: 2014-10-09 17:47 by YLX
+ */
+?>
+
+<!-- 左边导航 -->
+<div class="row">
+    <ul class="nav nav-pills nav-stacked left-menu" role="tablist">
+      <li role="presentation" class="left-menu-home <?php echo in_array(CONTROLLER_NAME, array('Index'))?'left-menu-home-active':''?>">
+        <a href="<?php echo U('Center/index')?>"><i class="fa fa-home fa-4x"></i></a>
+      </li>
+      <li role="presentation" class="<?php echo in_array(CONTROLLER_NAME, array('Info', 'Sigin'))?'active':''?>">
+        <a href="<?php echo U('Info/base')?>">
+          <i class="fa fa-cog fa-2x"></i><br>
+          <label class="mt10">基本信息</label>
+        </a>
+      </li>
+<!--      <li role="presentation" class="--><?php //echo in_array(CONTROLLER_NAME, array('Message', 'Notice'))?'active':''?><!--">-->
+<!--        <a href="--><?php //echo U('Message/index')?><!--">-->
+<!--          <i class="fa fa-comments fa-2x"></i><br>-->
+<!--          <label class="mt10">消息管理</label>-->
+<!--        </a>-->
+<!--      </li>-->
+<!--      <li role="presentation" class="--><?php //echo in_array(CONTROLLER_NAME, array('Member'))?'active':''?><!--">-->
+<!--        <a href="--><?php //echo U('Member/index')?><!--">-->
+<!--          <i class="fa fa-user fa-2x"></i><br>-->
+<!--          <label class="mt10">社员管理</label>-->
+<!--        </a>-->
+<!--      </li>-->
+      <li role="presentation" class="<?php echo in_array(CONTROLLER_NAME, array('Activity'))?'active':''?>">
+        <a href="<?php echo U('Activity/index')?>">
+          <i class="fa fa-flag fa-2x"></i><br>
+          <label class="mt10">活动管理</label>
+        </a>
+      </li>
+    </ul>
+</div>
+<div class="leftbarlast"></div>

@@ -1,0 +1,39 @@
+<?php foreach($orders as $v):?>
+<?php $need_verify=$v['order_status_sort']==1; ?>
+
+<tr>
+
+<!--    --><?php //if($need_verify):?>
+<!--    <td><input type="checkbox" v="--><?php //echo $v['order_number']; ?><!--"></td>-->
+<!--    --><?php //else:?>
+<!--    <td></td>-->
+<!--    --><?php //endif;?>
+    <td><?php echo $v['order_number']; ?></td>
+    <td><?php echo $v['order_quantity']; ?></td>
+    <td><?php echo $v['order_total_price_string']; ?></td>
+    <td><?php echo $v['order_finished_time_string']; ?></td>
+    <td><?php echo $v['buyer_name']; ?></td>
+
+
+    <?php if($v['order_status']==0||$v['order_status']==3 ||$v['order_status']==9):?>
+    <td class="text-danger"><?php echo $v['order_status_string']; ?></td>
+    <?php else:?>
+    <td class="text-success"><?php echo $v['order_status_string']; ?></td>
+    <?php endif;?>
+
+
+    <?php if($need_verify):?>
+    <td><a class=" btn-link" href="<?php echo U('Home/Order/detail',array('guid'=>$v['order_number'])); ?>">详情</a> | <a
+            href="#" class=" btn-link" type="button" data-toggle="modal" v="<?php echo $v['order_number'] ?>">审批</a>
+    </td>
+    <?php else:?>
+
+
+    <td><a class=" btn-link" href="<?php echo U('Home/Order/detail',array('guid'=>$v['order_number'])); ?>">详情</a></td>
+
+
+    <?php endif;?>
+
+
+</tr>
+<?php endforeach;?>

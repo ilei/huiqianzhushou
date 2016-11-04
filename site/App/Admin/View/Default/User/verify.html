@@ -1,0 +1,119 @@
+<div id="content-head">审核社团</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Org/index'), 'v'=>'社团管理'),
+array('url'=>'', 'v'=>'审核社团')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<form action="<?php echo U('Org/verify_refuse')?>" id="verifyOrgForm" method="post" novalidate="novalidate">
+			<div></div><table class="table table-bordered">
+				<tbody><tr>
+						<th>社团名称</th>
+						<td><?php echo $org_info['name']?></td>
+					</tr>
+					<tr>
+						<th>社团邮箱</th>
+						<td><?php echo $org_info['email']?></td>
+					</tr>
+					<tr>
+						<th>社团联系人</th>
+						<td><?php echo $org_info['contact_name']?></td>
+					</tr>
+					<tr>
+						<th>社团手机</th>
+						<td><?php echo $org_info['phone']?></td>
+					</tr>
+					<tr>
+						<th>地理区域</th>
+						<td><?php echo $area_1['name'].' '.$area_2['name'];?></td>
+					</tr>
+					<tr>
+						<th>社团地址</th>
+						<td><?php echo $org_info['address'];?></td>
+					</tr>
+					<tr>
+						<th>社团简介</th>
+						<td><?php echo str_replace("&lt;br/&gt;","\n",$org_info['description']);?></td>
+					</tr>
+					<tr>
+						<th>创建时间</th>
+						<td><?php echo date('Y-m-d H:i',$org_info['created_at'])?></td>
+					</tr>
+					<tr>
+						<th>更新时间</th>
+						<td><?php echo date('Y-m-d H:i',$org_info['updated_at'])?></td>
+					</tr>
+					<tr id="hidden_tr" hidden="true">
+						<th>拒绝理由</th>
+						<td><textarea id="verify_refuse_reason" name="verify_refuse_reason" placeholder="必填项"></textarea></td>
+					</tr>
+
+					<input type="hidden" name="org_guid" value="<?php echo $org_info['guid']?>">
+			</tbody></table>
+		</form>
+		<tfoot>
+			<input type="button" value="通过审核" id="pass" name="pass" onclick="verify_pass()" class="btn btn-primary">
+			<input type="button" value="拒绝通过" id="not_pass" name="not_pass" onclick="verify_refuse()" class="btn btn-primary">
+			<input type="button" value="提交" id="verify_refuse" name="not_pass_submit" onclick="verify_refuse_submit()" hidden="true" class="btn-default">
+			<input type="button" value="返回" id="return_index" name="return_index" onclick="return_index()" class="btn btn-primary">
+			<input type="button" value="返回" id="return_verify" name="return_index" onclick="return_verify()" hidden="true" class="btn-default">
+		</tfoot>
+	</div>
+</div>
+
+<script type="text/javascript">
+	//返回
+function return_index(){
+location.href = "<?php echo U('Org/index')?>";
+		}
+		//审核通过
+		function verify_pass(){
+			location.href = "<?php echo U('Org/verify_pass',array('org_guid'=>$org_info['guid']))?>";
+		}
+		//审核拒绝通过
+		function verify_refuse(){
+			$("#hidden_tr").removeAttr("hidden");
+			$("#pass").attr("hidden",true).attr('class', 'btn-default');
+			$("#not_pass").attr("hidden",true).attr('class', 'btn-default');
+			$("#verify_refuse").removeAttr("hidden").attr('class', 'btn btn-primary');
+			$("#return_index").attr("hidden",true).attr('class', 'btn-default');
+			$("#return_verify").removeAttr("hidden").attr('class', 'btn btn-primary');
+			//        location.href = "<?php echo U('Org/verify_not_pass',array('org_guid'=>$org_info['guid']))?>";
+		}
+		function verify_refuse_submit(){
+			$("form").submit();
+
+		}
+		function return_verify(){
+			$("#hidden_tr").attr("hidden",true);
+			$("#pass").removeAttr("hidden").attr('class', 'btn btn-primary');
+			$("#not_pass").removeAttr("hidden").attr('class', 'btn btn-primary');
+			$("#return_index").removeAttr("hidden").attr('class', 'btn btn-primary');
+			$("#verify_refuse").attr("hidden",true).attr('class', 'btn-default');
+			$("#return_verify").attr("hidden",true).attr('class', 'btn-default');
+		}
+		$(document).ready(function () {
+
+			//表单验证
+			$('#verifyOrgForm').validate({
+				rules: {
+					verify_refuse_reason: {
+						required: true,
+						rangelength: [1, 100]
+					}
+				},
+				messages: {
+					verify_refuse_reason: {
+						required: "拒绝理由不能为空",
+						rangelength: "拒绝理由不得多于100字"
+					}
+				}
+			});
+		});
+	</script>

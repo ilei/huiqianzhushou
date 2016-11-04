@@ -1,0 +1,55 @@
+/* * CT: 2015-05-55 16:50 by Hank*/
+
+/*1-4分别是，1文章；2投票；4会签；5问卷*/
+/*选择活动类型页面，大图标*/
+i.act-tp {
+  display: block;
+  margin-left: 30px;
+  width: 90px;
+  height: 90px;
+  background:url(../images/activity-type.png) no-repeat;
+  text-align: center;
+}
+i.act-tp.atp1 { background-position: 0 0;}
+i.act-tp.atp2 { background-position: -90px 0;}
+i.act-tp.atp4 { background-position: -180px 0;}
+i.act-tp.atp5 { background-position: -270px 0;}
+i.act-tp.atp6 { background-position: -360px 0;}
+
+a:hover i.act-tp.atp1,
+a:focus i.act-tp.atp1 { background-position: 0 -90px;}
+a:hover i.act-tp.atp2,
+a:focus i.act-tp.atp2 { background-position: -90px -90px;}
+a:hover i.act-tp.atp4,
+a:focus i.act-tp.atp4 { background-position: -180px -90px;}
+a:hover i.act-tp.atp5,
+a:focus i.act-tp.atp5 { background-position: -270px -90px;}
+a:hover i.act-tp.atp6,
+a:focus i.act-tp.atp6 { background-position: -360px -90px;}
+/*小图标，选择活动类型页面，*/
+i.act-tp-sm { 
+  position: relative;
+  float: left;
+  display: block;
+  width: 23px;
+  height: 19px;
+  background:url(../images/activity-type.png) no-repeat;
+  text-align: center;
+  clear: both;
+}
+i.act-tp-sm.atp1 { background-position: 0 -180px;}
+i.act-tp-sm.atp2 { background-position: -23px -180px;}
+i.act-tp-sm.atp4 { background-position: -46px -180px;}
+i.act-tp-sm.atp5 { background-position: -69px -180px;}
+i.act-tp-sm.atp6 { background-position: -92px -180px;}
+
+/*a:hover i.act-tp-sm.atp1,
+a:focus i.act-tp-sm.atp1 { background-position: 0 -199px;}
+a:hover i.act-tp-sm.atp2,
+a:focus i.act-tp-sm.atp2 { background-position: -23px -199px;}
+a:hover i.act-tp-sm.atp3,
+a:focus i.act-tp-sm.atp3 { background-position: -46px -199px;}
+a:hover i.act-tp-sm.atp4,
+a:focus i.act-tp-sm.atp4 { background-position: -69px -199px;}
+a:hover i.act-tp-sm.atp5,
+a:focus i.act-tp-sm.atp5 { background-position: -92px -199px;}*/

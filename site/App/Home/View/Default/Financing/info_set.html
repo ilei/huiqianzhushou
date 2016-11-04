@@ -1,0 +1,119 @@
+<body>
+<div class="container js">
+<!--  <div class="page-header">-->
+<!--    <h1>账户管理</h1>-->
+<!--    <a href="#" class="js_b_w_btn b_w_btn_pos"><i class="fa fa-plus"></i>账户</a>-->
+<!--    <a href="#" class="js_b_w_btn pull-right btn_pos">返回</a>-->
+<!--  </div>-->
+  <div class="page-header">
+    <h1>账户管理</h1>
+    <a href="<?php echo U('Financing/index')?>" class="js_b_w_btn b_w_btn_pos">等待结算</a>
+    <a href="<?php echo U('Financing/underway_detail')?>" class="js_b_w_btn b_w_btn_pos">进行结算</a>
+    <a href="<?php echo U('Financing/history_detail')?>" class="js_b_w_btn b_w_btn_pos">历史结算</a>
+    <a href="#" class="js_b_w_btn b_w_btn_pos js_click">管理账户</a>
+  </div>
+  <div class="row note_info">
+    <div class="col-md-12">
+      <p class="bg-warning">银行账户、发票信息、快递信息</p>
+    </div>
+  </div>
+  <div class="table-info">
+    <div class="row shumu">
+      <div class="col-md-12">
+        <p>默认银行账户</p>
+        <a href="<?php echo U('Financing/bank_list')?>" class="guanli js_b_w_btn pull-right js_click btn_pos">管理</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="detail_info moren">
+          <li class="row">
+            <div class="sub_detail col-sm-12 div_hover">
+              <?php if(empty($bank_info)):?>
+                <a class="add_info" href="<?php echo U('Financing/bank_add')?>"><span><i class="fa fa-plus"></i>新增</span></a>
+              <?php else:?>
+                <div class="col-sm-6">
+                  <p>地址:<span><?php echo $bank_info['opening_bank']?></span></p>
+                </div>
+                <div class="col-sm-6">
+                <p>账号:<span><?php echo $bank_info['bank_account']?></span></p>
+              </div>
+              <?php endif;?>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+
+
+    <div class="row shumu">
+      <div class="col-md-12">
+        <p>默认发票信息</p>
+        <a href="<?php echo U('Financing/invoice_list')?>" class="guanli js_b_w_btn pull-right js_click btn_pos">管理</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="detail_info moren ">
+          <li class="row">
+            <div class="sub_detail col-sm-12 div_hover">
+              <?php if(empty($invoice_info)):?>
+                <a class="add_info" href="<?php echo U('Financing/invoice_add')?>"><span><i class="fa fa-plus"></i>新增</span></a>
+              <?php else:?>
+                <div class="col-sm-6">
+                  <p>名称:<span><?php echo $invoice_info['name']?></span></p>
+                </div>
+                <div class="col-sm-6">
+                  <p>纳税人识别号: <span><?php echo $invoice_info['number']?></span></p>
+                </div>
+                <div class="col-sm-6">
+                  <p>地址:<span><?php echo $invoice_info['address']?></span></p>
+                </div>
+                <div class="col-sm-6">
+                  <p>电话:<span><?php echo $invoice_info['mobile']?></span></p>
+                </div>
+              <?php endif;?>
+            </div>
+<!--            <a href="--><?php //echo U('Financing/bank_edit')?><!--"><i class="edit fa fa-edit  my-fa-3x" >编辑</i></a>-->
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row shumu">
+      <div class="col-md-12">
+        <p>默认快递信息</p>
+        <a href="<?php echo U('Financing/express_list')?>" class="guanli js_b_w_btn pull-right js_click btn_pos">管理</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="detail_info">
+          <li class="row">
+            <div class="sub_detail col-sm-12 div_hover">
+              <?php if(empty($express_info)):?>
+                <a class="add_info" href="<?php echo U('Financing/express_add')?>"><span><i class="fa fa-plus"></i>新增</span></a>
+              <?php else:?>
+                <div class="col-sm-6">
+                  <p>收件人:<span><?php echo $express_info['name']?></span></p>
+                </div>
+                <div class="col-sm-6">
+                  <p>收件地址:<span><?php echo $express_info['address']?></span></p>
+                </div>
+                <div class="col-sm-6">
+                  <p>电话:<span><?php echo $express_info['mobile']?></span></p>
+                </div>
+                <div class="col-sm-6">
+                  <p>邮编: <span><?php echo $express_info['postcode']?></span></p>
+                </div>
+              <?php endif;?>
+            </div>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

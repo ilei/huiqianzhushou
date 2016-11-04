@@ -1,0 +1,40 @@
+{__NOLAYOUT__}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <?php echo C('MEDIA_CSS.BOOTSTRAP'); ?>
+    <import type='css' file="common.css.results"/>
+    <title>欢迎来到会签助手</title>
+	<link rel="shortcut icon" href="/Public/meetelf/images/favicon.ico" type="image/vnd.microsoft.icon">
+    <script type="text/javascript">
+        window.onload= function () {
+           var href=document.getElementById("a_redirect").getAttribute("href");
+            setTimeout(function () {
+                if(href) {
+                    location.href = href;
+                }
+            },3000)
+        };
+    </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f41d2461f5014427968aa48c238beaa6";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body class="bodybg">
+    <div class="main">
+        <div class="imgmb"><img src="__PUBLIC__/common/images/app_icon.png" width="150" height="150"></div>
+        <h3><strong>欢迎来到会签助手</strong></h3>
+        <h5><a id="a_redirect" href="<?php echo $redirect;?>">如未自动跳转,请点击</a></h5>
+    </div>
+</body>
+</html>

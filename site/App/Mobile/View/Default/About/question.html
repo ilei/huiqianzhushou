@@ -1,0 +1,21 @@
+ <!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>常见问题</title>
+    <?php echo C('MEDIA_CSS.BOOTSTRAP'); ?>
+    <import type='css' file="mobile.css.aboutus" />
+</head>
+ <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 introduction">
+          <h4><?php echo $article_info['title'];?></h4>
+          <?php echo htmlspecialchars_decode($article_info['content']);?>
+        </div>
+      </div>
+      <input class="btn btn-success" style="margin-top:5px;" type="button" name="back" value="返回" onclick="javascript:history.go(-1);">
+    </div>
+  </body>

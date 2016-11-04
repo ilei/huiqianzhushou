@@ -1,0 +1,22 @@
+<?php if (!empty($breadcrumbs)): ?>
+    <div class="ymtitle">
+        <?php echo $breadcrumbs['base']?>
+        <?php foreach ($breadcrumbs['list'] as $l): ?>
+            <?php
+                if(mb_strlen($l['v'], 'UTF-8') > 18){
+                    $v = mb_substr($l['v'], 0, 18, 'UTF-8').'...';
+                } else {
+                    $v = $l['v'];
+                }
+            ?>
+            <?php if(!empty($l['v'])):?>
+                >>
+                <?php if(!empty($l['url'])): ?>
+                    <a href="<?php echo $l['url']?>" class="h5title" title="<?php echo $l['v']?>"><?php echo $v;?></a>
+                <?php else: ?>
+                    <span class="h5title"><?php echo $v;?></span>
+                <?php endif; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+<?php endif;?>

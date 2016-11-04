@@ -1,0 +1,81 @@
+<div id="content-head">活动详情</div>
+<import type='js' file="admin.js.orgIndex" />
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Act/index'), 'v'=>'活动管理'),
+array('url' => '', 'v' => '活动详情')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a class="btn btn-success pull-right" type="button" href="{:U('Act/index')}"><i class="fa fa-arrow-left"></i> 返回列表</a>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-bordered">
+					<tr>
+						<th>活动名称</th>
+						<td><?php echo $user_info['real_name'];?></td>
+					</tr>
+
+
+
+					<tr>
+						<th>创建人</th>
+						<td><?php echo $user_info['remark'];?></td>
+					</tr>
+					<tr>
+						<th>创建时间</th>
+						<td><?php echo date('Y-m-d H:i:s',$user_info['created_at']);?></td>
+					</tr>
+					<tr>
+						<th>更新时间</th>
+						<td><?php echo date('Y-m-d H:i:s',$user_info['updated_at']);?></td>
+					</tr>
+					<tr>
+						<th>手机认证</th>
+						<td>
+							<?php if($user_info['moblie_verify'] == 0):?>
+							<span class="text-grey">未认证</span>
+							<?php else:?>
+							<span class="text-green">已认证 <i class="fa fa-angellist"></i></span>
+							<?php endif;?>
+						</td>
+					</tr>
+					<tr>
+						<th>邮箱认证</th>
+						<td>
+							<?php if($user_info['email_verify'] == 0):?>
+							<span class="text-grey">未认证</span>
+							<?php else:?>
+							<span class="text-green">已认证 <i class="fa fa-angellist"></i></span>
+							<?php endif;?>
+						</td>
+					</tr>
+					<tr>
+						<th>实名认证</th>
+						<td>
+							<?php if($user_info['real_name_verify'] == 0):?>
+							<span class="text-grey">未认证</span>
+							<?php elseif($user_info['real_name_verify'] == 1):?>
+							<span class="text-green">已认证 <i class="fa fa-angellist"></i></span>
+							<?php elseif($user_info['real_name_verify'] == 2):?>
+							<span class="text-yellow">已提交</span>
+							<?php elseif($user_info['real_name_verify'] == 3):?>
+							<span class="text-red">已拒绝</span><span><p>拒绝理由：<?php echo $user_attribute_info['identity_refuse_reason']?></p></span>
+							<?php endif;?>
+						</td>
+					</tr>
+			    </table>
+			</div>
+		</div>
+	</div>
+</div>

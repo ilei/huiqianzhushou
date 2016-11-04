@@ -1,0 +1,150 @@
+
+<import type='css' file="home.css.create-theme" />
+
+<style>
+    .pt7 {padding-top:7px;}
+</style>
+
+<!-- 导入面包屑 -->
+<?php
+$breadcrumbs = array(
+    'base' => '活动管理',
+    'list' => array(
+        array('url' => U('Activity/activity_view', array('guid'=>$info['activity_guid'])), 'v'=>'活动详情'),
+        array('url'=>U('Activity/signup_userinfo', array('aid' => $info['activity_guid'])), 'v'=> '报名名单'),
+        array('url' => '', 'v' => '人员详情')
+    )
+);
+$activity_info['guid'] = $info['activity_guid'];
+?>
+<include file="Public:_breadcrumbs" />
+<include file="_signup_submenu" />
+
+<div class="rightmain">
+    <div class="btn-group width798 pdlf10">
+        <div class="pull-left">报名表</div>
+        <?php if(I('get.category') == 1 || I('get.category') == '' ):?>
+        <div class="pull-right"><a href="<?php echo U('Signin/Index/user_list/', array('aid' => $info['activity_guid']))?>"><i class="fa fa-arrow-left"></i> 返回</a></div>
+        <?php endif; ?>
+        <?php if(I('get.category') == 2):?>
+        <div class="pull-right"><a href="<?php echo U('Signin/Signin/signin_chart/', array('aid' => $info['activity_guid']))?>"><i class="fa fa-arrow-left"></i> 返回</a></div>
+        <?php endif; ?>
+    </div>
+    <div class="width798 mt20">
+        <form id="regorg" role="form" class="form-horizontal" method="post">
+
+            <?php if(!empty($tickets)): ?>
+                <div class="form-group">
+                    <label for="area" class="col-sm-2 control-label"><span>* </span>票务：</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" name="ticket">
+                            <?php foreach($tickets as $t): ?>
+                                <option value="<?php echo $t['guid']?>" <?php echo ($user_ticket['ticket_guid'] == $t['guid']) ? 'selected' : ''; ?>>
+                                    <?php echo $t['name']?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php foreach($build_info as $k => $b): ?>
+                <!-- 获取当前表单类型 -->
+                <?php if($b['is_info'] != 1):?>
+                    <input type="hidden" name="<?php echo 'other['.$b['guid'].']'?>[ym_type]" value="<?php echo $b['ym_type']?>"/>
+                    <input type="hidden" name="<?php echo 'other['.$b['guid'].']'?>[other_info_guid]" value="<?php echo $other[$b['guid']]['guid']; ?>"/>
+                <?php endif; ?>
+
+                <div class="form-group">
+                    <label for="contact" class="col-sm-2 control-label">
+                        <?php if($b['is_required']):?><span>* </span><?php endif; echo $b['name']?>：
+                    </label>
+                    <div class="col-sm-5 form_field">
+                        <!-- form -->
+                        <?php $name = ($b['is_info']==1)?'info':'other'; ?>
+                        <?php if($b['html_type'] == 'text'): ?>
+                            <?php if($b['is_info'] == 1):?>
+                                <?php
+                                                    if($b['ym_type'] == 'real_name') {
+                                                        $field_val = $info['real_name'];
+                                                    }elseif($b['ym_type'] == 'mobile') {
+                                                        $field_val = $info['mobile'];
+                                                    } else {
+                                                        $field_val = '';
+                                                    }
+                                                ?>
+                                <input type="text" class="form-control <?php echo ($b['ym_type']=='date') ? 'ym_date' : ''; ?>"
+                                       <?php echo ($b['ym_type']=='date') ? 'data-field="date"' : ''; ?>
+                                       name="<?php echo $name.'['.$b['ym_type'].']'?>" placeholder="<?php echo $b['note']?>" value="<?php echo $field_val;?>"  <?php echo ($b['ym_type']=='date') ? 'readonly' : ''; ?>/>
+                            <?php else: ?>
+                                <input type="text" class="form-control <?php echo ($b['ym_type']=='date') ? 'ym_date' : ''; ?>"
+                                       <?php echo ($b['ym_type']=='date') ? 'data-field="date"' : ''; ?>
+                                       name="<?php echo $name.'['.$b['guid'].']'?>[value]" value="<?php echo $other[$b['guid']]['value']; ?>" placeholder="<?php echo $b['note']?>"  <?php echo ($b['ym_type']=='date') ? 'readonly' : ''; ?>/>
+                                <input type="hidden" class="form-control" name="<?php echo $name.'['.$b['guid'].']'?>[key]" value="<?php echo $b['name']?>" />
+                            <?php endif; ?>
+
+                        <?php elseif($b['html_type'] == 'textarea'):?>
+                            <textarea class="form-control" rows="7" name="<?php echo $name.'['.$b['guid'].']'?>[value]" placeholder="<?php echo $b['note']?>"><?php echo $other[$b['guid']]['value']; ?></textarea>
+                            <input type="hidden" class="form-control" name="<?php echo $name.'['.$b['guid'].']'?>[key]" value="<?php echo $b['name']?>" />
+
+                        <?php elseif($b['html_type'] == 'select'):?>
+                            <div class="select">
+                                <select name="<?php echo $name.'['.$b['guid'].']'?>[value]" class="form-control ym_select">
+                                    <option value="">请选择</option>
+                                    <?php foreach($option_info[$b['guid']] as $ok => $ov): ?>
+                                        <option value="<?php echo $ov['value']?>" <?php echo ($ov['value'] == $other[$b['guid']]['value']) ? 'selected':''; ?>><?php echo $ov['value']?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <input type="hidden" class="form-control" name="<?php echo $name.'['.$b['guid'].']'?>[key]" value="<?php echo $b['name']?>">
+
+                        <?php elseif ($b['html_type'] == 'radio' || $b['html_type'] == 'checkbox'): ?>
+                            <?php $vals = explode('_____', $other[$b['guid']]['value']); ?>
+                            <?php foreach($option_info[$b['guid']] as $ok => $ov): ?>
+                                <?php if($b['is_info'] == 1):?>
+                                    <div class="<?php echo $b['html_type']?>">
+                                        <label>
+                                            <div class="activity-vote-options">
+                                                <input type="<?php echo $b['html_type']?>" name="<?php echo $name.'['.$b['ym_type'].']'?>" class="" value="<?php echo $ov['value']?>">
+                                            </div>
+                                            <?php echo $ov['value']?>
+                                        </label>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="<?php echo $b['html_type']?>">
+                                        <label>
+                                            <div class="activity-vote-options">
+                                                <input type="<?php echo $b['html_type']?>" name="<?php echo $name.'['.$b['guid'].']'?>[value][]" class="123" value="<?php echo $ov['value']?>" <?php echo in_array($ov['value'], $vals) ? 'checked':'';?>>
+                                            </div>
+                                            <?php echo $ov['value']?>
+                                        </label>
+                                    </div>
+                                    <input type="hidden" class="form-control" name="<?php echo $name.'['.$b['guid'].']'?>[key]" value="<?php echo $b['name']?>">
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="col-sm-5 tishinr"></div>
+                </div>
+            <?php endforeach; ?>
+
+            <div class="form-group">
+                <label for="area" class="col-sm-2 control-label"></label>
+                <div class="col-sm-5">
+                    <?php if(I('get.category') == 1 || I('get.category') == '' ):?>
+                    <button class="btn mybtn" type="button" onclick="location.href='<?php echo U('Signin/Index/user_list/', array('aid' => $info['activity_guid']))?>'">返回</button>
+                    <?php endif; ?>
+                    <?php if(I('get.category') == 2):?>
+                    <button class="btn mybtn" type="button" onclick="location.href='<?php echo U('Signin/Signin/signin_chart/', array('aid' => $info['activity_guid']))?>'">返回</button>
+                    <?php endif; ?>
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+
+</div>
+

@@ -1,0 +1,15 @@
+{__NOLAYOUT__}
+<!--<input id="hidden_ticket_name" value="--><?php //echo $ticket_name?><!--" >-->
+<?php foreach($ticket_list as $k=>$v):?>
+  <tr>
+    <td><?php echo $v['goods_name']?></td>
+    <?php if($v['finished_time'] == ''):?>
+      <td></td>
+    <?php else:?>
+      <td><?php echo date('Y-m-d H:i:s',$v['finished_time'])?></td>
+    <?php endif;?>
+    <td><?php echo $v['ticket_status_name']?></td>
+    <td><?php echo $v['goods_price']/100?>元</td>
+    <td><?php echo $v['real_name']?></td>
+  </tr>
+<?php endforeach;?>

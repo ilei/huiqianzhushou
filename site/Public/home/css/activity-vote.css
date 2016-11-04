@@ -1,0 +1,66 @@
+.thumb-wrap{
+	position:relative;
+	height:100%;
+	width:160px;
+	height:100%;
+	overflow: hidden;
+}
+.thumb-mask{
+	width:100%;
+	height:100%;
+	position:absolute;
+	background:rgba(36, 148, 242, 0.8);
+	height:100%;
+	opacity: 0;
+	transition: opacity 300ms ease 0s;
+}
+.thumb-mask:hover{
+	opacity: 1;
+}
+.thumb-wrap:hover .func{
+	 margin-top: -25px;
+}
+.func{
+   margin-top: -120px;
+    position: relative;
+    text-align: center;
+    top: 50%;
+    transition: margin-top 200ms ease-in-out 0s;
+    width: 100%;
+}
+.func a{
+   background: none repeat scroll 0 0 rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    width: 40px;
+	color:#fff;
+	font-size:14px;
+}
+.help-block{
+   margin-top:0px;
+}
+.search_user li{
+	list-style-type:none;
+	line-height:200%;
+}
+.border-right{
+	border-right:1px solid #eee;
+}
+.border-left{
+	border-left:1px solid #eee;
+}
+.org_status_in{
+	color:#43badd;
+	letter-spacing:1px;
+}
+.search_user_header{
+	margin-top:10px;
+}
+.tips_text{
+	font-size:14px;
+	text-indent:10px;
+}

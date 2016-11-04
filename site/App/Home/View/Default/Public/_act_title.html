@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <div class="elf-act-title">
+      <div><?php echo mb_strlen($act['name'], 'utf-8') > 20 ? htmlspecialchars(mb_substr($act['name'], 0, 20, 'utf-8')) : htmlspecialchars($act['name']);?></div>
+        <?php if($act['status'] == 0):?>
+          <?php echo activity_status($act['status']); ?>
+      <?php else:?>
+          <?php if($act['activity_is_verify'] == 0): ?>
+              <?php echo activity_status(4); ?>
+          <?php elseif($act['activity_is_verify'] == 1): ?>
+              <?php echo activity_status($act['status']); ?>
+          <?php else: ?>
+              <?php echo activity_status($act['activity_is_verify']); ?>
+          <?php endif; ?>
+      <?php endif;?>
+      <p><?php echo weekday(array($act['start_time'], $act['end_time'])); ?>
+    </div>
+  </div>
+</div>

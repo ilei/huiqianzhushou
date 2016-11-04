@@ -1,0 +1,59 @@
+<import type='js' file="admin.js.levelIndex" />
+<script type="text/javascript">
+	var YM = {
+		'create_config_file' : "{:U('create_config_file')}",
+	};
+</script>
+<div id="content-head">等级管理</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>'', 'v'=>'等级管理')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a href="javascript:void(0);" type="button" style="margin-left:10px;" class="js-creat-file pull-right btn btn-danger ml10"><span class="glyphicon glyphicon-open"></span> 生成配置文件</a>
+				<a href="{:U('add')}" type="button" class="pull-right btn btn-success"><span class="glyphicon glyphicon-plus"></span> 创建等级</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>等级名称</th>
+							<th>等级排序</th>
+							<th>创建时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<empty name="levelList">
+						<tr>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+							<td>-</td>
+						</tr>
+						<else /> 
+						<foreach name="levelList" item="v">
+						<tr data-guid="{$v.guid}">
+							<td>{$v.name}</td>
+							<td>{$v.sort}</td>
+							<td>{$v.created_at|date="Y-m-d H:i:s",###}</td>
+							<td><a href="<?php echo U('add', array('guid'=>$v['guid']))?>"><i class="glyphicon glyphicon-search"></i></a>　<a href="<?php echo U('distribution', array('guid'=>$v['guid']))?>" title="权限分配"><i class="glyphicon glyphicon-sort-by-attributes"></i></a></td>
+						</tr>
+						</foreach>
+						</empty> 
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

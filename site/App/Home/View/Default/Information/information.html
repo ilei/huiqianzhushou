@@ -1,0 +1,192 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3><strong>基本信息</strong></h3>
+        </div>
+    </div>
+</div>
+<input id="send_button_url" name="send_button_url" value="<?php echo U('Home/Information/email_build','',true,true);?>" hidden="true"/>
+<input id="re_button_url" name="re_button_url" value="<?php echo U('Home/Information/email_remove','',true,true);?>" hidden="true"/>
+<div class=" alert alert-warning text-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <span class="click_text"></span>
+</div>
+
+<div class="row mt-information">
+    <div>
+        <!-- <img src="/Public/common/images/noportrait_upload.png" id="default-img" style="display:none" > -->
+         <img class="img-thumbnail" width="120" data-target="#cropper-upload-modal" data-toggle="modal" height="120" src="/Public/common/images/noportrait_upload.png" data-original="<?php echo get_image_path($other_info['photo'],1); ?>" class="lazy" id="user_photoV">
+        <div class="prompt text-center">点击图片上传头像</div>
+    </div>
+    <div>
+      <form class="form-horizontal" id="information" role="form" action="<?php echo U('Information/saveBase') ?>" method="post">
+          <input type="hidden" name="other_info[photo]" id="postInputImg" value="<?php echo $other_info['photo'];?>"/>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">邮箱</label>
+            <div class="col-sm-7">
+
+            <?php  if ($info['email_verify']==0) : ?>
+            <input type="text" class="form-control" name="info[email]" id="email" value="<?php echo $info['email'] ?>">
+            </div>
+                <button type ="button" id="email_build" class="btn btn-link btn-link-info">认证邮箱</button>
+            <!-- <div class="click_text pull-right"></div> -->
+            <?php else: ?>
+            <input type="text" class="form-control" name="info[email]" id="email" value="<?php echo $info['email'] ?>" readOnly="true">
+            </div>
+                <button type ="button" id="email_remove" class="btn btn-link btn-link-info">取消认证</button>
+                <!-- <div class="click_text pull-right"></div> -->
+            <?php endif; ?>
+
+        </div>
+
+        <div class="form-group">
+            <label for="username" class="col-sm-2 control-label">姓名</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="other_info[realname]" id="username" placeholder="" value="<?php echo $other_info['realname'] ?>">
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label for="nickname" class="col-sm-2 control-label input-error">昵称</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="other_info[nickname]" id="nickname" placeholder="" value="<?php echo $other_info['nickname'] ?>">
+            </div>
+             <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+        </div>
+        <div class="form-group">
+            <label for="sex" class="col-sm-2 control-label">性别</label>
+            <div class="col-sm-7">
+                <?php $gender = $other_info['gender']; ?>
+                <label class="radio-inline">
+                    <input type="radio" name="other_info[gender]" id="inlineRadio1" value="1" <?php echo $gender == 1 ? 'checked' : ''; ?>> 男
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="other_info[gender]" id="inlineRadio2" value="2" <?php echo $gender == 2 ? 'checked' : ''; ?>> 女
+                </label>
+            </div>
+            <!-- <div class="col-sm-5 tishinr">
+            </div> -->
+        </div>
+        <div class="form-group">
+            <label for="mobile" class="col-sm-2 control-label">手机</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="info[mobile]" id="mobile" placeholder="" value="<?php echo $info[mobile] ?>" readOnly="true">
+            </div>
+            <a href="<?php echo U('Home/User/change_mobile','',true,true);?>" id="mobile_change" class="btn btn-link btn-link-info">更换手机</a>
+        </div>
+
+        <div class="form-group">
+            <label for="birth" class="col-sm-2 control-label">生日</label>
+            <div class="col-sm-7">
+                <?php list($y, $m, $d) = explode('-', $other_info['birthday']); ?>
+                <?php if($y !='0000') :?>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <select id ="sel_year" name="other_info[y]" class="form-control" rel="<?php echo $y;?>">
+                            <option value="" selected><?php echo $y;?></option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="row">
+                            <select  id="sel_month" name="other_info[m]" class="form-control" rel="<?php echo $m;?>">
+                                <option value="" selected><?php echo intval($m)<10 ? substr($m,1,1) :$m;?></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="sel_day" name="other_info[d]" class="day form-control" rel="<?php echo $d;?>">
+                            <option value="" selected><?php echo intval($d)<10 ? substr($d,1,1) :$d;?></option>
+                        </select>
+                    </div>
+                </div>
+            <?php else :?>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <select id ="sel_year" name="other_info[y]" class="form-control" rel="<?php echo $y;?>">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="row">
+                            <select  id="sel_month" name="other_info[m]" class="form-control" rel="<?php echo $m;?>">
+                                <option value="" selected></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="sel_day" name="other_info[d]" class="day form-control" rel="<?php echo $d;?>">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
+                </div>
+            <?php endif;?>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-2 control-label">所在地</label>
+            <div class="col-sm-7">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <select class="form-control radius0" name="other_info[area1]" id="area1">
+                            <option value=''>省份/直辖市</option>
+                            <?php foreach ($area_1 as $v): ?>
+                                <option
+                                    value="<?php echo $v['id'] ?>" <?php echo ($other_info['area1'] == $v['id']) ? "selected=true" : ''; ?> >
+                                    <?php echo $v['name'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="form-control radius0" name="other_info[area2]" id="area2">
+                            <option value=''>市/区</option>
+                            <?php if (!empty($area_2)) : ?>
+                                <?php foreach ($area_2 as $v): ?>
+                                    <option
+                                        value="<?php echo $v['id'] ?>" <?php echo ($other_info['area2'] == $v['id']) ? "selected=true" : ''; ?> ><?php echo $v['name'] ?></option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address" class="col-sm-2 control-label">详细地址</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="other_info[address]" id="address" placeholder="" value="<?php echo $other_info['address'] ?>">
+            </div>
+            <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="company" class="col-sm-2 control-label">公司名称</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="other_info[company]" id="company" placeholder="" value="<?php echo $other_info['company'] ?>">
+            </div>
+            <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+        </div>
+        <div class="form-group">
+            <label for="position" class="col-sm-2 control-label">职务</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="other_info[position]" id="position" placeholder="" value="<?php echo $other_info['position'] ?>">
+            </div>
+            <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+        </div>
+        <div class="form-group">
+            <label for="phone" class="col-sm-2 control-label">公司电话</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" name="other_info[work_phone]" id="phone" placeholder="" value="<?php echo $other_info['work_phone'] ?>">
+            </div>
+            <div class="col-sm-7 col-sm-offset-2 error_prompt tishinr"></div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-3">
+                <button type="submit" class="btn btn-save btn-block">保存</button>
+            </div>
+        </div>
+        </form>
+    </div>
+
+</div>
+<include file="Public:_upload_modal" />

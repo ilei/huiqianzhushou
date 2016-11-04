@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>关于我们</title>
+    <?php echo C('MEDIA_CSS.BOOTSTRAP'); ?>
+    <import type='css' file="mobile.css.aboutus" />
+</head>
+ <body>
+    <div class="container">
+      <div class="row aboutus">
+        <img class="center-block" src="__PUBLIC__/mobile/images/aboutus.png">
+        <p class="text-center"><?php echo $external_version; ?></p>
+        <a href="<?php echo U('About/introduction', array())?>">功能介绍<i></i></a>
+        <!-- <a href="意见反馈.html">意见反馈<i></i></a> -->
+<!--        <a href="--><?php //echo U('About/problems', array())?><!--">常见问题<i></i></a>-->
+      </div>
+    </div>
+    <div class="aboutus-foot">
+    <a href="<?php echo U('Site/Index/index', '', true, true)?>">官网</a> | <a href="<?php echo U('About/terms')?>">条款</a>
+        <p>© 会签助手</p>
+    </div>
+  </body>

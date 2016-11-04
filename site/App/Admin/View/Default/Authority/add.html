@@ -1,0 +1,51 @@
+<import type='js' file="admin.js.authorityAdd" />
+<script type="text/javascript">
+	var YM = {
+		'saveAuthority' : "{:U('save_authority')}",
+		'checkName': "{:U('check_name')}",
+		'redirectPath':"{:U('index')}"
+	};
+</script>
+
+<div id="content-head">添加权限</div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Authority/index'), 'v'=>'权限管理'),
+array('url'=>'', 'v'=>'添加权限'),
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a class="btn btn-success pull-right" type="button" href="{:U('index')}"><i class="fa fa-arrow-left"></i> 返回列表</a>
+			</div>
+		</div>
+		<form class="form-horizontal" role="form" id="regorg">
+			<div class="form-group">
+				<label for="name" class="col-sm-2 control-label">权限名称</label>
+				<div class="col-sm-6">
+					<input type="text" id="name" name="name" class="form-control"  value="{$authorityData.name}" placeholder="输入权限名称">
+					<input type="hidden"  name="guid"  value="{$Think.get.guid}">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			<div class="form-group">
+				<label for="key" class="col-sm-2 control-label">权限标识</label>
+				<div class="col-sm-6">
+					<input type="text" id="key" name="key" class="form-control"  value="{$authorityData.key}" placeholder="输入权限标识">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary js-submit">保存</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,48 @@
+<?php if($same):?>
+<foreach name="same" item="detail_vo">
+    <div class="timeline-points">
+      <present name="myself_view">
+          <div class="main-right-btn lock-box" data-guid="{$detail_vo.guid}" data-id="{$detail_vo.id}">
+            <switch name="detail_vo.is_show">
+                <case value="1">
+                    <button type="button" class="js-lock btn btn-default btn-lock unlock-btn" data-type="unlock"><span class="lock-icon unlock"></span></button>
+                    <button type="button" class="js-lock btn btn-default btn-lock lock-btn hiden" data-type="lock"><span class="lock-icon lock"></span></button>
+                </case>
+                <case value="0">
+                    <button type="button" class="js-lock btn btn-default btn-lock unlock-btn hiden" data-type="unlock"><span class="lock-icon unlock"></span></button>
+                    <button type="button" class="js-lock btn btn-default btn-lock lock-btn" data-type="lock"><span class="lock-icon lock"></span></button>
+                </case>
+            </switch>
+          </div>
+      </present>
+      <div class="main-time">{$detail_vo.created_at|date='H:i',###}</div>
+      <div class="main-portrait-sm"><img src="__PUBLIC__/mobile/images/entry.png" class="img-circle-sm"></div>
+      <switch name="detail_vo.obj_type">
+        <case value="1">
+            <div class="main-text">加入 <strong>会签助手</strong></div>
+        </case>
+        <case value="2">
+            <div class="main-text">加入社团 <strong>{$detail_vo.content}</strong></div>
+        </case>
+        <case value="3">
+            <div class="main-text">参加活动 <strong>{$detail_vo.content}</strong></div>
+        </case>
+        <case value="4">
+            <div class="main-text">与 <strong>{$detail_vo.content}</strong> 加为好友</div>
+        </case>
+        <case value="5">
+            <div class="main-text">创建群聊 <strong>{$detail_vo.content}</strong></div>
+        </case>
+        <case value="6">
+            <div class="main-text">删除好友 <strong>{$detail_vo.content}</strong></div>
+        </case>
+          <case value="7">
+              <div class="main-text">完成任务 <strong>{$detail_vo.content}</strong></div>
+          </case>
+          <case value="8">
+              <div class="main-text">分享活动 <strong>{$detail_vo.content}</strong></div>
+          </case>
+      </switch>
+    </div>
+</foreach>
+<?php endif;?>

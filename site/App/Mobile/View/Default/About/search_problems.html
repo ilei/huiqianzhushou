@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>常见问题</title>
+    <?php echo C('MEDIA_CSS.BOOTSTRAP'); ?>
+    <import type='css' file="mobile.css.aboutus" />
+</head>
+<body>
+    <div class="container">
+      
+      <div class="row aboutus" id="search">
+        <?php foreach($article_s as $k=>$val):?>
+           <a href="<?php echo U('About/question', array('guid'=>$val['guid']))?>"><?php echo $val['title'];?><i></i></a>
+        <?php endforeach;?>
+      </div>
+      <input class="btn btn-success " type="button" name="back" value="返回" onclick="javascript:history.go(-1);">
+  </div>
+</body>

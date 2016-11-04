@@ -1,0 +1,210 @@
+/* 弹窗450*/
+body { font-family: "Microsoft Yahei";}
+.ymmodal {
+  display: none;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  outline: 0 none;
+  overflow: hidden;
+  position: fixed;
+  z-index: 1050;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.myform1 {
+  position: relative;
+  margin: 30px auto;
+  width: 450px;
+  background-color: #FFF;
+  border: 1px solid #dcdad9;
+  z-index:1060;
+}
+.myform2 {
+  width: 350px;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.myform3 {
+  width: 170px;
+}
+.myform4 {
+  width: 600px;
+  height: 650px;
+}
+.color0 {
+    color: #000;
+}
+.colorr {
+    color: #ff0000;
+}
+.mt-20 {
+  margin-top: -15px;
+}
+.myform400 {
+  width: 400px;
+}
+.myform320 {
+  width: 320px;
+}
+
+.line-tishi { background-color: #f15e4c; height: 32px; line-height: 32px;}
+.line-tishi > a { color: #FFF;}
+
+.xtqueren { background-color: #F5F5F5; height: 32px; line-height: 32px;}
+
+.closets {
+  float: right;
+  font-size: 21px;
+  color: #FFF;
+}
+.closets:hover,
+.closets:focus {
+  color: #fdd3cd;
+  text-decoration: none;
+}
+
+.tishi {
+  width: 100%;
+  font-size: 12px;
+  margin: auto;
+  margin-bottom: 14px;
+  padding: 15px;
+}
+.tishi2 {
+  width: 100%;
+  font-size: 14px;
+  margin: auto;
+  margin-bottom: 14px;
+  padding: 20px;
+}
+.fa-9x {
+  font-size: 9em;
+  color:#CCC;
+}
+.tishia { width: 250px;}
+.tishib { width: 110px; padding: 20px 5px;}
+.tishic { width: 100%; padding: 0 5px;}
+/*删除按钮*/
+.mydlbtn {
+  -moz-user-select: none;
+  background-image: none;
+  border: 1px solid #d3d5d9;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+  width: 60px;
+  height: 26px;
+  border-radius: 0;
+  color: #666666;
+  background-color: #f5f5f5;
+  margin-right: 10px;
+}
+.mydlbtn:active:hover,
+.mydlbtn.active:focus {
+  background-color: #df301b;
+}
+.mydlbtn.active {
+  color: #FFF;
+  background-color: #f15e4c;
+  border: 1px solid transparent;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.125) inset;
+}
+.mydlbtn:hover,
+.mydlbtn:focus {
+  color: #FFF;
+  background-color: #f15e4c;
+  border: 1px solid transparent;
+}
+/*确认*/
+.myqrbtn {
+  -moz-user-select: none;
+  background-image: none;
+  border: 1px solid #d3d5d9;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+  width: 60px;
+  height: 26px;
+  border-radius: 0;
+  color: #666666;
+  background-color: #f5f5f5;
+  margin-right: 10px;
+}
+.myqrbtn:active:hover,
+.myqrbtn.active:focus {
+  background-color: #19abd6;
+}
+.myqrbtn.active {
+  color: #FFF;
+  background-color: #43badd;
+  border: 1px solid transparent;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.125) inset;
+}
+.myqrbtn:hover,
+.myqrbtn:focus {
+  color: #FFF;
+  background-color: #43badd;
+  border: 1px solid transparent;
+}
+.xitong { min-height: 42px;}
+.xitong > a { line-height: 2; min-height: 42px;}
+
+
+/*对话框*/
+.myformms {
+  background-color: #FFF;
+  border: 1px solid #dcdad9;
+  width: 700px;
+}
+.myformms2 {
+  width: 650px;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+#upload {
+    height: 200px !important;
+    width: 320px !important;
+    position: absolute;
+    top: 0;
+    left: 15px;
+    text-align: left;
+    cursor: pointer;
+}
+#upload object{
+    width: 320px;
+    height: 200px;
+    cursor: pointer;
+}
+#upload-button { display: none !important; }
+#upload-queue {
+    width: 280px !important;
+    position: absolute;
+    top: 65px;
+    left: 35px;
+    z-index: 3;
+}
+.mask{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  filter:alpha(opacity=5);
+  -moz-opacity:0.5;
+  opacity:0.5;
+  z-index:1040;
+}
+
+.modal-tips{
+	width:220px;
+	position: absolute;
+	top:0;
+	left:75px;
+	z-index:9999;
+	vertical-align:20px;
+}

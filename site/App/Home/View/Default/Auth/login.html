@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="mt-login">
+    <form class="form-horizontal" role="form" data-href="<?php echo U('Home/Auth/login');?>" id="login-form" method="post"> 
+      <div class="form-group"> 
+        <a><?php echo L('_LOGIN_TITLE_');?></a>
+        <a href="<?php echo U('Home/Auth/register', '', true, false, false);?>"><?php echo L('_NOW_REGISTER_');?></a>
+      </div> 
+      <?php $flash = get_flash_msg()?>
+      <div class="form-group"> 
+        <div class="input-error" for="username" id="error-msg"></div> 
+        <input type="text" name="username" class="form-control" data-href="<?php echo U('Home/Auth/check', array('type' => 'username'));?>" value="<?php echo $username;?>" id="username" placeholder="<?php echo L('_EMAIL_OR_PHONE_');?>" /> 
+      </div>
+      <div class="form-group"> 
+        <div class="input-error" for="password"></div> 
+        <input type="password" class="form-control input-lg" name="password" id="password" placeholder="<?php echo L('_PASSWORD_');?>" /> 
+      </div> 
+      <div class="form-group mt30">
+        <button type="submit" class="btn btn-save btn-block" disabled id="login-submit"><?php echo L('_LOGIN_TITLE_');?></button> 
+      </div>
+      <div class="checkbox form-group"> 
+        <label><input type="checkbox" name="remeber" value="1"/><?php echo L('_REMEMBER_USER_');?></label> 
+        <a href="<?php echo U('Findpwd/pwd_username','',true,true)?>" class="pull-right"><?php echo L('_FORGET_USER_');?></a>
+      </div> 
+    </form>
+  </div> 
+</div> 

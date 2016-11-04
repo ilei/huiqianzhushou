@@ -1,0 +1,257 @@
+<input type="hidden" value="<?php echo $act['guid'];?>" id="act-guid" />
+<input type="hidden" value="<?php echo U('Home/Act/ajax_check_ticket_name/', array('guid' => $act['guid']));?>" id="ajax_check_ticket_name" />
+<input type="hidden" value="<?php echo intval($ticket['sales']);?>" id="saled_ticket_num" />
+<input type="hidden" value="<?php echo $act['start_time'] . '000';?>" id="act_start_time"/>
+<input type="hidden" value="<?php echo $act['end_time'] . '000';?>" id="act_end_time"/>
+<input id="hid_status" type="hidden" value="<?php echo $act['status'];?>"/>
+<input id="is_verify" type="hidden" value="<?php echo $act['is_verify'];?>"/>
+<include file="Public:_act_title" />
+<div id="pin-nav">
+  <include file="Public:nav"/>
+  <div class="container">
+    <div class="row">
+      <div id="pin-main" class="col-xs-12 pin-main-sm">
+        <div class="page-header">
+          <h3>门票设置</h3>
+        </div>
+        <!--<div class="switch" data-href="<?php echo U('Home/Act/change_signup');?>" data-on-label='<i class="fa fa-check"></i>' data-off-label='<i class="fa fa-times"></i>'>
+          <span>开启会议报名</span>
+          <input type="checkbox" id="myswitch_close"/>
+          <span class="switch_close_hid">关闭后，本次活动将无法报名</span>
+        </div>
+        -->
+
+        <table class="table mtelf-table-border mtelf-text-center mt20">
+          <thead>
+            <tr>
+              <th>票券名称</th>
+              <th>已售/总数</th>
+              <th>价格（¥）</th>
+<!--              <th>是否需审核</th>-->
+              <th>验证次数</th>
+              <th>状态</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php foreach($tickets as $key => $ticket):?>
+          <tr>
+            <td><a href="###"><?php echo htmlspecialchars($ticket['name']);?></a></td>
+            <td><?php echo intval($ticket['sales']);?> / <?php echo intval($ticket['num']);?></td>
+            <td><?php echo yuan_to_fen($ticket['price'], false);?></td>
+<!--            <td><?php //echo $ticket['is_need_verify'] == 1 ? '是' : '否';?></td>-->
+            <td><?php echo intval($ticket['verify_num']);?></td>
+            <td class="for-sale"><?php $sale = intval($ticket['is_for_sale']);  echo $sale ? '售票中' : '暂停售票';?></td>
+            <td>
+              <?php if($act['status'] == '0'):?>
+                <a href="###" data-loadhref="<?php echo U('Home/Act/get_ticket_info', array('guid' => $ticket['guid']));?>" type="button" data-toggle="modal" data-target="#setticketsModal-<?php echo $key;?>" class="edit-ticket">修改</a> |
+              <?php endif;?>
+              <a href="###"  data-href="<?php echo U('Home/Act/stop_sale', array('guid' => $ticket['guid']));?>" class="stop-sale-ticket" value="<?php echo $sale ? 0: 1;?>" ><?php echo $sale ? '暂停售票' : '开始售票';?></a></td>
+          </tr>
+          <?php endforeach;?>
+          <tr>
+            <td colspan="7" class="text-left">
+              <button type="submit" class="btn btn-save" type="button" data-toggle="modal" data-target="#setticketsModal"><i class="fa fa-plus"></i>添加票务</button>
+             <!-- <button type="submit" class="btn btn-important" type="button" data-toggle="modal" data-target="#setticketsModal"><i class="fa fa-plus"></i> 收费票</button>
+              <span>单次总购票限制</span>
+              <input type="text" class="form-control" value="1000">
+              <a data-toggle="tooltip" data-placement="right" title="该限制针对所有票种，设置限制后，购票者单次购票总数不得超过所限制的张数">？</a>
+              -->
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <!--
+        <div class="page-header">
+          <h5 class="mt30">高级设置</h5>
+        </div>
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            <span class="prompt">未支付订单过期时间</span>
+            <form class="form-inline">
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="" value="24" placeholder="">
+                  <div class="input-group-addon">小时</div>
+                </div>
+              </div>
+
+              <div class="form-group ml5">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="" value="0" placeholder="">
+                  <div class="input-group-addon">分钟</div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-default ml5">保存</button>
+              <a data-toggle="tooltip" data-placement="right" title="订单在规定时间内未提交，则需刷新页面，默认为24小时">？</a>
+            </form>
+          </div>
+        </div>
+        -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal 票务修改创建-->
+<?php foreach($tickets as $key => $ticket):?>
+<div class="modal fade" id="setticketsModal-<?php echo $key;?>" tabindex="-1" role="dialog" aria-labelledby="setticketsModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="export-import"><strong>票务修改</strong></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal modal-required" method="post" action="<?php echo U('Home/Act/ticket_edit', array('aguid' => $act['guid']));?>">
+          <div class="form-group">
+            <label for="ticket-name" class="col-sm-3 control-label"><span>* </span>票名：</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="ticket-name" name="name" data-guid="<?php echo $ticket['guid'];?>" value="<?php echo htmlspecialchars($ticket['name']);?>" placeholder="票名应不超过10个字">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ticket-number" class="col-sm-3 control-label"><span>* </span>票数：</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="ticket-number" name="num"  value="<?php echo intval($ticket['num']);?>" placeholder="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ticket-price" class="col-sm-3 control-label">价格：</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="ticket-price" name="price" value="<?php echo yuan_to_fen($ticket['price'], false);?>"  placeholder="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="ticket-audit1" class="col-sm-3 control-label">是否审核：</label>
+            <div class="col-sm-7">
+              <label class="radio-inline">
+                <input type="radio" name="is_need_verify" id="ticket-audit1" <?php echo $ticket['is_need_verify'] ? 'checked' : '';?>  value="1">是
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="is_need_verify" id="ticket-audit2" <?php echo !$ticket['is_need_verify'] ? 'checked' : '';?> value="0">否
+              </label>
+            </div>
+          </div>
+        <div class="form-group">
+          <label for="prstartTime" class="col-sm-3 control-label">售票时间</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" data-field="datetime" data-value="<?php echo $ticket['start_time'] . '000';?>" id="prstartTime" name="start_time" value="<?php echo $ticket['start_time'] ? date('Y-m-d H:i', $ticket['start_time']) : '';?>" readonly="readonly">
+          </div>
+          <div class="pull-left mt5">至</div>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" data-field="datetime" data-value="<?php echo $ticket['end_time'] . '000';?>" id="prendTime" name="end_time" value="<?php echo $ticket['end_time'] ? date('Y-m-d H:i', $ticket['end_time']) : '';?>" readonly="readonly">
+          </div>
+          <div class="col-sm-9 col-sm-offset-3">
+            <p class="prompt">默认为活动发布到活动结束</p>
+          </div>
+        </div>
+          <div class="form-group">
+            <label for="ticket-content" class="col-sm-3 control-label">票券说明：</label>
+            <div class="col-sm-7">
+              <textarea class="form-control"  id="ticket-content" name="desc" rows="4"><?php echo htmlspecialchars($ticket['desc']);?></textarea>
+            </div>
+          </div>
+      </div>
+      <input type="hidden" value="<?php echo $ticket['guid'];?>" name="guid"/>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-save">保存</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<?php endforeach;?>
+<div id="mt_dtbox"></div>
+<div class="modal fade" id="setticketsModal" tabindex="-1" role="dialog" aria-labelledby="setticketsModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title" id="export-import"><strong>添加</strong></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal modal-required" method="post" action="<?php echo U('Home/Act/ticket_add', array('guid' => $act['guid']));?>">
+          <div class="form-group">
+            <label for="ticket-name" class="col-sm-3 control-label"><span>* </span>票名：</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="ticket-name" value="" data-guid="0" name="name"  placeholder="票名应不超过10个字">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="ticket-number" class="col-sm-3 control-label"><span>* </span>票数：</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="ticket-number" value="100" name="num" placeholder="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ticket-price" class="col-sm-3 control-label">价格：</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="ticket-price" name="price" value="" placeholder="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="ticket-audit1" class="col-sm-3 control-label">是否审核：</label>
+            <div class="col-sm-7">
+              <label class="radio-inline">
+                <input type="radio" name="is_need_verify" id="ticket-audit1"   value="1">是
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="is_need_verify" id="ticket-audit2" checked value="0">否
+              </label>
+            </div>
+          </div>
+        <div class="form-group">
+          <label for="prstartTime" class="col-sm-3 control-label">售票时间</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" data-field="datetime" id="prstartTime" name="start_time" value="" readonly="readonly">
+          </div>
+          <div class="pull-left mt5">至</div>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" data-field="datetime" id="prendTime" name="end_time" value="" readonly="readonly">
+          </div>
+          <div class="col-sm-9 col-sm-offset-3">
+            <p class="prompt">默认为活动发布到活动结束</p>
+          </div>
+        </div>
+          <div class="form-group">
+            <label for="ticket-content" class="col-sm-3 control-label">票券说明：</label>
+            <div class="col-sm-7">
+              <textarea class="form-control" id="ticket-content" name="desc" rows="4"></textarea>
+            </div>
+          </div>
+      </div>
+      <input type="hidden" value="<?php echo $act['guid'];?>" name="activity_guid"/>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-save">保存</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<div id="mt_dtbox"></div>
+
+<!-- 提示信息 BEGIN -->
+<div class="modal fade" id="tips-modal" tabindex="-1" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+              class="sr-only">Close</span></button>
+        <h4 class="modal-title">提示信息</h4>
+      </div>
+      <div class="modal-body">
+        <p class="tips-msg"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div><!-- /.modal -->

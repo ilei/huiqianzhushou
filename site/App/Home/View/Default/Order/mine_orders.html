@@ -1,0 +1,81 @@
+<input id="hid_data_url" type="hidden" value="<?php echo U('Home/Order/ajax_mine_orders_data'); ?>" />
+<input id="hid_ticket_download_url" type="hidden" value="<?php echo U('Home/Ticket/download'); ?>" />
+
+<div class="container">
+    <div class="row">
+        <include file="Public:account_bar"/>
+        <div class="col-sm-9 col-lg-10">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-sm-6 col-md-7">
+                        <h3><strong>我的订单</strong></h3>
+                    </div>
+                    <div class="col-sm-6 col-md-5">
+                        <div class="form-search-group">
+                            <a class="form-control-search" href="javascript:void(0);" id="btn_search"><i class="fa fa-search"></i></a>
+                            <input id="txt_search" type="text" class="form-control" placeholder="请输入活动名称进行搜索" value="<?php echo $keyword = urldecode(I('get.k')); ?>">
+                            <a class="form-control-reset" id="btn_search_reset" href="javascript:void(0);" style="display:none;"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="elf-navtabs">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs" role="tablist" id="tab_status">
+                            <li role="presentation" class="active">
+                                <a href="#act-part1" v="0,1,2,3,4,5,6,7,8,9"><?php echo $tab_titles['tab_allText'];?></a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#act-part2" v="1"><?php echo $tab_titles['tab_successText'];?></a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#act-part3" v="0"><?php echo $tab_titles['tab_unsuccessText'];?></a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#act-part3" v="3,9"><?php echo $tab_titles['tab_cancelledText'];?></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- <div class="col-sm-4 col-lg-5">
+                        <div class="form-search-group">
+                            <a class="form-control-search" href="javascript:void(0);" id="btn_search"><i class="fa fa-search"></i></a>
+                            <input id="txt_search" type="text" class="form-control" placeholder="请输入活动名称进行搜索" value="<?php echo $keyword = urldecode(I('get.k')); ?>">
+                            <a class="form-control-reset" id="btn_search_reset" href="javascript:void(0);" style="display:none;"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div> -->
+                </div>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="act_record">
+                        <!--引用模板-->
+                        <include file="Order:_mine_orders_item"/>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="preview_modal" tabindex="-1" role="dialog"
+         aria-labelledby="preview_label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="preview_label"></h4>
+                </div>
+                <div class="modal-body">
+                    <img id="preview_img" class="img-responsive"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="model-loading" class="hidden">loading...</div>

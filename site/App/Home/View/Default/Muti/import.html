@@ -1,0 +1,18 @@
+{__NOLAYOUT__}
+<html>
+<body>
+<form method="post" action="" enctype="multipart/form-data">
+<input type="file" id="muti-import" name="file-name"/>
+<input type="submit" value="上传" name="submit"/>
+</form>
+<?php if($msg):?>
+<div>信息:<?php echo $msg;?></div>
+<?php endif;?>
+<?php if($mobile):?>
+<label>录入失败的信息(手机号错误):</label><br/>
+<?php foreach($mobile as $key => $value):?>  
+<div><?php echo '姓名:' . $value[0] . ',电话:' . $value[1];?></div>
+<?php endforeach;?>
+<?php endif;?>
+</body>
+</html>

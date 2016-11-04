@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><!-- 禁止百度转码 -->
+    <meta name="format-detection" content="telephone=no" /><!-- 禁止ios数字识别为电话号码 -->
+    <meta name="screen-orientation" content="portrait" /><!-- UC强制竖屏 -->
+    <meta name="x5-orientation" content="portrait" /><!-- QQ强制竖屏 -->
+    <meta name="full-scerrn" content="yes" /><!-- UC强制全屏 -->
+    <meta name="x5-fullscreen" content="ture" /><!-- QQ强制全屏 -->
+    <meta name="msapplication-tap-highlight" content="no" /><!-- window phone 点亮无高光 -->
+    <meta name="format-detection" content="email=no" /><!-- 安卓设备不自动识别邮件地址 -->
+    <title>电子票</title>
+    <?php echo C('MEDIA_FAVICON')?>
+    <!-- Bootstrap -->
+    <?php echo C('MEDIA_CSS.BOOTSTRAP'); ?>
+    <import type='css' file="mobile.css.ticketonline" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="ticket_body">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="__PUBLIC__/mobile/images/tickettop.png" class="ticket_img mt20">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ticket_main">
+                    <h2>电子票</h2>
+                    <img src="<?php echo U('Activity/signin_qrcode', array('tid' => $ticket_info['guid'])); ?>" class="lazy ticket_img_block">
+                    <div class="row">
+                        <div class="col-xs-10 col-xs-offset-1">
+                            <div class="community_information">
+                                <h4><?php echo $activity_info['name']; ?><br><small><?php echo $org_name?></small></h4>
+                            </div>
+
+                            <div class="td-wd">
+                                <em title="时间" class="registration icon-time"></em>
+                                <?php echo date('Y-m-d H:i', $activity_info['start_time']).'~'.date('Y-m-d H:i', $activity_info['end_time']); ?>
+                            </div>
+
+                            <div class="td-wd">
+                                <em title="地点" class="registration icon-place"></em>
+                                <?php echo $activity_info['areaid_1_name'].' '.$activity_info['areaid_2_name'].' '.$activity_info['address']; ?>
+                            </div>
+
+                            <?php $address = $activity_info['areaid_1_name'].' '.$activity_info['areaid_2_name'].' '.$activity_info['address']; ?>
+                            <a type="button" class="btn btn-success btn-block" target="_blank"
+                                href="http://api.map.baidu.com/marker?location=<?php echo $activity_info['lat'].','.$activity_info['lng']; ?>&title=活动地点&content=<?php echo $address; ?>&output=html">
+                                到这儿去</a>
+                            <a type="button" class="btn btn-warning btn-block" onclick='f_test()'>更多详情</a>
+                            <div class="more_information">
+                                <div id="inf_disable">
+                                    <p>电话：<?php echo substr_replace($signup_userinfo['mobile'], '****', 3, 4); ?>
+                                    <?php echo $ticket_info['ticket_name']=='nolimit' ? '' : '<br>票种： '.$ticket_info['ticket_name']; ?></p>
+                                    <p>电子票使用说明：
+                                    <br>1. 本活动凭票入场，一人一票一次性，请勿复制或转寄他人；
+                                    <br>2. 请下载至手机或打印携带，保持条码清晰完整；
+                                    <br>3. 本活动由【<?php echo C('APP_NAME')?>】提供票券服务，其拥有最终解释权。
+                                    </p>
+                                    <a class="guanwang"><?php echo C('APP_NAME')?>官网：</a><a href="http://<?php echo C('APP_DOMAIN')?>/" target="_blank"><?php echo C('APP_DOMAIN')?></a>
+                                    <p>客服电话：<?php echo C('SERVICE_TEL')?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row"><div class="col-md-12"><img src="__PUBLIC__/mobile/images/ticketbat.png" class="ticket_img_foot"></div></div>
+    </div>
+    <div class="text_footer">© <?php echo C('APP_NAME')?></div>
+<!-- End Save for Web Slices -->
+<?php
+echo C('MEDIA_JS.JQUERY')
+    .C('MEDIA_JS.BOOTSTRAP')
+    .C('MEDIA_JS.JQUERY_LAZYLOAD')
+?>
+<script type="text/javascript">
+$(document).ready(function(){
+//    //图片异步加载
+//    $("img").lazyload({
+//        effect : "fadeIn",
+//        threshold: 200
+//    });
+});
+function f_test(){
+        var divContainer=document.getElementById('inf_disable');
+        if(divContainer.style.display==""||divContainer.style.display=="none"){
+            divContainer.style.display="block";
+        }else{
+            divContainer.style.display="none";
+        }
+    }
+</script>
+</body>
+</html>

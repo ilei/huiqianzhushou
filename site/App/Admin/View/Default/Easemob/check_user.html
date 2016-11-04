@@ -1,0 +1,123 @@
+
+<div id="content-head">环信用户检测</div>
+<?php
+$breadcrumbs = array(
+	'base' => '首页',
+	'list' => array(
+		array('url' => '', 'v' => '环信数据修复'),
+		array('url'=>'', 'v'=>'用户检测'),
+	));
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		
+		<!-- 检查 -->
+		<div class="row">
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label for="mobile" class="col-xs-2 control-label">用户手机号码：</label>
+					<div class="col-sm-6">
+						<input type="number" id="mobile" name="<?php echo $c['guid']; ?>" class="form-control"
+							   value="<?php echo $c['value']; ?>" placeholder="用户手机号码" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-xs-offset-2 col-xs-10">
+						<button type="button" form="admin_form" data-loading-text="检查..." class="btn btn-primary js_ym_check">检查</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 检查结果 -->
+		<div class="row">
+			<div class="col-sm-12">
+				<table class="table table-bordered">
+					<thead>
+					<tr>
+						<th>社团名称</th>
+						<th>联系邮箱</th>
+						<th>审核状态</th>
+						<th>社团状态</th>
+						<th>社团认证</th>
+						<th>社团等级</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<foreach name="orgList" item="v">
+						<tr data-guid="{$v.guid}">
+							<td>{$v.name}</td>
+							<td>{$v.mail}</td>
+							<td>
+								<?php if($v['is_verify'] == 0):?>
+									<a class="btn-link" href="<?php echo U('Org/verify', array('org_guid'=> $v['guid']))?>">审核</a>
+								<?php elseif($v['is_verify'] == 1):?>
+									<span class="text-green">已通过</span>
+								<?php elseif($v['is_verify'] == 2):?>
+									<span class="text-grey">未通过</span>
+								<?php endif;?>
+								</h>
+							</td>
+							<td class="lock">
+								<eq name="v.is_lock" value="0"><span class="text-grey">未锁定</span>（<a href="javascript:void(0);" class="btn-link js-lock">锁定</a>）
+									<else/><span class="text-red">已锁定</span> （<a href="javascript:void(0);" class="js-unlock">解锁</a>）</else>
+								</eq>
+							</td>
+							<td>
+								<switch name="v.status">
+									<case value="0"><span class="text-yellow">未认证</span></case>
+									<case value="2"><span class="text-red">待认证</span>（<a class="btn-link" href="<?php echo U('auth', array('guid'=>$v['guid']))?>">查看</a>）</case>
+									<case value="3"><span class="text-green">已认证</span>（<a class="btn-link" href="<?php echo U('auth', array('guid'=>$v['guid']))?>">查看</a>）</case>
+									<case value="4"><span class="text-red">认证失败</span></case>
+								</switch>
+							</td>
+							<td>{$v.vip_name}</td>
+							<td><a href="javascript:void(0)"><i class="fa fa-trash-o js-del"></i></a>　
+								<?php if($v['is_verify'] == 1):?>
+									<a href="<?php echo U('view', array('guid' => $v['guid']))?>"><i class="fa fa-search"></i></a>
+								<?php elseif($v['is_verify'] == 2):?>
+									<a href="<?php echo U('Org/content_verify', array('org_guid'=>$v['guid']))?>"><i class="fa fa-search"></i></a>
+								<?php endif;?>
+							</td>
+						</tr>
+					</foreach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('.js_ym_check').click(function(){
+			var mobile = $('#mobile').val();
+			if(mobile.length != 11) {
+				alertModal('请填入正确格式的手机。');
+				return false;
+			}
+
+			var obj=$(this);
+			$.ajax({
+				url: '<?php echo U('Config/ajax_update_config'); ?>',
+				type:'POST',
+				data: { mobile:$('#mobile').val() },
+				dataType:'json',
+				beforeSend:function(){
+					obj.button('loading');
+				},
+				success:function(data){
+					alertTips($('#tips-modal'), data.msg);
+				},
+				complete:function(){
+					obj.button('reset');
+				}
+			})
+		})
+	});
+</script>

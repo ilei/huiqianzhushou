@@ -1,0 +1,44 @@
+.mt-information { padding-right: 170px;}
+.mt-information > div:first-child {
+    position: absolute;
+    right: 0;
+    padding-right: 30px;
+}
+.mt-information > div:last-child {
+    position: relative;
+    padding: 0 15px;
+    width: 100%;
+}
+.mt-information > div:first-child > a,
+.mt-information > div:first-child > a:hover,
+.mt-information > div:first-child > a:focus {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+    text-align: center;
+    text-decoration: none;
+}
+.mt-information > div:first-child > a > img { max-width: 140px;}
+.organizers-img {
+    margin-right: 10px;
+    float: left;
+    width: 100px;
+}
+.upload_pic {
+    width: 0%;
+}
+.text-dismissible{
+    position: absolute;
+    display: none;
+    z-index: 99;
+    left: 260px;
+}
+.btn-link-info {
+  padding: 12px 0;
+}
+.btn-link-info:hover,
+.btn-link-info:focus {
+  text-decoration: none;
+}
+.prompt.text-center { text-align: center;}

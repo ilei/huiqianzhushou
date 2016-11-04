@@ -1,0 +1,344 @@
+/*!
+ * Bootstrap v3.2.0 (http://getbootstrap.com)
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+a,
+a:hover,
+a:focus { outline: none;}
+.container { max-width: 750px;}
+.bodybg {
+    background-color: #ededed;
+    font-family:"Microsoft Yahei";
+    margin: 0;
+}
+body {
+    background-color: #fff;
+    font-family:"Microsoft Yahei";
+    margin: 0;
+    word-wrap:break-word;
+}
+.f1 { font-size: 13px; color: #888;}
+a.f1:hover,
+a.f1:focus { color: #888; text-decoration: none;}
+.f2 { font-size: 12px; color: #999;}
+.main {
+    background-color: #fff;
+    border: 1px solid #c8c7cc;
+    margin: 15px 8px;
+    padding: 12px;
+}
+.mt20 { margin-top: 20px;}
+.mb20 { margin-bottom: 20px;}
+.mb40 { margin-bottom: 40px;}
+.mr10 {margin-right: 10px;}
+.ml10 {margin-left: 10px;}
+.mt0 { margin-top: 0;}
+.mb0 { margin-bottom: 0;}
+.progress { margin-bottom: 0;}
+.pding5 { padding: 5px;}
+.pding5-rt { padding: 5px 0;}
+.pding5-lf { padding: 5px 5px 5px 0;}
+.pdinglfrt0 { padding: 0;}
+.myoptions { 
+  margin-left: -15px;
+  margin-right: -15px; 
+  padding: 5px 5px 5px 20px;
+  background-color: #f5f5f5;;
+}
+.votemain {
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    border-top: 1px solid #ededf3;
+    border-bottom: 1px solid #ededf3;
+}
+/*.votemain img { 
+  margin: 0 -10px 5px;
+}*/
+.bar-green { background-color: #5cb85c;}
+.bar-brown { background-color: #996600;}
+.bar-cyan { background-color: #5bc0de;}
+.bar-orange { background-color: #f0ad4e;}
+.bar-red { background-color: #d9534f;}
+
+.btn { padding: 6px 30px;}
+
+.progress-bar,
+.progress-bar[aria-valuenow="0"],
+.progress-bar[aria-valuenow="1"],
+.progress-bar[aria-valuenow="2"] {
+    min-width: 20px;
+}
+img { max-width:100% !important;}
+i { color: #428bca;}
+.yunmaizan {
+  float: left;
+  margin-top: -12px;
+  padding: 15px 20px;
+}
+.yunmaizan span.zanicon {
+    position: relative;
+    float: left;
+    width: 13px;
+    height: 13px;
+    display: block;
+    background: url(../images/zan.png) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background-position: 0 0;
+    text-indent: -9999em;
+}
+.yunmaizan.active span.zanicon {
+    background-position: 0 -13px;
+}
+.yunmaizan_count {
+    position: relative;
+    float: left;
+    margin-left: 5px;
+    line-height: 13px;
+ }
+.activity-vote-options {
+    margin-left: -25px;
+    margin-right: 10px;
+    display: inline-block;
+    float: left !important;
+}
+
+/*! 举报 */
+.report-options {
+    display: block;
+    margin-bottom: 1px;
+    padding: 0 20px;
+    position: relative;
+    background-color: #fff;
+    font-weight: bold;
+}
+
+.report-options:active { background-color: #e3e3e3;}
+
+.report-options label {
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 0;
+    width: 100%;
+    height: 44px;
+    line-height: 44px;
+}
+
+.report-input {
+    padding: 6px 18px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0) inset;
+}
+.report-input:focus {
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.075) inset, 0 0 0 rgba(102, 175, 233, 0.6);
+}
+/*! 报名 */
+.postersimg { margin-top: 10px; width: 100%;}
+.col-registration {
+    margin: 20px 0 10px;
+    width: 100%;
+    height: 30px;
+    background-color: #ececec;
+    font-size: 16px;
+    vertical-align: middle;
+    line-height: 30px;
+    color: #666;
+}
+.col-registration span {
+    margin-left: 5px;
+    vertical-align: middle;
+    vertical-align: 8px;
+}
+.td-wd { color: #666; margin-bottom: 10px;}
+.td-wd h4 {
+    margin-top: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;}
+.td-wd em {
+    color: #a0a0a0;
+    font-style: normal;
+    margin-right: 6px;
+    vertical-align: middle;
+    vertical-align: -4px;
+}
+.registration {
+    display: inline-block;
+    background-image: url(../images/registration.png);
+    background-position: 0 0;
+    width: 18px;
+    height: 22px;
+}
+.icon-time { background-position: 0 0;}
+.icon-place { background-position: 0 -22px;}
+.icon-number { background-position: 0 -44px;}
+.icon-content { background-position: 0 -66px;}
+.icon-col {
+    display: inline-block;
+    background-image: url(../images/registration.png);
+    background-position: -20px 0;
+    width: 30px;
+    height: 30px;
+}
+.icon-main { background-position: -20px -30px;}
+.icon-process { background-position: -20px -60px;}
+.icon-take { background-position: -20px -90px;}
+.icon-personnel { background-position: -20px -120px;}
+/*! 报名表单 */
+label span { vertical-align: -7px; font-size: 20px; color: #d9534f;}
+
+.activity-vote-options {
+    float: left !important;
+    margin-left: -25px;
+    margin-right: 10px;
+}
+.tishinr { color: #d9534f;}
+.tishinr.tishinr-success { color: #5cb85c;}
+/*报名按钮*/
+.btn-position {
+  position: fixed;
+  text-align: right;
+  bottom: 30px;
+  right: 0;
+}
+.btn-position a{
+  margin-bottom: 5px;
+}
+.btn-position .btn {  border-radius: 4px 0 0 4px;}
+.btn-signcheck {
+  color: #fff;
+  background-color: rgba(77, 195, 77, .7);
+  border-color: #4cae4c;
+}
+.btn-signcheck:hover,
+.btn-signcheck:focus,
+.btn-signcheck:active,
+.btn-signcheck.active {
+  color: #fff;
+  background-color: rgba(54, 169, 54, .8);
+  border-color: #398439;
+}
+.btn-signcheck:active,
+.btn-signcheck.active {
+  background-image: none;
+}
+.btn-signcheck.disabled,
+.btn-signcheck[disabled],
+fieldset[disabled] .btn-signcheck,
+.btn-signcheck.disabled:hover,
+.btn-signcheck[disabled]:hover,
+fieldset[disabled] .btn-signcheck:hover,
+.btn-signcheck.disabled:focus,
+.btn-signcheck[disabled]:focus,
+fieldset[disabled] .btn-signcheck:focus,
+.btn-signcheck.disabled:active,
+.btn-signcheck[disabled]:active,
+fieldset[disabled] .btn-signcheck:active,
+.btn-signcheck.disabled.active,
+.btn-signcheck[disabled].active,
+fieldset[disabled] .btn-signcheck.active {
+  background-color: rgba(77, 195, 77, .7);
+  border-color: #4cae4c;
+}
+
+.btn-signup {
+  color: #fff;
+  background-color: rgba(13, 125, 228, .7);
+  border-color: #357ebd;
+}
+.btn-signup:hover,
+.btn-signup:focus,
+.btn-signup:active,
+.btn-signup.active {
+  color: #fff;
+  background-color: rgba(23, 99, 169, .8);
+  border-color: #285e8e;
+}
+.btn-signup:active,
+.btn-signup.active {
+  background-image: none;
+}
+.btn-signup.disabled,
+.btn-signup[disabled],
+fieldset[disabled] .btn-signup,
+.btn-signup.disabled:hover,
+.btn-signup[disabled]:hover,
+fieldset[disabled] .btn-signup:hover,
+.btn-signup.disabled:focus,
+.btn-signup[disabled]:focus,
+fieldset[disabled] .btn-signup:focus,
+.btn-signup.disabled:active,
+.btn-signup[disabled]:active,
+fieldset[disabled] .btn-signup:active,
+.btn-signup.disabled.active,
+.btn-signup[disabled].active,
+fieldset[disabled] .btn-signup.active {
+  background-color: rgba(13, 125, 228, .7);
+  border-color: #357ebd;
+}
+
+.btn-signfull {
+  color: #fff;
+  background-color: rgba(225, 65, 60, .7);
+  border-color: #d43f3a;
+}
+.btn-signfull:hover,
+.btn-signfull:focus,
+.btn-signfull:active,
+.btn-signfull.active {
+  color: #fff;
+  background-color: rgba(206, 43, 39, .8);
+  border-color: #ac2925;
+}
+.btn-signfull:active,
+.btn-signfull.active {
+  background-image: none;
+}
+.btn-signfull.disabled,
+.btn-signfull[disabled],
+fieldset[disabled] .btn-signfull,
+.btn-signfull.disabled:hover,
+.btn-signfull[disabled]:hover,
+fieldset[disabled] .btn-signfull:hover,
+.btn-signfull.disabled:focus,
+.btn-signfull[disabled]:focus,
+fieldset[disabled] .btn-signfull:focus,
+.btn-signfull.disabled:active,
+.btn-signfull[disabled]:active,
+fieldset[disabled] .btn-signfull:active,
+.btn-signfull.disabled.active,
+.btn-signfull[disabled].active,
+fieldset[disabled] .btn-signfull.active {
+  background-color: rgba(225, 65, 60, .7);
+  border-color: #d43f3a;
+}
+/*底部版权*/
+.foot-copyright { margin: 15px auto; color: #999; text-align: center;}
+/*头部会签助手*/
+.top-copyright {
+  padding: 10px 15px;
+  background-image: url(../images/topicon-bg.jpg);
+  background-color: #55a4ec;
+  background-size:cover;
+  background-repeat:no-repeat;
+  font-size: 24px;
+  line-height: 1;
+  color: #fff;
+}
+.top-copyright img { width: 35px; }
+.top-copyright .text-center { padding-right: 26px;}
+/*通知*/
+.notice-title h3 { 
+  font-size: 22px;
+  color: #0079dd;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.9);
+}
+.notice-title .f2 { 
+  font-size: 12px;
+  color: #999;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.9);
+}
+.bdsharebuttonbox { margin-bottom: 30px;}
+.text_footer { margin-top: 30px; margin-bottom: 40px; color: #999;}

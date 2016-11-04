@@ -1,0 +1,18 @@
+{__NOLAYOUT__}
+<nav id="nav_pagerControl">
+    <ul class="pager pager-lg" >
+
+        <?php if($model->currentPage==1 && $model->maxPage>1):?>
+        <li><a href="#" p="<?php echo intval($model->currentPage)+1; ?>">下一页</a></li>
+
+        <?php elseif($model->currentPage>1 && $model->maxPage<=$model->currentPage):?>
+        <li><a href="#" p="<?php echo intval($model->currentPage)-1;?>">上一页</a></li>
+
+        <?php elseif($model->currentPage>1 && $model->maxPage>$model->currentPage):?>
+        <li><a href="#" p="<?php echo intval($model->currentPage)-1;?>">上一页</a></li>
+        <li><a href="#" p="<?php echo intval($model->currentPage)+1;?>">下一页</a></li>
+        <?php endif;?>
+
+    </ul>
+
+</nav>

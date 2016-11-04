@@ -1,0 +1,224 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head> 
+        <meta charset="utf-8" /> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+        <meta name="Keywords" content="<?php echo L('_SITE_KEYWORDS_');?>">
+        <meta name="Description" content="<?php echo L('_SITE_CONTENT_');?>">
+        <meta name="Author" content="<?php echo L('_APP_NAME_')?>" />
+        <title><?php echo $title?>-<?php echo L('_APP_NAME_')?></title>
+        <link rel="shortcut icon" href="__PUBLIC__/common/images/favicon.ico" type="image/vnd.microsoft.icon">
+        <!-- Bootstrap --> 
+        <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" /> 
+        <link href="__PUBLIC__/common/font-awesome/css/font-awesome.min.css" rel="stylesheet" /> 
+        <link href="__PUBLIC__/meetelf/css/base.css" rel="stylesheet" /> 
+        <link href="__PUBLIC__/meetelf/tapmodo-Jcrop/jquery.Jcrop.css" rel="stylesheet" /> 
+    </head> 
+    <body data-module="<?php echo implode('  ', $module);?>"> 
+        <nav id="elf-nav"> 
+            <div class="container-fluid"> 
+                <a class="pull-left" href="<?php echo 'http://' . C('APP_DOMAIN');?>"> <img alt="<?php echo L('_APP_NAME_');?>" src="__PUBLIC__/meetelf/images/logo-r.png" /> </a> 
+                <ul class="nav"> 
+                    <li role="presentation"><a href="<?php echo 'http://' . C('APP_DOMAIN');?>"><?php echo L('_HOME_');?></a></li> 
+                    <li role="presentation"><a href=""><?php echo L('_FUNCTION_DESC_');?></a></li> 
+                    <li role="presentation"><a href=""><?php echo L('_USE_DESC_');?></a></li> 
+                    <li role="presentation"><a href=""><?php echo L('_HELP_CENTOR_');?></a></li> 
+                </ul> 
+                <ul class="nav"> 
+                    <?php if(!session('auth')): ?>
+                  <li role="presentation"><a href="<?php echo U('/Home/Auth/login', '', true, false, false);?>"><?php echo L('_LOGIN_TITLE_');?></a></li> 
+                    <li role="presentation"><a href="<?php echo U('/Home/Auth/register', '', true, false, false);?>"><?php echo L('_REGISTER_TITLE_');?></a></li> 
+                    <a class="btn btn-release pull-left" href="<?php echo U('/home/activity/add');?>"><i class="fa fa-plus-circle"></i><?php echo L('_PUBLISH_ACTIVITY_');?></a> 
+                <?php else: ?>
+                   <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                      <?php echo $auth['mobile'];?> <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li role="presentation"><a href="<?php echo U('Information/information')?>">账号设置</a></li>
+                      <li role="separator" class="divider"></li>
+                      <li role="presentation"><a href="">我的订单</a></li>
+                      <li role="presentation"><a href="">我的票券</a></li>
+                      <li role="presentation"><a href="">我的收藏</a></li>
+                      <li role="separator" class="divider"></li>
+                      <li role="presentation"><a href="<?php echo U('Auth/logout')?>">退出登录</a></li>
+                    </ul>
+                  </li>
+                  <a class="btn btn-release pull-left" href="<?php echo U('Activity/add');?>" role="button"><i class="fa fa-plus-circle"></i> 发布活动</a>
+                <?php endif; ?>
+                    
+                </ul> 
+            </div> 
+        </nav> 
+        <div id="main">
+            <div class="container">
+                <div class="row">
+                  <div class="span12">
+                    <div class="jc-demo-box">
+                      <img src="__PUBLIC__/meetelf/images/sago.jpg" id="target" alt="[Jcrop Example]" />
+                      <div id="preview-pane">
+                        <div class="preview-container">
+                          <img src="__PUBLIC__/meetelf/images/sago.jpg" class="jcrop-preview" alt="Preview" />
+                        </div>
+                      </div>
+                      <div class="description">
+                      </div>
+                    <div class="clearfix"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-7">
+                    <!-- <a class="btn btn-save mt20">
+                        <input type="file" name="fileup">浏览
+                    </a>
+                    <p class="help-block">仅支持jpg、png、gif</p> -->
+                    <!-- <form action="" enctype="multipart/form-data" method="post"  -->
+                    上传文件：<input type="file" name="upfile" /><br> <br><br>
+                    <input type="submit" id="upload_btn" value="上传" />
+                    <!-- </form> -->
+                </div>
+            </div>
+            
+        </div>
+        <div class="modal fade" id="tips-modal" tabindex="-1" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                                class="sr-only">Close</span></button>
+                        <h4 class="modal-title">提示信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="tips-msg"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <footer>
+            <div class="bg-footer-img"></div>
+            <div class="footer-main">
+                <div class="container"> 
+                    <div class="row"> 
+                        <div class="col-sm-7"> 
+                            <div class="row"> 
+                                <ul class="pagination"> 
+                                    <li><a href="###"><?php echo L('_ABOUT_US_');?></a></li> 
+                                    <li><a>|</a></li> 
+                                    <li><a href="###"><?php echo L('_FUNCTION_DESC_');?></a></li> 
+                                    <li><a>|</a></li> 
+                                    <li><a href="###"><?php echo L('_SERVICE_TERMS_');?></a></li> 
+                                    <li><a>|</a></li> 
+                                    <li><a href="###"><?php echo L('_HELP_CENTOR_');?></a></li> 
+                                    <li><a>|</a></li> 
+                                    <li><a href="###"><?php echo L('_ADVICE_MAN_');?></a></li> 
+                                    <li><a>|</a></li> 
+                                    <li><a href="###"><?php echo L('_CONTACT_US_');?></a></li> 
+                                    <li><a>|</a></li> 
+                                    <li><a href="###"><?php echo L('_ADVICE_US_');?></a></li> 
+                                    <li><a>|</a></li> 
+                                    <li><a href="###"><?php echo L('_SITE_MAP_');?></a></li> 
+                                </ul> 
+                                <p>&copy;<?php echo L('_APP_NAME_');?>&nbsp;<?php echo L('_FILING_NUMBER_');?></p> 
+                            </div> 
+                        </div> 
+                        <div class="col-sm-5"> 
+                            <div class="row"> 
+                                <a href="###"><img src="__PUBLIC__/meetelf/images/weibo.png" /></a> 
+                                <a href="###"><img src="__PUBLIC__/meetelf/images/weibo.png" /></a> 
+                            </div> 
+                        </div> 
+                    </div> 
+                </div> 
+            </div>
+        </footer>  
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/meetelf/tapmodo-Jcrop/jquery.Jcrop.js"></script>
+<script type="text/javascript">
+  jQuery(function($){
+
+    // Create variables (in this scope) to hold the API and image size
+    var jcrop_api,
+        boundx,
+        boundy,
+
+        // Grab some information about the preview pane
+        $preview = $('#preview-pane'),
+        $pcnt = $('#preview-pane .preview-container'),
+        $pimg = $('#preview-pane .preview-container img'),
+
+        xsize = $pcnt.width(),
+        ysize = $pcnt.height();
+    
+    console.log('init',[xsize,ysize]);
+    $('#target').Jcrop({
+      onChange: updatePreview,
+      onSelect: updatePreview,
+      aspectRatio: xsize / ysize
+    },function(){
+      // Use the API to get the real image size
+      var bounds = this.getBounds();
+      boundx = bounds[0];
+      boundy = bounds[1];
+      // Store the API in the jcrop_api variable
+      jcrop_api = this;
+
+      // Move the preview into the jcrop container for css positioning
+      $preview.appendTo(jcrop_api.ui.holder);
+    });
+
+    function updatePreview(c)
+    {
+      if (parseInt(c.w) > 0)
+      {
+        var rx = xsize / c.w;
+        var ry = ysize / c.h;
+
+        $pimg.css({
+          width: Math.round(rx * boundx) + 'px',
+          height: Math.round(ry * boundy) + 'px',
+          marginLeft: '-' + Math.round(rx * c.x) + 'px',
+          marginTop: '-' + Math.round(ry * c.y) + 'px'
+        });
+      }
+    };
+
+  });
+        $("#upload_btn").on('click', function () {
+            $.ajax({
+                url: "<?php echo U('Common/ajax_upload', array('t'=>$key)) ?>",
+                type: "POST",
+                dataType: "json",
+                data: {'<?php echo session_name()?>': '<?php echo session_id()?>', guid: '<?php echo $guid?>'},
+                beforeSend: function () {
+                    // $('#promptzone').append('<div id="loading-cover"><i id="loading" class="fa fa-spinner fa-spin"></i></div>');
+                    // alertTips($('#tips-modal'), 'qingshaodeng');
+                    alert('hehehhehehehe');
+                },
+                error: function () {
+                    alertTips($('#tips-modal'), '服务器出错, 请稍后重试!');
+                },
+                success: function (data) {
+                    $('#loading-cover').remove();
+                    output = data.data;
+                    if (data.status == 'ok') {
+                        $('img#upload-view').attr('src', output.path + '?' + $.now());
+                        $('input#savename').val(output.val);
+                    } else {
+                        alertTips($('#tips-modal'), data.msg);
+                    }
+                }
+        });
+
+        })
+        
+</script>
+    </body>
+</html>

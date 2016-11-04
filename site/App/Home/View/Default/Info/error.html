@@ -1,0 +1,27 @@
+<input id="msg_order" value="<?php echo $msg ? 1 : 0;?>" type="hidden"/>
+<input id="msg_order_url" value="<?php echo U('Home/Information/wallet');?>" type="hidden"/>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <include file="Public:_page_header" />
+      <div class="col-md-12">
+        <div class="pay-success">
+          <div class="pay-success-main">
+            <i class="fa fa-times-circle-o fa-3x"></i>
+            <p class="success">抱歉，您的支付失败！</p>
+            <p class="prompt"><?php echo $order['error_msg'];?></p>
+            <p>订单号：<?php echo $order['order_id'];?></p>
+            <p>商品名称：<span class="name"><?php echo $order['title'];?></span>
+            <br>付款金额：<span class="amount"><?php echo yuan_to_fen($order['money'], false);?> </span>元</p>
+          </div>
+          <div class="pay-success-other">
+            <?php if($trade_url):?>
+            <a href="<?php echo $trade_url;?>" class="btn btn-save">返回重新下单</a>
+            <?php endif;?>
+            <a class="btn btn-default" href="<?php echo U('Home/Information/index');?>">返回我的主页</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

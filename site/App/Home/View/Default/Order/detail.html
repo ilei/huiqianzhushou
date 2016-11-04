@@ -1,0 +1,54 @@
+<div class="container">
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-header">
+            <h5>
+                <strong>当前位置：</strong>
+                <a href="<?php echo 'http://' . C('APP_DOMAIN');?>"><?php echo L('_HOME_');?></a> > <a href="<?php echo U('Home/User/order'); ?>">我参与的</a> > 订单详情
+                <a href="javascript:history.back();" class="header-back">返回</a>
+            </h5>
+
+            </div>
+            <div class="order-details">
+                <?php foreach($datasource['orderDetails'] as $k=>$v):?>
+                <div class="item-order">
+                    <div>
+                        <a href="<?php echo U('Home/event/'.event_id_encode($v['activity_id'])); ?>"><?php echo $v['activity_name']; ?></a>
+
+                        <p><span>订&nbsp;单&nbsp;号：</span><?php echo $v['order_number'];?></p>
+
+                        <p><span>订购日期：</span><?php echo $v['order_finished_time_string']; ?></p>
+
+                        <p><span>报&nbsp;名&nbsp;者：</span><?php echo $v['buyer_name']; ?></p>
+
+                        <p><span>购票邮件：</span><?php echo $v['buyer_email']; ?></p>
+
+                        <p><span>主&nbsp;办&nbsp;方：</span><?php echo $v['activity_undertaker_name'];?></p>
+
+                        <p><span>票据名称：</span><?php echo $v['user_ticket_name']; ?></p>
+
+                        <p><span>订单状态：</span><?php echo $v['order_status_string']; ?></p>
+                    </div>
+                    <div>
+                        <p>姓名：<?php echo $v['buyer_name']; ?></p>
+                        <!--<p>邮箱：<?php echo $v['buyer_email']; ?></p>-->
+                        <p>手机：<?php echo $v['buyer_mobile']; ?></p>
+                        <?php foreach( $v['activity_buyer_infos'] as $bv) :?>
+                        <p><?php echo $bv['info_key']; ?>：<?php echo $bv['info_value']; ?></p>
+                        <?php endforeach; ?>
+                        <p>票券状态：<span><?php echo $v['user_ticket_status_string']; ?></span></p>
+                    </div>
+                </div>
+                <?php endforeach;?>
+
+                <nav>
+                    <ul class="pager pager-lg">
+                        <li><a href="javascript:history.back();">返回</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+</div>

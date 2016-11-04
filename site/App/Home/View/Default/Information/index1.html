@@ -1,0 +1,60 @@
+<div class="page-header">
+  <h3><strong>我的主页</strong></h3>
+</div>
+<div class="elf-home">
+  <div class="row">
+    <div class="col-sm-4">
+      <img class="myportrait" width="120" height="120" src="/Public/common/images/noportrait.png" data-original="<?php echo get_image_path($other_info['photo'],1); ?>">
+      <span><?php echo $other_info['nickname'] ?$other_info['nickname'] : $info['mobile']; ?><a href="<?php echo U('Auth/logout')?>">(退出)</a></span>
+      <div class="mt10">发布的活动 <a href="<?php echo U('release/index')?>"><?php echo $activity; ?></a></div>
+      <div class="mt10">参与的活动 <a href="<?php echo U('order/mine_orders')?>"><?php echo $ticket; ?></a></div>
+      <p class="mt20">短信余量：<span><a href="###"><?php echo $auth['msg_nums']; ?></a> </span>条</p>
+      <p class="mt20">邮件余量：<span><a href="###"><?php echo $auth['email_nums']; ?></a> </span>条</p>
+
+      <a class="btn btn-save" href="<?php echo U('Home/Buy/buy_email_msg');?>">立即购买</a>
+    </div>
+    <div class="col-sm-8">
+      <div class="act-page-header">
+        <span>最新活动动态</span>
+      </div>
+      <div class="act-page-main">
+        <!-- <div class="text-center mt30">
+          <p>暂无活动</p>
+          <a type="button" class="btn btn-important"><i class="fa fa-plus-circle"></i> 发现活动</a>
+        </div> -->
+        <p>我发布的：</p>
+        <?php if($activity_new): ?>
+        <div class="content_organization">
+          <img width="120" height="120" src="<?php echo get_image_path($activity_new['0']['poster']); ?>">
+          <a href="<?php echo U('event/index',array('g' =>$activity_new['0']['guid']))?>"><?php echo $activity_new['0']['name'] ;?></a>
+          <a href="<?php echo U('act/act_manage',array('aguid' =>$activity_new['0']['guid']))?>">(管理)</a>
+          <p class="times">活动报名情况： <?php echo $enrollment ;?></p>
+          <span>最新订单</span>
+          <div>购票人：</div>
+          	<?php foreach ($enrollment_info as $k => $l): ?>
+          	<a href="<?php echo U('order/detail',array('on'=>$l['order_id']))?>"><?php echo $l['buyer_name'] ?></a>
+          	 <?php endforeach; ?>
+          </div>
+        <?php else: ?>
+        <h3>暂无发布</h3>
+        <?php endif; ?>
+          <!-- <div>购票人：<a href="">啦啦啦（已审核）</a></div> -->
+
+
+        <p class="mt20">我参与的：</p>
+        <?php if($my_act): ?>
+        <div class="content_participate">
+          <img width="120" height="120" src="<?php echo get_image_path($my_act['poster']); ?>
+          ">
+          <a href="<?php echo U('event/index',array('g' =>$my_act['guid']))?>"><?php echo $my_act['name'] ;?></a>
+          <a href="<?php echo U('act/act_manage',array('aguid' =>$my_act['guid']))?>">(管理)</a>
+          <p class="times">时间：<?php echo $in_time; ?></p>
+          <p>地点：<?php echo $my_act['areaid_1_name'] ;?><?php echo $my_act['areaid_2_name'] ;?><?php echo $my_act['address'] ;?></p>
+        </div>
+        <?php else: ?>
+        <h3>暂无参加</h3>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+</div>

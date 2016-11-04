@@ -1,0 +1,134 @@
+a,
+a:hover,
+a:focus { text-decoration: none; outline: none;}
+.container { max-width: 720px;}
+body {
+  background-color: #ededed;
+  font-family: "Microsoft Yahei";
+  color: #333;
+  word-wrap:break-word;
+}
+.my-level { 
+  padding: 18px;
+  background-color: #fff;
+  font-size: 15px;
+}
+.my-level .progress {
+  margin: 10px 0;
+  height: 16px;
+  border-radius: 6px;
+}
+.my-level .progress-bar-warning {
+  background-color: #fec52b;
+}
+.my-level .progress-bar { box-shadow: none;}
+.my-level-sm { margin-top: 13px; padding: 13px 18px;}
+
+.my-level-jump a {
+  display: block;
+  margin-top: 1px;
+  padding: 18px;
+  width: 100%;
+  background-color: #fff;
+  font-size: 15px;
+  color: #333;
+}
+.my-level-jump a:hover,
+.my-level-jump a:focus { 
+  background-color: #e3e3e3;
+  color: #333;
+  text-decoration: none;
+}
+
+.my-level-mt { margin-top: 13px;}
+.my-level-toptxt { display: table; width: 100%; font-size: 12px;}
+.my-level-toptxt .pull-right { color: #fec52b;}
+/*云友排名*/
+.level-rank { 
+  margin-top: 5px;
+  padding: 7px 5px 2px 5px;
+  min-height: 279px;
+  background-color: #ededed; 
+  -moz-box-shadow: 0 0 5px #dedede inset;    /* For Firefox3.6+ */
+  -webkit-box-shadow: 0 0 5px #dedede inset; /* For Chrome5+, Safari5+ */
+  box-shadow: 0 0 5px #dedede inset;   /* For Latest Opera */
+}
+.level-col {
+  position: relative;
+  display: table;
+  margin-bottom: 5px;
+  padding: 6px 12px;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #fff;
+}
+.level-col-me { border-color: #fec52b;}
+.level-col .level-col-por {
+  float: left !important; 
+  margin-right: 7px;
+  width: 35px; 
+  height: 35px;
+}
+.level-col .level-col-info {
+  float: left !important; 
+  height: 35px;
+  font-size: 15px;
+  color: #666;
+  line-height: 18px;
+}
+.level-col .level-col-info .level-name {
+  height: 18px;
+  font-size: 15px;
+  color: #666;
+  line-height: 18px;
+}
+.level-col .level-col-info .font-orange { 
+  height: 17px;
+  font-size: 12px; 
+  color: #eb6e12;
+  line-height: 17px;
+}
+.level-col-me .level-col-info .level-name {
+  color: #000;
+}
+.level-name .level-col-pic { 
+  margin-left: 3px; 
+  height: 15px; 
+  vertical-align: -2px;
+}
+.level-col .level-col-dig { 
+  float: right !important; 
+  margin-right: 10px;
+  font-size: 15px; 
+  font-weight: 800;
+  color: #aaa;
+  line-height: 35px;
+}
+.level-col-me .level-col-dig {
+  color: #fec52b;
+}
+/*云友排名*/
+.level-exp {
+  background-color: #fff;
+  font-size: 12px;
+}
+
+.level-exp  > thead > tr > th{
+  border: none;
+  background-color: #fee295;
+  color: #eb6e12;
+  text-align: center;
+}
+.level-exp > tbody > tr > td {
+  border: none;
+  color: #ccc;
+  text-align: center;
+}
+/*等级说明*/
+.level-icon {
+  height: 15px;
+}
+.level-instructions {
+  margin-top: 0;
+  border: none;
+}

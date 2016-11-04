@@ -1,0 +1,305 @@
+<script type="text/javascript">
+	var YM = {
+		'saveTask' : "{:U('save_task')}",
+		'redirectPath':"{:U('index')}",
+		'task_info_description':'{$task_info.description}',
+		'task_condition_guid':'{$task_condition_guid}'
+	};
+</script>
+<div id="content-head"><?php echo isset($task_info) && $task_info ? '编辑任务' : '添加任务';?></div>
+<?php
+$breadcrumbs = array(
+'base' => '首页',
+'list' => array(
+array('url'=>U('Task/index'), 'v'=>'任务管理'),
+array('url'=>'', 'v'=> isset($task_info) && $task_info ? '编辑任务' : '添加任务')
+)
+);
+?>
+<include file="Public:_breadcrumbs" />
+<div class="content-border">
+	<div class="container-fluid">
+		<div class="row mb20">
+			<div class="col-sm-12">
+				<a href="{:U('index')}" type="button" class="pull-right btn btn-success"><i class="fa fa-arrow-left"></i> 返回列表</a>
+			</div>
+		</div>
+		<form class="form-horizontal" role="form" id="regorg">
+			<div class="form-group">
+				<label for="name" class="col-sm-2 control-label">任务名称</label>
+				<div class="col-sm-6">
+					<input type="hidden" name="guid" value="{$Think.get.guid}" />
+					<input type="text" id="name" name="name" class="form-control"  value="{$task_info.name}" placeholder="输入任务名称">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<div class="form-group">
+				<label for="type" class="col-sm-2 control-label">任务类型</label>
+				<div class="col-sm-6">
+					<select class="form-control" name="type" >
+						<option>请选择任务类型</option>
+						<option value="1" <eq name="task_info.type" value="1">selected=true</eq> >普通</option>
+						<option value="2" <eq name="task_info.type" value="2">selected=true</eq> >日常</option>
+					</select>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<eq name="task_info.type" value="2">
+			<div class="form-group time-wrap">
+				<label for="type" class="col-sm-2 control-label">任务时间</label>
+				<div class="col-sm-3">
+					<div class="input-group date form_datetime">
+						<div>
+							<input class="form-control" size="16" type="text" value="{$task_info.startime}" name="startTime" id="startTime" readonly>
+						</div>
+						<span class="input-group-addon radius0"><span class="glyphicon glyphicon-th"></span></span>
+					</div>
+				</div>
+				<div class="col-sm-1 time-center-text">至</div>
+				<div class="col-sm-3">
+					<div class="input-group date form_datetime">
+						<div>
+							<input class="form-control" size="16"  type="text" value="{$task_info.endtime}" name="endTime" id="endTime" readonly>
+						</div>
+						<span class="input-group-addon radius0"><span class="glyphicon glyphicon-th"></span></span>
+					</div>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			<else />
+			<div class="form-group time-wrap hiden">
+				<label for="type" class="col-sm-2 control-label">任务时间</label>
+				<div class="col-sm-3">
+					<div class="input-group date form_datetime">
+						<div>
+							<input class="form-control" data-field="time" size="16" type="text"
+							name="startTime" id="startTime" readonly>
+						</div>
+						<label for="startTime" class="input-group-addon radius0"><span class="glyphicon glyphicon-th"></span></label>
+					</div>
+				</div>
+				<div class="col-sm-1 time-center-text">至</div>
+				<div class="col-sm-3">
+					<div class="input-group date form_datetime">
+						<div>
+							<input class="form-control" data-field="time" size="16"  type="text"
+							name="endTime" id="endTime" readonly>
+						</div>
+						<label for="endTime" class="input-group-addon radius0"><span class="glyphicon glyphicon-th"></span></label>
+					</div>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+			</eq>
+
+			<div class="form-group">
+				<label for="sign" class="col-sm-2 control-label">任务缩略图</label>
+				<div class="col-sm-6">
+					<button type="button" id="promptzone" class="btn btn-default"><i class="fa fa-upload"></i> 上传缩略图</button>
+					<present name="task_info.thumb">
+					<div class="mt10 task_thumb">
+						<img style="width:200px;" src="__UPLOAD__{$task_info.thumb}" id="task_thumb" class="img-thumbnail" />
+						<input type="hidden" name="thumb" value="{$task_info.thumb}" />
+					</div>
+					<else /> 
+					<div class="mt10 task_thumb" style="display:none;">
+						<img style="width:200px;" src="" id="task_thumb" class="img-thumbnail" />
+						<input type="hidden" name="thumb" value="" />
+					</div>
+					</present>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<div class="form-group">
+				<label for="integral" class="col-sm-2 control-label">奖励积分</label>
+				<div class="col-sm-6">
+					<input type="text" id="integral" name="integral" class="form-control"  value="{$task_info.integral}" placeholder="输入奖励积分">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<div class="form-group">
+				<label for="exp" class="col-sm-2 control-label">奖励经验</label>
+				<div class="col-sm-6">
+					<input type="text" id="exp" name="exp" class="form-control"  value="{$task_info.exp}" placeholder="输入奖励经验">
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="exp" class="col-sm-2 control-label">任务条件</label>
+				<div class="col-sm-9">
+					<button type="button" class="js_add_condition btn btn-default"><i class="fa fa-plus"></i> 添加条件</button>
+					<div class="condition_wrap">
+						<foreach name="task_condition" item="vo" >
+						<div class="row mt10 condition_item">
+							<input type="hidden" class="form-control" value="{$vo.guid}" name="condition_guid" />
+							<div class="col-sm-3 condition_name_wrap"><input type="text" class="form-control" value="{$vo.name}" name="condition_name" placeholder="条件说明" /><div class="error-wrap"></div></div>
+							<div class="col-sm-3 condition_type_wrap">
+								<select name="task_sign" class="form-control">
+									<option value="0">任务类型</option>
+									<foreach name="task_type_list" item="type" >
+									<option value="{$type.id}" <eq name="vo.sign" value="$type.id">selected=true</eq> >{$type.name}</option>
+									</foreach>
+								</select>
+								<div class="error-wrap"></div>
+							</div>
+							<switch name="vo.sign">
+								<case value="4">
+								<div class="col-sm-3 condition_type finish_num_wrap">
+									<select name="info_type" class="form-control">';
+										<option value="1" <eq name="vo.type" value="1">selected=true</eq> >生日</option>
+										<option value="2" <eq name="vo.type" value="2">selected=true</eq> >家乡</option>
+										<option value="3" <eq name="vo.type" value="3">selected=true</eq> >兴趣</option>
+										<option value="4" <eq name="vo.type" value="4">selected=true</eq> >教育</option>
+										<option value="5" <eq name="vo.type" value="5">selected=true</eq> >现居</option>
+										<option value="6" <eq name="vo.type" value="6">selected=true</eq> >行业</option>
+										<option value="7" <eq name="vo.type" value="7">selected=true</eq> >公司</option>
+										<option value="8" <eq name="vo.type" value="8">selected=true</eq> >签名</option>
+									</select>
+								</div>
+								</case>
+								<default />
+								<div class="col-sm-3 condition_type finish_num_wrap"><input type="text" class="form-control" value="{$vo.finish_num}" name="condition_finish_num" placeholder="数量" /><div class="error-wrap"></div></div>
+							</switch>
+							<div class="col-sm-3 condition_webjs_wrap">
+								<select name="ym_js" class="form-control">
+									<option value="0">任务指向</option>
+									<foreach name="ym_js" item="v" >
+									<option value="{$v.id}" <eq name="vo.webjs" value="$v.id">selected=true</eq> >{$v.description}</option>
+									</foreach>
+								</select>
+								<div class="error-wrap"></div>
+							</div>
+							<div class="col-sm-1 del-icon"><i class="fa fa-trash-o js_del_condition"></i></div>
+						</div>
+						</foreach>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="contents" class="col-sm-2 control-label">任务描述</label>
+				<div class="col-sm-9">
+					<textarea id="contents" name="content"></textarea>
+					<div class="col-sm-12 error-wrap" style="padding:0 2px;"></div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="ym_editor" class="col-sm-2 control-label">任务状态</label>
+				<div class="col-sm-6">
+					<label class="radio-inline">
+						<input type="radio" name="is_del" value="0" class="flow_state" <eq name="task_info.is_del" value="0">checked=true</eq>> 开启
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="is_del" value="1" class="flow_state" <eq name="task_info.is_del" value="1">checked=true</eq>> 关闭
+					</label>
+				</div>
+				<div class="col-sm-4 error-wrap"></div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary js-submit">保存</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+
+		$('body').on('click','.js_add_condition',function(){
+			var html='';
+			html += '<div class="row mt10 condition_item">';
+			html += '<div class="col-sm-3 condition_name_wrap"><input type="text" class="form-control" name="condition_name" placeholder="条件说明" /><div class="error-wrap"></div></div>';
+			html += '<div class="col-sm-3 condition_type_wrap">';
+			html += '<select name="task_sign" class="form-control">';
+			html += '<option value="0">任务类型</option>';
+			<foreach name="task_type_list" item="type" >
+			html += '<option value="{$type.id}">{$type.name}</option>';
+			</foreach>
+			html += '</select>';
+			html += '<div class="error-wrap"></div>';
+			html += '</div>';
+			html += '<div class="col-sm-3 condition_type finish_num_wrap"><input type="text" class="form-control" name="condition_finish_num" placeholder="数量" /><div class="error-wrap"></div></div>';
+			html += '<div class="col-sm-3 condition_webjs_wrap">';
+			html += '<select name="ym_js" class="form-control">';
+			html += '<option value="0">任务指向</option>';
+			<foreach name="ym_js" item="v">
+			html += '<option value="{$v.id}">{$v.description}</option>';
+			</foreach>
+			html += '</select>';
+			html += '<div class="error-wrap"></div>';
+			html += '</div>';
+			html += '<div class="col-sm-1 del-icon"><i class="js_del_condition fa fa-trash-o"></i></div>';
+			html += '</div>';
+			$('.condition_wrap').append(html);
+		})
+
+		$('body').on('change','select[name=task_sign]',function(){
+			var type = $(this).val();
+			var html = '';
+			switch(type){
+				case '4':
+					html += '<select name="info_type" class="form-control">';
+				html += '<option value="1">生日</option>';
+				html += '<option value="2">家乡</option>';
+				html += '<option value="3">兴趣</option>';
+				html += '<option value="4">教育</option>';
+				html += '<option value="5">现居</option>';
+				html += '<option value="6">行业</option>';
+				html += '<option value="7">公司</option>';
+				html += '<option value="8">签名</option>';
+				html += '</select>';
+				break;
+				default:
+					html = '<input type="text" class="form-control" name="condition_finish_num" placeholder="数量" /><div class="error-wrap"></div>'
+				break;
+			}
+			$(this).parents('.condition_item').find('.condition_type').html(html);
+		})
+
+		$('body').on('change','select[name=type]',function(){
+			var type = $(this).val();
+			switch(type){
+				case '2':
+					$('.time-wrap').show();
+				break;
+				default:
+					$('.time-wrap').hide();
+			}
+		})
+
+		$('#promptzone').ajaxUploadPrompt({
+			url : "<?php echo U('Common/ajax_upload', array('t'=>'task')) ?>",
+			type: "POST",
+			dataType: "json",
+			data: { '<?php echo session_name();?>':'<?php echo session_id();?>' },
+			beforeSend : function () {
+				$('#promptzone').after('<div id="loading-cover"><i id="loading" class="fa fa-spinner fa-spin"></i></div>');
+			},
+			error : function () {
+				alertTips($('#tips-modal'),'服务器出错, 请稍后重试!');
+			},
+			success : function (data) {
+				$('#loading-cover').remove();
+				output = data.data;
+				if(data.status == 'ok') {
+					$('img#task_thumb').attr('src', output.path+'?'+$.now());
+					$('input[name=thumb]').val(output.val);
+					$('.task_thumb').show();
+				} else {
+					alertTips($('#tips-modal'), data.msg);
+				}
+			}
+		});
+	})
+</script>
+<import type='js' file="admin.js.taskedit" />

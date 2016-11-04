@@ -1,0 +1,51 @@
+/*
+ * Home 模块定制CSS
+ * 
+ * CT: 2014-10-11 16:50 by H
+ */
+
+.table > tbody > tr.base-tr1 > td {
+  border-top: 0;
+}
+.table > tbody > tr > td {
+  line-height: 2;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.table > tbody > tr > td.wh110 {
+  width: 110px;
+  padding-left: 15px;
+}
+
+.table > tbody > tr > td.wh600 {
+  width: 600px;
+  padding-left: 20px;
+}
+.table > tbody > tr > td.wh78 {
+  width: 78px;
+}
+
+.table > tbody > tr > td.wh140 {
+  width: 140px;
+  padding-left: 15px;
+}
+.table > tbody > tr > td.wh570 {
+  width: 570px;
+  padding-left: 20px;
+}
+.certification {
+  padding: 15px;
+  margin-bottom: 20px;
+}
+.certification-success {
+  color: #3c763d;
+}
+.certification-info {
+  color: #31708f;
+}
+.certification-warning {
+  color: #8a6d3b;
+}
+.certification-danger {
+  color: #d9534f;
+}

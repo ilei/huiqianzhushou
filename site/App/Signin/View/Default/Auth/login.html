@@ -1,0 +1,90 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta name="Keywords" content="<?php echo L('_SITE_KEYWORDS_');?>">
+    <meta name="Description" content="<?php echo L('_SITE_CONTENT_');?>">
+    <meta name="Author" content="<?php echo L('_APP_NAME_')?>"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="Keywords" content="<?php echo implode(',', $keywords);?>">
+    <meta name="distribution" content="global" />
+    <meta name="Description" content="<?php echo $desc;?>">
+    <meta name="Author" content="<?php echo L('_APP_NAME_')?>"/>
+
+    <meta http-equiv="Pragma" content="no-cache" />
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <meta name="author" content="会签助手" />
+    <meta name="publisher" content="会签助手" />
+    <meta name="rating" content="general" />
+    <meta name="copyright" content="&copy; 津ICP备11001221号" />
+    <meta name="webcrawlers" content="all" />
+    <meta name="company" content="天津云脉三六五科技有限公司" />
+    <meta name="subject" content="Meetelf 不只是会展" />
+    <meta name="abstract" content="领先的活动报名及电子票务平台" />
+    <meta name="description" content="&quot;&quot;活动&quot;&quot;开始结束时间、地址、活动地图、票价、票务说明、报名参加、主办方、照片、讨论、活动海报等" />
+    <meta name="keywords" content="活动详情,报名人数,时间,图片海报,活动地图,票价,票务说明,主办方,活动论坛" />
+    <meta property="og:description" content="&quot;&quot;活动&quot;&quot;开始结束时间、地址、活动地图、票价、票务说明、报名参加、主办方、照片、讨论、活动海报等" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="会签助手" />
+    <title>会签助手-签到系统</title>
+    <?php echo C('MEDIA_FAVICON')?>
+    <!-- CSS -->
+    <import type='css' file="common.bootstrap.css.bootstrap#min" />
+    <import type='css' file="signin.css.login" />
+    <!-- JS -->
+    <import type='js' file="common.js.jquery" />
+    <import type='js' file="common.bootstrap.js.bootstrap#min" />
+    <import type='js' file="common.js.common" />
+</head>
+<body>
+
+<nav class="navbar navbar-huiqian navbar-fixed-top">
+    <div class="container-fluid">
+        <a href="<?php echo U('Site/Index/index', '', true, true)?>" target="_blank">
+            <?php echo C('APP_NAME', null, '会签助手'); ?>
+        </a>
+        <ul class="nav navbar-nav pull-right">
+            <li><a href="<?php echo U('Home/Auth/login', '', true, true); ?>" target="_blank">登录</a></li>
+            <li><a href="<?php echo U('Home/Auth/register', '', true, true); ?>" target="_blank">注册</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="login_main">
+    <div class="container">
+        <h1 class="text-center">会签助手 签到系统</h1>
+
+        <div class="login_form">
+            <h4>登录</h4>
+
+            <form role="form" class="form-signin" method="post">
+                <input type="text" name="username" required placeholder="账号" maxlength="20" class="form-control">
+                <input type="password" name="password" required placeholder="密码" maxlength="20" class="form-control">
+                <input type="text" name="login_verify_code" required placeholder="签到账号唯一识别码" maxlength="6" class="form-control">
+                <div class="pt">签到账号唯一识别码</div>
+
+                <div class="tishinr"></div>
+<!--                <div class="checkbox">-->
+<!--                    <label>-->
+<!--                        <input type="checkbox"> 记住账号-->
+<!--                    </label>-->
+<!--                </div>-->
+                <button type="submit" class="btn btn-lg btn-primary btn-block">登录</button>
+                <div class="loginfoot">
+                    <a href="javascript:void(0);" onclick="alertModal('请联系您的会签助手管理者进行密码修改。');">忘记密码?</a>
+                    还没有账号，<a href="<?php echo U('Home/Auth/login', '', true, true)?>">返回会签助手管理</a></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container loginbottom">
+    <p class="text-center"><?php echo C('COPYRIGHT', null, 'Copyright © 2014-2016 版权所有 天津云脉三六五科技有限公司') ?></p>
+</div>
+<!-- End Save for Web Slices -->
+<!-- 提示信息 -->
+<include file="Public:modal" />
+</body>
+</html>

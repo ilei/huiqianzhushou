@@ -1,0 +1,105 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><!-- 禁止百度转码 -->
+    <meta name="format-detection" content="telephone=no" /><!-- 禁止ios数字识别为电话号码 -->
+    <meta name="screen-orientation" content="portrait" /><!-- UC强制竖屏 -->
+    <meta name="x5-orientation" content="portrait" /><!-- QQ强制竖屏 -->
+    <meta name="full-scerrn" content="yes" /><!-- UC强制全屏 -->
+    <meta name="x5-fullscreen" content="ture" /><!-- QQ强制全屏 -->
+    <meta name="msapplication-tap-highlight" content="no" /><!-- window phone 点亮无高光 -->
+    <meta name="format-detection" content="email=no" /><!-- 安卓设备不自动识别邮件地址 -->
+    <title>问卷</title>
+    <!-- Bootstrap -->
+    <link href="__PUBLIC__/common/bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="__PUBLIC__/common/icheck/skins/all.css" rel="stylesheet">
+	  <link href="__PUBLIC__/mobile/css/article.css" rel="stylesheet">
+		<link href="__PUBLIC__/mobile/css/topic.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="__PUBLIC__/common/js/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+		<script src="__PUBLIC__/common/icheck/icheck.js?v=1.0.2"></script>
+    <script src="__PUBLIC__/common/icheck/js/custom.min.js?v=1.0.2"></script>
+    <script src="__PUBLIC__/mobile/js/topic.js"></script>
+		 <div class="container">
+       <div class="row">
+         <div class="subject_header">
+           <h4 class="text-center">我的问卷</h4>
+         </div>
+         <form class="form-horizontal topic-answer">
+					 <?php foreach($answer as $key => $value):?>
+					 <?php if($value['type'] == 1):?>
+           <div class="container topic_list">
+             <div class="panel panel-default topic-list-item">
+							 <div class="panel-heading">单选题:<?php echo $value['topics']['name'];?></div>
+               <ul class="list-group option-list">
+                 <li class="list-group-item">
+                   <span class="col-xs-1"><input type="radio" checked disabled></span>
+									 <div class="col-xs-11"><?php echo htmlspecialchars($radio['option']);?></div>
+<!--									 <div class="col-xs-11">--><?php //echo $v['option'];?><!--</div>-->
+                 </li>
+               </ul>
+             </div>
+           </div>
+					 <?php elseif($value['type'] == 2):?>
+           <div class="container topic_list">
+             <div class="panel panel-default topic-list-item">
+               <div class="panel-heading">多选题:<?php echo $value['topics']['name'];?></div>
+               <ul class="list-group option-list">
+								 <?php foreach($multiple as $k => $v):?>
+									 <?php for($i = 0;$i < count($v);$i++){
+                                             echo '<li class="list-group-item">
+                                                     <span class="col-xs-1"><input type="checkbox" checked disabled></span><div class="col-xs-11">'.$v[$i]['option'].'</div></li>';}?>
+								 <?php endforeach;?>
+               </ul>
+             </div>
+           </div>
+					 <?php elseif($value['type'] == 3):?>
+           <div class="container topic_list">
+             <div class="panel panel-default topic-list-item">
+							 <div class="panel-heading">单项填空题:<?php echo $value['topics']['name'];?></div>
+               <ul class="list-group option-list">
+								 <li class="list-group-item"><?php echo htmlspecialchars($value['answer']);?></li>
+               </ul>
+             </div>
+           </div>
+					 <?php elseif($value['type'] == 4):?>
+           <div class="container topic_list">
+             <div class="panel panel-default topic-list-item">
+							 <div class="panel-heading">多项填空题:<?php echo $value['topics']['name'];?></div>
+               <ul class="list-group option-list">
+								 <?php $ans = json_decode($value['answer']);?>
+								 <?php foreach($ans as $k => $v):?>
+                 <li class="list-group-item">
+<!--									 <span class="col-xs-12 option-tips">--><?php //echo $v;?><!--</span>-->
+										<?php echo htmlspecialchars($v);?>
+                 </li>
+								<?php endforeach;?>
+               </ul>
+             </div>
+           </div>
+					 <?php endif;?>
+					 <?php endforeach;?>
+         </form>
+       </div>
+       <div class="row">
+           <div class="text_footer text-center">© 会签助手</div>
+       </div>
+     </div>
+<!-- End Save for Web Slices -->
+  </body>
+</html>
+	

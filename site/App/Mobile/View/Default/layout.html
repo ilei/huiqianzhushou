@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!-- 禁止百度转码 -->
+    <meta name="format-detection" content="telephone=no"/>
+    <!-- 禁止ios数字识别为电话号码 -->
+    <meta name="screen-orientation" content="portrait"/>
+    <!-- UC强制竖屏 -->
+    <meta name="x5-orientation" content="portrait"/>
+    <!-- QQ强制竖屏 -->
+    <meta name="full-scerrn" content="yes"/>
+    <!-- UC强制全屏 -->
+    <meta name="x5-fullscreen" content="ture"/>
+    <!-- QQ强制全屏 -->
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <!-- window phone 点亮无高光 -->
+    <meta name="format-detection" content="email=no"/>
+    <!-- 安卓设备不自动识别邮件地址 -->
+    <meta name="Keywords" content="会签助手,meetelf">
+    <meta name="Description" content="会签助手">
+    <meta name="Author" content="会签助手"/>
+    <title><?php echo $title;?></title>
+    <!-- Bootstrap -->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <?php if(APP_DEBUG):?>
+    <link href="<?php echo fixed_resource_url('/Public/icheck/skins/all.css') ?>" rel="stylesheet">
+    <link href="<?php echo fixed_resource_url('/Public/icheck/skins/flat/green.css') ?>" rel="stylesheet">
+    <link href="<?php echo fixed_resource_url('/Public/mobile/css/mobile.css') ?>" rel="stylesheet">
+    <link href="<?php echo fixed_resource_url('/Public/mobile/css/reports.css') ?>" rel="stylesheet">
+    <?php else:?>
+    <link href="<?php echo fixed_resource_url('/Public/icheck/skins/all.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo fixed_resource_url('/Public/icheck/skins/flat/green.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo fixed_resource_url('/Public/mobile/css/mobile.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo fixed_resource_url('/Public/mobile/css/reports.min.css') ?>" rel="stylesheet">
+    <?php endif;?>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?f41d2461f5014427968aa48c238beaa6";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body data-module="<?php echo implode('  ', $module);?>">
+<div class="wrapper">
+    <?php if($activity_info['status'] == '0' && $activity_info['is_verify'] == '3'):?>
+        <div class="alert alert-danger" role="alert">本活动未发布，仅供预览。不能报名</div>
+    <?php else:?>
+        <?php if($activity_info['is_verify'] == '0'):?>
+            <div class="alert alert-danger" role="alert">本活动未经官方审核，仅供预览</div>
+        <?php elseif($activity_info['is_verify'] == '3'):?>
+            <div class="alert alert-danger" role="alert">本活动未通过官方审核，仅供预览</div>
+        <?php endif;?>
+    <?php endif;?>
+    <?php if($activity_info['status'] == '3'):?>
+        <div class="alert alert-danger" role="alert">本活动已关闭，仅供预览。</div>
+    <?php endif;?>
+<!--    --><?php //if($activity_info['status'] == '0'):?>
+<!--        <div class="alert alert-danger" role="alert">本活动未发布，仅供预览。不能报名</div>-->
+<!--    --><?php //endif;?>
+<!--    --><?php //if($activity_info['status'] == '0' && $activity_info['is_verify'] == '3'):?>
+<!--        <div class="alert alert-danger" role="alert">本活动未通过官方审核，仅供预览</div>-->
+<!--        <div class="alert alert-danger" role="alert">本活动未发布，仅供预览。不能报名</div>-->
+<!--    --><?php //endif;?>
+    <div class="error-position" style="display:none;">
+        <div class="alert" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">×</span></button>
+            <strong id="error-msg"></strong>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-xs-4">
+                <img src="__PUBLIC__/mobile/images/logo1.png">
+            </div>
+            <div class="col-xs-8">
+
+                <?php if(!isset($auth['guid'])):?>
+
+
+                <?php if(isset($login) && $login):?>
+                <a href="javascript:history.go(-1)">返回</a>
+                <a href="<?php echo U('/Mobile/Auth/register', '', true, true, false);?>">注册</a>
+                <?php else:?>
+                <a href="javascript:history.go(-1)">返回</a>
+                <a href="<?php echo U('/Mobile/Auth/login', '', true, true, false) . '?u=' . $back_url;?>">登录</a>
+                <?php endif;?>
+                <?php else:?>
+                <a href="<?php echo U('Mobile/Auth/logout');?>">退出</a>
+                <a href="###"><?php echo $auth['nickname'] ? $auth['nickname'] : $auth['mobile'];?></a>
+                <?php endif;?>
+            </div>
+        </div>
+        {__CONTENT__}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="foot-copyright">© 会签助手</div>
+            </div>
+        </div>
+    </div>
+
+    <?php if($menu):?>
+        <?php if($activity_info['is_verify'] == 1):?>
+            <div class="btn-position">
+
+                <?php if (!session('preview')): ?>
+                <!--判断报名时间-->
+                <?php if ($check_signup_time['status'] == false && $check_signup_time['time_type'] == 'start'): ?>
+                <a href="javascript:void(0);" class="btn btn-signfull btn-lg btn-block" disabled>报名尚未开始</a>
+                <?php elseif ($check_signup_time['status'] == false && $check_signup_time['time_type'] == 'end'): ?>
+                <a href="javascript:void(0);" class="btn btn-signfull btn-lg btn-block" disabled>报名已经结束</a>
+                <!--报名人数已满-->
+                <?php elseif ($user_can_signup == false): ?>
+                <a href="javascript:void(0);" class="btn btn-signfull btn-lg btn-block"
+                   disabled>报名人数已满<?php echo !empty($is_user_signed) ? ', 您已报名' : ''; ?></a>
+                <!-- 已报名-->
+                <?php elseif (!empty($is_user_signed)): ?>
+                <a class="btn btn-signcheck btn-lg btn-block"
+                   href="<?php echo U('Activity/userinfo', array('guid' => $activity_info['guid'], 'token' => I('get.token'), 'app' => I('get.app')),false,true,true) ?>">查看报名信息</a>
+                <!-- 未报名 但是超过次数 -->
+                <?php elseif ($user_signed_count>=3) :?>
+                <a class="btn btn-signup btn-lg btn-block"
+                   href="###">超过报名次数</a>
+                <!-- 可以报名-->
+                <?php elseif ($activity_info['status'] == 1 && $check_signup_time['status'] && $user_signed_count<3): ?>
+                <a class="btn btn-signup btn-lg btn-block"
+                   href="<?php echo U('Mobile/Activity/signup', array('guid' => $activity_info['guid'], 'token' => I('get.token'), 'app' => I('get.app')),false,true,true) ?>">我要报名</a>
+                <!-- 未报名-->
+                <?php endif;?>
+                <?php endif;?>
+            </div>
+            <?php endif;?>
+    <?php endif;?>
+</div>
+<script src="<?php echo fixed_resource_url('/Public/common/js/require.js')?>" data-main="<?php echo $main ? fixed_resource_url($main) : fixed_resource_url('/Public/mobile/js/main')?>"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<?php
+/**
+ * 主题页面
+ *
+ * CT: 2014-09-23 12:00 by RTH
+ * UT: 2014-09-23 12:00 by RTH
+ */
+?>
+<import type='css' file="home.css.basic-information"/>
+
+<script type="text/javascript">
+    var YM = {
+        'setting_invite': "{:U('setting_invite')}",
+        'setting_examine': "{:U('setting_examine')}"
+    };
+</script>
+
+<!-- 导入面包屑 -->
+<?php
+$breadcrumbs = array(
+    'base' => '基本信息',
+    'list' => array(
+        array('url' => '', 'v' => '基本信息')
+    )
+);
+?>
+<include file="Public:_breadcrumbs"/>
+
+<div class="ymnaw">
+    <ul class="nav nav-tabs ymbtn" role="tablist">
+        <li role="presentation"><a href="<?php echo U('Info/base') ?>">基本信息</a></li>
+        <li role="presentation" class="active"><a href="<?php echo U('Info/pwd') ?>">修改密码</a></li>
+<!--        <li role="presentation"><a href="--><?php //echo U('Info/authentication') ?><!--">认证信息</a></li>-->
+<!--        <li role="presentation"><a href="--><?php //echo U('Info/invite') ?><!--">邀请设置</a></li>-->
+        <li role="presentation"><a href="<?php echo U('Info/signin') ?>">签到账号</a></li>
+<!--        <li role="presentation"><a href="--><?php //echo U('Info/corporate') ?><!--">等级权限</a></li>-->
+<!--        <li role="presentation"><a href="--><?php //echo U('Info/recharge') ?><!--">充值记录</a></li>-->
+    </ul>
+</div>
+
+<div class="rightmain">
+    <div class="alert alert-warning mt10">
+        <ul type="square">
+            <li>如需修改基本信息，请点击右则修改按钮，修改现存信息。</li>
+            <li>登陆邮箱为不可修改信息。</li>
+            <li>详细功能与操作信息介绍，请点击页面底部左侧帮助中心按钮查看。</li>
+        </ul>
+    </div>
+    <div class="table mt10 mb40">
+        <form id="edit_pwd" method="post">
+            <div>
+								<input style="display:none"><!-- for disable autocomplete on chrome -->
+                <input type="password" name="old_password" value="" id="old_password" class="form-control radius0" placeholder="原密码" autocomplete="off"/>
+                <div class="row ml12 tishinr"></div>
+            </div>
+            <div>
+                <input type="password" name="password" value="" id="val" class="form-control radius0" placeholder="新密码" />
+                <div class="row ml12 tishinr"></div>
+            </div>
+            <div>
+                <input type="password" name="repassword" value="" class="form-control radius0" placeholder="确认密码" />
+                <div class="row ml12 tishinr"></div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#edit_pwd').validate({
+            errorClass: "error",
+            errorPlacement: function(error, element){
+                element.parent().find('.tishinr').html(error);
+            },
+            rules: {
+                old_password: {
+                    required: true,
+                    rangelength: [6, 18],
+                    remote: {
+                        url: "{:U('Info/check?type=old_pass')}",
+                        type: "post",
+                        data: {
+                            field: function() {
+                                return $( "#old_password" ).val();
+                            }
+                        }
+                    }
+                },
+                password: {
+                    required: true,
+                    rangelength: [6, 18]
+                },
+                repassword: {
+                    required: true,
+                    equalTo: "#val"
+                }
+            },
+            messages: {
+                old_password: {
+                    required: "原密码不能为空",
+                    rangelength: "密码必须为6到18个字符",
+                    remote: "原密码不正确"
+                },
+                password: {
+                    required: "新密码不能为空",
+                    rangelength: "新密码必须为6到18个字符"
+                },
+                repassword: {
+                    required: "确认密码不能为空",
+                    equalTo: "两次填写的密码不一致"
+                }
+            }
+        });
+
+    });
+</script>

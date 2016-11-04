@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-header">
+        <h5>
+<!--          <a href="--><?php //echo U('Home/Act/edit', array('aguid' => $info['guid']), true, true); ?><!--">返回上一步</a>-->
+
+            <?php if($type):?>
+            <a href="<?php echo U('Home/Act/edit', array('aguid' => $info['guid']), true, true); ?>;">返回上一步</a>
+            <?php else:?>
+            <a href="javascript:history.back();">返回上一步</a>
+            <?php endif;?>
+        </h5>
+
+      </div>
+      <div class="carousel-iphone">
+        <iframe src="<?php echo U('Mobile/Activity/preview', array('aid' => $info['guid'], 'app'=>1), true, true); ?>" frameborder="0"></iframe>
+      </div>
+      <div class="cod-act-pre thumbnail">
+        <img src="<?php echo U('Home/Act/qrcode', array('aid' => $info['guid'],'url' => '1')); ?>">
+        请扫描二维码<br>查看活动在手机端的效果
+          <div class="alert alert-danger" role="alert">此二维码仅限预览。不可分享报名</div>
+      </div>
+    </div>
+  </div>
+</div>

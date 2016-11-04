@@ -1,0 +1,12 @@
+{__NOLAYOUT__}
+
+<?php echo C('MEDIA_CSS.BOOTSTRAP'); ?>
+
+<table class="table">
+    <?php foreach($urls as $u): ?>
+        <tr>
+            <td><?php echo $u['name']; ?></td>
+            <td><a href="<?php echo $u['url']?>" target="_blank"><?php echo $u['url']?></a></td>
+        </tr>
+    <?php endforeach; ?>
+</table>

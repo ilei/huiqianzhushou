@@ -1,0 +1,21 @@
+{__NOLAYOUT__}
+<layout name="layout_email" />
+<p style="margin-top:0;margin-bottom:5px;font-weight:bold;">恭喜您成功注册会签助手：</p>
+<p style="margin-top:0;margin-bottom:5px;padding-left: 25px; color:#999;">
+    登录邮箱：<?php echo $email; ?><br>
+    登录手机：<?php echo $phone; ?><br>
+    
+ <a href='<?php echo C('SITE_HOST_URL')."/Email/email_verify?t=".$token."&e=".$email?>' target=
+'_blank'>请点击链接认证邮箱<span><br><?php echo C('SITE_HOST_URL')."/Email/email_verify?t=".$token."&e=".$email?></span></a><br/>
+    如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问，该链接24小时内有效。;
+       
+<div style="padding-top: 10px; border-top: 1px solid #e7e7e7;">
+    <p style="margin-top:0;margin-bottom:5px;font-weight:bold;">联系方式</p>
+    <p style="margin-top:0;margin-bottom:5px;padding-left: 25px; color:#999;">
+        电话：<?php echo C('SERVICE_TEL'); ?><br>
+        QQ：<?php echo C('SERVICE_QQ'); ?><br>
+        邮箱：<?php echo C('SERVICE_EMAIL')?> <small>（如果你看到的是“#”请在发邮件时替换成“@”）</small><br>
+        地址：天津市河东区十一经路万隆太平洋大厦
+    </p>
+    <a target="_blank" href="http://www.meetelf.com" style="color:#4c8cc1; text-decoration: none;"><?php echo C('APP_NAME'); ?>-为活动而生</a>
+</div>

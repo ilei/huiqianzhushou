@@ -1,0 +1,31 @@
+<?php 
+/**
+ * 模板文件头部
+ * 
+ * CT: 2014-09-17 17:00 by YLX
+ * UT: 2014-10-09 14:47 by YLX // 增加bootstrap和font-awesome
+ */
+?>
+<head>
+    <meta charset="UTF-8">
+        
+    <!-- css 文件 -->
+    <?php
+        echo C('MEDIA_CSS.JQUERYUI')
+            .C('MEDIA_CSS.BOOTSTRAP')
+            .C('MEDIA_CSS.FONT_AWESOME')
+            .C('MEDIA_CSS.BASE')
+            .C('MEDIA_CSS.MODAL')
+            .C('MEDIA_CSS.ACTIVITY_VOTE')
+            .C('MEDIA_CSS.DATETIMEPICKER');
+    ?>
+
+    <title><?php echo C('APP_NAME');?><notempty name='meta_title'> - {$meta_title}</notempty></title>
+    <meta name="keywords" content="会签助手，云脉365，天津云脉三六五科技有限公司，即时通信，聊天APP，社团管理平台，人脉">
+    <meta name="description" content="会签助手，社团管理平台">
+    <meta name="Author" content="<?php echo C('APP_NAME')?>" />
+    <?php echo C('MEDIA_FAVICON')?>
+
+    <!-- 加载JS文件 -->
+    <include file="Public:js" />
+</head>

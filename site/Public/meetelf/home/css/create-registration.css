@@ -1,0 +1,54 @@
+
+
+.bg-collapse-btn { 
+  margin: 10px 0;
+  padding: 0;
+}
+.well {
+  margin-bottom: 20px;
+  padding-bottom: 0;
+  background-color: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 0;
+}
+.tickettable {
+  border: 1px solid #ccc;
+}
+.table > thead > tr > td {
+  background-color: #f5f5f5;
+  text-align: center;
+  vertical-align: middle;
+}
+.table > tbody > tr > td {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1;
+  font-size: 12px;
+}
+.bg-white { background-color: #fff;}
+.upload-posters { 
+  margin-left: -15px; 
+  width: 320px; 
+  height: 200px;
+}
+.ml-20 { margin-left: -20px;}
+.ml-24 {margin-left: -24px;}
+#map-size { 
+  margin: 0;
+  width: 570px; 
+  height: 360px; 
+  overflow: hidden;
+}
+/*预览*/
+.pre-activities {
+  margin: 0 140px;
+  padding: 78px 15px 97px;
+  width: 308px;
+  height: 675px;
+  float: left;
+  background-image: url(../images/bg-iphone.jpg);
+}
+.pre-activities iframe {
+  width: 100%;
+  height: 100%;
+}

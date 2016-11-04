@@ -1,0 +1,212 @@
+<?php
+    $activity=$datasource['activity'];
+    $order=$datasource['order'];
+?>
+
+<input id="hid_aid" type="hidden" value="<?php echo $activity['activity_guid']; ?>" />
+<input id="hid_ajax_review_order_data_url" type="hidden" value="<?php echo U('Home/Order/ajax_review_order_data') ?>"/>
+<input id="hid_ajax_review_aduit_url" type="hidden" value="<?php echo U('Home/Order/ajax_review_audit')?>"/>
+<div class="container">
+    <div class="row">
+        <div class="elf-act-title">
+
+            <div><?php echo $activity['activity_name'];?></div>
+<!--            <span class="--><?php
+//             $act_class='';
+//
+//             if($activity['activity_status']==0){
+//                $act_class='elf-act-audit';
+//             }else{
+//                switch($activity['activity_status']){
+//                    case 1:
+//                        $act_class='elf-act-go';
+//                        break;
+//                    case 2:
+//                        $act_class='elf-act-end';
+//                        break;
+//                    case 3:
+//                        $act_class='elf-act-end';
+//                        break;
+//                }
+//             }
+//
+//             echo $act_class;
+//
+//             ?><!--">--><?php //echo $activity['activity_status_string']; ?><!--</span>-->
+
+            <?php $act_class='';  if($activity['activity_is_verify'] == 0):?><!--活动审核状态-->
+            <span class="elf-act-audit"><?php echo $activity['activity_status_string']; ?></span>
+            <?php elseif($activity['activity_is_verify'] == 1):?>
+
+                <?php if($activity['status']==0):?><!--活动发布状态-->
+                    <span class="elf-act-audit"><?php echo $activity['activity_status_string']; ?></span>
+                <?php elseif($activity['status'] == 1):?>
+                    <span class="elf-act-go"><?php echo $activity['activity_status_string']; ?></span>
+                <?php elseif($activity['status'] == 2):?>
+                    <span class="elf-act-end"><?php echo $activity['activity_status_string']; ?></span>
+                <?php elseif($activity['status'] == 3):?>
+                    <span class="elf-act-end"><?php echo $activity['activity_status_string']; ?></span>
+                <?php endif;?>
+
+            <?php elseif($activity['activity_is_verify'] == 2):?>
+                <span class="elf-act-audit"><?php echo $activity['activity_status_string']; ?></span>
+            <?php elseif($activity['activity_is_verify'] == 3):?>
+                <span class="elf-act-end"><?php echo $activity['activity_status_string']; ?></span>
+            <?php endif;?>
+
+            <p><?php echo $activity['activity_time_string'] ?></p>
+        </div>
+    </div>
+</div>
+<div id="pin-nav">
+
+    <include file="Public:nav"/>
+    <div class="container">
+        <div class="row">
+            <div id="pin-main" class="col-xs-12 pin-main-sm">
+                <div class="page-header">
+                    <h3>订单管理</h3>
+                </div>
+                <h5 class="ml15">订单数：<?php echo $order['order_count'] ?> &#8195;&#8195;票数：<?php echo $order['ticket_count'] ?> &#8195;&#8195;金额：￥<?php echo $order['total_price'];?></h5>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="form-search-group">
+                            <a class="form-control-search" href="#" id="btn_search"><i class="fa fa-search"></i></a>
+                            <input id="txt_search" type="text" class="form-control" placeholder="请输入完整姓名进行搜索" value="<?php echo $keyword = urldecode(I('get.k')); ?>">
+                            <a class="form-control-reset" id="btn_search_reset" href="javascript:void(0);" style="display:none;"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                    <!--<div class="col-sm-7"><button class="btn btn-general pull-right" type="button" data-toggle="modal" data-target="#myModalorg"><i class="fa fa-plus"></i> 添加订单</button></div>-->
+                </div>
+                <table class="table mtelf-table-border mtelf-text-center mt20">
+                    <thead>
+<!--                    <tr>-->
+<!--                        <th class="bg-col-white" colspan="8">-->
+<!--                            <span id="sp_order_select_count">订单详情</span>-->
+<!--<!--                            已选择 <span id="sp_order_select_count">0</span> 个订单-->
+<!--<!--                            <button class="btn btn-default" type="button" data-toggle="modal"  id="btn_batch_aduit">批量审批</button>-->
+<!--<!--                            <div class="dropdown dropdown-inline">-->
+<!--<!--                                <button class="btn btn-default dropdown-toggle" type="button" id="btn_moreoperation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+<!--<!--                                    更多操作&#8195;<i class="fa fa-angle-down"></i>-->
+<!--<!--                                </button>-->
+<!--<!--                                <ul class="dropdown-menu" aria-labelledby="btn_moreoperation" id="dropdown_aduit_operation">-->
+<!--<!--                                    <li><a href="#" v="7">审批通过</a></li>-->
+<!--<!--                                    <li><a href="#" v="8">审批拒绝</a></li>-->
+<!--<!--                                    <li><a href="#">退回订单</a></li>-->
+<!--<!--                                </ul>-->
+<!--<!--                            </div>-->
+<!--                            <!-- <a data-toggle="tooltip" data-placement="right" title="这里是提示信息">？</a> -->
+<!--                            <div class="dropdown dropdown-inline pull-right">-->
+<!--                                <!--<button class="btn btn-save dropdown-toggle" type="button" id="exportData" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+<!--                                <!--导出 <i class="fa fa-angle-down"></i>-->
+<!--                                <!--</button>-->
+<!--                                <ul class="dropdown-menu" aria-labelledby="exportData">-->
+<!--                                    <li><a href="#">全部导出</a></li>-->
+<!--                                    <li><a href="#">导出搜索结果</a></li>-->
+<!--                                    <li><a href="#">导出选中</a></li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </th>-->
+<!--                    </tr>-->
+                    <tr>
+<!--                        <th><input type="checkbox" id="chk_all_select" style="display: none"></th>-->
+                        <th>订单号</th>
+                        <th>数量</th>
+                        <th>金额￥</th>
+                        <th>下单时间</th>
+                        <th>下单人</th>
+                        <th class="table-dropdown">
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    订单状态
+                                    <span class="caret"></span>
+                                </button>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="ddl_order_status">
+                                    <li><a href="#" v="">全部</a></li>
+                                    <li><a href="#" v="0">新订单</a></li>
+                                    <li><a href="#" v="1">支付成功</a></li>
+                                    <!--<li><a href="#">已退单</a></li>-->
+                                </ul>
+                            </div>
+                        </th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table_order_item_container">
+                        <include file="Order:_review_item" />
+                    </tbody>
+                </table>
+                <div class="row" id="div_pager">
+                    <?php echo $pager ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!----------------------模态窗体--------------------->
+<!-- 批量审批 -->
+<div class="modal fade" id="allapproval" tabindex="-1" role="dialog" aria-labelledby="allapproval" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" ><strong>订单批量审批</strong></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1">
+                        <h4 >已选择联系人：<span id="sp_mutil_modal_count">0</span> 人</h4>
+                        <textarea class="form-control mt30" placeholder="回复内容" rows="3" id="sp_mutil_modal_verify_reason"></textarea>
+                    </div>
+                    <div class="col-xs-10 col-xs-offset-1 mt20">
+                        <a type="button" class="btn btn-save" id="btn_mutil_modal_commit">全部通过</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer mt10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 审批 -->
+<div class="modal fade" id="orderapproval" tabindex="-1" role="dialog" aria-labelledby="orderapproval" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" ><strong>订单审批</strong></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row mt20">
+                    <div class="col-xs-5 col-xs-offset-1">
+                        <p>订单号：<span id="sp_single_modal_orderNumber"></span></p>
+                        <p>下单时间：<span id="sp_single_modal_finishedTime"></span></p>
+                        <p>报名者：<span id="sp_single_modal_userName"></span></p>
+                        <p>报名渠道：<span id="sp_single_modal_type" ></span></p>
+
+                    </div>
+                    <div class="col-xs-5">
+                        <p>参会人：<span id="sp_single_modal_buyerName"></span></p>
+                        <p>手机：<span id="sp_single_modal_buyerMoble"></span></p>
+                        <p>票名：<span id="sp_single_modal_ticketName"></span></p>
+                        <p>价格：<span id="sp_single_modal_ticketPrice"></span></p>
+                    </div>
+                    <div class="col-xs-10 col-xs-offset-1">
+                        <textarea id="sp_single_modal_verify_reason" class="form-control mt30" placeholder="回复内容" rows="3"></textarea>
+                    </div>
+
+                    <div class="col-xs-10 col-xs-offset-1 mt20">
+                        <a type="button" class="btn btn-save" id="btn_single_modal_commit">通过订单</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer mt10">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="model-loading" class="hidden">loading...</div>

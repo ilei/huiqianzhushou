@@ -1,0 +1,31 @@
+{__NOLAYOUT__}
+<layout name="layout_register"/>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-header">
+            <div class="tishinr tishinr-success">
+                <h3 title="欢迎注册<?php echo C('APP_NAME') ?>社团账号"><i class="fa fa-check-circle"></i> 信息提交成功!</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8 col-sm-offset-2 registered-suc">
+        <p class="fa"><h4 class="text-info">您好！恭喜您成功注册会签助手。</h4></p>
+        <p>您的登录账号为 <span><?php echo $info['email'] ?></span> 或者 <?php echo $info['mobile']; ?></p>
+    </div>
+    <div class="col-sm-5 col-sm-offset-2">
+        <a class="btn btn-default" href="<?php echo U('Home/Index/index', array(), true, true) ?>">返回官网</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2 registered-contact">
+        <div class="text-contact">Contact US</div>
+        <p>
+            电话：<?php echo C('SERVICE_TEL'); ?><br>
+            QQ：<?php echo C('SERVICE_QQ'); ?><br>
+            邮箱：<?php echo C('SERVICE_EMAIL') ?> <small>（如果你看到的是“#”请在发邮件时替换成“@”）</small><br>
+            地址：天津市河东区十一经路万隆太平洋大厦
+        </p>
+    </div>
+</div>

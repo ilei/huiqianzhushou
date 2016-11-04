@@ -1,0 +1,16 @@
+<input type="hidden" id="login-url" value="<?php echo U('Mobile/Auth/login');?>"/>
+<input type="hidden" id="check-url" value="<?php echo U('Mobile/Auth/check', array('type' => 'username'));?>"/>
+<div class="wrapper-signin">
+	<form class="form-signin" action="" method="post" id="login-form">
+		<h2>请登录</h2>
+		<label class="sr-only" for="inputUsername">手机/邮箱</label>
+		<input type="text" autofocus="" required="" name="username" placeholder="手机/邮箱" class="form-control" id="inputUsername">
+		<label class="sr-only" for="inputPassword">密码</label>
+		<input type="password" required="" placeholder="密码" class="form-control"  name="password" id="inputPassword">
+		<button type="submit" class="btn btn-submit btn-block">登录</button>
+		<div class="checkbox form-group">
+			<a href="<?php echo U('Mobile/Findpwd/pwd_username','',true,true)?>" class="pull-right"><?php echo L('_FORGET_USER_');?></a>
+		</div>
+	</form>
+</div>
+

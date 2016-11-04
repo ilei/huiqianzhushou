@@ -1,0 +1,61 @@
+<div class="row">
+
+    <div class="col-sm-12 col-lg-10 col-lg-offset-1">
+    	<h3> 历史记录</h3>
+        <a class="btn btn-success pull-left" style="margin-bottom:10px"  href="<?php echo U('Index/index', array())?>">回到首页</a>
+        <a class="btn btn-success pull-right" style="margin-bottom:10px"  href="javascript:document.location.reload()"><i class="fa fa-refresh"></i>刷新列表</a>
+        <!-- <h3> 历史记录</h3> -->
+        <?php if(empty($list)):?>
+            <h3 class="text-center"; style="margin-top:50px;">暂无数据</h3>
+        <?php endif; ?>
+        <?php foreach($list as $l): ?>
+            <div class="item">
+                <div class="item-header">
+                    <?php if($l['start_time'] > time()):?>
+                        <span class="act-begin"><i class="fa fa-star-o"></i> 活动即将开始</span>
+                    <?php endif; ?>
+                    <?php if($l['status'] == 0):?>
+                        <span class="act-in"><i class="fa fa-star-half-o"></i> 未发布</span>
+                    <?php endif; ?>
+                    <?php if($l['status'] == 2):?>
+                        <span class="act-in"><i class="fa fa-star-half-o"></i> 已结束</span>
+                    <?php endif; ?>
+                    <?php if($l['status'] == 3):?>
+                        <span class="act-in"><i class="fa fa-star-half-o"></i> 已关闭</span>
+                    <?php endif; ?>
+                    <span class="act-right">发布时间：<?php echo date('Y-m-d H:i', $l['published_at']); ?></span>
+                </div>
+                <div class="item-content">
+                    <div class="row">
+                        <div class="col-xs-7 col-sm-8 col-md-9">
+                            <div class="item-title"><?php echo $l['name']?></div>
+                            <div class="item-title-sm">
+                                活动时间：<?php echo date('Y-m-d H:i', $l['start_time']); ?> ~ <?php echo date('Y-m-d H:i', $l['end_time']); ?>
+                                <br>活动地点：<?php echo $l['areaid_1_name'].' '.$l['areaid_2_name'].' '.$l['address']; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row btn-mrgin">
+                        <div class="col-xs-12">
+                            <div class="btn func-btn func-btn-f" onclick="location.href='<?php echo U('Index/user_list', array('aid' => $l['aid']))?>'; ">
+                                <i class="fa fa-list-alt"></i>报名表</div>
+                            <div class="btn func-btn func-btn-s" onclick="location.href='<?php echo U('Signin/signin_chart', array('aid' => $l['aid']))?>'; ">
+                                <i class="fa fa-bar-chart"></i>查看签到统计</div>
+                            <div class="btn func-btn func-btn-c">
+                                <i class="fa fa-pencil-square-o"></i>进行签到</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- {$page} -->
+            </div>
+
+        <?php endforeach; ?>
+        <?php echo $page;?>
+    </div>
+    
+</div>
+<script>
+$(".func-btn-c").click(function(){
+    alert('历史中的活动不能进行签到');
+});
+</script>

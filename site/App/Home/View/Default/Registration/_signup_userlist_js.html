@@ -1,0 +1,190 @@
+<script type="text/javascript">
+$(document).ready(function(){
+var i_num = <?php echo isset($i) ? $i : 0; ?>;
+function render_user_list(data) {
+    if(data.status == 'ok'){
+        var html = '';
+        $.each(data.data, function(k, info){
+
+            var tip_content = "<div class='layer'><div class='pull-left'><p>";
+            if(info.other) {
+                $.each(info.other, function (other_key, o) {
+                    tip_content += "<strong>" + o.key + "：</strong>" + o.value + "<br>";
+                });
+            }else{
+                tip_content += "<strong>没有更多数据。</strong>";
+            }
+            tip_content += "</p></div></div>";
+            var reg = new RegExp("\r\n", "g");
+            tip_content = tip_content.replace(reg, "<br>");
+
+            var ticket_name = (info.ticket.ticket_guid == 'nolimit')?'':info.ticket.ticket_name;
+            html += '<tr class="sigin-in-other-bg">';
+            html += '<td class="checkbox-align"><input name="ck[]" type="checkbox" value="'+ info.guid +'" class="ck"></td>';
+            html += '<td>'+i_num+'</td>';
+            html += '<td><a href="<?php echo U('Activity/signup_userdetail')?>?uid='+ info.guid +'" data-toggle="tooltip" data-placement="top" title="查看详细资料">'+ info.real_name +'</a></td>';
+            html += '<td>'+ info.mobile +'</td>';
+            html += '<td>'+ ticket_name +'</td>';
+            html += '<td>'+ info.from +'</td>';
+            html += '<td><'+ info.ticket.ticket_status_tag +'>'+ info.ticket.ticket_status +'</'+ info.ticket.ticket_status_tag +'></td>';
+            html += '<td>';
+            if(show_resend == true) {
+                if(info.status != 4) {
+                    html += '<button type="button" data-infoguid="' + info.guid + '" data-mobile="' + info.mobile + '" data-email="' + info.email + '" class="btn btn-default pull-left mr10 radius0 btn_resend_ticket">发送电子票</button>';
+                }
+            } else {
+                html += '<a data-toggle="tooltip" data-placement="top" title="查看详细资料" href="<?php echo U('Activity/signup_userdetail')?>?uid='+ info.guid +'"><i class="fa fa-info-circle fa-lg"></i></a>';
+            }
+            html += '</td>';
+            html += '</tr>';
+            i_num++;
+        });
+        $('#user_list_body').append(html);
+        if(data.is_last_page == true){
+            $('tfoot').hide();
+        }
+        $('[data-toggle="tooltip"]').tooltip();
+    }else if(data.status == 'ko'){
+        alertTips($('#tips-modal'), data.msg);
+    } else if(data.status == 'nomore') {
+        alertTips($('#tips-modal'), data.msg);
+        $('tfoot').hide();
+    }
+}
+
+/**
+ * 下一页
+ */
+$('#next_page').click(function(){
+    var current_page = $('#current_page_num').val();
+    var next_page = parseInt(current_page)+1;
+
+    // 格式化filters
+    var act_filter = $('.ym_filter li a.act');
+    var filters = {};
+    $.each(act_filter, function(k, filter){
+        filters[$(filter).attr('k')] = $(filter).attr('v');
+    });
+    var keyword = $('#search').val();
+    if(keyword != ''){
+        filters['keyword'] = keyword;
+    }
+    $.ajax({
+            url: '<?php echo $user_list_url ?>/p/'+next_page,
+            type: 'POST',
+            dataType: 'json',
+            data: {filters: JSON.stringify(filters)},
+        beforeSend: function(){
+            $('#next_page').html('<i class="fa fa-spinner fa-spin fa-2x"></i>');
+        },
+        onError: function(){
+            alertTips($('#tips-modal'), '出错了，请稍后重试。');
+        },
+        success: function(data){
+            $('#current_page_num').val(next_page);
+            $('#next_page').html('<i class="fa fa-angle-double-down fa-2x"></i>');
+            render_user_list(data);
+        }
+    });
+});
+
+// 搜索姓名或电话
+$('#btn_search').click(function(){
+    var keyword = $('#search').val();
+    if(keyword == '') {
+        alertTips($('#tips-modal'), '请输入要搜索的姓名或电话');
+        return false;
+    }
+    var filters = {};
+    filters['keyword'] = keyword;
+    i_num = 1;
+    $.ajax({
+        url: '<?php echo $user_list_url ?>',
+        type: 'POST',
+        dataType: 'json',
+        data: {filters: JSON.stringify(filters)},
+    beforeSend: function(){
+        $('#btn_search_reset').show();
+        $('#user_list_body').html('<tr id="search_loading"><td colspan="8" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></td></tr>');
+        $('tfoot').hide();
+    },
+    onError: function(){
+        alertTips($('#tips-modal'), '出错了，请稍后重试。');
+    },
+    success: function(data){
+        $('#search_loading').remove();
+        $('tfoot').show();
+        render_user_list(data);
+    }
+});
+});
+
+// 列表过滤
+$('.ym_filter li a').click(function(){
+    i_num = 1;
+    // 切换filter
+    var k = $(this).attr('k');
+    var v = $(this).attr('v');
+    $(this).parents('ul').find('li a').removeClass('act');
+    $(this).addClass('act');
+
+    // 格式化filters
+    var act_filter = $('.ym_filter li a.act');
+    var filters = {};
+    $.each(act_filter, function(k, filter){
+        filters[$(filter).attr('k')] = $(filter).attr('v');
+    });
+    var keyword = $('#search').val();
+    if(keyword != ''){
+        filters['keyword'] = keyword;
+    }
+
+    $.ajax({
+        url: '<?php echo $user_list_url ?>',
+        type: 'POST',
+        dataType: 'json',
+        data: {filters: JSON.stringify(filters)},
+    beforeSend: function(){
+        $('#btn_search_reset').show();
+        $('#user_list_body').html('<tr id="search_loading"><td colspan="8" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></td></tr>');
+        $('tfoot').hide();
+    },
+    onError: function(){
+        alertTips($('#tips-modal'), '出错了，请稍后重试。');
+    },
+    success: function(data){
+        $('#current_page_num').val('1');
+        $('#search_loading').remove();
+        $('tfoot').show();
+        render_user_list(data);
+    }
+});
+});
+
+// 重置
+$('#btn_search_reset').click(function(){
+    i_num = 1;
+    $.ajax({
+        url: '<?php echo $user_list_url ?>',
+        type: 'GET',
+        dataType: 'json',
+        beforeSend: function(){
+        $('#user_list_body').html('<tr id="search_loading"><td colspan="8" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i></td></tr>');
+        $('tfoot').hide();
+    },
+    onError: function(){
+        alertTips($('#tips-modal'), '出错了，请稍后重试。');
+    },
+    success: function(data){
+        $('#search').val('');
+        $('.ym_filter li a').removeClass('act');
+        $('#btn_search_reset').hide();
+        $('#search_loading').remove();
+        $('tfoot').show();
+        $('#current_page_num').val('1');
+        render_user_list(data);
+    }
+});
+});
+});
+</script>

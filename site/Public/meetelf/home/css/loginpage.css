@@ -1,0 +1,72 @@
+.container { max-width: 970px;}
+.bodylg {
+  background-color: #eee;
+  font-family: "Microsoft Yahei";
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+}
+.loginwrongtop {
+  padding: 20px;
+  height: 260px;
+  background-color: #1290ce;
+}
+.top-jump,
+h3 small,
+.h3 .small,
+.toptext {
+  color: #b7ddf0;
+}
+.toptext:hover,
+.toptext:focus {
+  color: #fff;
+}
+
+.loginfoot {
+  margin-top: 30px;
+  width: 100%;
+  min-height: 68px;
+  color:#666;
+}
+.form-horizontal {
+  padding: 0;
+}
+.form-control {
+  height: 36px;
+}
+.per-cet-text {
+  margin-top: -60px;
+  text-align: right;
+  color: #fff;
+}
+
+.form-main {
+  margin-top: -90px;
+  max-width: 400px;
+  background-color: #fff;
+  border: 1px solid #e4e4e4;
+}
+.paddinglist {
+  padding: 0 30px 15px;
+}
+.forgottext {
+  padding: 15px 30px 1px;
+  background-color: #f7f7f7;
+  color: #ccc;
+  border-top: 1px solid #e4e4e4;
+}
+.forgot-password {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: normal;
+  color: #ccc;
+  line-height: 1.42857;
+  padding: 6px 0;
+}
+.alert {
+  padding: 10px 15px;
+}
+.input-verification {
+    max-height: 34px;
+    max-width: 160px;
+}

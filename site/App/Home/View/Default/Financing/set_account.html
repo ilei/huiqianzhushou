@@ -1,0 +1,303 @@
+<form id="hidden_form" method="post" action="<?php echo U('Financing/compute_logic')?>">
+<input id="invoice_guid_hidden" name="invoice_guid" value="<?php echo $invoice_info['guid']?>" hidden><!--发票guid-->
+<input id="bank_guid_hidden" name="bank_guid" value="<?php echo $bank_info['guid']?>" hidden><!--银行guid-->
+<input id="express_guid_hidden" name="express_guid" value="<?php echo $express_info['guid']?>" hidden><!--快递guid-->
+<input id="radio_hidden" name="is_invoice" value="1" hidden><!--是否要发票-->
+<input id="Financing_info_set" value="<?php echo U('Financing/info_set');?>" hidden><!--是否要发票-->
+  <?php foreach($act_guids as $k=>$v):?>
+    <input name="act_guids[]" value="<?php echo $v;?>" hidden><!--活动guids-->
+  <?php endforeach;?>
+  <input id="sum_money_hidden" name="sum_money" value="<?php echo $sum_money?>" hidden><!--总计-->
+<input id="ratio_hidden" name="ratio" value="<?php echo $ratio?>" hidden><!--比例-->
+<input id="money_hidden" name="money" value="<?php echo $money?>" hidden><!--实际-->
+<input id="charge_money_hidden" name="charge_money" value="
+<?php if(round(number_format($sum_money*$ratio,3),2) == 0){
+  echo 0.01;
+}else{
+  if((int)substr((string)number_format($sum_money*$ratio,3),-1) < 5){
+    echo round(number_format($sum_money*$ratio,3)+0.01,2);
+  }else{
+    echo round(number_format($sum_money*$ratio,3),2);}}
+?>" hidden><!--实际收费金额-->
+<body>
+<div class="container js ac_edit">
+  <div class="page-header">
+    <h1>结算</h1>
+    <a href="<?php echo U('Financing/index')?>" class="js_b_w_btn pull-right js_click btn_pos">返回</a>
+  </div>
+  <div class="row note_info">
+    <div class="col-md-12" >
+      <p class="bg-warning">请核对一下结算信息</p>
+    </div>
+  </div>
+  <div class="table-info">
+    <div class="block-content">
+      <div class="row shumu">
+        <div class="col-md-12">
+          <p>结算活动</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="detail_info moren clear_padding">
+            <li class="row">
+              <div class="col-md-12">
+                <table class=" table table-hover settlement">
+                  <thead>
+                  <tr>
+                    <th>
+                      活动名称
+                    </th>
+                    <th>
+                      金额(元)
+                    </th>
+                    <th>
+                      <div class="btn-group">
+                          结束日期
+                      </div>
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <?php echo $tbody?>
+                  </tbody>
+                </table>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-12 sum ">
+          <p class="pull-right"> 总计:<span class="money red_font"><?php echo number_format($sum_money,2)?> </span>元</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="block-content">
+      <div class="row note_info">
+        <div class="col-md-12">
+          <p class="bg-warning">总金额的<?php echo number_format($ratio,2)*100?>%将作为结算手续费，如果手续费小于0.01元时，则按0.01元收取手续费。</p>
+        </div>
+        <div class="col-sm-12 sum ">
+          <p class="pull-right sxf"> 扣除手续费:<span class="money">
+              <?php echo number_format($sum_money,2)?>*<?php echo number_format($ratio,2)*100?>%=</span><span class="money">
+              <?php if(round(number_format($sum_money*$ratio,3),2) == 0){
+                echo 0.01;
+              }else{
+                if((int)substr((string)number_format($sum_money*$ratio,3),-1) < 5 && (int)substr((string)number_format($sum_money*$ratio,3),-1) != 0){
+                  echo round(number_format($sum_money*$ratio,3)+0.01,2);
+                }else{
+                  echo round(number_format($sum_money*$ratio,3),2);}}
+              ?>元 </span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <?php if(!empty($bank_info)): ?>
+      <div class="row mt-20">
+        <input id="bank_info" value="<?php echo $bank_info?>" hidden>
+        <ul class="detail_info moren info">
+          <li class="row bank-mt">
+            <div class="sub_detail col-sm-12 div_hover ">
+              <p>银行信息:</p>
+              <div class="mt-left">
+                 <p >开户行:<?php echo $bank_info['bank_account']?></p>
+                 <p >账号:<?php echo $bank_info['opening_bank']?></p>
+              </div>
+              <!--              <a href="#" class="edit">编辑</a>-->
+            </div>
+          </li>
+        </ul>
+      </div>
+    <?php else: ?>
+      <div class="row mt-20">
+        <input id="bank_info" value="<?php echo $bank_info?>" hidden>
+        <ul class="detail_info moren info">
+          <li class="row">
+            <div class="sub_detail col-sm-12 div_hover">
+               <p>银行信息:</p>
+               <a class="btn a_btn_jump" href="<?php echo U('Financing/bank_list');?>">请前往管理账户页编辑银行信息</a>
+            <div>
+          </li>
+        </ul>
+      </div>
+    <?php endif; ?>
+    <div class="block-content sub-info-content">
+      <div class="row shumu">
+        <div class="col-md-12">
+          <p>是否需要发票</p>
+          <div class="radio radio_yes">
+            <label>
+              <input type="radio" name="optionsRadios" id="optionsRadios1" value="1" checked> 是
+            </label>
+          </div>
+          <div class="radio radio_no">
+            <label>
+              <input type="radio" name="optionsRadios" id="optionsRadios2" value="0">否
+            </label>
+          </div>
+        </div>
+      </div>
+      <?php if(!empty($invoice_info)): ?>
+        <div class="row">
+          <input id="invoice_info" value="<?php echo $invoice_info?>" hidden>
+          <ul class="detail_info moren info">
+            <li class="row">
+              <div class="sub_detail col-sm-12 div_hover ">
+                  <p>发票信息:</p>
+                  <div class="mt-left">
+                     <p >名称：<?php echo $invoice_info['name']?></p>
+                     <p >纳税人识别号：<?php echo $invoice_info['number']?></p>
+                     <p >地址：<?php echo $invoice_info['address']?></p>
+                     <p >电话：<?php echo $invoice_info['mobile']?></p>
+                  </div>
+                <!--              <a href="#" class="edit">编辑</a>-->
+              </div>
+            </li>
+          </ul>
+        </div>
+      <?php else: ?>
+        <div class="row mt-20">
+          <input id="invoice_info" value="<?php echo $invoice_info?>" hidden>
+          <ul class="detail_info moren info">
+            <li class="row">
+              <div class="sub_detail col-sm-12 div_hover">
+                <p>发票信息:</p>
+                <a class="btn a_btn_jump" href="<?php echo U('Financing/invoice_list');?>">请前往管理账户页编辑银行信息</a>
+                <div>
+            </li>
+          </ul>
+        </div>
+      <?php endif; ?>
+
+      <?php if(!empty($express_info)): ?>
+        <div class="row">
+          <input id="express_info" value="<?php echo $express_info?>" hidden>
+          <ul class="detail_info moren info">
+            <li class="row">
+              <div class="sub_detail col-sm-12 div_hover">
+                <p>快递信息:</p>
+                <div class="mt-left">
+                  <p >收件人：<?php echo $express_info['name']?></p>
+                  <p >电话：<?php echo $express_info['mobile']?></p>
+                  <p >收件地址：<?php echo $express_info['address']?></p>
+                  <p >邮编：<?php echo $express_info['postcode']?></p>
+                </div>
+                <!--              <a href="#" class="edit">编辑</a>-->
+              </div>
+            </li>
+          </ul>
+        </div>
+      <?php else: ?>
+        <div class="row mt-20">
+          <input id="express_info" value="<?php echo $express_info?>" hidden>
+          <ul class="detail_info moren info">
+            <li class="row">
+              <div class="sub_detail col-sm-12 div_hover">
+                <p>快递信息:</p>
+                <a href="<?php echo U('Financing/express_list');?>"><p>请前往管理账户页编辑银行信息</p></a>
+                <div>
+            </li>
+          </ul>
+        </div>
+      <?php endif; ?>
+    </div>
+    <div class="row">
+      <a href="#submodal"  data-toggle="modal" class="js_b_w_btn_submit">提交</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="submodal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addModalLabel">结算信息</h4>
+      </div>
+      <div class="modal-body row">
+        <div class="col-sm-12 statistics ">
+          <div class="row  modal_bm">
+            <div class="col-sm-4">
+               <p>总计：<span><?php echo number_format($sum_money,2);?></span>元</p>
+            </div>
+            <div class="col-sm-4">
+               <p>收费：
+                   <?php if(round(number_format($sum_money*$ratio,3),2) == 0){
+		     $charge = 0.01;
+                     echo 0.01;
+                   }else{
+                     if((int)substr((string)number_format($sum_money*$ratio,3),-1) < 5 && (int)substr((string)number_format($sum_money*$ratio,3),-1) != 0){
+                       echo round(number_format($sum_money*$ratio,3)+0.005,2);
+                       $charge = round(number_format($sum_money*$ratio,3)+0.005,2);
+                     }else{
+                       echo round(number_format($sum_money*$ratio,3),2);
+                       $charge = round(number_format($sum_money*$ratio,3),2);
+                     }
+                   }
+                   ?>
+               </p>
+              <input id="charge_money" name="charge_money" value="
+              <?php if(round(number_format($sum_money*$ratio,3),2) == 0){
+                $charge = 0.01;
+                echo 0.01;
+              }else{
+                if((int)substr((string)number_format($sum_money*$ratio,3),-1) < 5 && (int)substr((string)number_format($sum_money*$ratio,3),-1) != 0){
+                  echo round(number_format($sum_money*$ratio,3)+0.005,2);
+                  $charge = round(number_format($sum_money*$ratio,3)+0.005,2);
+                }else{
+                  echo round(number_format($sum_money*$ratio,3),2);
+                  $charge = round(number_format($sum_money*$ratio,3),2);
+                }
+              }
+              ?>" hidden>
+            </div>
+            <div class="col-sm-4">
+               <p>实际：<span><?php echo number_format($sum_money - $charge,2)?></span>元</p>
+            </div>
+          </div>
+          <div class="row modal_bm">
+            <div class="col-sm-3"><p>银行信息：</p></div>
+            <div class="col-sm-9 ">
+              <div class="modal-sub-info">
+                <p> 开户行:<span class="number"><?php echo $bank_info['opening_bank']?></p>
+                <p >账号:<span class="cor"><?php echo $bank_info['bank_account']?></span></p>
+              </div>
+
+            </div>
+          </div>
+          <div class="row modal_bm hide_info">
+            <div class="col-sm-3"><p>发票信息：</p></div>
+            <div class="col-sm-9 ">
+                    <div class="modal-sub-info">
+                      <p>名称:<span class="cor"><?php echo $invoice_info['name']?></span></p>
+                      <p>纳税人识别号:<span class="number"><?php echo $invoice_info['number']?></p>
+                      <p>地址:<span class="cor"><?php echo $invoice_info['address']?></span></p>
+                      <p>电话:<span class="number"><?php echo $invoice_info['mobile']?></p>
+                    </div>
+
+             </div>
+          </div>
+          <div class="row modal_bm hide_info">
+            <div class="col-sm-3"><p>快递信息：</p></div>
+            <div class="col-sm-9 ">
+                    <div class="modal-sub-info">
+                      <p>收件人:<span class="cor"><?php echo $express_info['name']?></span></p>
+                      <p>电话:<span class="number"><?php echo $express_info['mobile']?></p>
+                      <p >地址:<span class="cor"><?php echo $express_info['address']?></span></p>
+                      <p>邮编:<span class="number"><?php echo $express_info['postcode']?></p>
+                    </div>
+
+             </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="add_submit">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>

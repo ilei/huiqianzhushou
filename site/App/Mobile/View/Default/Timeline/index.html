@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no" /><!-- 禁止ios数字识别为电话号码 -->
+    <meta name="format-detection" content="email=no" /><!-- 安卓设备不自动识别邮件地址 -->
+    <title>时间轴</title>
+    <!-- Bootstrap -->
+    <?php
+        echo C('MEDIA_CSS.BOOTSTRAP').C('MEDIA_CSS.FONT_AWESOME')
+    ?>
+    <link href="__PUBLIC__/mobile/css/timeline.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <?php
+    echo C('MEDIA_JS.JQUERY')
+        .C('MEDIA_JS.BOOTSTRAP')
+        .C('MEDIA_JS.JQUERY_LAZYLOAD')
+    ?>
+    <script type="text/javascript">
+    	var YM = {
+    		'setLock' : "{:U('set_lock')}",
+    		'loadMoreInfo' : "{:U('load_more_info')}",
+        	'public' : "__PUBLIC__",
+        	'uid' : "{$Think.get.uid}"
+    	};
+    </script>
+
+    <div class="container-fluid">
+      <div class="row">
+        <img src="__PUBLIC__/mobile/images/timeline.jpg" class="postersimg">
+        <div class="header">
+          <img data-original="{$userinfo.photo_240|get_image_path=###}" class="portrait">
+          <div class="header-name">{$userinfo.real_name}</div>
+          <!-- <div class="header-namber">365天，3650个时刻</div> -->
+        </div>
+      </div>
+			<div id="timeline_body" data-show=<?php echo isset($myself_view) && $myself_view ? 1 : 0;?>>
+      <foreach name="timeline_info" item="year_vo" key="year_key">
+           <div class="row timeline">
+              <div class="timeline-years" data-year="{$year_key}">{$year_key}</div>
+           </div>
+          <foreach name="year_vo" item="date_vo" key="date_key">
+              <div class="row timeline">
+                <div class="timeline-day" data-date="{$date_key}">
+                  <a>{$date_key|strtotime=###|date='m月d日',###}</a>
+                </div>
+                <div class="data_timeline_data">
+                    <foreach name="date_vo" item="detail_vo">
+                        <div class="timeline-points">
+                          <present name="myself_view">
+                              <div class="main-right-btn lock-box" data-guid="{$detail_vo.guid}" data-id="{$detail_vo.id}">
+                                <switch name="detail_vo.is_show">
+                                    <case value="1">
+                                        <button type="button" class="js-lock btn btn-default btn-lock unlock-btn" data-type="unlock"><span class="lock-icon unlock"></span></button>
+                                        <button type="button" class="js-lock btn btn-default btn-lock lock-btn hiden" data-type="lock"><span class="lock-icon lock"></span></button>
+                                    </case>
+                                    <case value="0">
+                                        <button type="button" class="js-lock btn btn-default btn-lock unlock-btn hiden" data-type="unlock"><span class="lock-icon unlock"></span></button>
+                                        <button type="button" class="js-lock btn btn-default btn-lock lock-btn" data-type="lock"><span class="lock-icon lock"></span></button>
+                                    </case>
+                                </switch>
+                              </div>
+                          </present>
+                          <div class="main-time">{$detail_vo.created_at|date='H:i',###}</div>
+                          <div class="main-portrait-sm"><img src="__PUBLIC__/mobile/images/entry.png" class="img-circle-sm"></div>
+                          <switch name="detail_vo.obj_type">
+                            <case value="1">
+                                <div class="main-text">加入 <strong>会签助手</strong></div>
+                            </case>
+                            <case value="2">
+                                <div class="main-text">加入社团 <strong>{$detail_vo.content}</strong></div>
+                            </case>
+                            <case value="3">
+                                <div class="main-text">参加活动 <strong>{$detail_vo.content}</strong></div>
+                            </case>
+                            <case value="4">
+                                <div class="main-text">与 <strong>{$detail_vo.content}</strong> 加为好友</div>
+                            </case>
+                            <case value="5">
+                                <div class="main-text">创建群聊 <strong>{$detail_vo.content}</strong></div>
+                            </case>
+                            <case value="6">
+                                <div class="main-text">删除好友 <strong>{$detail_vo.content}</strong></div>
+                            </case>
+                              <case value="7">
+                                  <div class="main-text">完成任务 <strong>{$detail_vo.content}</strong></div>
+                              </case>
+                              <case value="8">
+                                  <div class="main-text">分享活动 <strong>{$detail_vo.content}</strong></div>
+                              </case>
+                          </switch>
+                        </div>
+                    </foreach>
+                </div>
+              </div>
+          </foreach>
+      </foreach>
+        </div>
+      <div class="text-center more_box hiden" style="padding:10px 0;"><div id="loading-cover">正在加载 <i id="loading" class="fa fa-spinner fa-spin"></i></div></div>
+      <div class="text-center read_all hiden" style="padding:10px 0;">已全部加载</div>
+    </div>
+    <!-- End Save for Web Slices -->
+    <script src="__PUBLIC__/common/js/date.js"></script>
+    <script src="__PUBLIC__/mobile/js/timeline.js"></script>
+  </body>
+  <script type="text/javascript">
+      $(function(){
+          //图片异步加载
+          $("img").lazyload({
+              effect : "show",
+              threshold: 200
+          });
+      })
+  </script>
+</html>

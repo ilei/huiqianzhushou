@@ -1,0 +1,206 @@
+<!--
+  *我的发布页面
+  *
+  *CT：2015-09－09 14:36 by QY
+  *
+-->
+
+
+<input type="hidden" id="last_release" value="1"/>
+<input type="hidden" id="tab_url" value="<?php echo U('Release/otherlist');?>"/>
+
+<input type="hidden" id="act-tab-status" value="<?php echo $view_status; ?>"/>
+
+<div class="container">
+    <div class="row">
+        <include file="Public:account_bar"/>
+        <div class="col-sm-9 col-lg-10">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-sm-6 col-md-7">
+                        <h3><strong>我发布的</strong></h3>
+                    </div>
+                    <div class="col-sm-6 col-md-5">
+                        <div class="form-search-group">
+                            <a class="form-control-search" href="javascript:void(0);" id="submit-keyword-search"><i
+                                    class="fa fa-search"></i></a>
+                            <input id="input-keyword-search" type="text" class="form-control" placeholder="请输入活动名称进行搜索"
+                                   value="<?php echo $keyword = urldecode(I('get.k')); ?>">
+                            <a class="form-control-reset" id="btn_search_reset" href="javascript:void(0);"
+                               style="display:none;"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="elf-navtabs">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs" role="tablist" id="tab_nav">
+                            <li role="presentation"
+                            <?php if($view_status==1):?>
+                            class="active"
+                            <?php endif;?>
+                            >
+                            <a href="#act-going" id="act-going-t" aria-controls="act-going" role="tab"
+                               data-toggle="tab">进行中(<?php echo $listRelease ?>)</a>
+                            </li>
+                            <li role="presentation"
+                                <?php if($view_status==0):?>
+                                class="active"
+                                <?php endif;?>
+                            >
+                                <a href="#act-norelease" id="act-norelease-t" aria-controls="act-norelease" role="tab"
+                                   data-toggle="tab">未发布(<?php echo $listDebug ?>)</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#act-closed" id="act-closed-t" aria-controls="act-closed" role="tab"
+                                   data-toggle="tab">
+                                    已关闭(<?php echo $listClose ?>)
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#act-ended" id="act-ended-t" aria-controls="act-ended" role="tab"
+                                   data-toggle="tab">
+                                    已结束(<?php echo $listOver ?>)
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#act-verifyed" id="act-verifyed-t" aria-controls="act-ended" role="tab"
+                                   data-toggle="tab">
+                                    审核中(<?php echo $list_count_verify ?>)
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="act-going">
+                        <div class="tab-content-cont">
+
+                            <?php $weekarray=array("日","一","二","三","四","五","六"); ?>
+                            <?php if ($list) : ?>
+                            <?php foreach($list as $l):?>
+
+                            <div class="content_item">
+                                <div class="posters-img">
+                                    <img data-original="<?php echo get_image_path($l['poster']); ?>">
+                                </div>
+
+                                <div class="content_item_rt">
+                                    <div class="row">
+                                        <div class="col-sm-12"><a
+                                                href="<?php echo U('Home/Act/manage', array('guid'=>$l['guid'])); ?>"
+                                                class="title"><?php echo $l['name'];?></a></div>
+                                        <div class="col-sm-12">
+                                            <p><?php echo date('Y年m月d日 H:i',$l['start_time']);?>
+                                                <?php echo ' 星期' . $weekarray[date('w')];?>
+                                                <br><?php echo $l['full_address'];?></p>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <p><?php echo $l['areaid_1_name'].' '.$l['areaid_2_name'].' '.$l['address']; ?></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row option">
+                                        <div class="col-sm-8">
+                                            <a href="<?php echo U('Home/Act/manage', array('guid'=>$l['guid'])); ?>"><i
+                                                    class="fa fa-cogs"></i> 管理</a>
+
+                                            <?php if($view_status==0): ?>
+
+                                            <a href="<?php echo U('Home/Act/edit', array('guid'=>$l['guid'])); ?>"><i
+                                                    class="fa fa-pencil"></i> 编辑</a>
+
+                                            <?php endif;?>
+                                            <a href="<?php echo U('Home/Act/preview', array('guid'=>$l['guid'])); ?>"><i
+                                                    class="fa fa-eye"></i> PC预览</a>
+                                            <a href="<?php echo U('Home/Act/mpreview', array('guid' => $l['guid'])); ?>"><i
+                                                    class="fa fa-mobile"></i> 手机预览</a>
+                                        </div>
+                                        <div class="col-sm-4 option-right">
+                                            <div class="pull-right">
+                                                <!--<a href="#"><i class="fa fa-share-square"></i> 分享</a>-->
+                                                <!--<a href="<?php echo U('Signin/auth/login')?>"><i class="fa fa-mobile"></i> 签到</a>-->
+                                                <!-- <a href="#"><i class="fa fa-pie-chart"></i> 报表</a> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                            <?php else : ?>
+
+                            <div class="tab-nodata text-center">
+                                <p class="text-center">暂无数据</p>
+                                <a class="btn btn-important" href="<?php echo U('Home/Act/add') ?>" type="submit"><i
+                                        class="fa fa-plus-circle"></i> 立即发布活动</a>
+                            </div>
+                            <?php endif; ?>
+
+
+                        </div>
+
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="act-norelease">
+                        <div class="tab-content-cont">
+
+                        </div>
+
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="act-closed">
+                        <div class="tab-content-cont">
+
+
+                        </div>
+
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="act-ended">
+                        <div class="tab-content-cont">
+                            <!--<div class="tab-nodata">
+                                <p class="text-center">暂无数据</p>
+                                <button class="btn btn-important center-block" type="submit"><i class="fa fa-plus-circle"></i> 立即发布活动</button>
+                            </div>-->
+
+                        </div>
+
+                        <!--<nav>
+                            <ul class="pager pager-lg">
+                                <li><a id= "act-ended-pre">上一页</a></li>
+                                <li><a href="#">下一页</a></li>
+                            </ul>
+                        </nav>-->
+
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="act-verifyed">
+                        <div class="tab-content-cont">
+                            <!--<div class="tab-nodata">
+                                <p class="text-center">暂无数据</p>
+                                <button class="btn btn-important center-block" type="submit"><i class="fa fa-plus-circle"></i> 立即发布活动</button>
+                            </div>-->
+
+                        </div>
+
+                        <!--<nav>
+                            <ul class="pager pager-lg">
+                                <li><a id= "act-ended-pre">上一页</a></li>
+                                <li><a href="#">下一页</a></li>
+                            </ul>
+                        </nav>-->
+
+
+                    </div>
+                    <div id="my_page_next_pre">
+                        <?php echo $viewpage ?>
+                    </div>
+                    <div id="model-loading" class="hidden">loading...</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

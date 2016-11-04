@@ -1,0 +1,253 @@
+<div class="title text-center"><?php echo $activity_info['name']?>-报名表</div>
+<div id="wrapper-form">
+	<div class="row">
+		<div class="col-md-12">
+			<p class="f2">报名时间：<?php echo $activity_info['published_at'] ? date('Y-m-d H:i', $activity_info['published_at']) : date('Y-m-d H:i', $activity_info['created_at']);?></p>
+		</div>
+	</div>
+	<form role="form" class="form-horizontal" id="signup_form" method="post">
+		<div class="form-group">
+			<label for="ticket"><span>* </span>票务：</label>
+			<select class="form-control" id="ticket" name="ticket">
+				<?php foreach($tickets as $t): ?>
+				<option value="<?php echo $t['guid']?>"><?php echo $t['name'] . ' - ￥' . yuan_to_fen($t['price'], false); ?></option>
+				<?php endforeach; ?>
+			</select>
+		</div>
+		<?php foreach($build_info as $k => $b): ?>
+		<!-- 获取当前表单类型 -->
+		<?php if($b['is_info'] != 1):?>
+		<input type="hidden" name="<?php echo 'other['.$b['guid'].']'?>[ym_type]" value="<?php echo $b['ym_type']?>"/>
+		<input type="hidden" name="<?php echo 'other['.$b['guid'].']'?>[build_guid]" value="<?php echo $b['guid']; ?>" />
+		<?php endif; ?>
+		<div class="form-group">
+			<label for="contact">
+				<?php if($b['is_required']):?><span>* </span><?php endif; echo $b['name']?>：
+			</label>
+			<!-- form -->
+			<?php $name = ($b['is_info']==1)?'info':'other'; ?>
+			<?php if($b['html_type'] == 'text'): ?>
+			<?php if($b['is_info'] == 1):?>
+			<?php
+			if($b['ym_type'] == 'real_name') {
+			$field_val = $userinfo['realname'];
+			}elseif($b['ym_type'] == 'mobile') {
+			$field_val = $userinfo['mobile'];
+			} else {
+				$field_val='';
+
+			}
+			?>
+			<input type="text"  class="form-control <?php echo ($b['ym_type']=='date') ? 'ym_date' : ''; ?>"
+			name="<?php echo $name.'['.$b['ym_type'].']'?>" placeholder="<?php echo $b['note']?>"
+			value="<?php echo $field_val;?>"  <?php echo ($b['ym_type']=='date') ? 'readonly' : ''; ?>/>
+			<?php else: ?>
+			<?php
+			if($b['ym_type'] == 'company') {
+			$maxlength = 20;
+			}elseif($b['ym_type'] == 'position') {
+			$maxlength = 10;
+			} else {
+			$maxlength = 50;
+			}
+			?>
+					<?php
+					$text_value =$user_attr_info[$b['ym_type']];
+					$text_value = empty($text_value) ?'':$text_value;
+					?>
+      <input id="<?php echo ($b['ym_type']=="email") ? 'email' : ''; ?>" type="text" value="<?php echo $b['ym_type'] == 'email' ? $userinfo['email'] : $text_value;?>" class="form-control <?php echo ($b['ym_type']=='date') ? 'ym_date' : ''; ?> <?php echo ($b['ym_type']=="email") ? 'ym_autofill_email' : ''; ?>"
+			name="<?php echo $name.'['.$b['guid'].']'?>[value]" maxlength="<?php echo $maxlength; ?>"
+			placeholder="<?php echo $b['note']?>"  <?php echo ($b['ym_type']=='date') ? 'readonly' : ''; ?>/>
+			<input type="hidden" class="form-control" name="<?php echo $name.'['.$b['guid'].']'?>[key]" value="<?php echo $b['name']?>" />
+			<?php endif; ?>
+
+			<?php elseif($b['html_type'] == 'textarea'):?>
+			<textarea class="form-control" name="<?php echo $name.'['.$b['guid'].']'?>[value]" placeholder="<?php echo $b['note']?>"></textarea>
+			<input type="hidden" class="form-control" name="<?php echo $name.'['.$b['guid'].']'?>[key]" value="<?php echo $b['name']?>" />
+
+			<?php elseif($b['html_type'] == 'select'):?>
+			<div class="select">
+				<select name="<?php echo $name.'['.$b['guid'].']'?>[value]" class="form-control ym_select">
+					<option value="">请选择</option>
+					<?php foreach($option_info[$b['guid']] as $ok => $ov): ?>
+					<option value="<?php echo $ov['value']?>"><?php echo $ov['value']?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+			<input type="hidden" class="form-control" name="<?php echo $name.'['.$b['guid'].']'?>[key]" value="<?php echo $b['name']?>">
+
+			<?php elseif ($b['html_type'] == 'radio' || $b['html_type'] == 'checkbox'): ?>
+			<?php foreach($option_info[$b['guid']] as $ok => $ov): ?>
+			<?php if($b['is_info'] == 1):?>
+			<div class="<?php echo $b['html_type']?>">
+				<label>
+					<div class="activity-vote-options">
+						<input type="<?php echo $b['html_type']?>" name="<?php echo $name.'['.$b['ym_type'].']'?>" class="" value="<?php echo $ov['value']?>">
+					</div>
+					<?php echo $ov['value']?>
+				</label>
+			</div>
+			<?php else: ?>
+			<div class="radio">
+				<label>
+					<div class="activity-vote-options">
+						<input type="<?php echo $b['html_type']?>" name="<?php echo $name.'['.$b['guid'].']'?>[value][]" class="123" value="<?php echo $ov['value']?>">
+					</div>
+					<?php echo $ov['value']?>
+				</label>
+			</div>
+			<input type="hidden" class="form-control" name="<?php echo $name.'['.$b['guid'].']'?>[key]" value="<?php echo $b['name']?>">
+			<?php endif; ?>
+			<?php endforeach; ?>
+			<?php endif; ?>
+		</div>
+		<?php endforeach; ?>
+		<button type="submit" class="btn btn-submit btn-block" placeholder="Text input">提交报名</button>
+	</form>
+</div>
+<link rel="stylesheet" type="text/css" href="/Public/common/css/bootstrap-datetimepicker.min.css" />
+<link rel="stylesheet" type="text/css" href="/Public/common/mobiscroll/css/mobiscroll.custom-2.6.2.min.css" />
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="__PUBLIC__/common/js/jquery.validate.js"></script>
+<script src="__PUBLIC__/common/js/bootstrap-datetimepicker.min.js"></script>
+<script src="__PUBLIC__/common/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="__PUBLIC__/common/mobiscroll/js/mobiscroll.custom-2.6.2.min.js"></script>
+<script src="__PUBLIC__/icheck/icheck.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//$(".ym_autofill_email").mailAutoTip();
+		var date_opt = {
+			preset: 'date', //日期
+			theme: 'android-ics light', //皮肤其他参数【android-ics light】【android-ics】【ios】【jqm】【sense-ui】【sense-ui】【sense-ui】
+			display: 'modal', //显示方式
+			mode: 'scroller', //日期选择模式
+			dateFormat: 'yy-mm-dd', // 日期格式
+			lang: 'zh',
+			dateOrder: 'yymmdd', //面板中日期排列格式
+			startYear: 1900,
+			endYear: (new Date()).getFullYear()+5
+		};
+
+		// jQuery(function($){
+		//     $("#inputEmail3").mailAutoTip();
+		// });
+
+//邮箱 表单验证规则
+		jQuery.validator.addMethod("mail", function (value, element) {
+			var mail = /^[a-z0-9._%-]+@([a-z0-9-]+\.)+[a-z]{2,4}$/;
+			return mail.test(value);
+		}, "邮箱格式不对");
+
+		$(".ym_date").mobiscroll(date_opt);
+		//表单验证
+		$('#signup_form').validate({
+      errorPlacement: function(error, element){
+          element.css('border-color', '#a94442');
+      },
+      showErrors:function(error, element){
+          if(error && element.length){
+              $("#error-msg").html('').html($(element)[0].message);
+              $("#error-msg").parents(".error-position").show();
+          }else{
+              $("#error-msg").parents(".error-position").hide();
+          }
+      },
+			success:function(elemet){
+			},
+submitHandler:function(form){
+  $(".btn-submit").attr('disabled', true);
+  $(form).submit();
+},
+			rules: {
+				<?php foreach($build_info as $k => $b): ?>
+				<?php $name = ($b['is_info']==1)?'info':'other'; ?>
+				<?php  if($b['is_info']==1) {
+					$whole_name = $name.'['.$b["ym_type"].']';
+				}else{
+					if ($b['html_type'] == 'radio' || $b['html_type'] == 'checkbox') {
+						$whole_name = $name.'['.$b["guid"].'][value][]';
+					} else {
+						$whole_name = $name.'['.$b["guid"].'][value]';
+					}
+				}
+					?>
+					// jquery validate rules
+					'<?php echo $whole_name?>': {
+						required: <?php echo ($b['is_required']==1)?'true':'false'; ?>
+						<?php if($b['ym_type'] == 'mobile'): ?>
+														,digits: true,
+													rangelength: [11, 11],
+													remote: {
+														url:"<?php echo U('Activity/ajax_check_signup_user'); ?>",
+														type:'post',
+														dataType: 'json',
+														data: { aid: '<?php echo I('get.aid'); ?>' }
+													}
+													<?php else: ?>
+														<?php if(!in_array($b['html_type'], array('radio', 'select', 'checkbox'))):  ?>
+															<?php if($b['ym_type'] == 'company'): ?>
+																		,rangelength: [1, 20]
+																	<?php elseif($b['ym_type'] == 'position'): ?>
+																		,rangelength: [1, 10]
+																	<?php else: ?>
+																		,rangelength: [1, 50]
+																	<?php endif; ?>
+																	<?php endif; ?>
+																	<?php if($b['html_type'] == 'textarea'): ?>
+																,rangelength: [1, 200]
+															<?php endif; ?>
+															<?php endif; ?>
+															<?php if($b['ym_type'] == 'email'): ?>
+														,mail: <?php echo ($b['is_required']==1)?'true':'false'; ?>
+													<?php endif;  ?>
+					},
+					<?php endforeach; ?>
+			},
+			// jquery validate error message
+			messages: {
+				<?php foreach($build_info as $k => $b): ?>
+				<?php $name = ($b['is_info']==1)?'info':'other'; ?>
+				<?php  if($b['is_info']==1) {
+					$whole_name = $name.'['.$b["ym_type"].']';
+				} else {
+					if ($b['html_type'] == 'radio' || $b['html_type'] == 'checkbox') {
+						$whole_name = $name.'['.$b["guid"].'][value][]';
+					} else {
+						$whole_name = $name.'['.$b["guid"].'][value]';
+					}
+				} ?>
+				'<?php echo $whole_name ?>': {
+					required: "<?php echo $b['name']; ?>不能为空"
+					<?php if($b['ym_type'] == 'mobile'): ?>
+														,digits: "手机号码必须为数字",
+													rangelength: "手机号码长度必须为11位",
+													remote: "该手机号码已经报名或超过次数"
+													<?php else: ?>
+														<?php if(!in_array($b['html_type'], array('radio', 'select', 'checkbox'))):  ?>
+															<?php if($b['ym_type'] == 'company'): ?>
+																		,rangelength: "<?php echo $b['name']; ?>长度必须为1到20个字"
+																	<?php elseif($b['ym_type'] == 'position'): ?>
+																		,rangelength: "<?php echo $b['name']; ?>长度必须为1到10个字"
+																	<?php else: ?>
+																		,rangelength: "<?php echo $b['name']; ?>长度必须为1到50个字"
+																	<?php endif; ?>
+																	<?php endif; ?>
+																	<?php if($b['html_type'] == 'textarea'): ?>
+																,rangelength: "<?php echo $b['name']; ?>长度必须为1到200个字"
+															<?php endif; ?>
+															<?php endif; ?>
+															<?php if($b['ym_type'] == 'email'): ?>
+														,mail: "邮箱格式不对"
+													<?php endif;  ?>
+				},
+				<?php endforeach; ?>
+			}
+		});
+	});
+$(document).ready(function(){
+  $('input').iCheck({
+    checkboxClass: 'icheckbox_flat-green',
+    radioClass: 'iradio_flat-green'
+  });
+});
+</script>

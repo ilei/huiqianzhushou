@@ -1,0 +1,90 @@
+<script type="text/javascript">
+
+    var YM = {
+        'url_easemob_single_user' : "<?php echo U('Easemob/ajax_repaire_single_user') ?>"
+    };
+
+    function return_index() {
+        location.href = "<?php echo U('Act/index')?>";
+    }            
+
+    function delete_confirm() //调用方法
+    {
+        event.returnValue = confirm("你确认要关闭吗？");
+    }
+</script>
+<div id="content-head">举报管理</div>
+<?php
+$breadcrumbs = array(
+    'base' => '活动管理',
+    'list' => array(
+        array('url' => '', 'v' => '举报管理')
+    )
+);
+?>
+<include file="Public:_breadcrumbs"/>
+<div class="content-border">
+    <div class="container-fluid">
+       <!--  <div class="row mb20">
+            <div class="col-sm-12">
+                <div class="group-search">
+                    <form action="<?php echo U('Act/index') ?>" id="verifyOrgForm" method="post">
+                        <input type="text" class="form-control search-list" id="search"
+                               value="{$Think.post.search}{$Think.get.search|urldecode=###}" placeholder="活动名称"
+                               name="search" aria-required="true" aria-invalid="false">
+                        <i class="fa fa-search search-list-i"></i>
+                        <button type="submit" class=" btn btn-primary">查找</button>
+                        <button class="btn btn-primary" type="button" onclick="return_index()" autocomplete="off">重置
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-sm-12">
+                <form action="<?php echo U('Act/report'); ?>" id="userForm" method="post" name="userForm">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>活动名称</th>
+                            <th>举报人</th>
+                            <th>举报数</th>
+
+                            <!-- <th>举报类型</th> -->
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <?php foreach ($act_list as $l): ?>
+                            <tr class="ym_table_tr">
+                                <td><?php echo $l['name']; ?></td>
+                                <td><?php echo $l['real_name']; ?></td>
+
+                                <td><?php echo $l['count']; ?></td>
+                                
+								<!-- <td>
+								<?php //for ($i=0; $i <=$l['len'] ; $i++) :?>
+								
+                                <?php //echo $l['req'][$i]['reason_content']; ?>
+                                <?php// endfor ;?>
+                                </td> -->
+                                <td><?php echo date('Y-m-d H:i', $l['updated_at']); ?></td>
+                                <td>
+                                    <a href="<?php echo U('Act/report_desc', array('guid' => $l['obj_guid'])); ?>"><i
+                                            class="fa fa-search"></i></a>&nbsp;&nbsp;
+
+                                	<?php if ($l['status']!=3) :?>
+                                    <a class="js-del" href = "<?php echo U('Act/close_activity',array('guid'=>$l['obj_guid'])); ?>" onClick="delete_confirm()">关闭活动</a>
+                                	<?php elseif ($l['status']==3) :?>
+                                	活动已关闭
+                                	<?php endif;?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    <?php echo $page; ?>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

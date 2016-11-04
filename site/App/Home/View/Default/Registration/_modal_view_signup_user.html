@@ -1,0 +1,39 @@
+{__NOLAYOUT__}
+<div class="row mt20">
+    <div class="col-xs-12">
+        <dl class="dl-horizontal">
+          <dt><label for="ticket"><span>* </span>票务：</label></dt>
+          <dd><?php echo $user_ticket['ticket_name'];?></dd>
+          <dt><label for="ticket">电子票状态：</label></dt>
+          <dd><?php if($user_ticket['status'] == '0'):?>
+                    <span>未发送电子票</span>
+                <?php elseif($user_ticket['status'] == '1'):?>
+                    <span>发送电子票失败</span>
+                <?php elseif($user_ticket['status'] == '2'):?>
+                    <span>已发送电子票</span>
+                <?php elseif($user_ticket['status'] == '3'):?>
+                    <span>已查看</span>
+                <?php elseif($user_ticket['status'] == '4'):?>
+                    <?php if($user_ticket['signin_status'] == '1'):?>
+                        <span>扫码签到</span>
+                    <?php elseif($user_ticket['signin_status'] == '2'):?>
+                        <span>手动签到</span>
+                    <?php elseif($user_ticket['signin_status'] == '3'):?>
+                        <span>现场报名</span>
+                    <?php endif;?>
+                <?php endif;?></dd>
+          <dt><label for="username"><span>* </span>姓名：</label></dt>
+          <dd><?php echo $user_info['real_name'];?></dd>
+          <dt><label for="mobile"><span>* </span>手机号：</label></dt>
+          <dd><?php echo $user_info['mobile'];?></dd>
+          <?php foreach($user_other as $k => $v):?>
+                <?php if($v['is_null'] == '0'):?>
+                    <dt><label><?php echo $v['key'];?>：</label></dt>
+                <?php else:?>
+                    <dt><label><span>* </span><?php echo $v['key'];?>：</label></dt>
+                <?php endif;?>
+                    <dd><?php echo $v['value'];?></dd>
+            <?php endforeach;?>
+        </dl>
+    </div>
+</div>

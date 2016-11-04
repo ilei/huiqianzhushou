@@ -1,0 +1,61 @@
+@CHARSET "UTF-8";
+a,
+a:hover,
+a:focus { text-decoration: none; outline: none;}
+body{
+	background:#ededed;
+	font-family:"Microsoft Yahei";
+	word-wrap:break-word;
+}
+.subject_header h4{
+	margin:0;
+	padding: 10px;
+	background:#87c7ff;
+	line-height: 24px;
+	color:#fff;
+}
+.topic_list{
+	margin-top:20px;
+}
+.list-group li{
+	overflow:auto;
+}
+.list-group-item span,
+.list-group-item label{
+	padding:0;
+	margin:0;
+}
+.topic-list-item{
+	margin-bottom: 0;
+}
+.error-wrap{
+	background:#fe8083;
+}
+.error-wrap h4{
+	line-height:40px;
+	color:#fff;
+	font-family:"Microsoft Yahei";
+	font-size:16px;
+}
+.topic-submit-btn{
+	width:100%;
+	margin:20px 0;
+	padding:10px 0;
+}
+.border-radius-none{
+	border-radius:0;
+}
+.preview-wrap span{
+	font-size:13px;
+	cursor:pointer;
+	color: #1c658b;
+}
+.preview-wrap i{
+	font-size:16px;
+}
+.option-tips{
+	line-height:30px;
+	text-indent:5px;
+}
+.topic-answer .list-group-item { color: #aaa;}
+.topic-answer .list-group-item .option-tips { color: #333;}

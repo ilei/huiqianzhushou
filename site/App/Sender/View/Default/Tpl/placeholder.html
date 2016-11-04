@@ -1,0 +1,31 @@
+<?php 
+/**
+ * 提示页
+ * 
+ * CT: 2014-11-28 17:30 by YLX
+ */
+?>
+{__NOLAYOUT__}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <?php echo C('MEDIA_CSS.BOOTSTRAP'); ?>
+        <import type='css' file="common.css.results" />
+
+        <title>提示</title>
+    </head>
+    <body class="bodybg">
+
+        <div class="main">
+            <div class="imgmb"><img src="/Public/common/images/<?php echo $status ?>.png" width="150" height="150"></div>
+            <?php if(!empty($title)){ ?>
+                <h3 class="<?php echo ($status=='error')?'error':''; ?>"><strong><?php echo $title ?></strong></h3>
+            <?php } ?>
+            <h5><?php echo $msg ?></h5>
+        </div>
+
+    </body>
+</html>

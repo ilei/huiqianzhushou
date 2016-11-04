@@ -1,0 +1,98 @@
+/*
+ * Home 模块定制CSS
+ * 
+ * CT: 2014-10-09 16:50 by YLX
+ */
+
+body {
+    background-color: #C0C0C0;
+}
+
+.container {
+  width: 1000px;
+  max-width: none !important;
+}
+
+
+/*
+ * 顶部导航栏
+ */
+.top-nav {
+    border: none;
+    border-top: 3px solid #269ABC;
+    border-radius: 0;
+}
+
+.profile-img {
+    width: 30px;
+    height: 30px;
+}
+
+.nav-icon {
+    height: 30px;
+}
+
+/*
+ * 页面footer
+ */
+.footer {
+    border: none;
+    border-top: 1px solid #ADADAD;
+    border-radius: 0;
+    margin-top: 20px;
+    margin-bottom: 0;
+    height: 70px;
+}
+
+.footer-content {
+    padding-top: 10px;
+}
+
+.footer-content div {
+    padding-right: 0;
+}
+
+
+/*
+ * 左边栏
+ */
+#left-bar {
+    background-color: #F5F5F5;
+    border: 1px solid #D5D5D5;
+}
+
+ul.left-menu {
+    list-style: none;
+    padding-left: 0;
+}
+ul.left-menu li.left-menu-home {
+    border-bottom: 1px solid #D5D5D5;
+}
+
+ul.left-menu li a {
+    display: block;
+    text-align: center;
+    padding: 20px;
+}
+ul.left-menu li.left-menu-home a {
+    padding: 35px 20px;
+}
+ul.left-menu li.left-menu-list a:hover {
+    background-color: #FFFFFF;
+    border-left: 3px solid #269ABC;
+    border-right: none;
+}
+
+ul.left-menu i, ul.left-menu label{
+    color: #888888;
+}
+
+/*
+ * 右边栏
+ */
+#right-bar {
+    background-color: #FFFFFF;
+    border-top: 1px solid #D5D5D5;
+    border-right: 1px solid #D5D5D5;
+    border-bottom: 1px solid #D5D5D5;
+}
