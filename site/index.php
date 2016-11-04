@@ -1,10 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | 天津云脉三六五科技有限公司
-// | 会签助手
-// | 应用入口文件
-// +----------------------------------------------------------------------
-
 // 检测PHP环境
 if(version_compare(PHP_VERSION,'5.4.0','<'))  die('require PHP > 5.4.0 !');
 
@@ -29,11 +23,12 @@ define('RUNTIME_PATH', BASE_PATH.'/Runtime/');
 // 重命名库路径
 define('THINK_PATH', __DIR__.'/Vendor/');
 
-// 引入框架入口文件
-require THINK_PATH.'ThinkPHP.php';
 
 // 引入发送邮件submail sdk
 require_once(THINK_PATH.'Library/Vendor/submail/SUBMAILAutoload.php');
-// 引入全局linq 业务操作库
 
+// 引入全局linq 业务操作库
 require_once(THINK_PATH.'Library/Vendor/Pinq/autoload.php');
+
+// 引入框架入口文件
+require THINK_PATH.'ThinkPHP.php';

@@ -334,7 +334,7 @@ class ActController extends BaseController
             $condition = array('guid' => $activity_guid);
             list($check, $r) = $model_activity->update($condition, $data_activity);
         }
-        send_email('service@yunmai365.com','会签助手','活动审核提醒','<h6><b>有新活动发布了，请去管理后台审核活动</b></h6>');
+        send_email('service@yunmai365.com','酷客会签','活动审核提醒','<h6><b>有新活动发布了，请去管理后台审核活动</b></h6>');
         if (!$check || !$r) {
             $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_ACT_SAVE_FAILED_')));
         }

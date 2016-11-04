@@ -7,7 +7,7 @@ return array(
     'LAYOUT_ON'            => false,     // 是否启用布局
 
 
-	'meetelf_name'         => '会签助手',
+	'meetelf_name'         => '酷客会签',
 
 	//电子票域名
 	'meetelf_url'          => 'http://m.smartlei.com',

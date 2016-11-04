@@ -144,7 +144,7 @@ return array(
         array('signin/pc', 'Signin/Pc/up', '', array('method' => 'post')), // 上传活动及票务数据
 
         /**
-         * 会签助手APP
+         * 酷客会签APP
          */
         array('app/login', 'App/Auth/login', '', array('method' => 'post')),// 登陆
         array('app/login', 'App/Auth/login', '', array('method' => 'get')),// 登陆

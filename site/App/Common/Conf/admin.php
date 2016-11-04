@@ -1,69 +1,53 @@
 <?php
-
-/**
- * 活动相关配置
- * CT: 2014-09-12 15:00 by YLX
- * UT: 2015-05-14 14:51 by YLX
- * UT: 2015-08-10 14:32 by QY
- */
-
 return array(
-    'ADMIN_GUID'        => '88B9EBACEC31F962EF3100SUPERADMIN', //会签助手官方GUID
-    'ADMIN_NAME'        => '会签助手', // 会签助手官方名称
+    'ADMIN_GUID'        => '88B9EBACEC31F962EF3100SUPERADMIN', //酷客会签官方GUID
+    'ADMIN_NAME'        => '酷客会签', // 酷客会签官方名称
 
     'APP_TYPE'          => array(
-        1 => array('name'          => '会签助手-Android',
-                   'ext'           => 'apk',
-                   'name_tempfile' => 'meetelf-temp',
-                   'name_file'     => 'meetelf',
-                   'save_path'     => '/meetelf/android'
+        1 => array(
+            'name'          => '酷客会签-Android',
+            'ext'           => 'apk',
+            'name_tempfile' => 'huiqianzhushou-temp',
+            'name_file'     => 'huiqianzhushou',
+            'save_path'     => '/huiqianzhushou/android'
         ),
-        2 => array('name'          => '会签助手-Android-beta',
-                   'ext'           => 'apk',
-                   'name_tempfile' => 'meetelf-beta-temp',
-                   'name_file'     => 'meetelf-beta',
-                   'save_path'     => '/meetelf/android'
+        2 => array(
+            'name'          => '酷客会签-Android-beta',
+            'ext'           => 'apk',
+            'name_tempfile' => 'huiqianzhushou-beta-temp',
+            'name_file'     => 'huiqianzhushou-beta',
+            'save_path'     => '/huiqianzhushou/android'
         ),
-        3 => array('name'          => '会签助手-PC端',
-                   'ext'           => 'zip',
-                   'name_tempfile' => 'meetelf-pc-temp',
-                   'name_file'     => 'meetelf-pc',
-                   'save_path'     => '/meetelf/pc'
+        3 => array(
+            'name'          => '酷客会签-PC端',
+            'ext'           => 'zip',
+            'name_tempfile' => 'huiqianzhushou-pc-temp',
+            'name_file'     => 'huiqianzhushou-pc',
+            'save_path'     => '/huiqianzhushou/pc'
         ),
-        4 => array('name'          => '会签助手-PC端-beta',
-                   'ext'           => 'zip',
-                   'name_tempfile' => 'meetelf-pc-beta-temp',
-                   'name_file'     => 'meetelf-pc-beta',
-                   'save_path'     => '/meetelf/pc'
+        4 => array(
+            'name'          => '酷客会签-PC端-beta',
+            'ext'           => 'zip',
+            'name_tempfile' => 'huiqianzhushou-pc-beta-temp',
+            'name_file'     => 'huiqianzhushou-pc-beta',
+            'save_path'     => '/huiqianzhushou/pc'
         ),
-        5 => array('name'          => '会签助手-IOS端',
-                   'ext'           => 'ipa',
-                   'name_tempfile' => 'meetelf-ios-temp',
-                   'name_file'     => 'meetelf-ios',
-                   'save_path'     => '/meetelf/ios'
+        5 => array(
+            'name'          => '酷客会签-IOS端',
+            'ext'           => 'ipa',
+            'name_tempfile' => 'huiqianzhushou-ios-temp',
+            'name_file'     => 'huiqianzhushou-ios',
+            'save_path'     => '/huiqianzhushou/ios'
         ),
-        6 => array('name'          => '会签助手-IOS端-beta',
-                   'ext'           => 'ipa',
-                   'name_tempfile' => 'meetelf-ios-beta-temp',
-                   'name_file'     => 'meetelf-ios-beta',
-                   'save_path'     => '/meetelf/ios'
+        6 => array(
+            'name'          => '酷客会签-IOS端-beta',
+            'ext'           => 'ipa',
+            'name_tempfile' => 'huiqianzhushou-ios-beta-temp',
+            'name_file'     => 'huiqianzhushou-ios-beta',
+            'save_path'     => '/huiqianzhushou/ios'
         )
     ),
 
-    //大后台文件上传分类
-    'ARTICLE_SIGN'      => array(
-        1 => '新闻',
-        2 => '文章',
-        3 => '公告',
-        4 => '常见问题_ANDROID',
-        5 => '常见问题_IOS'
-    ),
-    //账号类型
-    'COMMUNITY_TYPE'    => array(
-        1 => '个人',
-        2 => '企业',
-        3 => '公益组织'
-    ),
     //账号种类
     'COMMUNITY_SPECIES' => array(
         1 => '内部号',
@@ -71,4 +55,17 @@ return array(
         3 => '正式号',
         4 => '试用号'
     ),
+
+    'COPYRIGHT'       => 'Copyright © 2014-2016 版权所有 天津酷客科技有限公司',
+    'SERVICE_QQ'      => '624692151',
+    'NUM_PER_PAGE'    => '10',
+    'SERVICE_EMAIL'   => 'thinklang0917#gmail.com',
+    'SERVICE_TEL'     => '',
+    'MAX_SMS_NUM'     => '5',
+    'MAX_CHATGROUP_NUM_PER_PERSON' => '50',
+    'MAX_MEMBER_NUM_PER_CHATGROUP' => '2000',
+    'VERCODE_SENDER'  => 'SubMail',
+    'TICKET_SENDER'   => 'SubMail',
+    'AUTO_ADD_TYPE'   => array('sms', 'email'),
+    'AUTO_ADD_NUMS'   => 100,
 );

@@ -10,7 +10,7 @@ use Think\Controller;
  */
 class BaseController extends Controller{
 
-	protected $title  = '会签助手';
+	protected $title  = '酷客会签';
 
 	protected $module = array(); 
 

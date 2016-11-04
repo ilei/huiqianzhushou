@@ -2,8 +2,8 @@ require(['jquery', 'bootstrap', 'lazyload'], function ($) {
     var dataModule = $('body').delegate('a[href^="#"]', 'click', function (e) {e.preventDefault()});
     $('#weiboimg').popover({
         content: '<div class="weixinsm">'
-        + '<div class="text-center"><img src="../images/weiboimg.jpg" alt="会签助手官方微博"></div>'
-        + '<div class="text-center"><h5>会签助手官方微博</h5><h5>【扫一扫】立即关注</h5></div>'
+        + '<div class="text-center"><img src="../images/weiboimg.jpg" alt="酷客会签官方微博"></div>'
+        + '<div class="text-center"><h5>酷客会签官方微博</h5><h5>【扫一扫】立即关注</h5></div>'
         + '</div>',
         html: true,
         placement: 'top',
@@ -11,8 +11,8 @@ require(['jquery', 'bootstrap', 'lazyload'], function ($) {
     });
     $('#weixinimg').popover({
         content: '<div class="weixinsm">'
-        + '<div class="text-center"><img src="../images/weixinimg.jpg" alt="会签助手官方微信"></div>'
-        + '<div class="text-center"><h5>会签助手官方微信</h5><h5>【扫一扫】立即关注</h5></div>'
+        + '<div class="text-center"><img src="../images/weixinimg.jpg" alt="酷客会签官方微信"></div>'
+        + '<div class="text-center"><h5>酷客会签官方微信</h5><h5>【扫一扫】立即关注</h5></div>'
         + '</div>',
         html: true,
         placement: 'top',

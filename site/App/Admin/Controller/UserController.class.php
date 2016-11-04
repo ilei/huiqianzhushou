@@ -379,10 +379,10 @@ class UserController extends BaseController{
             $this->assign('content',$content);
             $this->assign('orgData', $orgData);//社团信息
             $content = $this->fetch('email_notice');
-            $email_result = send_email($orgData['email'], '会签助手','恭喜社团'.$orgData['name'].'审核成功', $content);
+            $email_result = send_email($orgData['email'], '酷客会签','恭喜社团'.$orgData['name'].'审核成功', $content);
 
             if($email_result['status'] != 'success') { // 邮件发送不成功,就再发一次
-                send_email($orgData['email'], '会签助手','恭喜社团'.$orgData['name'].'审核成功', $content);
+                send_email($orgData['email'], '酷客会签','恭喜社团'.$orgData['name'].'审核成功', $content);
             }
             $this->success('社团审核成功',U('User/index'));
         }else{
@@ -406,10 +406,10 @@ class UserController extends BaseController{
             $this->assign('content',$content);
             $this->assign('orgData', $orgData);//社团信息
             $content = $this->fetch('email_notice');
-            $email_result = send_email($orgData['email'], '会签助手','社团'.$orgData['name'].'审核失败', $content);
+            $email_result = send_email($orgData['email'], '酷客会签','社团'.$orgData['name'].'审核失败', $content);
 
             if($email_result['status'] != 'success') { // 邮件发送不成功,就再发一次
-                send_email($orgData['email'], '会签助手','社团'.$orgData['name'].'审核失败', $content);
+                send_email($orgData['email'], '酷客会签','社团'.$orgData['name'].'审核失败', $content);
             }
             $this->success('拒绝通过成功',U('User/index'));
         }else{

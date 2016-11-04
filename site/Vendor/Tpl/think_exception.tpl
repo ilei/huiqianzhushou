@@ -73,7 +73,7 @@
 	<!--        Copyright © 2014-2016 版权所有 天津云脉三六五科技有限公司-->
 	<!--    </div>-->
 	<div class="row text-center mt30">
-		© 会签助手
+		© 酷客会签
 	</div>
 </div>
 </body>

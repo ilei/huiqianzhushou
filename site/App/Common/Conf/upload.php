@@ -1,12 +1,4 @@
 <?php
-
-/**
- * 上传设置
- * 
- * CT: 2014-10-22 16:00 by YLX
- * UT: 2014-10-22 16:00 by YLX
- */
-
 return array(
     'SAVE_EXT' => 'png',
     'MAX_UPLOAD_SIZE' => 3*1024*1024,

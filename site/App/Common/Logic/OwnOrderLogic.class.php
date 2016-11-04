@@ -62,7 +62,7 @@ class OwnOrderLogic{
             'total_price'  => $data['total_price'] ? intval($data['total_price']) : intval($total_price),
 			'quantity'	   => $data['quantity'],
 			'seller_guid'  => validate_data($data, 'seller_guid', ''),
-			'seller_name'  => validate_data($data, 'seller_name', '会签助手'),
+			'seller_name'  => validate_data($data, 'seller_name', '酷客会签'),
 			'buyer_guid'   => trim($data['buyer_guid']),
 			'buyer_name'   => $buyer['real_name'],
 			'buyer_type'   => validate_data($data, 'buyer_type', 1),
@@ -93,7 +93,7 @@ class OwnOrderLogic{
                 'goods_num'  => isset($ext[$goods_guid]['num']) && intval($ext[$goods_guid]['num']) ? intval($ext[$goods_guid]['num']) : 1,
                 'created_time' => time(),
                 'updated_time' => time(),
-                'seller_name'  => '会签助手',
+                'seller_name'  => '酷客会签',
                 'goods_price'  => $goods[$goods_guid]['price'],
             );     
         }

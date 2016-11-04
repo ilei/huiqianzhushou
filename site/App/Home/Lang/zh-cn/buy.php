@@ -10,7 +10,7 @@ return array(
     '_BUYER_GUID_NOT_EXIST_' => '缺少购买者GUID',
     '_GOODS_GUID_NOT_EXIST_' => '缺少商品GUID',
     '_ORDER_CREATE_FAILED_'  => '创建订单失败',
-    '_BUY_MSG_' => '会签助手短信加油包',
-    '_BUY_EMAIL_' => '会签助手邮件加油包',
-    '_BUY_EMAIL_MSG_' => '会签助手短信加油包和邮件加油包',
+    '_BUY_MSG_' => '酷客会签短信加油包',
+    '_BUY_EMAIL_' => '酷客会签邮件加油包',
+    '_BUY_EMAIL_MSG_' => '酷客会签短信加油包和邮件加油包',
 );

@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * 通用配置
@@ -7,7 +6,7 @@
  **/
 
 return array(
-    'LOAD_EXT_CONFIG'      => 'db,deploy,status,status_new,api,good,operation,generate_by_admin,activity,mongo,trade,admin,swoole,upload',     // 分割配置文件
+    'LOAD_EXT_CONFIG'      => 'db,domain,status,api,good,operation,activity,admin,upload',     // 分割配置文件
     'document_domain'      => 'smartlei.com',
 
     /**

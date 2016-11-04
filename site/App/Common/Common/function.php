@@ -94,7 +94,7 @@ function hashCode($s)
 
 /**
  * 生成环信密码
- * @param $pwd 用户在会签助手数据库中的密码
+ * @param $pwd 用户在酷客会签数据库中的密码
  * @return int
  */
 function generateEasemobPwd($pwd)

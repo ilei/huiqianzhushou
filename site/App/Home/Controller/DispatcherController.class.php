@@ -134,7 +134,7 @@ class DispatcherController extends BaseController
            $app_path=C('DOWNLOAD_ELF_IOS').$appInfo['plist_path'];
         }
 
-        $this->assign("name",'会签助手');//app名称
+        $this->assign("name",'酷客会签');//app名称
         $this->assign("version",$appInfo['external_version']);//app版本号
         $this->assign("size",$app_size);//app大小
         $this->assign("updateTime",date('Y-m-d',$appInfo['updated_at']));//更新时间

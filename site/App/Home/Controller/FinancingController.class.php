@@ -780,8 +780,8 @@ class FinancingController extends BaseController{
             $res = D('FinancingDetail')->data($data)->add();
             if(!empty($res) && $res_status && !empty($ticket_res)){
                 D()->commit();
-                send_email('service@yunmai365.com','会签助手结算系统','新结算','新提交结算处理');
-                $this->success('结算成功,等待会签助手财务人员审核',U('Financing/index'));
+                send_email('service@yunmai365.com','酷客会签结算系统','新结算','新提交结算处理');
+                $this->success('结算成功,等待酷客会签财务人员审核',U('Financing/index'));
                 exit;
             }else{
                 D()->rollback();
