@@ -5,7 +5,7 @@ return array(
     'URL_ROUTE_RULES'       =>  array(
         array('event/:id\d',"Dispatcher/event"),
         array('/', 'Index/index'),
-        
+
         //我的主页
         array('user/index', 'Information/index'),
         array('api/syslogin', 'Api/syslogin'),
@@ -25,25 +25,25 @@ return array(
         array('user/change_mobile_step3', 'Information/change_mobile_step3'),
 
 
-       //活动   
-       array('act/release', 'Release/index'),
-       array('act/unrelease', 'Release/index?s=0'),
-       array('act/manage/guid/:aguid', 'Act/act_manage'),
-       array('act/tmanage/guid/:aguid', 'Act/tmanage'),
-       array('act/edit/guid/:guid', 'Act/edit'),
-       array('act/preview/guid/:g', 'Event/index'),
-       array('act/mpreview/guid/:aid', 'Act/mobile_preview'),
-       array('act/qrcode/guid/:aid', 'Act/qrcode'),
+        //活动   
+        array('act/release', 'Release/index'),
+        array('act/unrelease', 'Release/index?s=0'),
+        array('act/manage/guid/:aguid', 'Act/act_manage'),
+        array('act/tmanage/guid/:aguid', 'Act/tmanage'),
+        array('act/edit/guid/:guid', 'Act/edit'),
+        array('act/preview/guid/:g', 'Event/index'),
+        array('act/mpreview/guid/:aid', 'Act/mobile_preview'),
+        array('act/qrcode/guid/:aid', 'Act/qrcode'),
 
-       //订单
-       array('order/detail/guid/:on', 'Order/detail'),
-       array('order/review/guid/:aguid', 'Order/review'),
+        //订单
+        array('order/detail/guid/:on', 'Order/detail'),
+        array('order/review/guid/:aguid', 'Order/review'),
 
 
-       //表单 
-       array('form/setting/guid/:aguid', 'Form/form_set'),
+        //表单 
+        array('form/setting/guid/:aguid', 'Form/form_set'),
 
-       //报名 
+        //报名 
         array('signup/users/guid/:aid', 'Registration/signup_userinfo'),
 
         //结算

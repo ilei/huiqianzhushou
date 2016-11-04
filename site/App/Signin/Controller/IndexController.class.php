@@ -146,19 +146,19 @@ class IndexController extends BaseUserController
             $aid = I('get.aid');
             $action = I('get.action', '');
             if(empty($aid)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_PARAM_ERROR_')));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_PARAM_ERROR_')));
             }
             // 用户列表
             list($show, $list, $is_last_page) = $this->_get_signup_userlist($aid, $action);
             // $content = $this->fetch('Index:user_list');
 
             if(empty($list)) {
-                $this->ajaxReturn(array('status' => 'nomore', 'msg' => L('_NO_MORE_')));
+                $this->ajaxResponse(array('status' => 'nomore', 'msg' => L('_NO_MORE_')));
             }
 
-            $this->ajaxReturn(array('status' => 'ok', 'msg' => L('_LAOD_SUCCESS_'), 'data' => $list, 'is_last_page' => $is_last_page));
+            $this->ajaxResponse(array('status' => 'ok', 'msg' => L('_LAOD_SUCCESS_'), 'data' => $list, 'is_last_page' => $is_last_page));
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_ILLEGAL_OPERATION_')));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_ILLEGAL_OPERATION_')));
         }
 
     }

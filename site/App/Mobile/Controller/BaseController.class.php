@@ -81,7 +81,7 @@ class BaseController extends Controller{
 	 * @return json数据 
 	 **/ 
 
-	public function ajax_return($data){
+	public function ajax_response($data){
 		exit(json_encode($data));
 	}
 

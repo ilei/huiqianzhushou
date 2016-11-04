@@ -19,7 +19,7 @@ class EasemobController extends BaseController
         if(IS_AJAX) {
             $guid = I('post.guid');
             if(strlen($guid) != 32) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '参数错误，请重试。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '参数错误，请重试。'));
             }
 
             $chat = new YmChat();
@@ -33,7 +33,7 @@ class EasemobController extends BaseController
                 if($reg['status'] == 200) { // 注册成功
                     $easemob_id = $reg['entities'][0]['uuid'];
                 } else { // 注册失败
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '操作超时，请重试。'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '操作超时，请重试。'));
                 }
             }
 
@@ -41,16 +41,16 @@ class EasemobController extends BaseController
                 $data = array('easemob_id' => $easemob_id, 'updated_at' => $easemob_id);
                 $result = M('User')->where(array('guid' => $guid))->save($data);
                 if($result) { // 保存环信id成功
-                    $this->ajaxReturn(array('status' => 'ok', 'msg' => '修复成功', 'easemob_id' => $easemob_id));
+                    $this->ajaxResponse(array('status' => 'ok', 'msg' => '修复成功', 'easemob_id' => $easemob_id));
                 } else { // 保存环信ID失败
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '修复失败, 请重试.'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '修复失败, 请重试.'));
                 }
             } else {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '操作超时，请重试'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '操作超时，请重试'));
             }
 
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '页面不存在.'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '页面不存在.'));
         }
     }
 
@@ -64,7 +64,7 @@ class EasemobController extends BaseController
             $user_guid = I('post.user_guid');
             $chat_group_id = I('post.chat_group_id');
             if(strlen($user_guid) != 32 || empty($chat_group_id)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '参数错误，请重试。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '参数错误，请重试。'));
             }
 
             $chat = new YmChat();
@@ -72,13 +72,13 @@ class EasemobController extends BaseController
             $result = $chat->addGroupsUser($chat_group_id, $user_guid);
 
             if($result['status'] == 200) { // 保存环信id成功
-                $this->ajaxReturn(array('status' => 'ok', 'msg' => '修复成功'));
+                $this->ajaxResponse(array('status' => 'ok', 'msg' => '修复成功'));
             } else { // 保存环信ID失败
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '修复失败, 请重试.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '修复失败, 请重试.'));
             }
 
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '页面不存在.'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '页面不存在.'));
         }
     }
 
@@ -91,7 +91,7 @@ class EasemobController extends BaseController
         if(IS_AJAX) {
             $guid = I('post.guid');
             if(strlen($guid) != 32) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '参数错误，请重试。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '参数错误，请重试。'));
             }
             // 获取群组成员
             $member_guids = D('GroupUserDiscMembers')->where(array('group_disc_guid' => $guid, 'is_del' => 0))
@@ -105,7 +105,7 @@ class EasemobController extends BaseController
             } else { // 若未注册，则重新注册
                 $group_info = D('GroupUserDisc')->where(array('guid' => $guid))->find();
                 if(empty($group_info)) {
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '群组不存在'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '群组不存在'));
                 }
                 $option = array(
                     'groupname' => $guid,
@@ -118,7 +118,7 @@ class EasemobController extends BaseController
                 if($reg['status'] == 200) { // 注册成功
                     $chat_group_id = $reg['data']['groupid'];
                 } else { // 注册失败
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '操作超时，请重试。'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '操作超时，请重试。'));
                 }
             }
 
@@ -141,16 +141,16 @@ class EasemobController extends BaseController
                         'is_read' => 0
                     );
                     $push->pushList($member_guids, $msg);
-                    $this->ajaxReturn(array('status' => 'ok', 'msg' => '修复成功', 'chat_group_id' => $chat_group_id));
+                    $this->ajaxResponse(array('status' => 'ok', 'msg' => '修复成功', 'chat_group_id' => $chat_group_id));
                 } else { // 保存环信ID失败
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '修复失败, 请重试.'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '修复失败, 请重试.'));
                 }
             } else {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '操作超时，请重试'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '操作超时，请重试'));
             }
 
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '页面不存在.'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '页面不存在.'));
         }
     }
 }

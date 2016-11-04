@@ -24,9 +24,9 @@ class TaskController extends BaseController{
             $res = M('TaskFlow')->add($task_flow_data);
         }
         if($res){
-            $this->ajaxReturn(array('status'=>'ok'));
+            $this->ajaxResponse(array('status'=>'ok'));
         }else{
-            $this->ajaxReturn(array('status'=>'ko', 'msg'=>'任务流保存失败, 请重试.'));
+            $this->ajaxResponse(array('status'=>'ko', 'msg'=>'任务流保存失败, 请重试.'));
         }
     }
     
@@ -119,16 +119,16 @@ class TaskController extends BaseController{
             if(!empty($del_condition_guid)){
                 $del_condition_guid_str = implode(',', $del_condition_guid);
                 if(!M('TaskCondition')->where(array('guid'=>array('IN',$del_condition_guid_str)))->delete()){
-                    $this->ajaxReturn(array('status'=>'ko', 'msg'=>'任务条件删除失败, 请重试.'));
+                    $this->ajaxResponse(array('status'=>'ko', 'msg'=>'任务条件删除失败, 请重试.'));
                 }
             }
             if(M('TaskCondition')->inserUpAll($task_condition)){
-                $this->ajaxReturn(array('status'=>'ok'));
+                $this->ajaxResponse(array('status'=>'ok'));
             }else{
-                $this->ajaxReturn(array('status'=>'ko', 'msg'=>'任务条件保存失败, 请重试.'));
+                $this->ajaxResponse(array('status'=>'ko', 'msg'=>'任务条件保存失败, 请重试.'));
             }
         }else{
-            $this->ajaxReturn(array('status'=>'ko', 'msg'=>'任务信息保存失败, 请重试.'));
+            $this->ajaxResponse(array('status'=>'ko', 'msg'=>'任务信息保存失败, 请重试.'));
         }
     }
 }

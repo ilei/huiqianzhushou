@@ -52,16 +52,16 @@ class UploadController extends BaseController
         if (IS_POST) {
             $type = I('get.type');
             if (!in_array($type, array_keys(C('APP_TYPE')))) {
-                $this->ajaxReturn(array('status' => 'ko', '该类型APP不存在, 请重试.'));
+                $this->ajaxResponse(array('status' => 'ko', '该类型APP不存在, 请重试.'));
                 exit();
             }
             if (!$_FILES) {
-                $this->ajaxReturn(array('status' => 'ko', '没有找到要上传的文件, 请重试.'));
+                $this->ajaxResponse(array('status' => 'ko', '没有找到要上传的文件, 请重试.'));
             }
 
             $file_save_info = C('APP_TYPE.' . $type);
             if (empty($file_save_info)) {
-                $this->ajaxReturn(array('status' => 'ko', '该类型APP不存在, 请重试.'));
+                $this->ajaxResponse(array('status' => 'ko', '该类型APP不存在, 请重试.'));
             }
 
             //将原来文件名称改为固定样式 
@@ -86,14 +86,14 @@ class UploadController extends BaseController
                 $new_md5file = md5_file($new_filename);
                 $old_md5file = md5_file($old_filename);
                 if ($old_md5file == $new_md5file) {
-                    $this->ajaxReturn(array('status' => 'ok', 'msg' => '文件没有改动,请重新上传', 'md5' => $new_md5file, 'old_md5' => $old_md5file));
+                    $this->ajaxResponse(array('status' => 'ok', 'msg' => '文件没有改动,请重新上传', 'md5' => $new_md5file, 'old_md5' => $old_md5file));
                     exit();
                 } else {
-                    $this->ajaxReturn(array('status' => 'ok', 'msg' => '文件更改成功', 'md5' => $new_md5file, 'old_md5' => $old_md5file));
+                    $this->ajaxResponse(array('status' => 'ok', 'msg' => '文件更改成功', 'md5' => $new_md5file, 'old_md5' => $old_md5file));
                     exit();
                 }
             } else {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '文件上传失败, ' . $upload->getError()));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '文件上传失败, ' . $upload->getError()));
                 exit();
             }
         }
@@ -224,7 +224,7 @@ class UploadController extends BaseController
         if (IS_AJAX) {
             $type = I('post.type');
             if (empty($type)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '参数错误，无法获取当前版本信息，请刷新页面并重试。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '参数错误，无法获取当前版本信息，请刷新页面并重试。'));
             }
             $app_upload_model = M('AppUpload');
             $versions = $app_upload_model->where(array('is_del' => '0', 'status' => '1', 'type' => $type))
@@ -233,10 +233,10 @@ class UploadController extends BaseController
             $old_version = $versions['version'];
             $external_version = $versions['external_version'];
 
-            $this->ajaxReturn(array('status' => 'ok', 'version' => $old_version, 'version_external' => $external_version));
+            $this->ajaxResponse(array('status' => 'ok', 'version' => $old_version, 'version_external' => $external_version));
 
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '非法请求。'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法请求。'));
         }
     }
 }

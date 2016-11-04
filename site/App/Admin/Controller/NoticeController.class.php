@@ -107,9 +107,9 @@ class NoticeController extends BaseController{
 	        if(M('Notice')->where(array('guid'=>$guid))->save(array('updated_at'=>$time,'status'=>1))){
 				$title = M('Notice')->where(array('guid' => $guid))->getField('title', true);
 				$this->save_msg($guid, $title[0]);
-	            $this->ajaxReturn(array('code'=>'200','Msg'=>'发送成功', 'time' => date('Y-m-d H:i', $time)));
+	            $this->ajaxResponse(array('code'=>'200','Msg'=>'发送成功', 'time' => date('Y-m-d H:i', $time)));
 	        }else{
-	            $this->ajaxReturn(array('code'=>'201','Msg'=>'发送失败'));
+	            $this->ajaxResponse(array('code'=>'201','Msg'=>'发送失败'));
 	        }
 	    }else{
 	        $this->error('非法请求');

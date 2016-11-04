@@ -169,7 +169,7 @@ class SigninController extends BaseUserController{
                 ->where(array('guid' => $user_ticket_guid, 'status' => array('in', array(2, 3, 4)), 'is_del' => 0))
                 ->find();
             if(empty($ticket)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_CHECK_FAILED_PLEASE_RETRY_')));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_CHECK_FAILED_PLEASE_RETRY_')));
             }
 
             // 判断验证次数
@@ -179,7 +179,7 @@ class SigninController extends BaseUserController{
                 $ticket_verify_num = C('ACTIVITY_TICKET_DEFAULT_VERIFY_TIME', null, 10);
             }
             if($ticket['ticket_verify_time'] >= $ticket_verify_num) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_TICKET_WAS_INVALID_')));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_TICKET_WAS_INVALID_')));
             }
 
             // 进行签到
@@ -204,12 +204,12 @@ class SigninController extends BaseUserController{
             M('MsgContent')->where(array('ticket_guid' => $user_ticket_guid))->save(array('status' => 4));
             // 返回结果
             if($result) {
-                $this->ajaxReturn(array('status' => 'ok', 'msg' => L('_CHECK_SUCCESS_')));
+                $this->ajaxResponse(array('status' => 'ok', 'msg' => L('_CHECK_SUCCESS_')));
             } else {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_CHECK_FAILED_PLEASE_RETRY_')));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_CHECK_FAILED_PLEASE_RETRY_')));
             }
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_PARAMETER_ERROR_')));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_PARAMETER_ERROR_')));
         }
     }
 
@@ -224,7 +224,7 @@ class SigninController extends BaseUserController{
             $value = I('post.value'); // 当手动签到时为mobile, 当二维码扫描时, 为ticket_code
             $signin_type = I('post.signin_type');
             if(empty($aid) || empty($value)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_QR_CODE_ERROR_')));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_QR_CODE_ERROR_')));
             }
             // 检查票务是否存在
             $field = $signin_type==1 ? 'ticket_code' : 'mobile';
@@ -236,7 +236,7 @@ class SigninController extends BaseUserController{
                 // echo M('ActivityUserTicket')->getLastSQL();
                 // var_dump($ticket);
             if(empty($ticket)){
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_ONDEFINE_TICKET_')));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_ONDEFINE_TICKET_')));
             }
             $userinfo= array();
             $from= array();
@@ -248,7 +248,7 @@ class SigninController extends BaseUserController{
                 ->where(array('activity_guid' => $aid, 'user_guid' => $ti['user_guid'], 'is_del' => '0'))
                 ->find();
             if(empty($userinfo)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_SYSTEM_ERROR_')));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_SYSTEM_ERROR_')));
             }
             
             
@@ -288,7 +288,7 @@ class SigninController extends BaseUserController{
                 $ticket_verify_num = C('ACTIVITY_TICKET_DEFAULT_VERIFY_TIME', null, 10);
             }
             if($ti['ticket_verify_time'] >= $ticket_verify_num) {
-                $this->ajaxReturn(array('status' => 'ok', 'data' => $userinfo, 'msg' => L('_TICKET_WAS_INVALID_')));
+                $this->ajaxResponse(array('status' => 'ok', 'data' => $userinfo, 'msg' => L('_TICKET_WAS_INVALID_')));
             }
             
             // 返回信息
@@ -296,9 +296,9 @@ class SigninController extends BaseUserController{
             // 
             $i=$i+1;
             }
-            $this->ajaxReturn(array('status' => 'ok', 'data' => $userinfo));
+            $this->ajaxResponse(array('status' => 'ok', 'data' => $userinfo));
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_PARAMETER_ERROR_')));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_PARAMETER_ERROR_')));
         }
     }
 
@@ -406,7 +406,7 @@ class SigninController extends BaseUserController{
         if(IS_POST) {
             $aid = I('get.aid');
             if(empty($aid) || strlen($aid) != 32) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_ADD_FAILED_')));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_ADD_FAILED_')));
             }
 
 //            $activity_id = M('Activity')->where('guid = "'.$aid.'"')->getField('id');
@@ -414,7 +414,7 @@ class SigninController extends BaseUserController{
 
             $params = I('post.');
             if(empty($params)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_ADD_FAILED_')));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_ADD_FAILED_')));
             }
 
             $time = time();
@@ -434,10 +434,10 @@ class SigninController extends BaseUserController{
             $model_userinfo = D('ActivityUserinfo');
             list($check, $r) = $model_userinfo->insert($data_info);
             if(!$check) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => $r));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => $r));
             }
             if(!$r) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_ADD_FAILED_')));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_ADD_FAILED_')));
             }
 
             // 保存其它信息
@@ -486,7 +486,7 @@ class SigninController extends BaseUserController{
             }
             M('ActivityUserTicket')->add($data_ticket);
 
-            $this->ajaxReturn(array('status' => 'ok', 'msg' => '增加成功.', 'data' => array('mobile' => $info['mobile']) ));
+            $this->ajaxResponse(array('status' => 'ok', 'msg' => '增加成功.', 'data' => array('mobile' => $info['mobile']) ));
         }
     }
 
@@ -523,18 +523,18 @@ class SigninController extends BaseUserController{
             $aid = I('get.aid');
             $action = I('get.action', '');
             if(empty($aid)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_PARAMETER_ERROR_')));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_PARAMETER_ERROR_')));
             }
             // 用户列表
             list($show, $list, $is_last_page) = $this->_get_signup_userlist($aid, $action);
 
             if(empty($list)) {
-                $this->ajaxReturn(array('status' => 'nomore', 'msg' => L('_NO_MORE_')));
+                $this->ajaxResponse(array('status' => 'nomore', 'msg' => L('_NO_MORE_')));
             }
 
-            $this->ajaxReturn(array('status' => 'ok', 'msg' => L('_LAOD_SUCCESS_'), 'data' => $list, 'is_last_page' => $is_last_page));
+            $this->ajaxResponse(array('status' => 'ok', 'msg' => L('_LAOD_SUCCESS_'), 'data' => $list, 'is_last_page' => $is_last_page));
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_ILLEGAL_OPERATION_')));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_ILLEGAL_OPERATION_')));
         }
 
     }

@@ -285,18 +285,18 @@ class ActivityController extends BaseHomeController
             $aid    = I('get.aid');
             $action = I('get.action', '');
             if (empty($aid)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '参数错误，请稍后重试。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '参数错误，请稍后重试。'));
             }
             // 用户列表
             list($show, $list, $is_last_page) = $this->_get_signup_userlist($aid, $action);
 
             if (empty($list)) {
-                $this->ajaxReturn(array('status' => 'nomore', 'msg' => '没有更多数据了。'));
+                $this->ajaxResponse(array('status' => 'nomore', 'msg' => '没有更多数据了。'));
             }
 
-            $this->ajaxReturn(array('status' => 'ok', 'msg' => '加载成功。', 'data' => $list, 'is_last_page' => $is_last_page));
+            $this->ajaxResponse(array('status' => 'ok', 'msg' => '加载成功。', 'data' => $list, 'is_last_page' => $is_last_page));
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '非法操作.'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法操作.'));
         }
 
     }
@@ -452,12 +452,12 @@ class ActivityController extends BaseHomeController
         if (IS_POST) {
             $aid = I('get.aid');
             if (empty($aid) || strlen($aid) != 32) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
             }
 
             $params = I('post.');
             if (empty($params)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
             }
 
             $time      = time();
@@ -476,10 +476,10 @@ class ActivityController extends BaseHomeController
             $model_userinfo = D('ActivityUserinfo');
             list($check, $r) = $model_userinfo->insert($data_info);
             if (!$check) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => $r));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => $r));
             }
             if (!$r) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
             }
 
             // 保存其它信息
@@ -522,7 +522,7 @@ class ActivityController extends BaseHomeController
             }
             M('ActivityUserTicket')->add($data_ticket);
 
-            $this->ajaxReturn(array('status' => 'ok', 'msg' => '增加成功.', 'data' => array('mobile' => $info['mobile'])));
+            $this->ajaxResponse(array('status' => 'ok', 'msg' => '增加成功.', 'data' => array('mobile' => $info['mobile'])));
         }
     }
 
@@ -538,11 +538,11 @@ class ActivityController extends BaseHomeController
             $act        = I('post.batch_op');
 
             if (empty($info_guids)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '请选择要操作的用户.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '请选择要操作的用户.'));
             }
 
             if (empty($aid) || empty($act)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
             }
 
             switch ($act) {
@@ -552,11 +552,11 @@ class ActivityController extends BaseHomeController
                     if ($info) {
                         M('ActivityUserinfoOther')->where(array('signup_userinfo_guid' => array('in', $info_guids)))->delete();
                         M('ActivityUserTicket')->where(array('activity_guid' => $aid, 'user_guid' => array('in', $user_guids)))->delete(); // 删除用户票务信息
-                        $this->ajaxReturn(array('status' => 'ok', 'msg' => '删除成功.'));
+                        $this->ajaxResponse(array('status' => 'ok', 'msg' => '删除成功.'));
                     }
                     break;
                 default:
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
                     break;
             }
         }
@@ -574,12 +574,12 @@ class ActivityController extends BaseHomeController
         $act        = I('post.batch_op', 'export');
 
         if (empty($info_guids)) {
-//            $this->ajaxReturn(array('status' => 'ko', 'msg' => '请选择要操作的用户.'));
+//            $this->ajaxResponse(array('status' => 'ko', 'msg' => '请选择要操作的用户.'));
             $this->error('请选择要操作的用户.');
         }
 
         if (empty($aid) || empty($act)) {
-//            $this->ajaxReturn(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
+//            $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
             $this->error('非法操作, 请重试.');
         }
         // 获到表格大标题
@@ -755,7 +755,7 @@ class ActivityController extends BaseHomeController
                 ->where(array('guid' => $userinfo_guid))
                 ->find();
             if (empty($userinfo)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试。4'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试。4'));
             }
 
             $this->views = $this->view;
@@ -776,7 +776,7 @@ class ActivityController extends BaseHomeController
                 $send_way[] = 'sms';
             }
             if (empty($send_way)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败，请刷新页面后重试。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败，请刷新页面后重试。'));
             }
 
             $send['send_way'] = $send_way;
@@ -800,17 +800,17 @@ class ActivityController extends BaseHomeController
             /*******************处理账户余额 end**************************/
 
             if ($logic->errors) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败，请稍后重试'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败，请稍后重试'));
             }
             if ($logic->balance == 0) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败，余额不足，请充值'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败，余额不足，请充值'));
             }
             //vendor('YmPush.TicketInfo');
             //\TicketInfo::sendTicket(json_encode($userinfo), $send);
 			send_ticket($userinfo, $send);
-            $this->ajaxReturn(array('status' => 'ok', 'msg' => '发送完毕，请刷新页面查看发送状态。'));
+            $this->ajaxResponse(array('status' => 'ok', 'msg' => '发送完毕，请刷新页面查看发送状态。'));
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '非法请求。'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法请求。'));
         }
     }
 
@@ -838,7 +838,7 @@ class ActivityController extends BaseHomeController
             if (!empty($target)) { // 发送全部
                 $type = I('post.type', null);
                 if (is_null($type)) {
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.1'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.1'));
                 } else {
                     if ($target == 'all') { // 给全部人员发送电子票
                         $send_way[] = $type;
@@ -846,7 +846,7 @@ class ActivityController extends BaseHomeController
                         // 获取所有已购买电子票的人员GUID
                         //$user_guids = M('ActivityUserTicket')->where(array('activity_guid' => $aguid, 'is_del' => 0, 'status' => array('lt', 2)))->getField('user_guid', true);
                         $user_guids = M('ActivityUserTicket')->where(array('activity_guid' => $aguid, 'is_del' => 0))->getField('user_guid', true);
-                         //  $this->ajaxReturn(array('status' => 'ko', 'msg' => '暂无未发送人员，所有人员均已发送。'));
+                         //  $this->ajaxResponse(array('status' => 'ko', 'msg' => '暂无未发送人员，所有人员均已发送。'));
                         if (empty($user_guids)) {
                         }
                         $where = array('activity_guid' => $aguid, 'is_del' => 0, 'user_guid' => array('IN', $user_guids));
@@ -857,11 +857,11 @@ class ActivityController extends BaseHomeController
                         $user_guids = M('ActivityUserTicket')->where(array('activity_guid' => $aguid, 'is_del' => 0, 'status' => array('lt', 2)))
                             ->getField('user_guid', true);
                         if (empty($user_guids)) {
-                            $this->ajaxReturn(array('status' => 'ko', 'msg' => '暂无未发送人员，所有人员均已发送。'));
+                            $this->ajaxResponse(array('status' => 'ko', 'msg' => '暂无未发送人员，所有人员均已发送。'));
                         }
                         $where = array('activity_guid' => $aguid, 'is_del' => 0, 'user_guid' => array('IN', $user_guids));
                     } else {
-                        $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.2'));
+                        $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.2'));
                     }
                 }
             } else { // 选择发送
@@ -874,7 +874,7 @@ class ActivityController extends BaseHomeController
                 ->order('created_at DESC')
                 ->select();
             if (empty($userinfo)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试。4'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试。4'));
             }
 
             $auth = $this->get_auth_session();
@@ -903,10 +903,10 @@ class ActivityController extends BaseHomeController
                         $logic->afterSendTicket($auth['guid'], $total * 10, C('email_good_guid'), $total);
                     }
                     if ($logic->errors) {
-                        $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败,' . implode(',', $logic->errors)));
+                        $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败,' . implode(',', $logic->errors)));
                     }
                     if ($logic->balance == 0) {
-                        $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败，余额不足，请充值'));
+                        $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败，余额不足，请充值'));
                     }
                     //vendor('YmPush.TicketInfo');
                     //\TicketInfo::setList('meetelf', 'ticket', $userinfo, $send, 1);
@@ -916,18 +916,18 @@ class ActivityController extends BaseHomeController
                     $is_send = true;
                     break;
                 default:
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '提交错误，请刷新页面后重试。3'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '提交错误，请刷新页面后重试。3'));
                     break;
             }
 
             if ($is_send == true) {
-                $this->ajaxReturn(array('status' => 'ok', 'msg' => '发送完毕，请刷新页面查看发送状态。'));
+                $this->ajaxResponse(array('status' => 'ok', 'msg' => '发送完毕，请刷新页面查看发送状态。'));
             } else {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '非法访问。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法访问。'));
             }
 
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '对不起，您访问的页面不存在。'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '对不起，您访问的页面不存在。'));
         }
     }
 
@@ -1701,18 +1701,18 @@ class ActivityController extends BaseHomeController
     {
         if (IS_AJAX) {
             $tid = I('post.tid');
-            if (empty($tid)) $this->ajaxReturn(array('status' => 'ko', 'msg' => '删除失败，请稍后重试。'));
+            if (empty($tid)) $this->ajaxResponse(array('status' => 'ko', 'msg' => '删除失败，请稍后重试。'));
 
             $result = M('ActivityAttrTicket')->where(array('guid' => $tid))->delete();
             if ($result) {
                 $logic = D('Goods', 'Logic');
                 $logic->update_goods(array('status' => 0), array('ticket_guid' => $tid));
-                $this->ajaxReturn(array('status' => 'ok'));
+                $this->ajaxResponse(array('status' => 'ok'));
             } else {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '删除失败，请稍后重试。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '删除失败，请稍后重试。'));
             }
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '删除失败，请稍后重试。'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '删除失败，请稍后重试。'));
         }
     }
 
@@ -1733,7 +1733,7 @@ class ActivityController extends BaseHomeController
                 echo 'false'; exit();
             }
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '删除失败，请稍后重试。'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '删除失败，请稍后重试。'));
         }
     }
 
@@ -1854,12 +1854,12 @@ class ActivityController extends BaseHomeController
             if ($this->check_activity_num('published')) {
 //                $vip_config = $this->get_vip_info();
 //                $publish_limit_num = $vip_config['NUM_ACTIVITY_PUBLISH_PER_DAY'];
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '发布失败, 发布次数超出每日是发布限制.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '发布失败, 发布次数超出每日是发布限制.'));
             }
 
             $aid = I('post.aid');
             if (strlen($aid) != 32) {
-                $this->ajaxReturn(array('status' => 'ok', 'msg' => '参数错误，请刷新后重试。'));
+                $this->ajaxResponse(array('status' => 'ok', 'msg' => '参数错误，请刷新后重试。'));
             }
 
             $model_activity = D('Activity');
@@ -1879,9 +1879,9 @@ class ActivityController extends BaseHomeController
 
             if ($result) {
                 $this->_send_notice($info['org_group_guid'], $info['name'], $aid);
-                $this->ajaxReturn(array('status' => 'ok', 'msg' => '发布成功。', 'activity_status' => $status));
+                $this->ajaxResponse(array('status' => 'ok', 'msg' => '发布成功。', 'activity_status' => $status));
             } else {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '发布失败，请重试。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '发布失败，请重试。'));
             }
         }
     }
@@ -1909,14 +1909,14 @@ class ActivityController extends BaseHomeController
             $aid = I('post.aid');
             $sid = I('post.sid');
             if (empty($aid) || empty($sid)) {
-                $this->ajaxReturn(array('status' => 'ok', 'msg' => '参数错误，请刷新后重试。'));
+                $this->ajaxResponse(array('status' => 'ok', 'msg' => '参数错误，请刷新后重试。'));
             }
 
             $result = D('Activity')->where(array('guid' => $aid))->setField('subject_guid', null);
             if ($result) {
-                $this->ajaxReturn(array('status' => 'ok', 'msg' => '移除成功。'));
+                $this->ajaxResponse(array('status' => 'ok', 'msg' => '移除成功。'));
             } else {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '移除失败，请重试。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '移除失败，请重试。'));
             }
         }
     }
@@ -2050,9 +2050,9 @@ class ActivityController extends BaseHomeController
             $name = I('post.name');
             $word = censor_words($name);
             if ($word) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => "标题包含敏感词[{$word}]"));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => "标题包含敏感词[{$word}]"));
             }
-            $this->ajaxReturn(array('status' => 'ok'));
+            $this->ajaxResponse(array('status' => 'ok'));
             exit();
         }
     }

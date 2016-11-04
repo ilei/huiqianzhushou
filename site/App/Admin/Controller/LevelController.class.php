@@ -47,20 +47,20 @@ class LevelController extends BaseController{
             if (I('post.guid')){
                 $data['updated_at']=time();
                 if($AuthorityM->where(array('guid'=>I('post.guid')))->save($data)){
-                    $this->ajaxReturn(array('code'=>'200'));
+                    $this->ajaxResponse(array('code'=>'200'));
                 }else{
-                    $this->ajaxReturn(array('code'=>'201','Msg'=>'保存失败'));
+                    $this->ajaxResponse(array('code'=>'201','Msg'=>'保存失败'));
                 }
             }else{
                 $data['guid']=create_guid();
                 if($AuthorityM->create($data)){
                     if ($AuthorityM->add()){
-                        $this->ajaxReturn(array('code'=>'200'));
+                        $this->ajaxResponse(array('code'=>'200'));
                     }else{
-                        $this->ajaxReturn(array('code'=>'201','Msg'=>'保存失败'));
+                        $this->ajaxResponse(array('code'=>'201','Msg'=>'保存失败'));
                     }
                 }else{
-                    $this->ajaxReturn(array('code'=>'201','Msg'=>$AuthorityM->getError()));
+                    $this->ajaxResponse(array('code'=>'201','Msg'=>$AuthorityM->getError()));
                 }
             }
         }else{
@@ -102,9 +102,9 @@ class LevelController extends BaseController{
                 $distribution_data[]=array('level_guid'=>$level_guid,'authority_guid'=>$key,'value'=>$value);
             }
             if(M('GradeValue')->addAll($distribution_data,$options=array(),$replace=true)){
-                 $this->ajaxReturn(array('code'=>'200'));
+                 $this->ajaxResponse(array('code'=>'200'));
             }else{
-                  $this->ajaxReturn(array('code'=>'201','Msg'=>'保存失败'));
+                  $this->ajaxResponse(array('code'=>'201','Msg'=>'保存失败'));
             }
         }else{
             $this->error('非法请求');
@@ -129,9 +129,9 @@ class LevelController extends BaseController{
                 }
             }
             if(file_put_contents(CONF_PATH  . 'level.php', "<?php \n return".' '.var_export($res ,true) .';') > 0){
-                $this->ajaxReturn(array('code'=>'200','Msg'=>'生成成功'));
+                $this->ajaxResponse(array('code'=>'200','Msg'=>'生成成功'));
             }else{
-                $this->ajaxReturn(array('code'=>'201','Msg'=>'生成失败'));
+                $this->ajaxResponse(array('code'=>'201','Msg'=>'生成失败'));
             }
         }else{
             $this->error('非法请求');

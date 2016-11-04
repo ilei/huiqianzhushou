@@ -182,14 +182,14 @@ class InformationController extends BaseController{
     {
         $areaid = I('post.id');
         if ($areaid < 1) {
-            $this->ajaxReturn(array('status' => 'ok', 'data' => false));
+            $this->ajaxResponse(array('status' => 'ok', 'data' => false));
         }
 
         $res = D('Area')->find_all('parent_id="' . $areaid . '"', 'id, name');
         if (!empty($res)) {
-            $this->ajaxReturn(array('status' => 'ok', 'data' => $res));
+            $this->ajaxResponse(array('status' => 'ok', 'data' => $res));
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_PARAMETER_ERROR_')));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_PARAMETER_ERROR_')));
         }
 
     }
@@ -345,13 +345,13 @@ class InformationController extends BaseController{
         $guid = I('get.guid');
         // echo $guid;die;
         if (empty($guid)) {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_DEL_FILAD_')));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_DEL_FILAD_')));
         }
 
         // 检查是否存在
         $exist = D('OrganizerInfo')->find_one(array('guid' => $guid));
         if (!$exist) {
-            $this->ajaxReturn(array('status' => 'ok', 'msg' => L('_DEL_SUCCESS_')));
+            $this->ajaxResponse(array('status' => 'ok', 'msg' => L('_DEL_SUCCESS_')));
         }
 
         // 执行删除操作
@@ -360,9 +360,9 @@ class InformationController extends BaseController{
 
         // 返回数据
         if (empty($res)) {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_DEL_FILAD_')));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_DEL_FILAD_')));
         }
-        $this->ajaxReturn(array('status' => 'ok', 'msg' => L('_DEL_SUCCESS_')));
+        $this->ajaxResponse(array('status' => 'ok', 'msg' => L('_DEL_SUCCESS_')));
     }
 
     /**
@@ -428,7 +428,7 @@ class InformationController extends BaseController{
         $user_count = $model->where(array('user_guid' => $auth['guid'], 'is_del' => C('SIGINUSER.NO_DEL', null, 10)))->count();
         $num_limit  = C('SIGINUSER.MAX_NUM', null, 10);
         if ($user_count >= $num_limit) {
-            $this->ajaxReturn(array('status' => C('ajax_failed'),'msg'=>L('_NOT_CREATE_ACCOUNT_') . $num_limit . L('_USER_ACCOUNT_')));
+            $this->ajaxResponse(array('status' => C('ajax_failed'),'msg'=>L('_NOT_CREATE_ACCOUNT_') . $num_limit . L('_USER_ACCOUNT_')));
         }
         if (IS_POST) {
             $data = array(
@@ -449,7 +449,7 @@ class InformationController extends BaseController{
                 }
                 $res = $model->add($data);
                 if (!$res) {
-                    $this->ajaxReturn(array('status' => C('ajax_failed'),'msg'=>L('_MSG_FILAD_')));
+                    $this->ajaxResponse(array('status' => C('ajax_failed'),'msg'=>L('_MSG_FILAD_')));
                 }
                 // $go = intval(I('post.go'));
                 // if ($go) {
@@ -458,7 +458,7 @@ class InformationController extends BaseController{
                 exit($this->success(L('_ACCOUNT_SUCCESS_'), U('Home/User/account')));
                 // }
             } else {
-                $this->ajaxReturn(array('status' => C('ajax_failed'),'msg'=>L('_ACCOUNT_EXISTED_')));
+                $this->ajaxResponse(array('status' => C('ajax_failed'),'msg'=>L('_ACCOUNT_EXISTED_')));
             }
         }
         $this->assign('meta_title', L('_ADD_ACCOUNT_'));
@@ -476,13 +476,13 @@ class InformationController extends BaseController{
     {
         $guid = I('get.guid');
         if (empty($guid)) {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_DEL_FILAD_')));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_DEL_FILAD_')));
         }
 
         // 检查是否存在
         $exist = D('SigninUser')->find_one(array('guid' => $guid));
         if (!$exist) {
-            $this->ajaxReturn(array('status' => 'ok', 'msg' => L('_DEL_SUCCESS_')));
+            $this->ajaxResponse(array('status' => 'ok', 'msg' => L('_DEL_SUCCESS_')));
         }
 
         // 执行删除操作
@@ -493,9 +493,9 @@ class InformationController extends BaseController{
 
         // 返回数据
         if (empty($res)) {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => L('_DEL_FILAD_')));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_DEL_FILAD_')));
         }
-        $this->ajaxReturn(array('status' => 'ok', 'msg' => L('_DEL_SUCCESS_')));
+        $this->ajaxResponse(array('status' => 'ok', 'msg' => L('_DEL_SUCCESS_')));
     }
 
     /**
@@ -597,7 +597,7 @@ class InformationController extends BaseController{
             $return_data['pager'] = $pager;
             $return_data['data'] = $this->fetch('_wallet_list');
             layout(false);
-            $this->ajaxReturn($return_data,'json');
+            $this->ajaxResponse($return_data,'json');
             die;
         }
         $this->show();
@@ -650,9 +650,9 @@ class InformationController extends BaseController{
                 // echo $model_user->getLastSQL();
                 // var_dump($r);
             }
-            $this->ajax_return(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
+            $this->ajax_response(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
         }else{
-            $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_EMAIL_EXISTED_')));
+            $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_EMAIL_EXISTED_')));
         }
     }
     /**
@@ -665,9 +665,9 @@ class InformationController extends BaseController{
         $model_user = D('User');
         $r = $model_user->where(array('guid' => $auth['guid']))->save(array('email_verify' =>0));
         if ($r) {
-            $this->ajax_return(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
+            $this->ajax_response(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
         }else{
-            $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_FAILURE_TO_CANCEL_')));
+            $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_FAILURE_TO_CANCEL_')));
         }
     }
     //验证码
@@ -752,10 +752,10 @@ class InformationController extends BaseController{
             $res = M('CheckMobile')->data($data)->add();
             if($res){
                 send_sms(C('CODE_TYPE.api_verify_mobile'), $mobile, array($code, 30), array('type' => 1));//发送验证码
-                $this->ajax_return(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
+                $this->ajax_response(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
             }
         }else{
-            $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_TIME_OUT_')));
+            $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_TIME_OUT_')));
         }    
     }
 
@@ -804,18 +804,18 @@ class InformationController extends BaseController{
     //        if(empty($uid) || empty($vcode) || strlen($vcode) < 6){
     //            $return_data['status'] = 'ko';
     //            $return_data['msg'] = '数据错误，请稍后重启';
-    //            $this->ajaxReturn(return_data);
+    //            $this->ajaxResponse(return_data);
     //        }
     //
     //        $res = D('User')->where(array('guid' => $uid))->data(array('login_verify_code' => $vcode))->save();
     //        if(!empty($res)){
     //            $return_data['status'] = 'ok';
     //            $return_data['msg'] = '登录校验码,修改成功';
-    //            $this->ajaxReturn($return_data);
+    //            $this->ajaxResponse($return_data);
     //        }else{
     //            $return_data['status'] = 'ko';
     //            $return_data['msg'] = '登陆校验码，修改失败。请稍后再试';
-    //            $this->ajaxReturn(return_data);
+    //            $this->ajaxResponse(return_data);
     //        }
     //
     //    }

@@ -49,10 +49,10 @@ class BaseHomeController extends BaseController
         }
         if(empty($token) || (!empty($token) && $token != $current_token)) {
             if(IS_AJAX) {
-                $this->ajaxReturn(array('status'=>'ko', 'msg'=>'帐号登陆失效, 请刷新当前页面.'));
+                $this->ajaxResponse(array('status'=>'ko', 'msg'=>'帐号登陆失效, 请刷新当前页面.'));
             } else {
                 if(IS_AJAX) {
-                    $this->ajaxReturn(array('status'=>'ko', 'msg'=>'帐号登陆失效, 请刷新当前页面.'));
+                    $this->ajaxResponse(array('status'=>'ko', 'msg'=>'帐号登陆失效, 请刷新当前页面.'));
                 } else {
                     $session_auth = $this->get_auth_session();
                     if(empty($session_auth)) {

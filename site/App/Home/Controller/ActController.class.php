@@ -1,13 +1,10 @@
 <?php
 namespace Home\Controller;
 
-use       Think\Image;
-
 /**
  * 活动控制器
- *
- * @author wangleiming<wangleiming@yunmai365.com>
  **/
+
 class ActController extends BaseController
 {
 
@@ -70,25 +67,25 @@ class ActController extends BaseController
             $auth = $this->get_auth_session();
             $act = D('Activity')->where(array('guid' => $guid, 'user_guid' => $auth['guid']))->find();
             if (!$act) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             } else {
                 $post = I('post.');
                 if (!$post['name']) {
-                    $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_NAME_NOT_EMPTY_')));
+                    $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_NAME_NOT_EMPTY_')));
                 } elseif (!intval($post['num'])) {
-                    $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_TiCKET_NUM_NOT_EMPTY_')));
+                    $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_TiCKET_NUM_NOT_EMPTY_')));
                 }
                 $condition = array('activity_guid' => $guid, 'name' => $post['name']);
                 $exist = M('ActivityAttrTicket')->where($condition)->find();
                 if ($exist) {
-                    $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_NAME_EXIST_')));
+                    $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_NAME_EXIST_')));
                 }
                 $logic = D('Act', 'Logic');
                 $r = $logic->save_ticket(array('new' => array($post)), $guid, $act, $auth['guid'], false);
                 if($r){
-                    $this->ajax_return(array('status' => C('ajax_success')));
+                    $this->ajax_response(array('status' => C('ajax_success')));
                 } else {
-                    $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                    $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
                 }
             }
         }
@@ -111,22 +108,22 @@ class ActController extends BaseController
             $guid = trim(I('post.guid'));
             $post = I('post.');
             if (!$post['name']) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_NAME_NOT_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_NAME_NOT_EMPTY_')));
             } elseif (!intval($post['num'])) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_TiCKET_NUM_NOT_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_TiCKET_NUM_NOT_EMPTY_')));
             }
             $condition = array('activity_guid' => $activity_guid, 'name' => $post['name']);
             $exist = M('ActivityAttrTicket')->where($condition)->find();
             if ($exist && $exist['guid'] != $guid) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_NAME_EXIST_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_NAME_EXIST_')));
             }
             $act = D('Activity')->where(array('guid' => $activity_guid))->find();
             $logic = D('Act', 'Logic');
             $res  = $logic->save_ticket(array('old' => array($post)), $activity_guid, $act, $auth['guid'], false);
             if ($res) {
-                $this->ajax_return(array('status' => C('ajax_success')));
+                $this->ajax_response(array('status' => C('ajax_success')));
             } else {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             }
         }
         exit();
@@ -146,16 +143,16 @@ class ActController extends BaseController
             $this->ajax_request_limit('act::get_ticket_info::');
             $guid = I('get.guid');
             if (!$guid) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             } else {
                 $condition = array('guid' => $guid);
                 $res = M('ActivityAttrTicket')->where($condition)->find();
                 $this->assign('ticket', $res);
                 $content = $this->fetch('ticket_info');
                 if ($content && $res) {
-                    $this->ajax_return(array('status' => C('ajax_success'), 'content' => $content));
+                    $this->ajax_response(array('status' => C('ajax_success'), 'content' => $content));
                 } else {
-                    $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                    $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
                 }
             }
         }
@@ -177,12 +174,12 @@ class ActController extends BaseController
             $guid = trim(I('get.guid'));
             $status = intval(I('post.status')) ? 1 : 0;
             if (!$guid) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             } else {
                 $condition = array('guid' => $guid);
                 $data = array('is_for_sale' => $status);
                 $res = M('ActivityAttrTicket')->where($condition)->save($data);
-                $this->ajax_return(array('status' => C('ajax_success')));
+                $this->ajax_response(array('status' => C('ajax_success')));
             }
         }
         exit();
@@ -203,13 +200,13 @@ class ActController extends BaseController
             $status = intval(I('post.status')) ? 1 : 0;
             $guid = trim(I('post.guid'));
             if (!$guid) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             } else {
                 $auth = $this->get_auth_session();
                 $condition = array('guid' => $guid, 'user_guid' => $auth['guid']);
                 $data = array('is_signup' => $status);
                 $res = M('Activity')->where($condition)->save($data);
-                $this->ajax_return(array('status' => C('ajax_success')));
+                $this->ajax_response(array('status' => C('ajax_success')));
             }
         }
         exit();
@@ -247,13 +244,6 @@ class ActController extends BaseController
                         $value['sales'] = $sales[$value['guid']];
                     }
                 }
-//                if($activity['is_verify'] == 0){
-//                     4;
-//                }elseif($activity['is_verify'] == 1){
-//                    $activity['status'];}else{
-//                    $activity['is_verify'];
-//                }
-
                 $activity['activity_is_verify'] = $activity['is_verify'];
                 $this->assign('act', $activity);
                 $this->assign('tickets', $ticket);
@@ -272,13 +262,13 @@ class ActController extends BaseController
      * @return mixed
      **/
 
-    private function _add_activity($activity_guid = null)
+    private function private_add_act($activity_guid = null)
     {
         // 若活动不为文章活动则开始时间和结束时间为必填
         $start_time = I('post.start_time', null);
         $end_time = I('post.end_time', null);
         if (empty($start_time) || empty($end_time)) {
-            $this->ajax_return(C('ajax_failed', L('_ACT_START_END_TIME_NOT_EMPTY_')));
+            $this->ajax_response(C('ajax_failed', L('_ACT_START_END_TIME_NOT_EMPTY_')));
         }
 
         $this->time = time();
@@ -318,7 +308,7 @@ class ActController extends BaseController
         // 判断是否发布
         if ($data_activity['status'] == '1') {
             //判断发布数是否超过配置
-            if ($this->check_activity_num('published')) {
+            if ($this->private_check_act_number('published')) {
                 $data_activity['status'] = '0';
                 $not_allow_publish = true;
             } else {
@@ -334,9 +324,8 @@ class ActController extends BaseController
             $condition = array('guid' => $activity_guid);
             list($check, $r) = $model_activity->update($condition, $data_activity);
         }
-        send_email('service@yunmai365.com','酷客会签','活动审核提醒','<h6><b>有新活动发布了，请去管理后台审核活动</b></h6>');
         if (!$check || !$r) {
-            $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_ACT_SAVE_FAILED_')));
+            $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_ACT_SAVE_FAILED_')));
         }
         return array($not_allow_publish, $data_activity);
     }
@@ -350,7 +339,7 @@ class ActController extends BaseController
      * @return true or false
      **/
 
-    private function check_activity_num($type = '')
+    private function private_check_act_number($type = '')
     {
         return false;
         $auth = $this->get_auth_session();
@@ -388,19 +377,19 @@ class ActController extends BaseController
             $this->ajax_request_limit('act::ajax_add_activity', 1, 5);
             $name = I('post.name');
             if ($tmp = censor_words($name)) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_ACTIVITY_TITLE_BANNED_') . $tmp));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_ACTIVITY_TITLE_BANNED_') . $tmp));
             }
             //后台验证文章内容
             if (!I('post.content')) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_ACT_CONTENT_NOT_EMPTY')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_ACT_CONTENT_NOT_EMPTY')));
             }
 
             if (!I('post.op_ticket')) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_ACT_TICKET_NOT_EMPTY')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_ACT_TICKET_NOT_EMPTY')));
             }
 
             //***************存储活动表数据******************
-            list($_not_allow_publish, $data_activity) = $this->_add_activity($activity_guid);
+            list($_not_allow_publish, $data_activity) = $this->private_add_act($activity_guid);
             $data_activity['guid'] = $activity_guid;
 
             // ************** 增加 承办机构 **************
@@ -429,9 +418,9 @@ class ActController extends BaseController
             }
             $status_post = I('post.status_post');
             if ($_not_allow_publish) {
-                $this->ajax_return(array('status' => C('ajax_success'), 'msg' => L('_ACT_SAVE_NOT_PUB_'), 'status_post' => $status_post, 'url' => U('Home/Act/manage/', array('guid' => $activity_guid)), 'preview_url' => U('Home/Act/mpreview', array('guid' => $activity_guid))));
+                $this->ajax_response(array('status' => C('ajax_success'), 'msg' => L('_ACT_SAVE_NOT_PUB_'), 'status_post' => $status_post, 'url' => U('Home/Act/manage/', array('guid' => $activity_guid)), 'preview_url' => U('Home/Act/mpreview', array('guid' => $activity_guid))));
             } else {
-                $this->ajax_return(array('status' => C('ajax_success'), 'status_post' => $status_post, 'url' => U('Home/Act/manage', array('guid' => $activity_guid)), 'preview_url' => U('Home/Act/mpreview', array('guid' => $activity_guid,'type'=>1))));
+                $this->ajax_response(array('status' => C('ajax_success'), 'status_post' => $status_post, 'url' => U('Home/Act/manage', array('guid' => $activity_guid)), 'preview_url' => U('Home/Act/mpreview', array('guid' => $activity_guid,'type'=>1))));
             }
         }
         $all_info = $logic->get_act_info($activity_guid, $user_guid);
@@ -441,18 +430,8 @@ class ActController extends BaseController
         } elseif ($activity['is_del']) {
             $this->error(L('_ACT_NOT_EXIST_'));
         } elseif (!$activity['status'] && $activity['start_time'] < time()) {
-//
-//            //未发布
-//            if ($activity['status'] != C('act.unpublished')) {
-//                M('Activity')->where(array('guid' => $activity['guid']))->save(array('status' => C('act.closed')));
-//            } else {
-//                M('Activity')->where(array('guid' => $activity['guid']))->save(array('status' => C('act.going_on')));
-//            }
-//
-//
-//            $this->error(meetelf_lang('_ACT_STATUS_.' . C('act.going_on')));
         } elseif ($activity['status'] > 0) {
-            $this->error(meetelf_lang('_ACT_STATUS_.' . $activity['status']));
+            $this->error(kookeg_lang('_ACT_STATUS_.' . $activity['status']));
         }
 
         $subjects = M('ActivitySubject')->select();
@@ -502,7 +481,7 @@ class ActController extends BaseController
         $this->css[] = 'meetelf/css/bootstrap-combobox.css';
         $this->css[] = 'meetelf/css/home.registration.load-css.css';
         //判断创建数是否超过配置
-        if ($this->check_activity_num()) {
+        if ($this->private_check_act_number()) {
             $this->error(L('_ACT_CREATE_OVER_'));
         }
 
@@ -517,23 +496,23 @@ class ActController extends BaseController
             $this->ajax_request_limit('act::ajax_add_activity', 1, 5);
             $name = I('post.title');
             if ($tmp = censor_words($name)) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_ACTIVITY_TITLE_BANNED_') . $tmp));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_ACTIVITY_TITLE_BANNED_') . $tmp));
             }
             //后台验证文章内容
             if (!I('post.content')) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_ACT_CONTENT_NOT_EMPTY')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_ACT_CONTENT_NOT_EMPTY')));
             }
 
             if (!I('post.op_ticket')) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_ACT_TICKET_NOT_EMPTY')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_ACT_TICKET_NOT_EMPTY')));
             }
             if(!I('post.op_undertaker')){
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_ACT_UNDERTAKER_NOT_EMPTY')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_ACT_UNDERTAKER_NOT_EMPTY')));
             }
 
             M()->startTrans();
             //***************存储活动表数据******************
-            list($_not_allow_publish, $data_activity) = $this->_add_activity();
+            list($_not_allow_publish, $data_activity) = $this->private_add_act();
 
             // ************** 增加 承办机构 **************
             $undertakers = I('post.op_undertaker');
@@ -581,7 +560,7 @@ class ActController extends BaseController
             if ($_not_allow_publish) {
                 $return['msg'] = L('_ACT_SAVE_NOT_PUB_');
             }
-            $this->ajax_return($return);
+            $this->ajax_response($return);
         }
         $where = array(
             'status' => 1,
@@ -615,11 +594,6 @@ class ActController extends BaseController
         $this->show();
     }
 
-    /**
-     * 显示页面
-     * CT 2015.09.18 10:00 by manonloki
-     * UT 2015.09.23 17:45 by manonloki ActivityMange -> Act
-     */
     public function act_manage()
     {
         //设置母版页
@@ -690,7 +664,7 @@ class ActController extends BaseController
         }
         //检查是否为活动发布者
         if ($activity_data['owner_user_guid'] !== $owner_user_guid) {
-            $this->error(meetelf_lang("_ILLEGAL_OPERATION_"));
+            $this->error(kookeg_lang("_ILLEGAL_OPERATION_"));
             die();
         }
 
@@ -700,14 +674,14 @@ class ActController extends BaseController
 
         //获取活动状态
         if (intval($activity_data['activity_status']) == 0) {
-            $activity_data['activity_real_status'] = meetelf_lang("k__activity.is_verify." . $activity_data['activity_is_verify']);
+            $activity_data['activity_real_status'] = kookeg_lang("k__activity.is_verify." . $activity_data['activity_is_verify']);
         } else {
-            $activity_data['activity_real_status'] = meetelf_lang("k__activity.status." . $activity_data['activity_status']);
+            $activity_data['activity_real_status'] = kookeg_lang("k__activity.status." . $activity_data['activity_status']);
         }
-        $activity_data['activity_status_string'] = meetelf_lang("k__activity.status." . $activity_data['activity_status']);
+        $activity_data['activity_status_string'] = kookeg_lang("k__activity.status." . $activity_data['activity_status']);
         //获取活动持续时间
         if (empty($activity_data['activity_start_time']) || empty($activity_data['activity_end_time'])) {
-            $activity_data['time_of_duration'] = meetelf_lang('_TIME_ALONG_');
+            $activity_data['time_of_duration'] = kookeg_lang('_TIME_ALONG_');
         } else {
             $timestampDiff = floatval($activity_data['activity_end_time']) - floatval($activity_data['activity_start_time']);
             $activity_data['time_of_duration'] = ceil($timestampDiff / (24 * 60 * 60));//单位  天
@@ -738,12 +712,12 @@ class ActController extends BaseController
         $this->assign('aguid',$activity_data['activity_guid']);
 
         //设置数据源
-        $this->_manage_order_data();
-        $this->_manage_ticket_data();
+        $this->private_man_odata();
+        $this->private_man_tic_data();
 
 
         //附加JS/CSS/TITILE
-        $this->title = meetelf_lang('_MANAGE_TITLE_');
+        $this->title = kookeg_lang('_MANAGE_TITLE_');
         //样式列表
         $this->css[] = 'meetelf/home/css/home.create-activities.css';
         $this->css[] = 'meetelf/home/css/home.release.css';
@@ -755,11 +729,6 @@ class ActController extends BaseController
     }
 
 
-    /**
-     * 生成活动URL二维码，连接中不带TOKEN，APP扫描时需要加token功能
-     * @param $activity_info 活动信息
-     * CT: 2015-02-05 09:55 BY YLX
-     */
     public function qrcode()
     {
         $aid = I('get.aid');
@@ -816,13 +785,7 @@ class ActController extends BaseController
 
     }
 
-    /**
-     * 获取票据数据
-     * CT 2015.09.20 17:10 by manonloki
-     * UT 2015.09.21 14:55 by manonloki
-     * UT 2015.09.23 17:45 BY MANONLOKI ActivityMange -> Act
-     */
-    private function _manage_ticket_data()
+    private function private_man_tic_data()
     {
             //获取参数
             $aid = I('get.aguid');
@@ -886,12 +849,7 @@ class ActController extends BaseController
         ));
     }
 
-    /**
-     * 获取订单数据
-     * CT 2015.09.20 19:00 by manonloki
-     * UT 2015.09.23 17:45 BY MANONLOKI ActivityMange -> Act
-     */
-    private function  _manage_order_data()
+    private function  private_man_odata()
     {
             //获取参数
             $aid = I('get.aguid');
@@ -919,9 +877,9 @@ class ActController extends BaseController
                 ->select();
 
             foreach ($order_info as &$v) {
-                $v['order_status_string'] = meetelf_lang('k__order.status.' . $v['order_status']);
+                $v['order_status_string'] = kookeg_lang('k__order.status.' . $v['order_status']);
                 if (floatval($v['ticket_price'] == 0)) {
-                    $v['ticket_price_string'] = meetelf_lang('_NO_MONEY_');
+                    $v['ticket_price_string'] = kookeg_lang('_NO_MONEY_');
                 } else {
                     $v['ticket_price_string'] = $v['ticket_price'];
                 }
@@ -932,10 +890,6 @@ class ActController extends BaseController
         $this->assign("datasource", $order_info);
     }
 
-    /**
-     * 取消发布
-     * CT 2015.10.12 17:20 by manonloki
-     */
     public function  ajax_manage_cancel_activity()
     {
         layout(false);
@@ -944,7 +898,7 @@ class ActController extends BaseController
         $aid = I('post.aid');
 
         if (empty($aid)) {
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'status' => C('ajax_failed'),
             ), 'json');
         }
@@ -981,21 +935,16 @@ class ActController extends BaseController
             ));
 
         if ($update_result === false) {
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'status' => C('ajax_failed'),
             ), 'json');
         } else {
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'status' => C('ajax_success'),
             ), 'json');
         }
     }
 
-    /**
-     * 关闭活动
-     * CT 2015.09.21 09:55 by manonloki
-     * UT 2015.09.23 17:45 BY MANONLOKI ActivityMange -> Act
-     */
     public function ajax_manage_close_activity()
     {
         //关闭母版页
@@ -1004,7 +953,7 @@ class ActController extends BaseController
         $aid = I('post.aid');
 
         if (empty($aid)) {
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'status' => C('ajax_failed'),
             ), 'json');
         }
@@ -1019,11 +968,11 @@ class ActController extends BaseController
             ));
 
         if ($update_result === false) {
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'status' => C('ajax_failed'),
             ), 'json');
         } else {
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'status' => C('ajax_success'),
             ), 'json');
         }
@@ -1044,7 +993,7 @@ class ActController extends BaseController
         $aid = I('post.aid');
 
         if (empty($aid)) {
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'status' => C('ajax_failed'),
             ), 'json');
         }
@@ -1059,11 +1008,11 @@ class ActController extends BaseController
             ));
 
         if ($update_result === false) {
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'status' => C('ajax_failed'),
             ), 'json');
         } else {
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'status' => C('ajax_success'),
             ), 'json');
         }
@@ -1073,12 +1022,12 @@ class ActController extends BaseController
         if(IS_AJAX){
            $words = I('post.words');   
            if(!$words){
-               $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => C("_PARAM_ERROR_"))); 
+               $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => C("_PARAM_ERROR_"))); 
            }
            if($tmp = censor_words($words)) {
-               $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_ACTIVITY_TITLE_BANNED_') . $tmp));
+               $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_ACTIVITY_TITLE_BANNED_') . $tmp));
            }
-           $this->ajax_return(array('status' => C('ajax_success')));
+           $this->ajax_response(array('status' => C('ajax_success')));
         } 
         exit();
     }

@@ -157,8 +157,8 @@ class TicketController extends BaseController
                 }
 
                 //整理数据
-                $value['activity_status_string']= meetelf_lang('k__activity.status.' . $value['activity_status']);
-                $value['ticket_status_string'] = meetelf_lang('k__activity_user_ticket.status.' . $value['ticket_status']);
+                $value['activity_status_string']= kookeg_lang('k__activity.status.' . $value['activity_status']);
+                $value['ticket_status_string'] = kookeg_lang('k__activity_user_ticket.status.' . $value['ticket_status']);
                 $value['contact'] = $value['buyer_mobile'] . ($value['buyer_email'] == '' ? '' : '<br>' . $value['buyer_email']);
             }
 
@@ -172,9 +172,9 @@ class TicketController extends BaseController
 
         //标签标题
         $tab_titles=array(
-            'tab_allText' => meetelf_lang('_TAB_ALL_') . '(' . $ticket_all_count . ')',
-            'tab_unuseText' => meetelf_lang('_TAB_UNUSE_') . '(' . $ticket_unuse_count . ')',
-            'tab_usedText' => meetelf_lang('_TAB_USED_') . '(' . $ticket_used_count . ')'
+            'tab_allText' => kookeg_lang('_TAB_ALL_') . '(' . $ticket_all_count . ')',
+            'tab_unuseText' => kookeg_lang('_TAB_UNUSE_') . '(' . $ticket_unuse_count . ')',
+            'tab_usedText' => kookeg_lang('_TAB_USED_') . '(' . $ticket_used_count . ')'
         );
 
         //增加数据源
@@ -193,19 +193,19 @@ class TicketController extends BaseController
 
         }else if(IS_POST){
             layout(false);
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'status' => C('ajax_success'),
                 'data' => array(
                     'content' => $this->fetch('Ticket:_mine_tickets_item'),
                     'pager' => $pager_html,
-                    'tab_allText' => meetelf_lang('_TAB_ALL_') . '(' . $ticket_all_count . ')',
-                    'tab_unuseText' => meetelf_lang('_TAB_UNUSE_') . '(' . $ticket_unuse_count . ')',
-                    'tab_usedText' => meetelf_lang('_TAB_USED_') . '(' . $ticket_used_count . ')'
+                    'tab_allText' => kookeg_lang('_TAB_ALL_') . '(' . $ticket_all_count . ')',
+                    'tab_unuseText' => kookeg_lang('_TAB_UNUSE_') . '(' . $ticket_unuse_count . ')',
+                    'tab_usedText' => kookeg_lang('_TAB_USED_') . '(' . $ticket_used_count . ')'
                 ),
 
             ));
 
-            $this->ajaxReturn(array('msg'=>'hello'),'json');
+            $this->ajaxResponse(array('msg'=>'hello'),'json');
         }
 
 

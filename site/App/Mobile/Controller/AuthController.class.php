@@ -31,15 +31,15 @@ class AuthController extends BaseController
             $username = trim(I('post.username'));
             $password = I('post.password');
             if (!$username) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_USER_NOT_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_USER_NOT_EMPTY_')));
             }
             if (!$password) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PASSWORD_NOT_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PASSWORD_NOT_EMPTY_')));
             }
             $where = " (email = '{$username}' AND email_verify='1') OR mobile = '{$username}'";
             $user = M('User')->where($where)->find();
             if (!$user || ($user['password'] != md5($password))) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_USERNAME_OR_PASSWORD_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_USERNAME_OR_PASSWORD_ERROR_')));
             }
             $refer = $this->getReferer();
             $u     = urldecode(substr($refer, (strpos($refer, '?u=')+3)));
@@ -47,7 +47,7 @@ class AuthController extends BaseController
             $this->operation_after_login($user);
             $redirect = ($redirect && (!preg_match('/(login|register|logout)/i', $redirect))) ? $redirect : U('Index/index', '', true, true);
             $this->set_remember($user['guid']);
-            $this->ajax_return(array('status' => C('ajax_success'), 'url' => $redirect));
+            $this->ajax_response(array('status' => C('ajax_success'), 'url' => $redirect));
         }
         $this->assign('login', true);
         $this->show();
@@ -69,20 +69,20 @@ class AuthController extends BaseController
         if (IS_AJAX) {
             $params = I('post.');
             if (!validate_data($params, 'mobile')) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_MOBILE_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_MOBILE_EMPTY_')));
             }
             if (!validate_data($params, 'email')) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_EMAIL_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_EMAIL_EMPTY_')));
             }
             if (!validate_data($params, 'password')) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PASSWORD_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PASSWORD_EMPTY_')));
             }
             if (!validate_data($params, 'code')) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_CODE_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_CODE_EMPTY_')));
             }
             $res = $this->check_data($params);
             if (!$res) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => $this->_error));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => $this->_error));
             }
             $level = M('grade_level')->order('sort ASC')->find();
             $time = time();
@@ -137,12 +137,12 @@ class AuthController extends BaseController
                     $redirect = $this->getReferer();
                     $redirect = ($redirect && (preg_match('/(login|register|meetelf)/i') !== false)) ? $redirect : U('Index/index', '', true, true);
                     $this->set_remember($user['guid']);
-                    $this->ajax_return(array('status' => C('ajax_success'), 'url' => $redirect));
+                    $this->ajax_response(array('status' => C('ajax_success'), 'url' => $redirect));
                 } else {
                     $rollback = $model_user->where(array('guid' => $user['guid']))->delete();
                 }
             } else {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => C('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => C('_PARAM_ERROR_')));
             }
         }
         $this->show();
@@ -219,7 +219,7 @@ class AuthController extends BaseController
                 echo !empty($res) ? 'true' : 'false';
                 break;
             default:
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
                 break;
         }
         exit;
@@ -240,7 +240,7 @@ class AuthController extends BaseController
 
             //校验是否存在重复的手机号
             if( M('User')->where(array('mobile'=>$mobile))->count()>0){
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => 'Duplicate Mobile'));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => 'Duplicate Mobile'));
                 return;
             }
 
@@ -251,14 +251,14 @@ class AuthController extends BaseController
             $key = md5('mobile:auth:ajax_send_code:' . $permanent_id . $mobile);
             $res = request_nums_limit($key, 5, 24 * 3600);
             if (!$res) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
             }
             $code = get_mobile_code();
             mobile_code($key, $code);
             send_sms(C('CODE_TYPE.api_verify_mobile'), $mobile, array($code, 30), array('type' => 1));
-            $this->ajax_return(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
+            $this->ajax_response(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
         }else {
-            $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_INVALID_REQUEST_')));
+            $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_INVALID_REQUEST_')));
         }
     }
 

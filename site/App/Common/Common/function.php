@@ -915,7 +915,7 @@ function get_organizer_name($guid = ''){
  * @return mixed
  **/
 
-function meetelf_lang($name){
+function kookeg_lang($name){
     $keys  = explode('.', trim($name, '.'));
     $lang  = L(array_shift($keys));
     while(!is_null($key = array_shift($keys))) {
@@ -1227,4 +1227,11 @@ function export_csv($filename, $data){
     echo $data;
     exit;
 
+}
+
+function get_flash_msg($name = 'flash')
+{
+    $res = session($name);
+    session($name, null);
+    return $res;
 }

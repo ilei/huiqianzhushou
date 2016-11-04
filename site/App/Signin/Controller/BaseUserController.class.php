@@ -65,7 +65,7 @@ class BaseUserController extends BaseController {
         if($check_token != $token) {
             $this->empty_auth_session();
             if(IS_AJAX) {
-                $this->ajaxReturn(array('status'=>'ko', 'msg'=>L('_REFRESH_PAGE_')));
+                $this->ajaxResponse(array('status'=>'ko', 'msg'=>L('_REFRESH_PAGE_')));
             } else {
                 $this->error(L('_PAGE_OUT_'), U('Auth/login'));
             }

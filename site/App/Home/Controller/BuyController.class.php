@@ -62,7 +62,7 @@ class BuyController extends BaseController{
             }
             $guids = array_unique(array_filter(array($msg_guid, $email_guid)));
             if(!$guids){
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_GOODS_NOT_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_GOODS_NOT_EMPTY_')));
             }
             $auth  = $this->get_auth_session();
             $order = array(
@@ -86,9 +86,9 @@ class BuyController extends BaseController{
                     'msg'      => true,
                 );
                 session('session_order', $session_order);
-                $this->ajax_return(array('status' => C('ajax_success'), 'url' => U('Home/Paymsg/dopay/', array('order_id' => $order_id))));
+                $this->ajax_response(array('status' => C('ajax_success'), 'url' => U('Home/Paymsg/dopay/', array('order_id' => $order_id))));
             }else{
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             }
         } 
         exit();

@@ -97,7 +97,7 @@ class SignupController extends BaseController{
         $auth = $this->get_auth_session();
         $activity_info = D('Activity')->where(array('guid' => trim($activity_guid)))->find();  
         if($activity_info['status'] != 1 || empty($activity_info)) {
-            $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+            $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
         }
 
         // 检查报名时
@@ -134,22 +134,22 @@ class SignupController extends BaseController{
             $user_ticket   = M('ActivityUserTicket')->where(array('guid' => $user_ticket_guid))->find();
             $params = I('post.');
             if(empty($params['ticket'])) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_NOT_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_NOT_EMPTY_')));
             }
             if (!$activity_guid || empty($params) || empty($params['info']['real_name']) || empty($params['info']['mobile'])) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             }
 
             $user = M('ActivityUserinfo')->where(array('activity_guid' => $activity_guid, 'mobile' => $params['info']['mobile'],'is_del' => '0'))->find();
             if($user && !$user_ticket_guid){
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_IS_SIGNUPED_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_IS_SIGNUPED_')));
             }
             // 当报名时, 判断是否有余票
             $ticket_guid  = I('post.ticket');
             $check_total  = M('ActivityAttrTicket')->where(array('guid' => $ticket_guid))->getField('num');
             $check_signup = M('ActivityUserTicket')->where(array('activity_guid' => $activity_guid, 'ticket_guid' => $ticket_guid))->count();
             if (!($user_ticket_guid && $user_ticket['ticket_guid'] == $ticket_guid) && $check_signup >= $check_total) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_IS_SALE_OFF_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_TICKET_IS_SALE_OFF_')));
             }
             $user_from = I('post.user_from') ? I('post.user_from') : 2;
             $user_ticket_status = I('post.user_ticket_status');
@@ -165,12 +165,12 @@ class SignupController extends BaseController{
             }
             list($success, $new, $pay) = $res;
             if(!$success){
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_SIGNUP_FAILED_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_SIGNUP_FAILED_')));
             }else{
                 if($pay){
                      
                 }
-                $this->ajax_return(array('status' => C('ajax_success'), 'new' => $new));
+                $this->ajax_response(array('status' => C('ajax_success'), 'new' => $new));
             }
             
         }

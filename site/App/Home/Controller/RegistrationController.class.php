@@ -308,7 +308,7 @@ class RegistrationController extends BaseController{
             $return_data['user_count'] = $count;
             $return_data['data'] = $this->fetch('_user_list_tbody');
             layout(false);
-            $this->ajaxReturn($return_data,'json');
+            $this->ajaxResponse($return_data,'json');
         }else{
             $model = new PagerControlModel($filters['p'],$count,$filters['i']);
             $pager = new PagerControl($model,PagerControl::$Enum_First_Prev_Number_Next_Last);
@@ -533,12 +533,12 @@ class RegistrationController extends BaseController{
         if (IS_POST) {
             $aid = I('get.aid');
             if (empty($aid) || strlen($aid) != 32) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
             }
 
             $params = I('post.');
             if (empty($params)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
             }
 
             $time      = time();
@@ -557,10 +557,10 @@ class RegistrationController extends BaseController{
             $model_userinfo = D('ActivityUserinfo');
             list($check, $r) = $model_userinfo->insert($data_info);
             if (!$check) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => $r));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => $r));
             }
             if (!$r) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '增加失败, 请稍后重试.'));
             }
 
             // 保存其它信息
@@ -603,7 +603,7 @@ class RegistrationController extends BaseController{
             }
             M('ActivityUserTicket')->add($data_ticket);
 
-            $this->ajaxReturn(array('status' => 'ok', 'msg' => '增加成功.', 'data' => array('mobile' => $info['mobile'])));
+            $this->ajaxResponse(array('status' => 'ok', 'msg' => '增加成功.', 'data' => array('mobile' => $info['mobile'])));
         }
     }
 
@@ -619,11 +619,11 @@ class RegistrationController extends BaseController{
             $act        = I('post.batch_op');
 
             if (empty($info_guids)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '请选择要操作的用户.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '请选择要操作的用户.'));
             }
 
             if (empty($aid) || empty($act)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
             }
 
             switch ($act) {
@@ -633,11 +633,11 @@ class RegistrationController extends BaseController{
                     if ($info) {
                         M('ActivityUserinfoOther')->where(array('signup_userinfo_guid' => array('in', $info_guids)))->delete();
                         M('ActivityUserTicket')->where(array('activity_guid' => $aid, 'user_guid' => array('in', $user_guids)))->delete(); // 删除用户票务信息
-                        $this->ajaxReturn(array('status' => 'ok', 'msg' => '删除成功.'));
+                        $this->ajaxResponse(array('status' => 'ok', 'msg' => '删除成功.'));
                     }
                     break;
                 default:
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
                     break;
             }
         }
@@ -659,12 +659,12 @@ class RegistrationController extends BaseController{
             $send_way   = $params['send_way'];//发送类型   sms  email
             $activity_name = $params['aname'];//z
             if(empty($aguid) || empty($send_way) || empty($activity_name)){
-                $this->ajaxReturn(array('status' => 'ko','msg' => '参数错误，请稍后再试。'));
+                $this->ajaxResponse(array('status' => 'ko','msg' => '参数错误，请稍后再试。'));
             }
             $target = $params['target'];// 发送目标类型， null为选择发送， all全部发送， other未发送人员z
             if (!empty($target)) { // 发送全
                 if (is_null($send_way)) {
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.'));
                 } else{
                     if ($target == 'all') { // 给全部人员发送电子票
                         $send_type  = 'ticket';
@@ -677,7 +677,7 @@ class RegistrationController extends BaseController{
                         //需改状态位正在发送
                         $res = M('ActivityUserTicket')->where(array('activity_guid' => $aguid, 'is_del' => 0, 'status' => array('lt', 2)))->save(array('status' => 5));
                     } else {
-                        $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.'));
+                        $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.'));
                     }
                 }
             } else { // 选择发送
@@ -720,25 +720,25 @@ class RegistrationController extends BaseController{
                         $logic->afterSendTicket($auth['guid'], $total * 10, C('email_good_guid'), $total, $ext, 'email');
                     }
                     if ($logic->errors) {
-                        $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败' . implode(',', $logic->errors)));
+                        $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败' . implode(',', $logic->errors)));
                     }
                     send_list_ticket($userinfo, $send);
                     /*******************处理账户余额 end**************************/
                     $is_send = true;
                     break;
                 default:
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '提交错误，请刷新页面后重试。3'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '提交错误，请刷新页面后重试。3'));
                     break;
             }
 
             if ($is_send == true) {
-                $this->ajaxReturn(array('status' => 'ok', 'msg' => '发送完毕，请刷新页面查看发送状态。'));
+                $this->ajaxResponse(array('status' => 'ok', 'msg' => '发送完毕，请刷新页面查看发送状态。'));
             } else {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '非法访问。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法访问。'));
             }
 
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '对不起，您访问的页面不存在。'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '对不起，您访问的页面不存在。'));
         }
     }
 
@@ -774,7 +774,7 @@ class RegistrationController extends BaseController{
             // 判断是否为全部发送
             if (!empty($target)) { // 发送全部
                 if (is_null($type)) {
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.1'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.1'));
                 } else {
                     if ($target == 'all') { // 给全部人员发送电子票
                         $send_way[] = $type;
@@ -782,7 +782,7 @@ class RegistrationController extends BaseController{
                         // 获取所有已购买电子票的人员GUID
                         $user_guids = M('ActivityUserTicket')->where(array('activity_guid' => $aguid, 'is_del' => 0, 'status' => array('lt', 2)))->getField('user_guid', true);
                         if (empty($user_guids)) {
-                            $this->ajaxReturn(array('status' => 'ko', 'msg' => '暂无未发送人员，所有人员均已发送。'));
+                            $this->ajaxResponse(array('status' => 'ko', 'msg' => '暂无未发送人员，所有人员均已发送。'));
                         }
                         $where = array('activity_guid' => $aguid, 'is_del' => 0, 'user_guid' => array('IN', $user_guids));
                     } else if ($target == 'other') { // 给未发送的人员发送电子票
@@ -792,11 +792,11 @@ class RegistrationController extends BaseController{
                         $user_guids = M('ActivityUserTicket')->where(array('activity_guid' => $aguid, 'is_del' => 0, 'status' => array('lt', 2)))
                             ->getField('user_guid', true);
                         if (empty($user_guids)) {
-                            $this->ajaxReturn(array('status' => 'ko', 'msg' => '暂无未发送人员，所有人员均已发送。'));
+                            $this->ajaxResponse(array('status' => 'ko', 'msg' => '暂无未发送人员，所有人员均已发送。'));
                         }
                         $where = array('activity_guid' => $aguid, 'is_del' => 0, 'user_guid' => array('IN', $user_guids));
                     } else {
-                        $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.2'));
+                        $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试.2'));
                     }
                 }
             } else { // 选择发送
@@ -809,7 +809,7 @@ class RegistrationController extends BaseController{
                 ->order('created_at DESC')
                 ->select();
             if (empty($userinfo)) {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试。4'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试。4'));
             }
 
             $auth = $this->get_auth_session();
@@ -838,10 +838,10 @@ class RegistrationController extends BaseController{
                         $logic->afterSendTicket($auth['guid'], $total * 10, C('email_good_guid'), $total);
                     }
                     if ($logic->errors) {
-                        $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败,' . implode(',', $logic->errors)));
+                        $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败,' . implode(',', $logic->errors)));
                     }
                     if ($logic->balance == 0) {
-                        $this->ajaxReturn(array('status' => 'ko', 'msg' => '发送失败，余额不足，请充值'));
+                        $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败，余额不足，请充值'));
                     }
                     //vendor('YmPush.TicketInfo');
                     //\TicketInfo::setList('meetelf', 'ticket', $userinfo, $send, 1);
@@ -851,18 +851,18 @@ class RegistrationController extends BaseController{
                     $is_send = true;
                     break;
                 default:
-                    $this->ajaxReturn(array('status' => 'ko', 'msg' => '提交错误，请刷新页面后重试。3'));
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '提交错误，请刷新页面后重试。3'));
                     break;
             }
 
             if ($is_send == true) {
-                $this->ajaxReturn(array('status' => 'ok', 'msg' => '发送完毕，请刷新页面查看发送状态。'));
+                $this->ajaxResponse(array('status' => 'ok', 'msg' => '发送完毕，请刷新页面查看发送状态。'));
             } else {
-                $this->ajaxReturn(array('status' => 'ko', 'msg' => '非法访问。'));
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法访问。'));
             }
 
         } else {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '对不起，您访问的页面不存在。'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '对不起，您访问的页面不存在。'));
         }
     }
 
@@ -932,7 +932,7 @@ class RegistrationController extends BaseController{
         $this->assign('user_info',$user_info);
         $data = $this->fetch('_modal_view_signup_user');
 
-        $this->ajaxReturn($data);
+        $this->ajaxResponse($data);
     }
 
     /*
@@ -944,14 +944,14 @@ class RegistrationController extends BaseController{
         if(empty($uid)){
             $data['status'] = 'ko';
             $data['msg'] = '参数错误，请重新提交';
-            $this->ajaxReturn($data);
+            $this->ajaxResponse($data);
         }
         $model_order = M('Order');
         $order_info = $model_order->where(array('buyer_guid' => $uid,'goods_price' => array('GT', 0)))->find();
         if(!empty($order_info)){
             $data['status'] = 'ko';
             $data['msg'] = '付费人员不能删除';
-            $this->ajaxReturn($data);
+            $this->ajaxResponse($data);
         }
 
         $model_ticket = M('ActivityUserTicket');
@@ -967,11 +967,11 @@ class RegistrationController extends BaseController{
         if(!empty($res[1]) && !empty($res[2])){
             $data['status'] = 'ok';
             $data['msg'] = '参会人员删除成功';
-            $this->ajaxReturn($data);
+            $this->ajaxResponse($data);
         }else{
             $data['status'] = 'ko';
             $data['msg'] = '参会人员删除失败';
-            $this->ajaxReturn($data);
+            $this->ajaxResponse($data);
         }
     }
 

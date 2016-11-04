@@ -146,7 +146,7 @@ class FindpwdController extends BaseController{
             $res = M('CheckMobile')->data($data)->add();
             if($res){
                 send_sms(C('CODE_TYPE.site_find_password'), $username, array($code, 30), array('type' => 1));//发送验证码
-                $this->ajax_return(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
+                $this->ajax_response(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
             }
         }else{
             $data['email'] = $username;
@@ -161,7 +161,7 @@ class FindpwdController extends BaseController{
                 if($email_res['status'] != 'success'){
                     send_email($username,L('_APP_NAME_'),L('_CLICK_UPDATE_PWD_'),$content);
                 }
-                $this->ajax_return(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
+                $this->ajax_response(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
             }
         }
     }
@@ -174,12 +174,12 @@ class FindpwdController extends BaseController{
         if($verify->check($code)){
 //            echo 'true';
             $data['status'] = 'ok';
-            $this->ajaxReturn($data);
+            $this->ajaxResponse($data);
 //            exit();
         }else{
 //            echo 'false';
             $data['status'] = 'ko';
-            $this->ajaxReturn($data);
+            $this->ajaxResponse($data);
 //            exit();
         }
     }

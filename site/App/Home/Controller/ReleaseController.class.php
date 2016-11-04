@@ -276,7 +276,7 @@ class ReleaseController extends BaseController
             //$count_page = (int)($list_count / $num_per_page)+1;
 
             $view_html = $this->viewListHtml($list);
-            $this->ajaxReturn(array('status' => 'ok',
+            $this->ajaxResponse(array('status' => 'ok',
                     'msg' => '加载成功。',
                     'data' => $view_html,
                     'viewpage'=>$view_show_page,

@@ -51,9 +51,9 @@ class AuthController extends Controller
 
             if ($login == true) {
                 session('admin::auth', array('username' => $username, 'type' => $type));
-                $this->ajaxReturn(array('code' => '200'));
+                $this->ajaxResponse(array('code' => '200'));
             } else {
-                $this->ajaxReturn(array('code' => '201', 'Msg' => '账号或密码不正确密码'));
+                $this->ajaxResponse(array('code' => '201', 'Msg' => '账号或密码不正确密码'));
             }
         } else {
             $this->error('非法请求');

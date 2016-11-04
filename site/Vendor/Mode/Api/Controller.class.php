@@ -52,7 +52,7 @@ abstract class Controller {
      * @param String $type AJAX返回数据格式
      * @return void
      */
-    protected function ajaxReturn($data,$type='') {
+    protected function ajaxResponse($data,$type='') {
         if(empty($type)) $type  =   C('DEFAULT_AJAX_RETURN');
         switch (strtoupper($type)){
             case 'JSON' :

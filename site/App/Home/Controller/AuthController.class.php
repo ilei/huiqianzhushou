@@ -33,11 +33,11 @@ class AuthController extends BaseController{
             $this->ajax_request_limit('login::');
             $username = trim(I('post.username'));
             if (!$username) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_USER_NOT_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_USER_NOT_EMPTY_')));
             }
             $password = md5(I('post.password'));
             if (!$username) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PASSWORD_NOT_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PASSWORD_NOT_EMPTY_')));
             }
             $where = "mobile='{$username}'";
             if(!preg_match('/^1[34578]{1}\d{9}$/', $username)){
@@ -57,20 +57,20 @@ class AuthController extends BaseController{
 
             //用户不存在
             if (!$user_info) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_USER_NOT_EXIST_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_USER_NOT_EXIST_')));
             }
             if($email_login && !$user_info['email_verify']){
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_EMAIL_NOT_VERIFY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_EMAIL_NOT_VERIFY_')));
             }
 
             // 检查用户是否被禁止
             if ($user_info['is_lock'] == C('user.locked')) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_USER_BANNED_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_USER_BANNED_')));
             }
 
             //密码是否正确
             if ($user_info['password'] != $password) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_USER_PASSWORD_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_USER_PASSWORD_ERROR_')));
             }
 
             // 登录后操作
@@ -78,7 +78,7 @@ class AuthController extends BaseController{
             $this->opration_after_login($user_info, $remember);
             $redirect = session('referer');
             $redirect = $redirect && (preg_match('/(login|register)/i') !== false) ? $redirect : U('Home/User/index');
-            $this->ajax_return(array('status' => C('ajax_success'), 'url' => $redirect));
+            $this->ajax_response(array('status' => C('ajax_success'), 'url' => $redirect));
         }
         $redirect = $this->getReferer();
         if($redirect){
@@ -129,21 +129,21 @@ class AuthController extends BaseController{
             $key = md5('auth:register:' . $permanent_id);
             $res = request_nums_limit($key, 10);
             if (!$res) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_REGISTER_TOO_MUCH_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_REGISTER_TOO_MUCH_')));
             }
 
             $params = I('post.');
 
             //是否同意条款
             if (!validate_data($params, 'agree')) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_AGREE_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_AGREE_ERROR_')));
             }
 
             //验证手机验证码
             $key = md5('auth:ajax_send_code:' . $permanent_id . $params['phone']);
             $code = mobile_code($key);
             if ($code != $params['verify']) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_CODE_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_CODE_ERROR_')));
             }
 
             // 保存用户
@@ -165,7 +165,7 @@ class AuthController extends BaseController{
             );
             $result = $model_user->create($data);
             if (!$result) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => $model_user->getError()[0]));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => $model_user->getError()[0]));
             } else {
                 $data['password'] = md5($data['password']);
                 if ($res = $model_user->add($data)) {
@@ -195,11 +195,11 @@ class AuthController extends BaseController{
 
                     D('UserAccount', 'Logic')->add_msg_email_nums($data['guid']);
                     M('CodeCheck')->where("guid = '{$key}'")->save(array('status' => 0));
-                    $this->ajax_return(array('status' => C('ajax_success'), 'url' => U('Home/Auth/registerSuccessRedirect')));
+                    $this->ajax_response(array('status' => C('ajax_success'), 'url' => U('Home/Auth/registerSuccessRedirect')));
                 } else {
                     $rollback = $model_user->where(array('guid' => $data['guid']))->delete();
                     if ($rollback) {
-                        $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_DEFAULT_ERROR_')));
+                        $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_DEFAULT_ERROR_')));
                     }
                 }
             }
@@ -231,13 +231,13 @@ class AuthController extends BaseController{
         $key = md5('auth:ajax_send_code:' . $permanent_id);
         $res = request_nums_limit($key, 5, 24 * 3600);
         if (!$res) {
-            $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
+            $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
         }
         $code = get_mobile_code();
         $key = md5('auth:ajax_send_code:' . $permanent_id . $phone);
         mobile_code($key, $code);
         send_sms(C('CODE_TYPE.api_verify_mobile'), $phone, array($code, 30), array('type' => 1));
-        $this->ajax_return(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
+        $this->ajax_response(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
     }
 
     /**
@@ -257,7 +257,7 @@ class AuthController extends BaseController{
         $key = md5('auth:ajax_check_code:' . $permanent_id);
         $res = request_nums_limit($key);
         if (!$res) {
-            $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
+            $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
         }
         $key = md5('auth:ajax_send_code:' . $permanent_id . $phone);
         $exist = mobile_code($key);
@@ -297,7 +297,7 @@ class AuthController extends BaseController{
         $res = request_nums_limit($key, 10);
         if (!$res) {
             echo 'false';
-            $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
+            $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
         }
         $type = I('get.type');
         switch ($type) {
@@ -319,7 +319,7 @@ class AuthController extends BaseController{
                 echo !empty($res) ? 'true' : 'false';
                 break;
             default:
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
                 break;
         }
         exit;

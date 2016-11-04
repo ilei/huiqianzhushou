@@ -201,16 +201,16 @@ class ActivityController extends BaseController
     {
         $aid = I('get.aid');
         if (empty($aid)) {
-            $this->ajaxReturn(array('status' => 'ko', 'msg' => '参数错误，请稍后重试。'));
+            $this->ajaxResponse(array('status' => 'ko', 'msg' => '参数错误，请稍后重试。'));
         }
         // 用户列表
         $list = $this->_signup_user_list($aid);
 
         if (empty($list)) {
-            $this->ajaxReturn(array('status' => 'nomore', 'msg' => '没有更多数据了。'));
+            $this->ajaxResponse(array('status' => 'nomore', 'msg' => '没有更多数据了。'));
         }
 
-        $this->ajaxReturn(array('status' => 'ok', 'msg' => '加载成功。', 'data' => $list));
+        $this->ajaxResponse(array('status' => 'ok', 'msg' => '加载成功。', 'data' => $list));
     }
 
     /**

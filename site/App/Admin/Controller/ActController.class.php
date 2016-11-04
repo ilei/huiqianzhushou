@@ -163,10 +163,10 @@ class ActController extends BaseController{
         $res = $user_model->where(array('guid' => $user_guid))->data($data)->save();
         if($res){
             $data['status'] = 'ok';
-            $this->ajaxReturn($data);
+            $this->ajaxResponse($data);
         }else{
             $data['status'] = 'ko';
-            $this->ajaxReturn($data);
+            $this->ajaxResponse($data);
         }
     }
 
@@ -296,7 +296,7 @@ class ActController extends BaseController{
 
         if (empty($aid)) {
             $this->error('参数为空.');
-            // $this->ajaxReturn(array(
+            // $this->ajaxResponse(array(
             //     'status' => C('ajax_failed'),
             // ), 'json');
         }
@@ -313,12 +313,12 @@ class ActController extends BaseController{
             ));
 
         if ($update_result === false) {
-            // $this->ajaxReturn(array(
+            // $this->ajaxResponse(array(
             //     'status' => C('ajax_failed'),
             // ), 'json');
             $this->error('活动关闭失败.');
         } else {
-            // $this->ajaxReturn(array(
+            // $this->ajaxResponse(array(
             //     'status' => C('ajax_success'),
             // ), 'json');
             $this->success('活动关闭成功.',U('Act/report'));

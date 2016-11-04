@@ -214,8 +214,8 @@ class OrderController extends BaseController
 
 
                 //处理数据
-                $value['order_status_string'] = meetelf_lang('k__order.status.' . $value['order_status']);
-                $value['activity_status_string'] = meetelf_lang('k__activity.status.' . $value['activity_status']);
+                $value['order_status_string'] = kookeg_lang('k__order.status.' . $value['order_status']);
+                $value['activity_status_string'] = kookeg_lang('k__activity.status.' . $value['activity_status']);
                 $value['activity_poster'] = get_image_path($value['activity_poster']);
                 $value['activity_date'] = weekday(array($value['activity_start_time'], $value['activity_start_time']));
 
@@ -232,10 +232,10 @@ class OrderController extends BaseController
 
         //Tab标签的Title
         $tab_titles = array(
-            'tab_allText' => meetelf_lang('_TAB_ALL_') . '(' . $order_all_count . ')',
-            'tab_successText' => meetelf_lang('_TAB_SUCCESS_') . '(' . $order_success_count . ')',
-            'tab_unsuccessText' => meetelf_lang('_TAB_UNSUCCESS_') . '(' . $order_unsuccess_count . ')',
-            'tab_cancelledText' => meetelf_lang('_TAB_CANCELLED_') . '(' . $order_cancelled_count . ')'
+            'tab_allText' => kookeg_lang('_TAB_ALL_') . '(' . $order_all_count . ')',
+            'tab_successText' => kookeg_lang('_TAB_SUCCESS_') . '(' . $order_success_count . ')',
+            'tab_unsuccessText' => kookeg_lang('_TAB_UNSUCCESS_') . '(' . $order_unsuccess_count . ')',
+            'tab_cancelledText' => kookeg_lang('_TAB_CANCELLED_') . '(' . $order_cancelled_count . ')'
         );
 
 
@@ -249,7 +249,7 @@ class OrderController extends BaseController
         //GET请求
         if (IS_GET) {
             layout('layout_new');
-            $this->title = meetelf_lang('_MINE_ORDERS_TITLE_');
+            $this->title = kookeg_lang('_MINE_ORDERS_TITLE_');
             $this->css[] = 'meetelf/home/css/release.css';
             $this->main = '/Public/meetelf/home/js/build/order.mine_orders.js';
             $this->show();
@@ -259,13 +259,13 @@ class OrderController extends BaseController
                 'status' => empty($orders)?C('ajax_failed') :C('ajax_success'),
                 'data' => array(
                     'content' => $this->fetch('Order:_mine_orders_item'),//对应订单内容
-                    'tab_allText' => meetelf_lang('_TAB_ALL_') . '(' . $order_all_count . ')',
-                    'tab_successText' => meetelf_lang('_TAB_SUCCESS_') . '(' . $order_success_count . ')',
-                    'tab_unsuccessText' => meetelf_lang('_TAB_UNSUCCESS_') . '(' . $order_unsuccess_count . ')',
-                    'tab_cancelledText' => meetelf_lang('_TAB_CANCELLED_') . '(' . $order_cancelled_count . ')'
+                    'tab_allText' => kookeg_lang('_TAB_ALL_') . '(' . $order_all_count . ')',
+                    'tab_successText' => kookeg_lang('_TAB_SUCCESS_') . '(' . $order_success_count . ')',
+                    'tab_unsuccessText' => kookeg_lang('_TAB_UNSUCCESS_') . '(' . $order_unsuccess_count . ')',
+                    'tab_cancelledText' => kookeg_lang('_TAB_CANCELLED_') . '(' . $order_cancelled_count . ')'
                 ));
 
-            $this->ajaxReturn($data,'json');
+            $this->ajaxResponse($data,'json');
         }
 
 
@@ -415,9 +415,9 @@ class OrderController extends BaseController
                 if($value['order_status']==3||$value['order_status']==9){
                     $value['user_ticket_status_string']='已取消';
                 }else{
-                    $value['user_ticket_status_string'] = array_key_exists("user_ticket_status", $value) ? meetelf_lang('k__activity_user_ticket.status.' . $value["user_ticket_status"]) : "未发票";//格式化票据状态
+                    $value['user_ticket_status_string'] = array_key_exists("user_ticket_status", $value) ? kookeg_lang('k__activity_user_ticket.status.' . $value["user_ticket_status"]) : "未发票";//格式化票据状态
                 }
-                $value['order_status_string']=meetelf_lang('k__order.status.' . $value['order_status']);
+                $value['order_status_string']=kookeg_lang('k__order.status.' . $value['order_status']);
                 $value['order_finished_time_string'] = empty($value['order_payment_time']) ? date('Y-m-d H:i:s', $value['order_created_time']) : date('Y-m-d H:i:s', $value['order_payment_time']);//格式化订单创建时间
             }
 
@@ -431,7 +431,7 @@ class OrderController extends BaseController
             'orderDetails' => $orders,
         ));
 
-        $this->title = meetelf_lang("_DETAIL_TITLE_");
+        $this->title = kookeg_lang("_DETAIL_TITLE_");
 
         $this->show();
     }
@@ -486,12 +486,12 @@ class OrderController extends BaseController
         //检查所属人
         //检查是否为活动发布者
         if ($activity_data['owner_user_guid'] !== $owner_user_guid) {
-            $this->error(meetelf_lang("_ILLEGAL_OPERATION_"));
+            $this->error(kookeg_lang("_ILLEGAL_OPERATION_"));
             die();
         }
 
 
-        $activity_data['activity_status_string'] = meetelf_lang("k__activity.status." . $activity_data['activity_status']);
+        $activity_data['activity_status_string'] = kookeg_lang("k__activity.status." . $activity_data['activity_status']);
 
         $activity_data['activity_time_string'] = weekday(array(
             $activity_data['activity_start_time'],
@@ -561,9 +561,9 @@ class OrderController extends BaseController
 
         foreach ($orders as &$value) {
             $value['order_finished_time_string'] = empty($value['order_finished_time']) ? '' : date('Y/m/d h:i', $value['order_finished_time']);//票完成时间
-            $value['order_status_string'] = meetelf_lang('k__order.status.' . $value['order_status']);//状态中文名
-            $value['order_total_price_string'] = floatval($value['order_total_price']) == 0 ? meetelf_lang('_NO_MONEY_') : ($value['order_total_price']/100);//价格
-            $value['buyer_type_string'] = meetelf_lang('k__activity_userinfo.type.' . $value['buyer_type']);//来源中文
+            $value['order_status_string'] = kookeg_lang('k__order.status.' . $value['order_status']);//状态中文名
+            $value['order_total_price_string'] = floatval($value['order_total_price']) == 0 ? kookeg_lang('_NO_MONEY_') : ($value['order_total_price']/100);//价格
+            $value['buyer_type_string'] = kookeg_lang('k__activity_userinfo.type.' . $value['buyer_type']);//来源中文
             $value['buyer_name'] = empty($value['buyer_name']) ? $value['order_buyer_name'] : $value['buyer_name'];//修正下单人信息
 
             //判断是否存在待审核状态
@@ -596,7 +596,7 @@ class OrderController extends BaseController
 
         layout('layout_new');
         //附加JS/CSS/TITILE
-        $this->title = meetelf_lang('_REVIEW_TITLE_');
+        $this->title = kookeg_lang('_REVIEW_TITLE_');
         $this->css[] = 'meetelf/home/css/home.create-activities.css';
         $this->main  = "/Public/meetelf/home/js/build/order.review.js";
         $this->show();
@@ -674,9 +674,9 @@ class OrderController extends BaseController
 
             foreach ($orders as &$value) {
                 $value['order_finished_time_string'] = empty($value['order_finished_time']) ? '' : date('Y/m/d h:i', $value['order_finished_time']);//票完成时间
-                $value['order_status_string'] = meetelf_lang('k__order.status.' . $value['order_status']);//状态中文名
-                $value['order_total_price_string'] = floatval($value['order_total_price']) == 0 ? meetelf_lang('_NO_MONEY_') : $value['order_total_price'];//价格
-                $value['buyer_type_string'] = meetelf_lang('k__activity_userinfo.type.' . $value['buyer_type']);//来源中文
+                $value['order_status_string'] = kookeg_lang('k__order.status.' . $value['order_status']);//状态中文名
+                $value['order_total_price_string'] = floatval($value['order_total_price']) == 0 ? kookeg_lang('_NO_MONEY_') : $value['order_total_price'];//价格
+                $value['buyer_type_string'] = kookeg_lang('k__activity_userinfo.type.' . $value['buyer_type']);//来源中文
                 $value['buyer_name'] = empty($value['buyer_name']) ? $value['order_buyer_name'] : $value['buyer_name'];//修正下单人信息
 
                 //判断是否存在待审核状态
@@ -693,7 +693,7 @@ class OrderController extends BaseController
 
 
             $this->assign('orders', $orders);
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'status' => C('ajax_success'),
                 'data' => array(
                     'pager' => $pager->fetch(),
@@ -722,7 +722,7 @@ class OrderController extends BaseController
 
 
             if (empty($order_number_list) || empty($order_number_list)) {
-                $this->ajaxReturn(array(
+                $this->ajaxResponse(array(
                     'status' => C('ajax_failed')
                 ));
                 die();
@@ -741,11 +741,11 @@ class OrderController extends BaseController
 
 
             if ($updateResult == false) {
-                $this->ajaxReturn(array(
+                $this->ajaxResponse(array(
                     'status' => C('ajax_failed')
                 ));
             } else {
-                $this->ajaxReturn(array(
+                $this->ajaxResponse(array(
                     'status' => C('ajax_success')
                 ));
             }

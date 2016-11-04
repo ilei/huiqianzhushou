@@ -992,7 +992,7 @@ class FinancingController extends BaseController{
                 ->find()['money']/100;
 
             $return_data['tbody'] = $this->fetch('_ticket_tbody');
-            $this->ajaxReturn($return_data);
+            $this->ajaxResponse($return_data);
         }
         $this->show('_public_ticket');
 
@@ -1134,7 +1134,7 @@ class FinancingController extends BaseController{
             $return_data['tbody'] = $this->fetch('_ticket_tbody');
             $return_data['ticket_name'] = $ticket_name;
             $return_data['ticket_status'] = $ticket_status;
-            $this->ajaxReturn($return_data);
+            $this->ajaxResponse($return_data);
         }
         $this->show("_underway_history_ticket");
     }

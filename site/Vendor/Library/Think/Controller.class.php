@@ -208,7 +208,7 @@ abstract class Controller {
      * @param int $json_option 传递给json_encode的option参数
      * @return void
      */
-    protected function ajaxReturn($data,$type='',$json_option=0) {
+    protected function ajaxResponse($data,$type='',$json_option=0) {
         if(empty($type)) $type  =   C('DEFAULT_AJAX_RETURN');
         switch (strtoupper($type)){
             case 'JSON' :
@@ -265,7 +265,7 @@ abstract class Controller {
             $data['info']   =   $message;
             $data['status'] =   $status;
             $data['url']    =   $jumpUrl;
-            $this->ajaxReturn($data);
+            $this->ajaxResponse($data);
         }
         if(is_int($ajax)) $this->assign('waitSecond',$ajax);
         if(!empty($jumpUrl)) $this->assign('jumpUrl',$jumpUrl);

@@ -99,9 +99,9 @@ class UserController extends BaseController{
 	    if(IS_AJAX){
 	        $guid=I('post.key');
 	        if(M('OrgAuthentication')->where(array('org_guid'=>$guid))->save(array('status'=>'3'))){
-	            $this->ajaxReturn(array('status'=>'ok','msg'=>'提交成功'));
+	            $this->ajaxResponse(array('status'=>'ok','msg'=>'提交成功'));
 	        }else{
-	            $this->ajaxReturn(array('status'=>'ko','msg'=>'操作失败'));
+	            $this->ajaxResponse(array('status'=>'ko','msg'=>'操作失败'));
 	        }
 	    }else{
 	        $this->error('非法请求');
@@ -118,9 +118,9 @@ class UserController extends BaseController{
 	        $guid=I('post.key');
 	        $refuse_msg=I('post.refuseMsg');
 	        if(M('OrgAuthentication')->where(array('org_guid'=>$guid))->save(array('status'=>'4','refuse_msg'=>$refuse_msg))){
-	            $this->ajaxReturn(array('status'=>'200','msg'=>'操作成功'));
+	            $this->ajaxResponse(array('status'=>'200','msg'=>'操作成功'));
 	        }else{
-	            $this->ajaxReturn(array('status'=>'201','msg'=>'操作失败'));
+	            $this->ajaxResponse(array('status'=>'201','msg'=>'操作失败'));
 	        }
 	    }else{
 	        $this->error('非法请求');
@@ -157,7 +157,7 @@ class UserController extends BaseController{
 			//$chat = new YmChat();
 			//$res = $chat->accreditRegister(array('username'=>$orgData['guid'],'password'=> hashCode($orgData['password'])));
             //if($res['status'] != 200) {
-            //    $this->ajaxReturn(array('code'=>'201','Msg'=>'环信注册失败: 社团帐户, 请重试.'));
+            //    $this->ajaxResponse(array('code'=>'201','Msg'=>'环信注册失败: 社团帐户, 请重试.'));
             //}
 
 	    	//组合社团认证信息
@@ -174,15 +174,15 @@ class UserController extends BaseController{
 			if($UserDal->create($_userData)){
 				if ($UserDal->add()){
 					if($UserAttrInfoDal->add($_userAttrInfoData)){
-						$this->ajaxReturn(array('code'=>'200'));
+						$this->ajaxResponse(array('code'=>'200'));
 					}else{
-						$this->ajaxReturn(array('code'=>'201','Msg'=>'账号认证信息创建失败'));
+						$this->ajaxResponse(array('code'=>'201','Msg'=>'账号认证信息创建失败'));
 					}
 				}else{
-					$this->ajaxReturn(array('code'=>'201','Msg'=>'账号注册失败'));
+					$this->ajaxResponse(array('code'=>'201','Msg'=>'账号注册失败'));
 				}
 			}else{
-				$this->ajaxReturn(array('code'=>'201','Msg'=>$UserDal->getError()));
+				$this->ajaxResponse(array('code'=>'201','Msg'=>$UserDal->getError()));
 			}
     	}else{
     		 $this->error('非法请求');
@@ -208,13 +208,13 @@ class UserController extends BaseController{
             //exit;
 	        if(M('User')->where(array('guid'=>$guid))->save(array('updated_at'=>time(),'vip'=>I('post.vip'), 'acc_type'=>$type,'category'=>$category))){
 	           if (M('UserAttrInfo')->where(array('user_guid'=>$guid))->save(array('realname'=>trim($realname),'nickname'=>trim($nickname)))){
-                   $this->ajaxReturn(array('code'=>'200','Msg'=>'保存成功'));
+                   $this->ajaxResponse(array('code'=>'200','Msg'=>'保存成功'));
                }else {
-                   $this->ajaxReturn(array('code'=>'201','Msg'=>'保存失败'));
+                   $this->ajaxResponse(array('code'=>'201','Msg'=>'保存失败'));
 
                }
 	        }else{
-	            $this->ajaxReturn(array('code'=>'201','Msg'=>'保存失败'));
+	            $this->ajaxResponse(array('code'=>'201','Msg'=>'保存失败'));
 	        }
 	    }else{
 	        $this->error('非法请求');
@@ -231,9 +231,9 @@ class UserController extends BaseController{
 	    if(IS_AJAX){
 	        $guid=I('post.key');
 	        if(M('User')->where(array('guid'=>$guid))->save(array('is_del'=>'1', 'updated_at'=>time()))){
-	            $this->ajaxReturn(array('code'=>'200','Msg'=>'删除成功'));
+	            $this->ajaxResponse(array('code'=>'200','Msg'=>'删除成功'));
 	        }else{
-	            $this->ajaxReturn(array('code'=>'201','Msg'=>'删除失败'));
+	            $this->ajaxResponse(array('code'=>'201','Msg'=>'删除失败'));
 	        }
 	    }else{
 	        $this->error('非法请求');
@@ -250,9 +250,9 @@ class UserController extends BaseController{
 	    if(IS_AJAX){
 	        $guid=I('post.key');
 	        if(M('User')->where(array('guid'=>$guid))->save(array('is_lock'=>'1', 'updated_at'=>time()))){
-	            $this->ajaxReturn(array('code'=>'200','Msg'=>'锁定成功'));
+	            $this->ajaxResponse(array('code'=>'200','Msg'=>'锁定成功'));
 	        }else{
-	            $this->ajaxReturn(array('code'=>'201','Msg'=>'锁定失败'));
+	            $this->ajaxResponse(array('code'=>'201','Msg'=>'锁定失败'));
 	        }
 	    }else{
 	        $this->error('非法请求');
@@ -269,9 +269,9 @@ class UserController extends BaseController{
 	    if(IS_AJAX){
 	        $guid=I('post.key');
 	        if(M('User')->where(array('guid'=>$guid))->save(array('is_lock'=>'0', 'updated_at'=>time()))){
-	            $this->ajaxReturn(array('code'=>'200','Msg'=>'解锁成功'));
+	            $this->ajaxResponse(array('code'=>'200','Msg'=>'解锁成功'));
 	        }else{
-	            $this->ajaxReturn(array('code'=>'201','Msg'=>'解锁失败'));
+	            $this->ajaxResponse(array('code'=>'201','Msg'=>'解锁失败'));
 	        }
 	    }else{
 	        $this->error('非法请求');

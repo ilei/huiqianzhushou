@@ -43,10 +43,10 @@ class ConfigController extends BaseController
 //            foreach($data as $guid => $value) {
 //                $r = D('Config')->set_field(array('guid' => $guid), array('value' => $value));
 //                if(!isset($r)) {
-//                    $this->ajaxReturn(array('status'=>'ko','msg'=>'保存失败, 请稍后重试.'));
+//                    $this->ajaxResponse(array('status'=>'ko','msg'=>'保存失败, 请稍后重试.'));
 //                }
 //            }
-//            $this->ajaxReturn(array('status'=>'ok','msg'=>'保存成功, 请生成配置文件.'));
+//            $this->ajaxResponse(array('status'=>'ok','msg'=>'保存成功, 请生成配置文件.'));
 //        }
 //    }
 
@@ -62,7 +62,7 @@ class ConfigController extends BaseController
             foreach($data_set as $guid => $value) {
                 $r = D('Config')->set_field(array('guid' => $guid), array('value' => $value));
                 if(!isset($r)) {
-                    $this->ajaxReturn(array('status'=>'ko','msg'=>'保存失败, 请稍后重试.'));
+                    $this->ajaxResponse(array('status'=>'ko','msg'=>'保存失败, 请稍后重试.'));
                 }
             }
 
@@ -83,12 +83,12 @@ class ConfigController extends BaseController
             }
 
             if(file_put_contents(APP_PATH.'/'.ucfirst($module).'/Conf/generate_by_admin.php', "<?php \n return".' '.var_export($config ,true) .';') > 0){
-                $this->ajaxReturn(array('status'=>'ok','msg'=>'生成成功'));
+                $this->ajaxResponse(array('status'=>'ok','msg'=>'生成成功'));
             }else{
-                $this->ajaxReturn(array('status'=>'ko','msg'=>'生成失败'));
+                $this->ajaxResponse(array('status'=>'ko','msg'=>'生成失败'));
             }
         }else{
-            $this->ajaxReturn(array('status'=>'ko','msg'=>'非法请求'));
+            $this->ajaxResponse(array('status'=>'ko','msg'=>'非法请求'));
         }
     }
 

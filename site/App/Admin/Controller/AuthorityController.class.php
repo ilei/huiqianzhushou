@@ -57,20 +57,20 @@ class AuthorityController extends BaseController{
             if (I('post.guid')){
                 $data['updated_at']=time();
                if($AuthorityM->where(array('guid'=>I('post.guid')))->save($data)){
-                   $this->ajaxReturn(array('code'=>'200'));
+                   $this->ajaxResponse(array('code'=>'200'));
                }else{
-                   $this->ajaxReturn(array('code'=>'201','Msg'=>'保存失败'));
+                   $this->ajaxResponse(array('code'=>'201','Msg'=>'保存失败'));
                }
             }else{
                 $data['guid']=create_guid();
                 if($AuthorityM->create($data)){
                     if ($AuthorityM->add()){
-                        $this->ajaxReturn(array('code'=>'200'));
+                        $this->ajaxResponse(array('code'=>'200'));
                     }else{
-                        $this->ajaxReturn(array('code'=>'201','Msg'=>'保存失败'));
+                        $this->ajaxResponse(array('code'=>'201','Msg'=>'保存失败'));
                     }
                 }else{
-                    $this->ajaxReturn(array('code'=>'201','Msg'=>$AuthorityM->getError()));
+                    $this->ajaxResponse(array('code'=>'201','Msg'=>$AuthorityM->getError()));
                 }
             }
         }else{

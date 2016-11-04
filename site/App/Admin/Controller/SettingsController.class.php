@@ -45,7 +45,7 @@ class SettingsController extends Controller
 
 
         //返回数据
-        $this->ajaxReturn(array(
+        $this->ajaxResponse(array(
             'pid' => $parent_id,
             'pname' => $parent_name,
             'items' => $settings
@@ -65,7 +65,7 @@ class SettingsController extends Controller
             ))
             ->count();
 
-        $this->ajaxReturn(array(
+        $this->ajaxResponse(array(
             'duplicate' => ($count > 0)
         ), 'json');
     }
@@ -103,13 +103,13 @@ class SettingsController extends Controller
                 ))
                 ->find();
 
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'isSuccess' => true,
                 'data' => $item
             ));
 
         } else {
-            $this->ajaxReturn(array(
+            $this->ajaxResponse(array(
                 'isSuccess' => false
             ), 'json');
 
@@ -139,9 +139,9 @@ class SettingsController extends Controller
             ->save($data);
 
         if (empty($saveRes)) {
-            $this->ajaxReturn(array('isSuccess' => false), 'json');
+            $this->ajaxResponse(array('isSuccess' => false), 'json');
         } else {
-            $this->ajaxReturn(array('isSuccess' => true), 'json');
+            $this->ajaxResponse(array('isSuccess' => true), 'json');
         }
     }
 
@@ -179,10 +179,10 @@ class SettingsController extends Controller
             ->delete();
 
         if (empty($delRes)) {
-            $this->ajaxReturn(array('isSuccess' => false), 'json');
+            $this->ajaxResponse(array('isSuccess' => false), 'json');
 
         } else {
-            $this->ajaxReturn(array('isSuccess' => true), 'json');
+            $this->ajaxResponse(array('isSuccess' => true), 'json');
         }
 
     }

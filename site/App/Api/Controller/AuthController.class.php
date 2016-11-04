@@ -334,7 +334,7 @@ class AuthController extends BaseController
         	    echo empty($res)?'true':'false';
         	    break;
         	default:
-        	    $this->ajaxReturn(array('status' => 'ko', 'msg'=>'参数不对.'));
+        	    $this->ajaxResponse(array('status' => 'ko', 'msg'=>'参数不对.'));
         	    break;
         }
         exit;

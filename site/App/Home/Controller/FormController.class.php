@@ -30,7 +30,7 @@ class FormController extends BaseController{
             if (!empty($item) && $item['name']) { 
                 $exist = M('ActivityForm')->where(array('activity_guid' => $activity_guid, 'name' => trim($item['name'])))->find();
                 if($exist){
-                    $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_SAME_NAME_EXIST_')));
+                    $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_SAME_NAME_EXIST_')));
                 }
                 $time         = time();
                 $buid_guid    = create_guid();
@@ -75,9 +75,9 @@ class FormController extends BaseController{
             $item = $this->fetch('add_item');
             $option = $this->fetch('add_item_target');
             if($res){
-                $this->ajax_return(array('status' => C('ajax_success'), 'form' => $item, 'target' => $option));
+                $this->ajax_response(array('status' => C('ajax_success'), 'form' => $item, 'target' => $option));
             }else{
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             }
         }
         exit(); 
@@ -103,9 +103,9 @@ class FormController extends BaseController{
             $condition  = array('build_guid' => trim($guid), 'activity_guid' => trim($activity_guid));
             M('ActivityFormOption')->where($condition)->delete(); 
             if($res){
-                $this->ajax_return(array('status' => C('ajax_success')));
+                $this->ajax_response(array('status' => C('ajax_success')));
             }else{
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             }
         }
         exit(); 
@@ -130,7 +130,7 @@ class FormController extends BaseController{
             $mulit = in_array($post['html_type'], array('checkbox', 'radio', 'select')) ? true : false;
             //名称和提示都存在
             if(!$post['name'] || (!$mulit && !$post['note'])){
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_FORM_NAME_OR_NOTE_NOT_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_FORM_NAME_OR_NOTE_NOT_EMPTY_')));
             }
 
             //检测是否存在同名的表单
@@ -141,11 +141,11 @@ class FormController extends BaseController{
             );
             $exist = M('ActivityForm')->where($cond)->find();
             if($exist){
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_SAME_NAME_EXIST_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_SAME_NAME_EXIST_')));
             }
 
             if($mulit && !$post['options']){
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_FORM_OPTION_NOT_EMPTY_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_FORM_OPTION_NOT_EMPTY_')));
             }
 
             //组装表单数据
@@ -166,13 +166,13 @@ class FormController extends BaseController{
                 $tmp = $options = array();
                 foreach($post['options'] as $key => $option){
                     if(!isset($option['value']) || !$option['value']){
-                        $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_FORM_OPTION_NAME_NOT_EMPTY_')));
+                        $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_FORM_OPTION_NAME_NOT_EMPTY_')));
                     }
                     $value = trim($option['value']);
                     if(!in_array($value, $tmp)){
                         array_push($tmp, $value);
                     }else{
-                        $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_SAME_OPTION_NAME_EXIST_')));
+                        $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_SAME_OPTION_NAME_EXIST_')));
                     }   
                     $options[] = array(
                         'guid' => create_guid(),
@@ -196,7 +196,7 @@ class FormController extends BaseController{
                 'guid'          => $form_guid,
             );
             $res = M('ActivityForm')->where($cond)->save($data_build);
-            $this->ajax_return(array('status' => C('ajax_success')));
+            $this->ajax_response(array('status' => C('ajax_success')));
         }
         exit(); 
     }

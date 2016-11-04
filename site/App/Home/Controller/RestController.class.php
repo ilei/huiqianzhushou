@@ -236,7 +236,7 @@ class RestController extends Controller{
      * @return json
      **/
 
-    public function ajax_return($data = array()){
+    public function ajax_response($data = array()){
         exit(json_encode($data));
     }
 
@@ -254,15 +254,15 @@ class RestController extends Controller{
         if(IS_AJAX){
             $areaid = I('post.id');
             if ($areaid < 1) {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             }
             $res = D('Area')->find_all('parent_id="' . intval($areaid) . '"', 'id, name');
             if (!empty($res)) {
                 $this->assign('area', $res);
                 $msg = $this->fetch('Act:area');
-                $this->ajax_return(array('status' => C('ajax_success'), 'msg' => $msg));
+                $this->ajax_response(array('status' => C('ajax_success'), 'msg' => $msg));
             } else {
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             }
         }
         exit();
@@ -311,7 +311,7 @@ class RestController extends Controller{
         $key = md5($key . $_COOKIE['__permanent_id']);
         if(!request_nums_limit($key, $nums, $expire)){
             if($ajax){
-                $this->ajax_return(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
+                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
             }else{
                 return false;
             }
