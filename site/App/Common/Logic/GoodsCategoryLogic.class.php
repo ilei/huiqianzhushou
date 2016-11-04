@@ -1,10 +1,5 @@
 <?php 
 namespace  Common\Logic;
-/**
- * 商品类别业务逻辑 
- *
- * @author wangleiming<wangleiming@yunmai365.com>
- **/ 
 
 class GoodsCategoryLogic{
 

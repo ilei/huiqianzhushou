@@ -2,11 +2,6 @@
 namespace Common\Model;
 use Think\Model\MongoModel;
 
-/**
- * 商品操作记录表 
- * 
- * CT: 2015-07-15 16:40 by wangleiming 
- */
 class GoodsOperationLogModel extends MongoModel 
 {
 	protected $connection = null;

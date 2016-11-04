@@ -1,17 +1,9 @@
 <?php
 
-/**
- * 生成GUID
- * @return string
- *
- * CT: 2014-09-13 15:00 by YLX
- * UT: 2014-09-17 10:30 by YLX
- */
 function create_guid()
 {
-    mt_srand((double)microtime() * 10000);//optional for php 4.2.0 and up.
+    mt_srand((double)microtime() * 10000);
     $charid = strtoupper(md5(uniqid(rand(), true)));
-    //         $hyphen = chr(45);// "-"real_name_verify
     $uuid = substr($charid, 0, 8)
         . substr($charid, 8, 4)
         . substr($charid, 12, 4)
@@ -22,9 +14,9 @@ function create_guid()
 
 function create_guid_with_dash()
 {
-    mt_srand((double)microtime() * 10000);//optional for php 4.2.0 and up.
+    mt_srand((double)microtime() * 10000);
     $charid = strtoupper(md5(uniqid(rand(), true)));
-    $hyphen = chr(45);// "-"
+    $hyphen = chr(45);
     $uuid   = substr($charid, 0, 8) . $hyphen
         . substr($charid, 8, 4) . $hyphen
         . substr($charid, 12, 4) . $hyphen
@@ -33,30 +25,11 @@ function create_guid_with_dash()
     return $uuid;
 }
 
-/**
- * 生成基础票号，后续需要循环加1
- * @param $id 业务ID
- * @return int
- * ct: 2015-03-12 17:30 by ylx
- */
 function generate_ticket_num($id)
 {
     return intval($id . date('YmdH') . '0000');
 }
 
-/**
- *
- * 检查参数是否是一个大于等于$min且小于等于$max的字符串
- *
- * @access protected
- * @param string $str 要检查的字符串
- * @param int $min 字符串最小长度
- * @param int $max 字符串最大长度
- * @return 成功：true；失败：false
- *
- * CT: 2014-09-19 11:33 by YLX
- *
- */
 function check_string_len($str, $min, $max)
 {
     if (is_string($str) && strlen($str) >= $min && strlen($str) <= $max) {
@@ -66,13 +39,6 @@ function check_string_len($str, $min, $max)
 }
 
 
-/**
- * java hashcode
- *
- * @param $s
- * @return int
- * CT: 2014-11-05 15:33 by YLX
- */
 function hashCode($s)
 {
     $len  = strlen($s);
@@ -92,135 +58,6 @@ function hashCode($s)
     return $hash;
 }
 
-/**
- * 生成环信密码
- * @param $pwd 用户在酷客会签数据库中的密码
- * @return int
- */
-function generateEasemobPwd($pwd)
-{
-    return hashCode($pwd);
-}
-
-/**
- * php异步访问URL
- *
- * $host: 要访问的域名
- * $url: 要访问的域名后部分
- *
- * 如要访问http://example.com/home, $host=example.com, $url=/home
- *
- * CT: 2014-09-28 09:33 by YLX
- */
-function exec_url($host, $url)
-{
-    $fp = fsockopen($host, 80, $errno, $errstr, 30);
-    if (!$fp) {
-        echo "$errstr ($errno)<br />\n";
-    } else {
-        $out = "GET $url  / HTTP/1.1\r\n";
-        $out .= "Host:$host\r\n";
-        $out .= "Connection: Close\r\n\r\n";
-
-        fwrite($fp, $out);
-        fclose($fp);
-    }
-}
-
-/**
- * 闪消息, 存储时间短, 用于提示成功或错误信息
- * $type : success:成功消息, error:失败消息, notice:通知消息
- * $msg: 消息内容
- * $name: 消息名称, 默认为flash
- * $expire: 消息存在时间, 默认为3秒
- *
- * CT: 2014-10-08 14:33 by YLX
- */
-function set_flash_msg($type, $msg, $name = 'flash', $expire = 3)
-{
-    session($name, null);
-    $data = array('type' => $type, 'msg' => $msg);
-    session($name, $data);
-}
-
-/**
- * 获取闪消息
- * $name: 消息名称, 默认为flash
- *
- * CT: 2014-10-08 16:43 by YLX
- */
-function get_flash_msg($name = 'flash')
-{
-    $res = session($name);
-    session($name, null);
-    return $res;
-}
-
-
-/**
- * 获取图片地址
- * @param $name 图片名称
- * @param string $size 头像大小，默认为原图
- * @param string $placeholder 默认图片
- * $type: 头像类别: 1为社团LOGO, 2为社团认证图片, 3为普通手机用户头像, 4社团logo原始版, 5待续
- * @return string
- * CT: 2014-10-10 16:43 by YLX
- * ut: 2015-07-20 11:00 by YLX
- */
-// function get_image_path_common($name, $size = 'origin', $placeholder = 'noportrait.png')
-// {
-//     $path = get_placeholder($placeholder);
-
-//     if (empty($name)) {
-//         return $path;
-//     }
-
-//     $file = UPLOAD_PATH . $name;
-//     if (file_exists($file)) {
-//         if ($size == 'origin') { // 返回原图
-//             $path = '/Upload' . $name;
-//         } else {
-//             //获取文件后缀
-//             $ext      = getFileExt($name);
-//             $endPos   = strrpos($name, '.');
-//             $filePath = substr($name, 0, $endPos);
-//             $path     = '/Upload' . $filePath . '_' . $size . '.' . $ext;
-//         }
-//     }
-//     return $path;
-// }
-
-/**
- * 获取头像地址
- * @param $name 图片名称
- * @param string $size 头像大小，默认为原图
- * @param string $placeholder 默认图片
- * $type: 头像类别: 1为社团LOGO, 2为社团认证图片, 3为普通手机用户头像, 4社团logo原始版, 5待续
- * @return string
- * CT: 2014-10-10 16:43 by YLX
- * ut: 2015-07-20 11:00 by YLX
- */
-// function get_image_path($name, $size = 'origin', $placeholder = 'noportrait.png')
-// {
-//     $alen=strlen($name);
-//     if ($alen < 25) {
-//         $path = $name;
-//         return $path;
-//     }
-//     $path = get_image_path_common($name, $size, $placeholder);
-//     return $path.'?'.time();
-// }
-
-/**
- * 获取头像地址
- * @param $name 图片名称
- * @param string $size 头像大小，默认为原图
- * @param string $placeholder 默认图片
- * $type: 头像类别: 1为社团LOGO, 2为社团认证图片, 3为普通手机用户头像, 4社团logo原始版, 5待续
- * @return string
- * CT: 2014-10-10 16:43 by YLX
- * ut: 2015-07-20 11:00 by YLX
- */
 function get_image_path($name, $size = 'origin', $placeholder = 'noportrait.png')
 {
     if($size != 1) {
@@ -233,12 +70,12 @@ function get_image_path($name, $size = 'origin', $placeholder = 'noportrait.png'
     if (empty($name)) {
         return $path;
     }
-    
-     $str = substr($name,1,6);
-     if ($str == 'Public') {
-            $path = $name;
-            return $path;
-     }
+
+    $str = substr($name,1,6);
+    if ($str == 'Public') {
+        $path = $name;
+        return $path;
+    }
 
     $alen=strlen($name);
     if ($alen < 25) {
@@ -249,27 +86,18 @@ function get_image_path($name, $size = 'origin', $placeholder = 'noportrait.png'
     $file = UPLOAD_PATH . $name;
     if (file_exists($file)) {
         if ($size == 'origin') { // 返回原图
-            //$path = '/Upload' . $name . '?' . time();
             $path = '/Upload' . $name;
         } else {
             //获取文件后缀
             $ext      = getFileExt($name);
             $endPos   = strrpos($name, '.');
             $filePath = substr($name, 0, $endPos);
-            //$path     = '/Upload' . $filePath .  '.' . $ext . '?' . time();
             $path     = '/Upload' . $filePath .  '.' . $ext;
         }
     }
     return $path;
 }
 
-/**
- * API接口专供
- * @param $name
- * @param string $size
- * @param string $placeholder
- * @return string
- */
 function getImagePathForAPI($name, $size = 'origin', $placeholder = 'noportrait.jpg')
 {
 
@@ -294,11 +122,6 @@ function getImagePathForAPI($name, $size = 'origin', $placeholder = 'noportrait.
     return $path;
 }
 
-/**
- * 获取placeholder
- * CT: 2014-10-16 10:43 by YLX
- * @return string
- */
 function get_placeholder($filename = 'noportrait.png')
 {
     if (file_exists(PUBLIC_PATH . '/common/images/' . $filename)) {
@@ -314,13 +137,6 @@ function getFileExt($file)
     return $ext;
 }
 
-/**
- * 获取区域名称
- * @param unknown $areaid_1 一级区域id
- * @param unknown $areaid_2 二级区域id
- *
- * CT: 2014-10-14 15:13 by YLX
- */
 function get_full_area($areaid_1, $areaid_2)
 {
     $area_1 = get_area($areaid_1);
@@ -343,43 +159,17 @@ function api_get_full_area($area_id)
     return $area_id . ',' . get_area($area_id);
 }
 
-function get_sex($sex)
-{
-    $arr = array('0' => '男', '1' => '女');
-    return $arr[$sex];
-}
-
-/**
- * 把APP端传来的json串转成数组
- *
- * CT: 2014-10-16 17:53 by YLX
- */
 function api_json_explode($json)
 {
     $json = str_replace('&quot;', '"', $json);
     return json_decode($json, true);
 }
 
-/**
- * 生成绝对路径的地址
- *
- * @param $url
- * @param string $vars
- * @param bool $suffix
- * @return string
- *
- * CT: 2014-11-01 17:53 by YLX
- */
 function u_abs($url, $vars = '', $suffix = true)
 {
     return U($url, $vars, $suffix, true);
 }
 
-/**
- * 时间格式 现实几分钟前 几秒前 几天前
- *
- * CT: 2014-10-31 16:53 by Qiu
- */
 function mdate($time = NULL)
 {
 
@@ -448,28 +238,6 @@ function mdate($time = NULL)
 
 }
 
-/**
- * 根据生日计算年龄
- *
- * @param $date format: yyyy-mm-dd
- * @return int
- *
- * CT: 2014-11-10 11:01 by YLX
- */
-function calc_age($date)
-{
-    return date_diff(date_create($date), date_create('today'))->y;
-}
-
-
-/**
- * 格式化发送日期
- *
- * @param $timestamp timestamp 时间戳
- * @return string
- *
- * CT: 2014-11-17 18:41 by qxl
- */
 function formatDate($timestamp)
 {
     $callBackText   = '';
@@ -486,41 +254,7 @@ function formatDate($timestamp)
     return $callBackText;
 }
 
-/**
- * 获取社团两个虚拟分组的GUID: 0全部成员 & 1未分组成员
- * @param $org_guid
- * @return string
- */
-function get_org_all_member_group_guid($org_guid)
-{
-    //    return md5($org_guid.'asjdofnwer9023l4234');
-    return '0';
-}
 
-function get_org_other_member_group_guid($org_guid)
-{
-    //    return md5($org_guid.'-0pomyu-tkup567567');
-    return '1';
-}
-
-/**
- * JSON串化
- * @param mixd $arr
- * @return string
- */
-function jsonEncode($arr)
-{
-    $json = json_encode($arr);
-    //return $json;
-    $json = str_replace(array('\r', '\n', '\t'), '', $json);
-    //$json = str_replace(array('"{','}"'), array('{','}'), $json);
-    return preg_replace("#\\\u([0-9a-f]{4})#ie", "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))", $json);
-}
-
-/**
- * 获取HTTP REQUEST HEADERS
- * CT: 2014-12-19 09:21 BY YLX
- */
 function get_request_headers()
 {
     if (!function_exists('getallheaders')) {
@@ -535,37 +269,12 @@ function get_request_headers()
     return getallheaders();
 }
 
-/**
- * 获取手机验证码
- * CT: 2014-12-30 11:35 BY QXL
- */
 function get_mobile_code()
 {
     $num = '0123456789';
     return substr(str_shuffle($num), 0, 6);
 }
 
-function creat_QRcode($condition)
-{
-    return 'http://qr.liantu.com/api.php?' . http_build_query($condition);
-}
-
-/**
- * 生成二维码
- * @param $qr_path 二维码保存路径
- * @param $qr_name 二维码图片名称
- * @param string $text 二维码要转存的内容
- * @param bool $logo 二维码中间logo
- * @param string $size 图片每个黑点的像素,默认5
- * @param string $level //纠错级别， 纠错级别越高，生成图片会越大
- * //L水平    7%的字码可被修正
- * //M水平    15%的字码可被修正
- * //Q水平    25%的字码可被修正
- * //H水平    30%的字码可被修正
- * @param int $padding 图片外围空白大小，默认2
- * @param bool $header 是否调用header函数
- * @return bool
- */
 function qrcode($text = '', $qr_path = false, $qr_name = false, $logo = false, $size = '5', $level = 'L', $padding = 2, $header = true,$contentType=null)
 {
     if (empty($text)) {
@@ -615,23 +324,6 @@ function qrcode($text = '', $qr_path = false, $qr_name = false, $logo = false, $
     }
 }
 
-
-/**
- * 通过查找元素值删除数组元素
- * @param $array
- * @param $value
- */
-function unset_array_value($array, $value)
-{
-    if (($key = array_search($value, $array)) !== false) {
-        unset($array[$key]);
-    }
-}
-
-/**
- * 获取短域名
- * @param $url
- */
 function get_short_url($url)
 {
     $api      = "http://api.t.sina.com.cn/short_url/shorten.json?source=3180327085&url_long=$url";
@@ -640,26 +332,11 @@ function get_short_url($url)
     return $url_data[0]['url_short'];
 }
 
-/**
- * 检查是否为正确格式邮箱
- * @param $email
- * @return mixed
- * CT: 2015-03-24 10:34 by ylx
- */
 function is_valid_email($email)
 {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
-/**
- * 发送电子邮箱
- * @param $to_emails 邮件地址数组
- * @param $from_name 发送人姓名
- * @param $subject 邮件标题
- * @param $content 邮件内容
- * @return mixed
- * CT: 2015-03-24 10:34 by ylx
- */
 function send_email($to_emails, $from_name, $subject, $content)
 {
 
@@ -680,11 +357,6 @@ function send_email($to_emails, $from_name, $subject, $content)
     return $submail->send();
 }
 
-/**
- * 生成活动电子票, 总长度为19位
- * @param string $prefix 电子票前缀, 必须为4位, 否则会取前4位
- * @return string
- */
 function generate_ticket_code($prefix = '')
 {
     if (strlen($prefix) != 4) {
@@ -698,95 +370,6 @@ function generate_ticket_code($prefix = '')
     return $prefix . $rand2 . $today_date . $today_time . $rand;
 }
 
-/**
- * 格式化显示textarea, 替换折行回车等
- * @param $text 要格式化的内容
- * @param string $replace 要替换成的内容
- * CT: 2015-05-06 11:00 by ylx
- */
-function ym_str_replace_textarea($text, $replace = '<br />')
-{
-    $search = array("\r\n", "\n", "\r");
-    echo str_replace($search, $replace, $text);
-}
-
-/**
- * 截取中文字符串
- * @param $str 要截取的字符串
- * @param $length 要截取的长度
- * @param string $replace 截取后要替换成的内容
- * @return string
- * CT: 2015-05-06 11:00 by ylx
- */
-function ym_mb_substr($str, $length, $replace = '...')
-{
-    if (mb_strlen($str, 'UTF-8') > $length) {
-        return mb_substr($str, 0, $length, 'UTF-8') . $replace;
-    }
-    return $str;
-}
-
-//在线交易订单支付处理函数
-//函数功能：根据支付接口传回的数据判断该订单是否已经支付成功；
-//返回值：如果订单已经成功支付，返回true，否则返回false；
-function checkorderstatus($sn)
-{
-    $Ord       = M('Order');
-    $ordstatus = $Ord->where('sn=' . $sn)->getField('status');
-    if ($ordstatus == 1) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-//处理订单函数
-//更新订单状态，写入订单支付后返回的数据
-function orderhandle($parameter)
-{
-    $sn                           = $parameter['out_trade_no'];
-    $data['payment_trade_no']     = $parameter['trade_no'];
-    $data['payment_trade_status'] = $parameter['trade_status'];
-    $data['payment_notify_id']    = $parameter['notify_id'];
-    $data['payment_notify_time']  = $parameter['notify_time'];
-    $data['payment_buyer_email']  = $parameter['buyer_email'];
-    $data['ordstatus']            = 1;
-    $Ord                          = M('Order');
-    $Ord->where('sn=' . $sn)->save($data);
-}
-
-/**
- * 生成订单号
- * @return string
- */
-function generate_order_sn()
-{
-    $Ord     = M('Order');
-    $numbers = range(10, 99);
-    shuffle($numbers);
-    $code    = array_slice($numbers, 0, 4);
-    $sn      = date('YmdHis') . $code[0] . $code[1] . $code[2] . $code[3];
-    $oldcode = $Ord->where("sn='" . $sn . "'")->getField('sn');
-    if ($oldcode) {
-        getordcode();
-    } else {
-        return $sn;
-    }
-}
-
-
-/**
- * 下载文件
- * 可以指定下载显示的文件名，并自动发送相应的Header信息
- * 如果指定了content参数，则下载该参数的内容
- * @static
- * @access public
- * @param string $filename 下载文件名
- * @param string $showname 下载显示的文件名
- * @param string $content 下载的内容
- * @param integer $expire 下载内容浏览器缓存时间
- * @return void
- */
 function download($filename, $showname = '', $content = '', $expire = 180, $file_type = '')
 {
     if (is_file($filename)) {
@@ -823,13 +406,6 @@ function download($filename, $showname = '', $content = '', $expire = 180, $file
     exit();
 }
 
-/**
- * 转换字节数为其他单位
- *
- *
- * @param string $filesize 字节大小
- * @return string 返回大小
- */
 function sizecount($filesize)
 {
     if ($filesize >= 1073741824) {
@@ -844,13 +420,6 @@ function sizecount($filesize)
     return $filesize;
 }
 
-/**
- * 生成电子票的二维码
- *
- * @access string $ticket_url 电子票地址
- * @access string $ticket_guid 电子票的id
- * @return void
- **/
 function create_ticket_qrcode($ticket_url, $ticket_guid)
 {
     $qr_path = '/org/qrcode/activity/ticket';
@@ -859,14 +428,6 @@ function create_ticket_qrcode($ticket_url, $ticket_guid)
     die();
 }
 
-
-/**
- * 取得redis对象
- *
- * @param string $host
- * @param string $port
- * @return object
- **/
 function & get_redis($host = '127.0.0.1', $port = '6379')
 {
     static $_redis = null;
@@ -877,14 +438,6 @@ function & get_redis($host = '127.0.0.1', $port = '6379')
     return $_redis;
 }
 
-/**
- * 取得限制词
- *    1、直接从文件中读取
- *    2、从redis缓存中读取
- *
- * @param  void
- * @return array
- **/
 function get_black_words()
 {
     $words = M('BannedWords')->getField('id,words');
@@ -906,14 +459,6 @@ function get_black_words()
     return $words;
 }
 
-/**
- * 判断字符串中是否包含限制词
- *
- * @param string $content 要判断的字符串
- * @param array $words 限制词数组
- * @return mixed
- **/
-
 function censor_words($content, $words = array())
 {
     $words = $words ? $words : get_black_words();
@@ -924,14 +469,6 @@ function censor_words($content, $words = array())
     }
     return false;
 }
-
-/**
- * 单位转换，元到分 分到元 
- *
- * @param  int $nums 
- * @param  bool $direction true 元到分 false 分到元
- * @return int 
- **/ 
 
 function yuan_to_fen($nums, $direction = true){
     if(!$nums || !is_numeric($nums) || $nums <= 0){
@@ -993,7 +530,7 @@ function format_ip($ip = ''){
  **/ 
 
 function operation_log($user_guid, $operation, $args = array(), $desc = ''){
-return true;
+    return true;
     $data = array(
         'user_guid'      => $user_guid,
         'operation_code' => $operation['code'],
@@ -1020,7 +557,7 @@ return true;
  **/ 
 
 function ticket_send_log($user_guid, $activity_guid, $operation, $data = array(), $res = array(), $desc = ''){
-return true;
+    return true;
     $data = array(
         'user_guid'      => $user_guid,
         'activity_guid'  => $activity_guid,
@@ -1074,7 +611,7 @@ function validate_data($arr, $key, $default = false){
  **/ 
 
 function order_operation_log($order_id, $operation, $args = array(), $desc = ''){
-return true;
+    return true;
     $data = array(
         'order_id'       => $order_id, 
         'operation_code' => $operation['code'],
@@ -1099,7 +636,7 @@ return true;
  **/ 
 
 function goods_operation_log($goods_guid, $operation, $args = array(), $desc = ''){
-return true;
+    return true;
     $data = array(
         'goods_id'       => $goods_guid, 
         'operation_code' => $operation['code'],
@@ -1390,6 +927,7 @@ function meetelf_lang($name){
     }
     return $lang;
 } 
+
 /**
  * 日期截取 
  *
@@ -1461,13 +999,6 @@ function array_columns($array, $column_key = null, $index_key = null){
     }, array());
 }
 
-/**
- * 作为array_columns的补充 将key=>value形式的数组  以map[primarykey,value(array)]的形式进行分组
- * @param $array array 数据源数组
- * @param $primary_key string
- * @param null $column_key string
- * @return array
- */
 function array_to_map($array,$primary_key,$column_key=null){
     $result=array();
 
@@ -1503,6 +1034,7 @@ function event_id_encode($id){
  * 解码ID
  * @param $id
  */
+
 function event_id_decode($id){
     $id=intval($id);
     if(is_nan($id)){
@@ -1557,90 +1089,6 @@ function is_mobile_request() {
 
 
 /**
- * Respose A Http Request
- *
- * @param string $url
- * @param array $post
- * @param string $method
- * @param bool $returnHeader
- * @param string $cookie
- * @param bool $bysocket
- * @param string $ip
- * @param integer $timeout
- * @param bool $block
- * @return string Response
- */
-function httpRequest($url,$post='',$method='GET',$limit=0,$returnHeader=FALSE,$cookie='',$bysocket=FALSE,$ip='',$timeout=30,$block=TRUE) {
-    $return = '';
-    $matches = parse_url($url);
-
-    !isset($matches['host']) && $matches['host'] = '';
-    !isset($matches['path']) && $matches['path'] = '';
-    !isset($matches['query']) && $matches['query'] = '';
-    !isset($matches['port']) && $matches['port'] = '';
-
-    $host = $matches['host'];
-    $path = $matches['path'] ? $matches['path'].($matches['query'] ? '?'.$matches['query'] : '') : '/';
-    $port = !empty($matches['port']) ? $matches['port'] : 80;
-
-    if(strtolower($method) == 'post') {
-        $post = (is_array($post) and !empty($post)) ? http_build_query($post) : $post;
-        $out = "POST $path HTTP/1.0\r\n";
-        $out .= "Accept: */*\r\n";
-        //$out .= "Referer: $boardurl\r\n";
-        $out .= "Accept-Language: zh-cn\r\n";
-        $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
-        $out .= "User-Agent: $_SERVER[HTTP_USER_AGENT]\r\n";
-        $out .= "Host: $host\r\n";
-        $out .= 'Content-Length: '.strlen($post)."\r\n";
-        $out .= "Connection: Close\r\n";
-        $out .= "Cache-Control: no-cache\r\n";
-        $out .= "Cookie: $cookie\r\n\r\n";
-        $out .= $post;
-    } else {
-        $out = "GET $path HTTP/1.0\r\n";
-        $out .= "Accept: */*\r\n";
-        //$out .= "Referer: $boardurl\r\n";
-        $out .= "Accept-Language: zh-cn\r\n";
-        $out .= "User-Agent: $_SERVER[HTTP_USER_AGENT]\r\n";
-        $out .= "Host: $host\r\n";
-        $out .= "Connection: Close\r\n";
-        $out .= "Cookie: $cookie\r\n\r\n";
-    }
-
-    $fp = fsockopen(($ip ? $ip : $host), $port, $errno, $errstr, $timeout);
-
-    if(!$fp) return ''; else {
-        $header = $content = '';
-
-        stream_set_blocking($fp, $block);
-        stream_set_timeout($fp, $timeout);
-        fwrite($fp, $out);
-        $status = stream_get_meta_data($fp);
-
-        if(!$status['timed_out']) {//未超时
-            while (!feof($fp)) {
-                $header .= $h = fgets($fp);
-                if($h && ($h == "\r\n" ||  $h == "\n")) break;
-            }
-
-            $stop = false;
-            while(!feof($fp) && !$stop) {
-                $data = fread($fp, ($limit == 0 || $limit > 8192 ? 8192 : $limit));
-                $content .= $data;
-                if($limit) {
-                    $limit -= strlen($data);
-                    $stop = $limit <= 0;
-                }
-            }
-        }
-        fclose($fp);
-
-        return $returnHeader ? array($header,$content) : $content;
-    }
-}
-
-/**
  * 活动状态html显示 
  *
  * @param $status 
@@ -1651,18 +1099,18 @@ function activity_status($status = 0){
     $start = '<span class="elf-act-';
     $end   = '">' . C('act_text.' . $status) . '</span>';
     switch($status){
-        case 0:
-            $class = 'audit';
-            break;
-        case 1:
-            $class = 'go';
-            break;
-        case 2:
-        case 3:
-            $class = 'end';
-            break;
-        default:
-            $class = 'audit';
+    case 0:
+        $class = 'audit';
+        break;
+    case 1:
+        $class = 'go';
+        break;
+    case 2:
+    case 3:
+        $class = 'end';
+        break;
+    default:
+        $class = 'audit';
     }
     return $start . $class . $end;
 }
@@ -1705,9 +1153,9 @@ function mtf_date_format($time, $format, $ds = '~' ){
     }elseif($day_diff<1){
         $date = date($format, $start);
         if(isset($his) && $his){
-           $date .= ' ' . $ds . ' ' . date($his, $end); 
+            $date .= ' ' . $ds . ' ' . date($his, $end); 
         }elseif(isset($week) && $week){
-           $date .= ' ' . $ds . ' ' . date($week, $end); 
+            $date .= ' ' . $ds . ' ' . date($week, $end); 
         }
         return $date;
     }else{
@@ -1739,9 +1187,9 @@ function fixed_resource_url($url){
 function create_msg_content($ticket_guid, $userinfo, $app_name = ''){
     if($ticket_guid && $userinfo){
         $activity = M('Activity')->where(array('guid' => $userinfo['activity_guid']))->find();
-         $ticket_url = U(C('meetelf_url') . '/Mobile/Activity/ticket', array('aid' => $activity['guid'], 'iid' => $userinfo['guid']), true, true);
-         $sms_url    = get_short_url($ticket_url . '/source/1');
-         $email_url  = get_short_url($ticket_url . '/source/2'); 
+        $ticket_url = U(C('meetelf_url') . '/Mobile/Activity/ticket', array('aid' => $activity['guid'], 'iid' => $userinfo['guid']), true, true);
+        $sms_url    = get_short_url($ticket_url . '/source/1');
+        $email_url  = get_short_url($ticket_url . '/source/2'); 
         $data = array(
             'guid' => create_guid(),
             'title'=> $activity['name'], 
@@ -1756,13 +1204,13 @@ function create_msg_content($ticket_guid, $userinfo, $app_name = ''){
             'account_guid' => $activity['user_guid'],
             'app_name' => $app_name ? $app_name : C('APP_NAME'),
         ); 
-         if($data['email']){
-             $curl = new Org\Api\Curl();
-             $post = array($ticket_guid, $activity, $userinfo);
-             $url = U('Sender/Meetelf/get_email_content', '', true, true);
-             $res = $curl->postRequest($url, $post);
-             $data['content'] = $res[$url]; 
-         }
+        if($data['email']){
+            $curl = new Org\Api\Curl();
+            $post = array($ticket_guid, $activity, $userinfo);
+            $url = U('Sender/Meetelf/get_email_content', '', true, true);
+            $res = $curl->postRequest($url, $post);
+            $data['content'] = $res[$url]; 
+        }
         return M('MsgContent')->data($data)->add();
     }
 }

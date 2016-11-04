@@ -7,7 +7,7 @@
  */
 return array(
 
-    'l_ym_release_opt' => array(
+    'k__release_opt' => array(
         'edit'=>'编辑',
         'view'=>'浏览',
         'share'=>'分享',

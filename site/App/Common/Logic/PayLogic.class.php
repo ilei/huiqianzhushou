@@ -1,10 +1,5 @@
 <?php 
 namespace  Common\Logic;
-/**
- * 充值逻辑业务 
- *
- * @author wangleiming<wangleiming@yunmai365.com>
- **/ 
 
 class PayLogic{
 

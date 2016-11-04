@@ -700,11 +700,11 @@ class ActController extends BaseController
 
         //获取活动状态
         if (intval($activity_data['activity_status']) == 0) {
-            $activity_data['activity_real_status'] = meetelf_lang("l_ym_activity.is_verify." . $activity_data['activity_is_verify']);
+            $activity_data['activity_real_status'] = meetelf_lang("k__activity.is_verify." . $activity_data['activity_is_verify']);
         } else {
-            $activity_data['activity_real_status'] = meetelf_lang("l_ym_activity.status." . $activity_data['activity_status']);
+            $activity_data['activity_real_status'] = meetelf_lang("k__activity.status." . $activity_data['activity_status']);
         }
-        $activity_data['activity_status_string'] = meetelf_lang("l_ym_activity.status." . $activity_data['activity_status']);
+        $activity_data['activity_status_string'] = meetelf_lang("k__activity.status." . $activity_data['activity_status']);
         //获取活动持续时间
         if (empty($activity_data['activity_start_time']) || empty($activity_data['activity_end_time'])) {
             $activity_data['time_of_duration'] = meetelf_lang('_TIME_ALONG_');
@@ -919,7 +919,7 @@ class ActController extends BaseController
                 ->select();
 
             foreach ($order_info as &$v) {
-                $v['order_status_string'] = meetelf_lang('l_ym_order.status.' . $v['order_status']);
+                $v['order_status_string'] = meetelf_lang('k__order.status.' . $v['order_status']);
                 if (floatval($v['ticket_price'] == 0)) {
                     $v['ticket_price_string'] = meetelf_lang('_NO_MONEY_');
                 } else {

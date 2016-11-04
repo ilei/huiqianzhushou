@@ -157,8 +157,8 @@ class TicketController extends BaseController
                 }
 
                 //整理数据
-                $value['activity_status_string']= meetelf_lang('l_ym_activity.status.' . $value['activity_status']);
-                $value['ticket_status_string'] = meetelf_lang('l_ym_activity_user_ticket.status.' . $value['ticket_status']);
+                $value['activity_status_string']= meetelf_lang('k__activity.status.' . $value['activity_status']);
+                $value['ticket_status_string'] = meetelf_lang('k__activity_user_ticket.status.' . $value['ticket_status']);
                 $value['contact'] = $value['buyer_mobile'] . ($value['buyer_email'] == '' ? '' : '<br>' . $value['buyer_email']);
             }
 

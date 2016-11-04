@@ -214,8 +214,8 @@ class OrderController extends BaseController
 
 
                 //处理数据
-                $value['order_status_string'] = meetelf_lang('l_ym_order.status.' . $value['order_status']);
-                $value['activity_status_string'] = meetelf_lang('l_ym_activity.status.' . $value['activity_status']);
+                $value['order_status_string'] = meetelf_lang('k__order.status.' . $value['order_status']);
+                $value['activity_status_string'] = meetelf_lang('k__activity.status.' . $value['activity_status']);
                 $value['activity_poster'] = get_image_path($value['activity_poster']);
                 $value['activity_date'] = weekday(array($value['activity_start_time'], $value['activity_start_time']));
 
@@ -415,9 +415,9 @@ class OrderController extends BaseController
                 if($value['order_status']==3||$value['order_status']==9){
                     $value['user_ticket_status_string']='已取消';
                 }else{
-                    $value['user_ticket_status_string'] = array_key_exists("user_ticket_status", $value) ? meetelf_lang('l_ym_activity_user_ticket.status.' . $value["user_ticket_status"]) : "未发票";//格式化票据状态
+                    $value['user_ticket_status_string'] = array_key_exists("user_ticket_status", $value) ? meetelf_lang('k__activity_user_ticket.status.' . $value["user_ticket_status"]) : "未发票";//格式化票据状态
                 }
-                $value['order_status_string']=meetelf_lang('l_ym_order.status.' . $value['order_status']);
+                $value['order_status_string']=meetelf_lang('k__order.status.' . $value['order_status']);
                 $value['order_finished_time_string'] = empty($value['order_payment_time']) ? date('Y-m-d H:i:s', $value['order_created_time']) : date('Y-m-d H:i:s', $value['order_payment_time']);//格式化订单创建时间
             }
 
@@ -491,7 +491,7 @@ class OrderController extends BaseController
         }
 
 
-        $activity_data['activity_status_string'] = meetelf_lang("l_ym_activity.status." . $activity_data['activity_status']);
+        $activity_data['activity_status_string'] = meetelf_lang("k__activity.status." . $activity_data['activity_status']);
 
         $activity_data['activity_time_string'] = weekday(array(
             $activity_data['activity_start_time'],
@@ -561,9 +561,9 @@ class OrderController extends BaseController
 
         foreach ($orders as &$value) {
             $value['order_finished_time_string'] = empty($value['order_finished_time']) ? '' : date('Y/m/d h:i', $value['order_finished_time']);//票完成时间
-            $value['order_status_string'] = meetelf_lang('l_ym_order.status.' . $value['order_status']);//状态中文名
+            $value['order_status_string'] = meetelf_lang('k__order.status.' . $value['order_status']);//状态中文名
             $value['order_total_price_string'] = floatval($value['order_total_price']) == 0 ? meetelf_lang('_NO_MONEY_') : ($value['order_total_price']/100);//价格
-            $value['buyer_type_string'] = meetelf_lang('l_ym_activity_userinfo.type.' . $value['buyer_type']);//来源中文
+            $value['buyer_type_string'] = meetelf_lang('k__activity_userinfo.type.' . $value['buyer_type']);//来源中文
             $value['buyer_name'] = empty($value['buyer_name']) ? $value['order_buyer_name'] : $value['buyer_name'];//修正下单人信息
 
             //判断是否存在待审核状态
@@ -674,9 +674,9 @@ class OrderController extends BaseController
 
             foreach ($orders as &$value) {
                 $value['order_finished_time_string'] = empty($value['order_finished_time']) ? '' : date('Y/m/d h:i', $value['order_finished_time']);//票完成时间
-                $value['order_status_string'] = meetelf_lang('l_ym_order.status.' . $value['order_status']);//状态中文名
+                $value['order_status_string'] = meetelf_lang('k__order.status.' . $value['order_status']);//状态中文名
                 $value['order_total_price_string'] = floatval($value['order_total_price']) == 0 ? meetelf_lang('_NO_MONEY_') : $value['order_total_price'];//价格
-                $value['buyer_type_string'] = meetelf_lang('l_ym_activity_userinfo.type.' . $value['buyer_type']);//来源中文
+                $value['buyer_type_string'] = meetelf_lang('k__activity_userinfo.type.' . $value['buyer_type']);//来源中文
                 $value['buyer_name'] = empty($value['buyer_name']) ? $value['order_buyer_name'] : $value['buyer_name'];//修正下单人信息
 
                 //判断是否存在待审核状态

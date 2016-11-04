@@ -1,11 +1,5 @@
 <?php 
 namespace  Common\Logic;
-/**
- * 购买自营商品逻辑业务 
- *
- * @author wangleiming<wangleiming@yunmai365.com>
- **/ 
-
 class OwnOrderPayLogic{
 
 	public $errors = array();
@@ -57,7 +51,6 @@ class OwnOrderPayLogic{
 		}
 		$order_cond   = array(
 			'order_id'     => trim($order_id),
-			//'total_price'  => yuan_to_fen($balance),
 			'status'       => array('in', array(C('ORDER_STATUS.unpay'), C('ORDER_STATUS.payfailed'))), 
 			'version'      => intval($order['version']),
             'alipay_type'  => 0,

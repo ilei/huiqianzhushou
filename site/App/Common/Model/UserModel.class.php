@@ -3,26 +3,16 @@ namespace Common\Model;
 
 use Common\Model\BaseModel;
 
-/**
- * 用户模型
- *
- * CT: 2014-09-15 15:00 by YLX
- */
 class UserModel extends BaseModel{
 
     public function __construct(){
         parent::__construct();
     }
 
-    /**
-     * 用户模型验证条件
-     *
-     * @author wangleiming<wangleiming@yunmai365.com> 
-     */
     protected $_validate = array(
 
-        array('guid','require','{%l_ym_model_guid_not_empty}', self::EXISTS_VALIDATE),
-        array('guid','32','{%l_ym_model_guid_len_error}', self::EXISTS_VALIDATE, 'length', self::MODEL_INSERT),
+        array('guid','require','{%k_model_guid_not_empty}', self::EXISTS_VALIDATE),
+        array('guid','32','{%k_model_guid_len_error}', self::EXISTS_VALIDATE, 'length', self::MODEL_INSERT),
 
         array('email', 'email_check', '邮箱格式不对!', self::EXISTS_VALIDATE, 'callback'),
         array('email', 'email_unique', '邮箱已经注册!', self::EXISTS_VALIDATE, 'callback', self::MODEL_INSERT),
@@ -31,7 +21,7 @@ class UserModel extends BaseModel{
         array('mobile', 'require', '手机号码必须填写!', self::EXISTS_VALIDATE),
         array('mobile', 'mobile_check', '手机号码格式不正确!', self::EXISTS_VALIDATE, 'callback'),
         array('mobile', 'mobile_unique', '手机号码已经注册!', self::EXISTS_VALIDATE, 'callback', self::MODEL_INSERT),
-        
+
         array('password', 'require', '密码必须填写!', self::EXISTS_VALIDATE),
 
     );
@@ -54,27 +44,11 @@ class UserModel extends BaseModel{
         return $exist ? false : true;
     }
 
-    /**
-     * 获取用户详细信息
-     *
-     * CT: 2014-09-11 15:00 by YLX
-     */
     public function getUserInfo($u_guid)
     {
         return $this->where(array('guid' => $u_guid))->find();
     }
 
-
-    /**
-     * 获取用户详细信息
-     *
-     * $param $guid 用户guid
-     * $param $guid_2 用户2 GUid
-     * $param $c_limit 共同好友显示数量
-     *
-     * CT: 2014-09-11 15:00 by YLX
-     * UT: 2014-12-31 10:00 by Qiu
-     */
     public function getDetail($guid, $guid_2 = '', $c_limit = 5)
     {
         // 获取用户信息
@@ -111,14 +85,6 @@ class UserModel extends BaseModel{
         return $return;
     }
 
-    /**
-     * 获取用户详细信息
-     *
-     * $guid 用户guid
-     * $cfriend 是否显示用户共同好友
-     *
-     * CT: 2014-11-01 11:00 by YLX
-     */
     public function getDetailForWeb($guid, $cfriend = false, $climit = null)
     {
         // 获取用户信息
@@ -159,53 +125,4 @@ class UserModel extends BaseModel{
         return $return;
     }
 
-    /**
-     * 通过字段搜索用户
-     *
-     * @param $field 要搜索的字段
-     * @param $keyword 要搜索的关键字
-     * @param $mid 当前用户GUID
-     * @param $is_blacklist 是否增加黑名单过滤
-     *
-     * @return 用户列表
-     *
-     * CT: 2014-10-28 10:50 by YLX
-     */
-    public function searchBy($field, $keyword, $page = 1, $mid = null, $is_blacklist = true)
-    {
-        if (empty($field) || empty($keyword)) return false;
-
-        $where = array('is_del' => '0', 'is_active' => '1', 'type' => '1',
-            $field   => array('LIKE', "%$keyword%"),
-            'guid'   => array('NEQ', $mid)
-        );
-
-        $blacklist = array();
-        if ($is_blacklist && $mid) {
-            $blacklist = M('Contacts')->where(array('user_guid_2' => $mid, 'status' => '4'))->getField('user_guid_1', true);
-            if (!empty($blacklist)) {
-                $where['guid'] = array('NOT IN', $blacklist);
-            }
-        }
-
-        $res = $this->field('guid, real_name, photo, remark')
-            ->where($where)
-            ->page($page . ',' . C('NUM_PER_PAGE', null, '15'))
-            ->select();
-        return $res;
-    }
-    public function getInterest($u_guid)
-    {
-        return $this->getInterestSql($u_guid)->select();
-    }
-
-    /**
-     * 获取用户兴趣IDS
-     *
-     * CT: 2014-10-27 18:00 by YLX
-     */
-    public function getInterestIds($u_guid)
-    {
-        return $this->getInterestSql($u_guid)->getField('interest_id', true);
-    }
 }

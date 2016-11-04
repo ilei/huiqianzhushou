@@ -1,10 +1,5 @@
 <?php 
 namespace  Common\Logic;
-/**
- * 用户报名逻辑 
- *
- * @author wangleiming<wangleiming@yunmai365.com>
- **/ 
 
 class SignupLogic{
 
@@ -16,7 +11,7 @@ class SignupLogic{
         }
         //开启事务
         M()->startTrans();
-	$res = $res1 = $res2 = $res3 = $res4 = true;
+        $res = $res1 = $res2 = $res3 = $res4 = true;
         $time = time();
         $info = $params['info'];
         $mobile = trim($info['mobile']);
@@ -81,14 +76,14 @@ class SignupLogic{
             $res = D('ActivityUserinfo')->where(array('guid' => $user_ticket['userinfo_guid']))->save($data_info);
             $data_info['guid'] = $user_ticket['userinfo_guid'];
             if(!$res){
-            	M()->rollback();
+                M()->rollback();
                 return array(false, false, false); 
             }
         }else{
             $data_info['guid'] = create_guid(); 
             list($check, $r) = $model_userinfo->insert($data_info);
             if (!$check || !$r) {
-            	M()->rollback();
+                M()->rollback();
                 return array(false, false, false);
             }
         }

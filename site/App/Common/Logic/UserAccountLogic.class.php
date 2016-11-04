@@ -1,10 +1,5 @@
 <?php 
 namespace  Common\Logic;
-/**
- * 用户账户操作业务逻辑 
- *
- * @author wangleiming<wangleiming@yunmai365.com>
- **/ 
 
 class UserAccountLogic{
 

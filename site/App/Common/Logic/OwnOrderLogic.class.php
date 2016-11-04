@@ -1,10 +1,5 @@
 <?php 
 namespace  Common\Logic;
-/**
- * 自营商品订单逻辑 
- *
- * @author wangleiming<wangleiming@yunmai365.com>
- **/ 
 class OwnOrderLogic{
 
 	public $errors = array();
@@ -17,6 +12,7 @@ class OwnOrderLogic{
 	 * @param  string $auth_user_guid 用于生成电子票的登录用户的user_guid
 	 * @return mixed 
 	 **/ 
+
 	public function add($data = array(), $ext = array()){
 		if(empty($data)){
 			return false;

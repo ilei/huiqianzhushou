@@ -1,10 +1,5 @@
 <?php 
 namespace  Common\Logic;
-/**
- * 活动添加 
- *
- * @author wangleiming<wangleiming@yunmai365.com>
- **/ 
 
 class ActLogic{
 
@@ -91,7 +86,7 @@ class ActLogic{
                         M('UserPartnerCategory')->add($save);
                         $partner_guid = $save['guid'];
                     }
-                     
+
                 }else{
                     $partner_guid = trim($u['guid']); 
                 }
@@ -137,7 +132,7 @@ class ActLogic{
             );
         }
         if($data_flow){
-           $res = M('ActivityAttrFlow')->addAll($data_flow);
+            $res = M('ActivityAttrFlow')->addAll($data_flow);
             if($res){
                 return true;
             }else{
@@ -154,7 +149,6 @@ class ActLogic{
         $old_res =  D('ActivityForm')->where(array('activity_guid' => $activity_guid,'name'=>array('IN',array('姓名','手机','邮箱','公司','职位','地址','性别','年龄'))))->select();
         $time = time();
         D('ActivityForm')->where(array('activity_guid' => $activity_guid,'name'=>array('IN',array('姓名','手机','邮箱','公司','职位','地址','性别','年龄'))))->delete();
-//        D('ActivityFormOption')->where(array('activity_guid' => $activity_guid,'value'=>array('IN',array('男','女'))))->delete();
         foreach ($old_res as $key => $value) {
             if($value[ym_type]=='sex'){
                 D('ActivityFormOption')->where(array('activity_guid' => $activity_guid,'build_guid'=>$value['guid'],'value'=>array('IN',array('男','女'))))->delete();
@@ -280,7 +274,7 @@ class ActLogic{
                 M('ActivityAttrTicket')->where(array('guid' => array('not in', $old_guid), 'activity_guid' => $activity_guid))->delete();
             }
         }elseif($delete){
-                M('ActivityAttrTicket')->where(array('activity_guid' => $activity_guid))->delete();
+            M('ActivityAttrTicket')->where(array('activity_guid' => $activity_guid))->delete();
         }
         if(!empty($tickets['new'])){
             foreach($tickets['new'] as $k => $t) {
@@ -371,7 +365,7 @@ class ActLogic{
                 $value['end_time']   = $activity['end_time'];
                 $value['activity_guid'] = $activity['guid'];
             }
-           M('ActivityAttrTicket')->addAll($tickets);
+            M('ActivityAttrTicket')->addAll($tickets);
         }
         $option_info  = D('ActivityFormOption')->where(array('activity_guid' => $activity_guid))->select();
         if($build_info){
@@ -430,6 +424,7 @@ class ActLogic{
      * @param $act_end_time activity_end_time
      * @return array [status]  [type]
      */
+
     public function check_signup_time($guid,$act_start_time,$act_end_time)
     {
         // 判断报名是否开始

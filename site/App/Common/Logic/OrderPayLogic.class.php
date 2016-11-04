@@ -1,11 +1,5 @@
 <?php 
 namespace  Common\Logic;
-/**
- * 购买商品逻辑业务 
- *
- * @author wangleiming<wangleiming@yunmai365.com>
- **/ 
-
 class OrderPayLogic{
 
 	public $errors = array();

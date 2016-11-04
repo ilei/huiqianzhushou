@@ -1,11 +1,6 @@
 <?php 
 namespace  Common\Logic;
 
-/**
- * 微信登录 
- *
- * @author wangleiming<wangleiming@yunmai365.com>
- **/ 
 class WeixinLogic{
 
 	public $errors = array();
