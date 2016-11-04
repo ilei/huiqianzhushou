@@ -19,7 +19,7 @@ use Api\Controller\BaseController;
           //获取参数
           $phone = trim(I('get.phone'));
           $imei = trim(I('get.imei'));
-          $code = get_mobile_code();
+          $code = kookeg_get_mobile_code();
           //判断参数是否为空
           if(empty($phone)||empty($imei)){
               $this->output_error('10003');

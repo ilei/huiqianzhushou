@@ -1,16 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: RTH
- * Date: 2015/12/5
- * Time: 16:28
- */
 namespace Home\Controller;
 use Home\Controller\BaseController;
-//use Pinq\ITraversable,Pinq\Traversable;
 
 class FinancingController extends BaseController{
-
 
     public function __construct(){
         parent::__construct();
@@ -20,18 +12,13 @@ class FinancingController extends BaseController{
         $this->title = '等待结算';
     }
 
-    //待结算页面
     public function index(){
         $this->main = '/Public/meetelf/home/js/home.financing.index.js';
-
         $this->get_not_settle_act();
         $this->show();
     }
 
 
-    /**
-     * 获取未结算活动
-     */
     public function get_not_settle_act($ck_act_guids = '',$action = ''){
 
         $activity_model = D('Activity');
@@ -46,19 +33,18 @@ class FinancingController extends BaseController{
             $fin_guids[] = $v['guid'];
         }
 
-//        print_r($fin_guids);die;
         //支付表查询付费活动guid(全部活动  包含已结束、已关闭。)
         $order_list = $order_model  //获取付费活动guid
             ->field('target_guid,guid')
             ->where(array(
-                    'seller_guid' => $user_guid,
-                    'goods_price' => array('gt',0),
-                    'status' => '1',//支付成功
-                    'is_del' => 0,
-                    'target_guid' => array('NOTIN',$fin_guids)
-                    )
+                'seller_guid' => $user_guid,
+                'goods_price' => array('gt',0),
+                'status' => '1',//支付成功
+                'is_del' => 0,
+                'target_guid' => array('NOTIN',$fin_guids)
             )
-            ->select();
+        )
+        ->select();
 
         if(empty($ck_act_guids)){  //判断是否是从结算详情页查询
             if(!empty($order_list)){
@@ -66,7 +52,7 @@ class FinancingController extends BaseController{
                     $act_guids[] = $v['target_guid'];
                 }
             }
-//
+            //
             if(empty($act_guids)){
 
                 $this->assign('activity_list','');
@@ -91,7 +77,7 @@ class FinancingController extends BaseController{
                 'guid' => array('in',$act_guids),
                 'is_del' => '0',
                 'status' => '2'))
-            ->select();
+                ->select();
 
         foreach($activity_list as $k=>$v){
             $one_act_guids[] = $v['guid'];
@@ -141,8 +127,6 @@ class FinancingController extends BaseController{
 
     //账户管理页面
     public function info_set(){
-
-//        $user_guid = session('auth')['guid'];
 
         $express_model = D('FinancingExpress');
         $invoice_model = D('FinancingInvoice');
@@ -214,7 +198,7 @@ class FinancingController extends BaseController{
 
         $post = I('post.');
         if($post){
-            $res = $this->_add_edit_data('bank','add');
+            $res = $this->private_ae_data('bank','add');
             if($res){
                 $this->success('添加成功',U('Financing/bank_list'));
             }else{
@@ -240,7 +224,7 @@ class FinancingController extends BaseController{
 
         $post = I('post.');
         if($post){
-            $res = $this->_add_edit_data('bank','edit');
+            $res = $this->private_ae_data('bank','edit');
             if($res){
                 $this->success('添加成功',U('Financing/bank_list'));
             }else{
@@ -265,7 +249,7 @@ class FinancingController extends BaseController{
 
         $post = I('post.');
         if($post){
-            $res = $this->_add_edit_data('express','add');
+            $res = $this->private_ae_data('express','add');
             if($res){
                 $this->success('添加成功',U('Financing/express_list'));
             }else{
@@ -291,7 +275,7 @@ class FinancingController extends BaseController{
 
         $post = I('post.');
         if($post){
-            $res = $this->_add_edit_data('express','edit');
+            $res = $this->private_ae_data('express','edit');
             if($res){
                 $this->success('添加成功',U('Financing/express_list'));
             }else{
@@ -316,7 +300,7 @@ class FinancingController extends BaseController{
 
         $post = I('post.');
         if($post){
-            $res = $this->_add_edit_data('invoice','add');
+            $res = $this->private_ae_data('invoice','add');
             if($res){
                 $this->success('添加成功',U('Financing/invoice_list'));
             }else{
@@ -341,7 +325,7 @@ class FinancingController extends BaseController{
 
         $post = I('post.');
         if($post){
-            $res = $this->_add_edit_data('invoice','edit');
+            $res = $this->private_ae_data('invoice','edit');
             if($res){
                 $this->success('添加成功',U('Financing/invoice_list'));
             }else{
@@ -360,12 +344,12 @@ class FinancingController extends BaseController{
         $this->show('_add_edit');
     }
 
-    //发票、银行账号、快递地址 添加编辑数据组装
     /**
      * @param $type 区分类别  发票 invoice、银行账号 bank、快递地址 express
      * @param $status  区分add、edit
-     */
-    public function _add_edit_data($type,$status){
+     **/
+
+    public function private_ae_data($type,$status){
         $user_guid = session('auth')['guid'];
         $post = I('post.');
         $time = time();
@@ -450,12 +434,12 @@ class FinancingController extends BaseController{
 
     }
 
-    //数据库添加数据
     /**
      * @param $this_model  要操作的表
      * @param $data    打包好的数据
      * @param $type    add,edit 区分
-     */
+     **/
+
     public function add_edit_model($this_model,$data,$status){
         $time = time();
         if($data['is_default'] == '1'){
@@ -488,7 +472,7 @@ class FinancingController extends BaseController{
         $this->del_model($bank_model,$guid);
     }
 
-        //删除发票信息
+    //删除发票信息
     public function invoice_del(){
 
         $invoice_model = D('FinancingInvoice');
@@ -497,7 +481,7 @@ class FinancingController extends BaseController{
         $this->del_model($invoice_model,$guid);
     }
 
-        //删除快递信息
+    //删除快递信息
     public function express_del(){
 
         $express_model = D('FinancingExpress');
@@ -507,18 +491,18 @@ class FinancingController extends BaseController{
     }
 
 
-    //删除银行、发票、快递地址信息
     /**
      * @param $this_model    要删除的model类型
      * @param $this_guid     要删除的guid
-     */
+     **/
+
     public function del_model($this_model,$this_guid){
 
         $user_guid = session('auth')['guid'];
         $res = $this_model->where(array('guid' => $this_guid))->data(array('is_del' => 1,'updated_at' => time()))->save();
         $is_default_guid = $this_model->field('guid')->where(array('user_guid' => $user_guid,'is_del' => 0))->order('updated_at desc')->find()['guid'];
         $this_model->where(array('guid' => $is_default_guid))->data(array('updated_at' => time(),'is_default' => 1))->save();
-//        var_dump($resss,$this_guid,$is_default_guid);die;
+        //        var_dump($resss,$this_guid,$is_default_guid);die;
 
         if(!empty($res)){
             $this->success('信息删除成功');
@@ -535,9 +519,6 @@ class FinancingController extends BaseController{
         $this->main = '/Public/meetelf/home/js/home.financing.set_account.js';
 
         $this->get_not_settle_act(I('post.ck_act_guids'),'set_account');
-//        var_dump($_POST);
-//        var_dump($_GET);die;
-
 
         $ratio = D('FinancingDiscount')->field('ratio')->where(array('status'=>1,'is_del'=>0))->find()['ratio'];
         $invoice_info = $this->find_default(D('FinancingInvoice'));
@@ -551,10 +532,6 @@ class FinancingController extends BaseController{
         $this->show();
     }
 
-    //查询默认信息
-    /**
-     * @param $this  被实例化的数据表
-     */
     public function find_default($model){
         $user_guid = session('auth')['guid'];
 
@@ -568,7 +545,8 @@ class FinancingController extends BaseController{
 
     /**
      * 结算的计算逻辑  暂时无验证补全
-     */
+     **/
+
     public function compute_logic(){
 
         $user_info = session('auth');
@@ -582,7 +560,6 @@ class FinancingController extends BaseController{
         if($post){
 
             //记得数据库加两个状态      ticket 加是否收费票
-
             if(empty($post['bank_guid'])){
                 $this->error('银行信息不能为空');
             }
@@ -596,8 +573,6 @@ class FinancingController extends BaseController{
                 ->field('total_price as money,target_guid')
                 ->where(array('target_guid' => array('in',$post['act_guids']),'status' => '1'))
                 ->select();
-
-
 
             if(!empty($order_money_list)){ //组装数据
                 foreach ($order_money_list as $k=>$v) {
@@ -653,7 +628,6 @@ class FinancingController extends BaseController{
                 $act_data[$v['guid']]['activity_name'] = $v['name'];
                 $act_data[$v['guid']]['end_time'] = $v['end_time'];
             }
-//            var_dump($order_money_list);die;
             foreach($order_money_list as $k=>$v){
                 $act_data[$v['target_guid']]['user_guid'] = $user_info['guid'];
                 $act_data[$v['target_guid']]['account_at'] = $data['account_at'];
@@ -661,22 +635,17 @@ class FinancingController extends BaseController{
                 $act_data[$v['target_guid']]['detail_guid'] = $data['guid'];
 
                 $act_data[$v['target_guid']]['charge_before_money'] = $act_moneys[$v['target_guid']];
-//                $act_data[$v['target_guid']]['charge'] = $data['charge'];
-//                $act_data[$v['target_guid']]['charge_after_money'] = $v['money']*100-$post['sum_money']*$post['ratio']*100 < $post['charge_money']*100?$post['charge_money']*100:$post['sum_money']*$post['ratio']*100;
-//                $act_data[$v['target_guid']]['charge_money'] = $post['sum_money']*$post['ratio']*100 < $post['charge_money']*100?$post['charge_money']*100:$post['sum_money']*$post['ratio']*100;
                 $act_data[$v['target_guid']]['status'] = 0;
                 $act_data[$v['target_guid']]['created_at'] = $time;
                 $act_data[$v['target_guid']]['updated_at'] = $time;
             }
 
-
-
-                //查询收费票数据
-                $order_act_ticket = $order_model
-                    ->field('goods_price,buyer_guid,status,goods_name,finished_time,target_guid,payment_type')
-                    ->where(array('target_guid' => array('in',$befor_act_guids),'total_price' => array('gt',0),'finished_time' => array('gt',0)))
-                    ->order('finished_time desc')
-                    ->select();
+            //查询收费票数据
+            $order_act_ticket = $order_model
+                ->field('goods_price,buyer_guid,status,goods_name,finished_time,target_guid,payment_type')
+                ->where(array('target_guid' => array('in',$befor_act_guids),'total_price' => array('gt',0),'finished_time' => array('gt',0)))
+                ->order('finished_time desc')
+                ->select();
 
 
             foreach ($order_act_ticket as $k=>$v) {
@@ -685,109 +654,105 @@ class FinancingController extends BaseController{
             }
 
             //查询状态对应名称
-                foreach($ticket_status as $k=>$v){
-                    switch ($v['status']){
-                        case 0: $ticket_status[$k]['name'] = '新订单';
-                            break;
-                        case 1: $ticket_status[$k]['name'] = '支付成功';
-                            break;
-                        case 2: $ticket_status[$k]['name'] = '支付失败';
-                            break;
-                        case 3: $ticket_status[$k]['name'] = '取消';
-                            break;
-                        case 4: $ticket_status[$k]['name'] = '已发货';
-                            break;
-                        case 5: $ticket_status[$k]['name'] = '交易成功';
-                            break;
-                        case 6: $ticket_status[$k]['name'] = '待审核';
-                            break;
-                        case 7: $ticket_status[$k]['name'] = '审核通过';
-                            break;
-                        case 8: $ticket_status[$k]['name'] = '审核拒绝';
-                            break;
-                        case 9: $ticket_status[$k]['name'] = '被删除';
-                            break;
-                    }
-                }
-
-                //查询该活动的票名称种类
-
-                foreach($ticket_status as $k=>$v){
-                    $ticket_order_status[$v['status']]['name'] = $v['name'];
-                }
-                //查询购票者名称
-                $user_ticket_name = $ticket_model
-                    ->field('real_name,userinfo_guid,ticket_guid,ticket_name')
-                    ->where(array('userinfo_guid' => array('in',$userinfo_guids)))
-                    ->select();
-
-
-                $i=0;
-                foreach($user_ticket_name as $k=>$v){
-                    $real_names[$v['userinfo_guid']]['real_name'] = $v['real_name'];
-                    $ticket_name_guid[$i]['name'] = $v['ticket_name'];
-                    $real_names[$v['userinfo_guid']]['ticket_guid'] = $v['ticket_guid'];
-                    $i++;
-                }
-
-                //组装前台页面数据
-                foreach($order_act_ticket as $k=>$v){
-                    $order_act_ticket[$k]['ticket_guid'] = $real_names[$v['buyer_guid']]['ticket_guid'];
-                    $order_act_ticket[$k]['real_name'] = $real_names[$v['buyer_guid']]['real_name'];
-                    $order_act_ticket[$k]['ticket_status_name'] = $ticket_status[$v['buyer_guid']]['name'];
-
-                }
-
-
-            }
-
-
-            //插入数据库
-            D()->startTrans();
-            foreach($act_data as $k=>$v){
-                $res = $financing_activity_model->data($v)->add();
-                if(!empty($res)){
-                    $res_status = true;
-                }else{
-                    $res_status = false;
-                    break;
+            foreach($ticket_status as $k=>$v){
+                switch ($v['status']){
+                case 0: $ticket_status[$k]['name'] = '新订单';
+                break;
+                case 1: $ticket_status[$k]['name'] = '支付成功';
+                break;
+                case 2: $ticket_status[$k]['name'] = '支付失败';
+                break;
+                case 3: $ticket_status[$k]['name'] = '取消';
+                break;
+                case 4: $ticket_status[$k]['name'] = '已发货';
+                break;
+                case 5: $ticket_status[$k]['name'] = '交易成功';
+                break;
+                case 6: $ticket_status[$k]['name'] = '待审核';
+                break;
+                case 7: $ticket_status[$k]['name'] = '审核通过';
+                break;
+                case 8: $ticket_status[$k]['name'] = '审核拒绝';
+                break;
+                case 9: $ticket_status[$k]['name'] = '被删除';
+                break;
                 }
             }
+
+            //查询该活动的票名称种类
+
+            foreach($ticket_status as $k=>$v){
+                $ticket_order_status[$v['status']]['name'] = $v['name'];
+            }
+            //查询购票者名称
+            $user_ticket_name = $ticket_model
+                ->field('real_name,userinfo_guid,ticket_guid,ticket_name')
+                ->where(array('userinfo_guid' => array('in',$userinfo_guids)))
+                ->select();
+
+
+            $i=0;
+            foreach($user_ticket_name as $k=>$v){
+                $real_names[$v['userinfo_guid']]['real_name'] = $v['real_name'];
+                $ticket_name_guid[$i]['name'] = $v['ticket_name'];
+                $real_names[$v['userinfo_guid']]['ticket_guid'] = $v['ticket_guid'];
+                $i++;
+            }
+
+            //组装前台页面数据
+            foreach($order_act_ticket as $k=>$v){
+                $order_act_ticket[$k]['ticket_guid'] = $real_names[$v['buyer_guid']]['ticket_guid'];
+                $order_act_ticket[$k]['real_name'] = $real_names[$v['buyer_guid']]['real_name'];
+                $order_act_ticket[$k]['ticket_status_name'] = $ticket_status[$v['buyer_guid']]['name'];
+            }
+        }
+
+        //插入数据库
+        D()->startTrans();
+        foreach($act_data as $k=>$v){
+            $res = $financing_activity_model->data($v)->add();
+            if(!empty($res)){
+                $res_status = true;
+            }else{
+                $res_status = false;
+                break;
+            }
+        }
 
         foreach($order_act_ticket as $k=>$v){
-                $ticket_data[$k]['guid'] = create_guid();
-                $ticket_data[$k]['user_guid'] = $user_info['guid'];
-                $ticket_data[$k]['detail_guid'] = $data['guid'];
-                $ticket_data[$k]['target_guid'] = $v['target_guid'];
-                $ticket_data[$k]['goods_price'] = $v['goods_price'];
-                $ticket_data[$k]['buyer_guid'] = $v['buyer_guid'];
-                $ticket_data[$k]['status'] = $v['status'];
-                $ticket_data[$k]['goods_name'] = $v['goods_name'];
-                $ticket_data[$k]['finished_time'] = $v['finished_time'];
-                $ticket_data[$k]['payment_type'] = $v['payment_type'];
-                $ticket_data[$k]['ticket_guid'] = $v['ticket_guid'];
-                $ticket_data[$k]['real_name'] = $v['real_name'];
-                $ticket_data[$k]['ticket_status_name'] = $v['ticket_status_name'];
-                $ticket_data[$k]['is_del'] = 0;
-                $ticket_data[$k]['created_at'] = $time;
-                $ticket_data[$k]['updated_at'] = $time;
+            $ticket_data[$k]['guid'] = create_guid();
+            $ticket_data[$k]['user_guid'] = $user_info['guid'];
+            $ticket_data[$k]['detail_guid'] = $data['guid'];
+            $ticket_data[$k]['target_guid'] = $v['target_guid'];
+            $ticket_data[$k]['goods_price'] = $v['goods_price'];
+            $ticket_data[$k]['buyer_guid'] = $v['buyer_guid'];
+            $ticket_data[$k]['status'] = $v['status'];
+            $ticket_data[$k]['goods_name'] = $v['goods_name'];
+            $ticket_data[$k]['finished_time'] = $v['finished_time'];
+            $ticket_data[$k]['payment_type'] = $v['payment_type'];
+            $ticket_data[$k]['ticket_guid'] = $v['ticket_guid'];
+            $ticket_data[$k]['real_name'] = $v['real_name'];
+            $ticket_data[$k]['ticket_status_name'] = $v['ticket_status_name'];
+            $ticket_data[$k]['is_del'] = 0;
+            $ticket_data[$k]['created_at'] = $time;
+            $ticket_data[$k]['updated_at'] = $time;
 
-            }
+        }
 
         $ticket_res[] = $financing_ticket_model->addAll($ticket_data);
 
 
-            $res = D('FinancingDetail')->data($data)->add();
-            if(!empty($res) && $res_status && !empty($ticket_res)){
-                D()->commit();
-                send_email('service@yunmai365.com','酷客会签结算系统','新结算','新提交结算处理');
-                $this->success('结算成功,等待酷客会签财务人员审核',U('Financing/index'));
-                exit;
-            }else{
-                D()->rollback();
-                $this->error('结算失败，请重新操作',U('Financing/index'));
-                exit;
-            }
+        $res = D('FinancingDetail')->data($data)->add();
+        if(!empty($res) && $res_status && !empty($ticket_res)){
+            D()->commit();
+            send_email('service@yunmai365.com','酷客会签结算系统','新结算','新提交结算处理');
+            $this->success('结算成功,等待酷客会签财务人员审核',U('Financing/index'));
+            exit;
+        }else{
+            D()->rollback();
+            $this->error('结算失败，请重新操作',U('Financing/index'));
+            exit;
+        }
     }
 
 
@@ -802,21 +767,15 @@ class FinancingController extends BaseController{
         $order_model = D('Order');
         $ticket_model = D('ActivityUserTicket');
         $activity_model = D('Activity');
-//        $financing_activity_model = D('FinancingActivity');
         $attr_ticket_model = D('ActivityAttrTicket');
 
-//        $res = $financing_activity_model->field('status')->where(array('guid' => $aid))->find()['status'];
-//        //返回按钮地址
-//        if(empty($res)){
-            $return_url = U('Financing/index');
-//        }
+        $return_url = U('Financing/index');
         $act_name = $activity_model->where(array('guid' => $aid))->find()['name'];
         //活动金额总计
         $act_sum_money = $order_model
             ->field('sum(total_price) as money')
             ->where(array('target_guid' => $aid,'status' => '1'))
             ->find()['money'];
-
 
         $order_act_ticket = $order_model
             ->field('goods_price,buyer_guid,status,goods_name,finished_time')
@@ -885,26 +844,26 @@ class FinancingController extends BaseController{
         //查询状态对应名称
         foreach($ticket_status as $k=>$v){
             switch ($v['status']){
-                case 0: $ticket_status[$k]['name'] = '新订单';
-                    break;
-                case 1: $ticket_status[$k]['name'] = '支付成功';
-                    break;
-                case 2: $ticket_status[$k]['name'] = '支付失败';
-                    break;
-                case 3: $ticket_status[$k]['name'] = '取消';
-                    break;
-                case 4: $ticket_status[$k]['name'] = '已发货';
-                    break;
-                case 5: $ticket_status[$k]['name'] = '交易成功';
-                    break;
-                case 6: $ticket_status[$k]['name'] = '待审核';
-                    break;
-                case 7: $ticket_status[$k]['name'] = '审核通过';
-                    break;
-                case 8: $ticket_status[$k]['name'] = '审核拒绝';
-                    break;
-                case 9: $ticket_status[$k]['name'] = '被删除';
-                    break;
+            case 0: $ticket_status[$k]['name'] = '新订单';
+            break;
+            case 1: $ticket_status[$k]['name'] = '支付成功';
+            break;
+            case 2: $ticket_status[$k]['name'] = '支付失败';
+            break;
+            case 3: $ticket_status[$k]['name'] = '取消';
+            break;
+            case 4: $ticket_status[$k]['name'] = '已发货';
+            break;
+            case 5: $ticket_status[$k]['name'] = '交易成功';
+            break;
+            case 6: $ticket_status[$k]['name'] = '待审核';
+            break;
+            case 7: $ticket_status[$k]['name'] = '审核通过';
+            break;
+            case 8: $ticket_status[$k]['name'] = '审核拒绝';
+            break;
+            case 9: $ticket_status[$k]['name'] = '被删除';
+            break;
             }
         }
 
@@ -914,10 +873,6 @@ class FinancingController extends BaseController{
             $ticket_order_status[$v['status']]['name'] = $v['name'];
             $t_status_name[$v['name']][] = $v['name'];
         }
-
-//        $ticket_name = $post['ticket_guid'] != 'all'?$attr_ticket_model->field('name')->where(array('guid' => $post['ticket_guid']))->find()['name']:'全部';
-//            $return_data['$ticket_name'] = $ticket_name;
-//            $this->assign('$ticket_name','全部');
         //查询购票者名称
         $user_ticket_name = $ticket_model
             ->field('real_name,userinfo_guid,ticket_guid,ticket_name')
@@ -925,7 +880,6 @@ class FinancingController extends BaseController{
             ->select();
 
 
-//        $i=0;
         foreach($user_ticket_name as $k=>$v){
             $real_names[$v['userinfo_guid']]['real_name'] = $v['real_name'];
             $ticket_name_guid[$v['ticket_guid']]['name'] = $v['ticket_name'];
@@ -953,28 +907,28 @@ class FinancingController extends BaseController{
 
             //电子票状态
             switch ($post['ticket_status']){
-                case '0': $return_data['t_status_name'] = '新订单';
-                    break;
-                case '1': $return_data['t_status_name'] = '支付成功';
-                    break;
-                case '2': $return_data['t_status_name'] = '支付失败';
-                    break;
-                case '3': $return_data['t_status_name'] = '取消';
-                    break;
-                case '4': $return_data['t_status_name'] = '已发货';
-                    break;
-                case '5': $return_data['t_status_name'] = '交易成功';
-                    break;
-                case '6': $return_data['t_status_name'] = '待审核';
-                    break;
-                case '7': $return_data['t_status_name'] = '审核通过';
-                    break;
-                case '8': $return_data['t_status_name'] = '审核拒绝';
-                    break;
-                case '9': $return_data['t_status_name'] = '被删除';
-                    break;
-                case 'all': $return_data['t_status_name'] = '全部';
-                    break;
+            case '0': $return_data['t_status_name'] = '新订单';
+            break;
+            case '1': $return_data['t_status_name'] = '支付成功';
+            break;
+            case '2': $return_data['t_status_name'] = '支付失败';
+            break;
+            case '3': $return_data['t_status_name'] = '取消';
+            break;
+            case '4': $return_data['t_status_name'] = '已发货';
+            break;
+            case '5': $return_data['t_status_name'] = '交易成功';
+            break;
+            case '6': $return_data['t_status_name'] = '待审核';
+            break;
+            case '7': $return_data['t_status_name'] = '审核通过';
+            break;
+            case '8': $return_data['t_status_name'] = '审核拒绝';
+            break;
+            case '9': $return_data['t_status_name'] = '被删除';
+            break;
+            case 'all': $return_data['t_status_name'] = '全部';
+            break;
             }
 
             //电子票名称
@@ -984,8 +938,6 @@ class FinancingController extends BaseController{
                 $return_data['ticket_name'] = $attr_ticket_model->field('name')->where(array('guid' => $post['ticket_guid']))->find()['name'];
             }
 
-//            print_r($order_act_ticket);die;
-            //电子票金额
             $return_data['sum_money'] = $order_model
                 ->field('sum(total_price) as money')
                 ->where(array('target_guid' => $aid,'buyer_guid' => array('in',$userinfo_guids),'status' => '1'))
@@ -1008,8 +960,6 @@ class FinancingController extends BaseController{
         $detail_list = $detail_model
             ->where(array('user_guid' => $user_guid,'status' => 0,'is_del' => 0))
             ->select();
-
-
         $this->assign('detail_list',$detail_list);
         $this->show();
     }
@@ -1034,10 +984,8 @@ class FinancingController extends BaseController{
             $detail_act_list[$k]['money'] = $v['charge_before_money']/100;
         }
 
-//        var_dump($detail_act_list);die;
         $this->assign('ck_act_status','set_account');//页面区分   等于set_account时与结算页面显示一致
         $this->assign('act_status_page','act_status_page');//页面区分   等于set_account时与结算页面显示一致
-//        $this->assign('sum_money',$sum_money);
         $this->assign('page_money_status','1');//公用页面内容显示区分
         $this->assign('activity_list',$detail_act_list);
         $this->assign('tbody',$this->fetch('_financing_tbody'));
@@ -1061,11 +1009,6 @@ class FinancingController extends BaseController{
         $ticket_list = $fin_ticket_model
             ->where(array('target_guid' => $aid,'is_del' => 0))
             ->select();
-//        foreach(json_decode($res['ticket_content'],true) as $k=>$v){
-//            $ticket_list = $v;
-//        }
-
-//        print_r($ticket_list);die;
         if($post){
             $ticket_name = $post['goods_name'];
             $ticket_status = $post['ticket_status_name'];
@@ -1177,10 +1120,8 @@ class FinancingController extends BaseController{
 
         $this->assign('ck_act_status','set_account');//页面区分   等于set_account时与结算页面显示一致
         $this->assign('act_status_page','act_status_page');//页面区分   等于set_account时与结算页面显示一致
-//        $this->assign('sum_money',$sum_money);
         $this->assign('page_money_status','1');//公用页面内容显示区分
         $this->assign('activity_list',$detail_act_list);
-//        $this->assign('page_status','1');//公用页面内容显示区分
         $this->assign('tbody',$this->fetch('_financing_tbody'));
         $this->show();
     }

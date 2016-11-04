@@ -44,7 +44,7 @@ class PublisherLogic
             } elseif ($res['types'] == 3) {
                 $sql .= ' AND status IN(1,3)';
             } elseif ($res['types'] == 1) {
-                $params = array_columns(json_decode($res['params'], true), 'guid');
+                $params = kookeg_array_column(json_decode($res['params'], true), 'guid');
                 $ticket_guids = "'" . trim(implode("','", array_unique($params)), ',\'') . "'";
                 $sql .= "AND ticket_guid IN ($ticket_guids)";
             }

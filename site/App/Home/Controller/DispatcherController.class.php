@@ -1,61 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ManonLoki1
- * Date: 15/10/12
- * Time: 上午10:13
- *
- *
- */
-
 namespace Home\Controller;
 
-/**
- * Class DispatcherController 分发活动
- * @package Home\Controller
- * CT 2015.10.12 by manonloki
- */
 class DispatcherController extends BaseController
 {
 
-    /**
-     * 取消访问时的身份验证
-     */
     public function  __construct()
     {
         parent::__construct(false);
     }
 
-    /**
-     * CT 2015.10.12 10:15 by manonloki
-     * 跳转到真实的活动
-     */
     public function event()
     {
-//        var_dump($_SERVER);
-//        var_dump($_COOKIE);
-//        var_dump($_REQUEST);
-//        var_dump($_GET);
-//        die;
-
-
-
-
         if (IS_GET) {
 
             $id = I("get.id");
             $type = I("get.t");
-
-//            //默认设置为Mobile
-//            if (empty($type)) {
-//                $type = "m";
-//            }
-
-
             $realID = event_id_decode($id);
-
             $model_activity = M("Activity");
-
             $activity = $model_activity
                 ->where(array(
                     'id' => $realID
@@ -85,8 +46,6 @@ class DispatcherController extends BaseController
         } else {
             $this->error("错误的访问", U("Home/Index/index"));
         }
-
-
     }
 
     public function download(){
@@ -95,7 +54,6 @@ class DispatcherController extends BaseController
         if(empty($type)){
             $this->error('错误的下载地址');
         }
-
         //查询条件
         $condition=array();
         $condition['status']=1;//已发布
@@ -116,14 +74,9 @@ class DispatcherController extends BaseController
 
         //获取文件信息
         $file_info=C("APP_TYPE")[$condition['type']];
-
-
-
         if(empty($appInfo)){
             $this->error('无效下载');
         }
-
-
         $app_path="";
         $file_path=UPLOAD_PATH.$file_info['save_path'].'/'.$file_info['name_file'].'.'.$file_info['ext'];
         $app_size=sizecount(filesize($file_path));

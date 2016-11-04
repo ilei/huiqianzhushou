@@ -181,7 +181,7 @@ class ActLogic{
             'updated_at'    => $time,
             'sort'          => isset($old_res[1]['sort']) ? intval($old_res[1]['sort']) : 1,
         );
-        $old_res = array_columns($old_res, 'sort', 'name');
+        $old_res = kookeg_array_column($old_res, 'sort', 'name');
         $data_options = array();
         foreach ($forms as $i) {
             if (isset($i['name'])) {
@@ -431,8 +431,8 @@ class ActLogic{
         $time = time();
         $signup_status=array();
         $ticket = M('ActivityAttrTicket')->where(array('activity_guid' => $guid))->select();
-        $start  = min(array_columns($ticket, 'start_time', 'id'));
-        $end    = max(array_columns($ticket, 'end_time', 'id'));
+        $start  = min(kookeg_array_column($ticket, 'start_time', 'id'));
+        $end    = max(kookeg_array_column($ticket, 'end_time', 'id'));
         if(!$start || !$end){
             $start = $act_start_time;
             $end   = $act_end_time;

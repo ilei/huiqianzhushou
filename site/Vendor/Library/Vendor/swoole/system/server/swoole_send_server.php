@@ -164,7 +164,7 @@ function onTask($server,$task_id,$from_id,$data){
         }
         $send_type = isset($tail['send_type']) ? $tail['send_type'] : 1;
         unset($tail['send_type']);
-        $tail = array_columns($tail, null, 'mobile');
+        $tail = kookeg_array_column($tail, null, 'mobile');
         unset($data);
 
         $success_arr = array();

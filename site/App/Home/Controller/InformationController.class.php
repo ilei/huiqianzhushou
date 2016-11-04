@@ -6,11 +6,6 @@ use Controls\Control\PagerControl;
 use Controls\Model\PagerControlModel;
 use Think\Verify;
 
-/**
- * 基本信息
- * 
- * CT 2015-08-24 16:00 by zyz  
- */
 class InformationController extends BaseController{
     public function __construct(){
         parent::__construct();
@@ -18,18 +13,12 @@ class InformationController extends BaseController{
     }
 
 
-    /**
-     * 账号首页
-     * 
-     * CT 2015-09-18 16:00 by zyz  
-     */ 
     public function index()
     {   
         $this->css[] = 'meetelf/css/home.css';
         $this->main = '/Public/meetelf/home/js/build/home.information.index.js';
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $uid = $auth['guid'];
-        // 获取指定guid全部数据
         $info       = D('User')->find_one(array('guid' => $uid,'is_del'=>0));
         $other_info = M('UserAttrInfo')->where(array('user_guid' => $uid))->find();
         //我未发布的活动数量
@@ -80,19 +69,12 @@ class InformationController extends BaseController{
         $this->show();
     }
 
-    /**
-     * 基本信息
-     * 
-     * CT 2015-08-24 16:00 by zyz  
-     */
     public function information()
     {	
 
         $this->main = '/Public/meetelf/home/js/build/birthday.js';
-        $auth = $this->get_auth_session();
-        // var_dump($auth);die;
+        $auth = $this->kookeg_auth_data();
         $uid = $auth['guid'];
-        // 获取org指定guid全部数据
         $info       = D('User')->find_one(array('guid' => $uid));
         $other_info = M('UserAttrInfo')->where(array('user_guid' => $uid))->find();
 
@@ -109,10 +91,6 @@ class InformationController extends BaseController{
         $this->show();
     }
 
-    /**
-     * 保存基本信息
-     * CT 2015.08.07 15:20 by ylx
-     */
     public function saveBase()
     {
         if (IS_POST) {
@@ -123,8 +101,8 @@ class InformationController extends BaseController{
             $data_other['company'] = trim($data_other['company']);
             $data_other['address'] = trim($data_other['address']);
             $data_other['realname'] = trim($data_other['realname']);
-            $user_guid  = $this->get_auth_session('guid');
-            $auth = $this->get_auth_session();
+            $user_guid  = $this->kookeg_auth_data('guid');
+            $auth = $this->kookeg_auth_data();
             $r ='';
             // 保存用户数据
             if (!empty($data_info)) {
@@ -173,11 +151,6 @@ class InformationController extends BaseController{
         }
     }
 
-    /**
-     * 获取子地区
-     *
-     * CT 2014-10-14 17:40 by YLX
-     */
     public function ajax_get_child_area_list()
     {
         $areaid = I('post.id');
@@ -193,10 +166,7 @@ class InformationController extends BaseController{
         }
 
     }
-    /**
-     * 修改密码
-     * CT 2015.08.07 10:20 by ylx
-     */
+
     public function password()
     {   
         $this->main = '/Public/meetelf/home/js/build/home.base.password.js';
@@ -205,10 +175,9 @@ class InformationController extends BaseController{
             $re_password  = I('post.repassword');
 
             if (!empty($new_password) && $new_password == $re_password) {
-                $guid   = $this->get_auth_session('guid');
+                $guid   = $this->kookeg_auth_data('guid');
                 $result = M('User')->where(array('guid' => $guid))->setField('password', md5($new_password));
                 if ($result || $result === 0) {
-                    // $this->success('密码修改成功。');
                     session(null);
                     exit($this->success(L('_PASSWORD_SUCCESS_'), U('/Home/Auth/login', '', true, false, false)));
                 } else {
@@ -223,16 +192,11 @@ class InformationController extends BaseController{
         $this->show();
     }
 
-    /**
-     * 主办方信息
-     * 
-     * CT 2015-08-24 16:00 by zyz  
-     */
     public function organizers()
     {  
         $this->main = '/Public/meetelf/home/js/build/organizer.js';
         $this->css[] = 'meetelf/css/information.css';
-        $auth = $this->get_auth_session(); 
+        $auth = $this->kookeg_auth_data(); 
         $model = D('OrganizerInfo');
         $num_per_page = C('NUM_PER_PAGE', null, '10');
         $list         = $model->alias('g')
@@ -244,26 +208,15 @@ class InformationController extends BaseController{
             $activity_num = M('ActivityAttrUndertaker')->where(array( 'organizer_guid' =>$value['guid']))->count();
             $list[$key]['activity_num']=$activity_num;
         }
-        // 查询满足要求的总记录数
-        // $count = $model->alias('g')->where(array('user_guid' => $auth['guid'], 'status' => 1))->count();
-
-        // // 使用page类,实现分类
-        // $page  = new \Think\Page($count, $num_per_page);// 实例化分页类 传入总记录数和每页显示的记录数
-        // $pager = $page->show();// 分页显示输出
         $this->assign('list', $list);
-        // $this->assign('key', $key);
         $this->assign('auth', $auth);
         $this->assign('meta_title', L('_ORGANIZER_MSG_'));
         $this->show();
     }
-    /**
-     * 添加主办方信息
-     * 
-     * CT 2015-08-24 16:00 by zyz  
-     */
+
     public function organizer_add()
     {
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $model = D('OrganizerInfo');
         $time  = time();     
         if (IS_POST) {
@@ -299,15 +252,9 @@ class InformationController extends BaseController{
         }
     }
 
-    /**
-     * 编辑主办方
-     *
-     * CT 2015-08-24 16:00 by zyz 
-     **/
-
     public function organizer_edit()
     {
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $guid = I('get.guid');
         $time  = time();
         if (IS_POST) {
@@ -333,17 +280,10 @@ class InformationController extends BaseController{
         }
         exit($this->error(L('_MSG_FILAD_'), $this->getReferer()));
     }
-    /**
-     * 删除主办方
-     *
-     * CT 2015-09-11 17:00 zyz
-     *
-     **/
 
     public function del()
     {
         $guid = I('get.guid');
-        // echo $guid;die;
         if (empty($guid)) {
             $this->ajaxResponse(array('status' => 'ko', 'msg' => L('_DEL_FILAD_')));
         }
@@ -354,8 +294,6 @@ class InformationController extends BaseController{
             $this->ajaxResponse(array('status' => 'ok', 'msg' => L('_DEL_SUCCESS_')));
         }
 
-        // 执行删除操作
-        // $res = D('OrganizerInfo')->where(array('guid' => $guid));
         $res = D('OrganizerInfo')->where(array('guid'=>$guid))->save(array('status'=>0));
 
         // 返回数据
@@ -365,15 +303,10 @@ class InformationController extends BaseController{
         $this->ajaxResponse(array('status' => 'ok', 'msg' => L('_DEL_SUCCESS_')));
     }
 
-    /**
-     * 签到账号
-     * 
-     * CT 2015-08-24 16:00 by zyz  
-     */ 
     public function account()
     {
         $this->main = '/Public/meetelf/home/js/account.js';
-        $auth  = $this->get_auth_session();
+        $auth  = $this->kookeg_auth_data();
         $model = D('SigninUser');
         $this->assign('meta_title', L('_REGISTRATION_ACCOUNT'));
         $num_per_page = C('NUM_PER_PAGE', null, '10');
@@ -398,11 +331,6 @@ class InformationController extends BaseController{
         $this->show();
     }
 
-    /*
-     *生成随机唯一签到账号登录校验码
-     *
-     * CT: 2015-10-21 by RTH
-     */
     public function create_login_verify_code(){
         $v_code = '';
         for($i = 0; $i < 6; $i++){
@@ -417,13 +345,9 @@ class InformationController extends BaseController{
         }
     }
 
-    /**
-     * 添加签到用户
-     * CT 2015-09-22 15:00 by zyz
-     **/
     public function add()
     {
-        $auth       = $this->get_auth_session();
+        $auth       = $this->kookeg_auth_data();
         $model      = D('SigninUser');
         $user_count = $model->where(array('user_guid' => $auth['guid'], 'is_del' => C('SIGINUSER.NO_DEL', null, 10)))->count();
         $num_limit  = C('SIGINUSER.MAX_NUM', null, 10);
@@ -451,12 +375,7 @@ class InformationController extends BaseController{
                 if (!$res) {
                     $this->ajaxResponse(array('status' => C('ajax_failed'),'msg'=>L('_MSG_FILAD_')));
                 }
-                // $go = intval(I('post.go'));
-                // if ($go) {
-                //     exit($this->success('签到成员 添加成功, 请继续添加.', U('Information/account')));
-                // } else {
                 exit($this->success(L('_ACCOUNT_SUCCESS_'), U('Home/User/account')));
-                // }
             } else {
                 $this->ajaxResponse(array('status' => C('ajax_failed'),'msg'=>L('_ACCOUNT_EXISTED_')));
             }
@@ -464,13 +383,6 @@ class InformationController extends BaseController{
         $this->assign('meta_title', L('_ADD_ACCOUNT_'));
         $this->display();
     }
-
-    /**
-     * 删除会签成员  只能删除未激活用户
-     *
-     * CT 2015-09-22 15:00 by zyz
-     *
-     **/
 
     public function del_account()
     {
@@ -497,16 +409,9 @@ class InformationController extends BaseController{
         }
         $this->ajaxResponse(array('status' => 'ok', 'msg' => L('_DEL_SUCCESS_')));
     }
-
-    /**
-     * 会签用户编辑
-     *
-     * CT 2015-09-22 15:00 by zyz
-     **/
-
     public function edit()
     {
-        $auth       = $this->get_auth_session();
+        $auth       = $this->kookeg_auth_data();
         $guid = I('get.guid');
         if (IS_POST) {
             $data = array(
@@ -557,17 +462,11 @@ class InformationController extends BaseController{
     }
 
 
-    /**
-     * 我的钱包
-     * 
-     * CT 2015-09-25 16:00 by zyz  
-     */ 
-
     public function wallet(){
         $this->assign('meta_title', L('_MY_WALLET_'));
         $this->main  = '/Public/meetelf/home/js/build/home.information.js';
         $this->css[] = 'meetelf/home/css/release.css';
-        $auth = $this->get_auth_session(); 
+        $auth = $this->kookeg_auth_data(); 
         $pageSize = intval(I('post.i', 5));//分页大小
         $page = intval(I('post.p', 1));//当前页码
 
@@ -602,24 +501,13 @@ class InformationController extends BaseController{
         }
         $this->show();
     }
-
-    /**
-     * 邮件使用记录
-     * 
-     * CT 2015-09-28 16:00 by zyz  
-     */ 
     public function use_record(){
         $this->assign('meta_title', '使用记录');
         $this->show();
     }
 
-    /**
-     * 绑定邮箱
-     * 
-     * CT 2015-10-13 16:00 by zyz  
-     */ 
     public function email_build(){
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $username = I('post.email');
         $regtime = time();
         $token = md5($username.$regtime); //创建用于激活识别码 
@@ -635,7 +523,6 @@ class InformationController extends BaseController{
         if ($info=='') {
             $this->assign('token',$token);
             $this->assign('email',$username);
-            // $this->assign('email_verify_url',U('Home/Email/email_verify',array('t' => $token),true,true));
             $content = $this->fetch('_email_notice');
             $email_res = send_email($username,L('_APP_NAME_'),L('_AUTHENTICATE_EMAIL_'),$content);
             if($email_res['status'] != 'success'){
@@ -647,21 +534,15 @@ class InformationController extends BaseController{
                 $this->error($model_user->getError());
             } else {
                 $r = $model_user->where(array('guid' => $auth['guid']))->save();
-                // echo $model_user->getLastSQL();
-                // var_dump($r);
             }
             $this->ajax_response(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
         }else{
             $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_EMAIL_EXISTED_')));
         }
     }
-    /**
-     * 解绑邮箱
-     * 
-     * CT 2015-10-13 16:00 by zyz  
-     */
+
     public function email_remove(){
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $model_user = D('User');
         $r = $model_user->where(array('guid' => $auth['guid']))->save(array('email_verify' =>0));
         if ($r) {
@@ -672,7 +553,6 @@ class InformationController extends BaseController{
     }
     //验证码
     public function verify(){
-
         $config = array(
             'imageW' => 150,
             'imageH' => 40,
@@ -684,37 +564,22 @@ class InformationController extends BaseController{
         $verify->codeSet = '0123456789';
         $verify->entry();
     }
-    /**
-     * 验证手机号
-     * 
-     * CT 2015-10-16 16:00 by zyz  
-     */
     public function change_mobile(){
         $this->css[] = 'meetelf/css/login.css';
         $this->main  = '/Public/meetelf/home/js/build/home.information.change.mobile.js';
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $this->assign('meta_title', L('_CHANGE_MOBILE_'));
         $this->assign('auth', $auth);
         $this->show();
     }
-    /**
-     * 更换手机号2
-     * 
-     * CT 2015-10-16 16:00 by zyz  
-     */
     public function change_mobile_step2(){
         $this->css[] = 'meetelf/css/login.css';
         $this->main  = '/Public/meetelf/home/js/build/home.information.change.mobile.step2.js';
         $this->assign('meta_title', L('_CHANGE_MOBILE_'));
         $this->show();
     }
-    /**
-     * 更换手机号3
-     * 
-     * CT 2015-10-16 16:00 by zyz  
-     */
     public function change_mobile_step3(){
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $mobile = I('post.mobile');
         $model_user = D('User');
         $r = $model_user->where(array('guid' => $auth['guid']))->save(array('mobile'=>$mobile));
@@ -728,10 +593,9 @@ class InformationController extends BaseController{
     }
     //ajax发送校验码
     public function ajax_send_code(){
-        // $auth = $this->get_auth_session();
         $mobile = I('post.mobile');
         $time = time();
-        $code = get_mobile_code();
+        $code = kookeg_get_mobile_code();
 
         $data['guid'] = create_guid();
         $data['created_at'] = $time;
@@ -760,7 +624,6 @@ class InformationController extends BaseController{
     }
 
     //ajax验证验证码
-
     public function ajax_check_verify(){
         $verify = new Verify();
         $code = I('post.verify');
@@ -792,34 +655,6 @@ class InformationController extends BaseController{
             echo 'false';exit();
         }
     }
-
-    //    /*
-    //     * 修改登录校验码
-    //     *
-    //     * CT: 2015-10-21 by RTH
-    //     */
-    //    public function ajax_update_login_verify_code(){
-    //        $uid = I('post.uid');
-    //        $vcode = I('post.vcode');
-    //        if(empty($uid) || empty($vcode) || strlen($vcode) < 6){
-    //            $return_data['status'] = 'ko';
-    //            $return_data['msg'] = '数据错误，请稍后重启';
-    //            $this->ajaxResponse(return_data);
-    //        }
-    //
-    //        $res = D('User')->where(array('guid' => $uid))->data(array('login_verify_code' => $vcode))->save();
-    //        if(!empty($res)){
-    //            $return_data['status'] = 'ok';
-    //            $return_data['msg'] = '登录校验码,修改成功';
-    //            $this->ajaxResponse($return_data);
-    //        }else{
-    //            $return_data['status'] = 'ko';
-    //            $return_data['msg'] = '登陆校验码，修改失败。请稍后再试';
-    //            $this->ajaxResponse(return_data);
-    //        }
-    //
-    //    }
-
     //检查手机号是否重复
     public function ajax_check_mobile(){
         $mobile = I('post.mobile');
@@ -835,16 +670,11 @@ class InformationController extends BaseController{
         }
     }
 
-    /**
-     * ajax检查操作
-     *
-     * CT 2015-10-21 17:00 by zyz
-     */
     public function check()
     {
         $type  = I('get.type');
         $field = I('post.field');
-        $auth  = $this->get_auth_session();
+        $auth  = $this->kookeg_auth_data();
         switch ($type) {
         case 'old_pass':
             $res = D('User')->find_one(array('guid' => $auth['guid'], 'password' => md5($field)));

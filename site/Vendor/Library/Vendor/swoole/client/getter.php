@@ -24,7 +24,7 @@ class getter{
                             $fail[$key] = $tail[$value['to']];
                         }  
                     }
-                    $all_ids = array_columns(array_merge($success, $fail), 'id'); 
+                    $all_ids = kookeg_array_column(array_merge($success, $fail), 'id'); 
                     getter::delete_msg_wait($all_ids, $db); 
                     setter::set_msg_success($success, $db);
                     setter::set_msg_fail($fail, $db, $redis);

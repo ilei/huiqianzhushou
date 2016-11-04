@@ -15,7 +15,7 @@ class IndexController extends BaseUserController
      */
     public function index()
     {
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $num_per_page =  C('NUM_PER_PAGE', null, 10);
         $model_activity = M('Activity');
         $user_guid = $auth['user_guid'];
@@ -43,7 +43,7 @@ class IndexController extends BaseUserController
     //历史记录
     public function oldlist()
     {
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         // var_dump($auth);
         $num_per_page =  C('NUM_PER_PAGE', null, 10);
         $model_activity = M('Activity');

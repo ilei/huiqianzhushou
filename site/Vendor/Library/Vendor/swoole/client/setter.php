@@ -17,7 +17,7 @@ class setter
             } elseif ($res['types'] == 3) {
                 $sql .= ' AND status IN(1,3)';
             } elseif ($res['types'] == 1) {
-                $params = array_columns(json_decode($res['params'], true), 'guid');
+                $params = kookeg_array_column(json_decode($res['params'], true), 'guid');
                 $ticket_guids = "'" . trim(implode("','", array_unique($params)), ',\'') . "'";
                 $sql .= "AND ticket_guid IN ($ticket_guids)";
             }
@@ -47,9 +47,9 @@ class setter
     public static function set_msg_status($success = array(), $fail = array(), $db = null)
     {
         if ($success) {
-            $ids = array_columns($success, 'id');
-            $ticket_guids = array_columns($success, 'ticket_guid');
-            $success = array_columns($success, 'account_guid');
+            $ids = kookeg_array_column($success, 'id');
+            $ticket_guids = kookeg_array_column($success, 'ticket_guid');
+            $success = kookeg_array_column($success, 'account_guid');
             $user_guid = $success[0];
             $sql = 'UPDATE ym_msg_content set status = 2 where id IN (' . trim(implode(',', $ids), ',') . ')';
             my_mysql_update($sql);
@@ -58,9 +58,9 @@ class setter
             my_mysql_update($sql);
         }
         if ($fail) {
-            $ids = array_columns($fail, 'id');
-            $ticket_guids = array_columns($fail, 'ticket_guid');
-            $fail = array_columns($fail, 'account_guid');
+            $ids = kookeg_array_column($fail, 'id');
+            $ticket_guids = kookeg_array_column($fail, 'ticket_guid');
+            $fail = kookeg_array_column($fail, 'account_guid');
             $user_guid = $fail[0];
             $sql = 'UPDATE ym_msg_content set status = 3 where id IN (' . trim(implode(',', $ids), ',') . ')';
             my_mysql_update($sql);

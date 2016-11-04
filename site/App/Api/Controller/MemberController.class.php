@@ -603,7 +603,7 @@ class MemberController extends BaseUserController
         }
 
         $time = time();
-        $mobile_code = get_mobile_code();
+        $mobile_code = kookeg_get_mobile_code();
         $check_data=array(
                             'mobile'=>$mobile,
                             'code'=>$mobile_code,

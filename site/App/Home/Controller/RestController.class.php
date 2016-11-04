@@ -2,12 +2,6 @@
 namespace Home\Controller;
 use 	  Think\Controller;
 
-/**
- * 基础控制器
- *
- * @author wangleiming<wangleiming@yunmai365.com>
- **/
-
 class RestController extends Controller{
 
     //要加载的js文件
@@ -65,19 +59,6 @@ class RestController extends Controller{
             $userInfo['email_nums'] = $account['email_nums'];
         }
         return $key ? $userInfo[$key] : $userInfo;
-    }
-
-    /**
-     *
-     * 设置session值
-     *
-     * @access public
-     * @param  mixed  $data
-     * @return void
-     **/
-
-    public function set_auth_session($data){
-        session('auth', $data);
     }
 
 
@@ -365,39 +346,18 @@ class RestController extends Controller{
         return false;
     }
 
-    /**
-     * 错误输出
-     *
-     * CT: 2014-09-19 17:00 by YLX
-     * UT: 2014-09-23 14:00 by YLX
-     *
-     */
     public function output_error($code, $msg=null, $data=null)
     {
         $data = array('code'=>$code, 'msg'=>$msg, 'data'=>$data);
         return $this->response($data, 'json');
     }
 
-    /**
-     * 数据输出
-     *
-     * CT: 2014-09-19 17:00 by YLX
-     * UT: 2014-09-23 14:00 by YLX
-     */
     public function output_data($data = null,$msg=null)
     {
         $data = array('code'=>10000, 'msg'=>$msg, 'data' => $data);
         return $this->response($data, 'json');
     }
 
-    /**
-     * 输出返回数据
-     * @access protected
-     * @param mixed $data 要返回的数据
-     * @param String $type 返回类型 JSON XML
-     * @param integer $code HTTP状态
-     * @return void
-     */
     protected function response($data,$type='json',$code=200) {
         $this->sendHttpStatus($code);
         exit($this->encodeData($data,strtolower($type)));
@@ -461,13 +421,6 @@ class RestController extends Controller{
         }
     }
 
-    /**
-     * 编码数据
-     * @access protected
-     * @param mixed $data 要返回的数据
-     * @param String $type 返回类型 JSON XML
-     * @return string
-     */
     protected function encodeData($data,$type='') {
         if(empty($data))  return '';
         if('json' == $type) {
@@ -480,17 +433,9 @@ class RestController extends Controller{
             $data = serialize($data);
         }// 默认直接输出
         $this->setContentType($type);
-        //header('Content-Length: ' . strlen($data));
         return $data;
     }
 
-    /**
-     * 设置页面输出的CONTENT_TYPE和编码
-     * @access public
-     * @param string $type content_type 类型对应的扩展名
-     * @param string $charset 页面输出编码
-     * @return void
-     */
     public function setContentType($type, $charset=''){
         if(headers_sent()) return;
         if(empty($charset))  $charset = C('DEFAULT_CHARSET');

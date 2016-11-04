@@ -1,15 +1,9 @@
 <?php
 namespace Home\Controller;
+use Home\Controller\BaseController;
 
-/**
- * 购买商品支付 
- * CT: 2015-05-11 17:50 by wangleiming
- */
 class PaymentController extends BaseController{
 
-	/**
-	 * 初始化相关类库
-	 */
 	public function _initialize()
 	{
         header("Content-type:text/html;charset=utf-8");
@@ -81,7 +75,7 @@ class PaymentController extends BaseController{
 			return false;
 		}		
 		$order = D('Order')->find_one(array('guid' => trim($guid)));
-		$auth  = $this->get_auth_session();
+		$auth  = $this->kookeg_auth_data();
 		if(!$order || ($order['status'] == 1)){
 			return false;
 		}
@@ -123,7 +117,6 @@ class PaymentController extends BaseController{
 		$total_fee     = $money;       //付款金额
 		$body          = $order['desc']; 				   //订单描述 
 
-		//商品展示地址 需以http://开头的完整路径，例如：http://www.商户网址.com/myorder.html
 		$show_url      = '';                  
 
 		//客户端的IP地址, 非局域网的外网IP地址，如：221.0.0.1
@@ -158,10 +151,6 @@ class PaymentController extends BaseController{
 		echo $html_text;
 	}
 
-	/**
-	 * 服务器异步通知页面方法
-	 * CT: 2015-05-13 15:00 BY wangleiming 
-	 */
 
 	public function notify_url(){
 
@@ -248,10 +237,6 @@ class PaymentController extends BaseController{
 		}
 	}
 
-	/**
-	 * 页面跳转处理方法
-	 * CT: 2015-05-13 15:00 BY wangleiming 
-	 */
 	public function return_url(){
 
 		if(!$_GET || !validate_get('out_trade_no') || !validate_get('trade_no')){

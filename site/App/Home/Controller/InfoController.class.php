@@ -5,8 +5,8 @@ use Home\Controller\BaseController;
 
 /**
  * 支付成功或失败返回页面展示
- * @author wangleiming<wangleiming@yunmai365.com> 
  **/
+
 class InfoController extends BaseController{
 
     public function __construct(){
@@ -60,7 +60,7 @@ class InfoController extends BaseController{
 
     public function recharge()
     {
-        $session_auth = $this->get_auth_session();
+        $session_auth = $this->kookeg_auth_data();
         $this->assign('meta_title', '充值记录');
         $num_per_page = C('NUM_PER_PAGE', null, '10');
         $list         = D('RechargeRecord')->alias('g')
@@ -84,7 +84,7 @@ class InfoController extends BaseController{
 
     public function recharge_info()
     {
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $this->assign('meta_title', '充值记录详情');
         $guid  = I('get.guid');
         $order = D('RechargeRecord')->find_one(array('guid' => trim($guid), 'account_guid' => $auth['org_guid']));

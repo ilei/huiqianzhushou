@@ -97,7 +97,7 @@ class ActivityController extends BaseController
             $this->_show_error(L('_ACTIVITY_CLOSED_'));
         }
         $this->title = $activity_info['name'];
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
 
         $user_guid = $auth['guid'];
         // 检查活动是否开始
@@ -275,7 +275,7 @@ class ActivityController extends BaseController
         if (session('preview') == 0 && ($activity_info['status'] != 1 || empty($activity_info))) {
             $this->_show_error();
         }
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $user_guid = $auth['guid'];
 
         $user_attr_info=D('UserAttrInfo')->where(array('user_guid'=>$user_guid))->find();//获取当前用户的其它信息
@@ -299,7 +299,7 @@ class ActivityController extends BaseController
         }
         foreach($tickets as $key => $value){
             if($value['price']){
-                if(!$this->get_auth_session()){
+                if(!$this->kookeg_auth_data()){
                    $this->redirect('Auth/Login'); 
                 } 
                 break;
@@ -374,8 +374,8 @@ class ActivityController extends BaseController
         // 判断报名是否开始
         $time = time();
         $ticket = M('ActivityAttrTicket')->where(array('activity_guid' => $activity_info['guid']))->select();
-        $start = min(array_columns($ticket, 'start_time', 'id'));
-        $end = max(array_columns($ticket, 'end_time', 'id'));
+        $start = min(kookeg_array_column($ticket, 'start_time', 'id'));
+        $end = max(kookeg_array_column($ticket, 'end_time', 'id'));
         if (!$start || !$end) {
             $start = $activity_info['start_time'];
             $end = $activity_info['end_time'];
@@ -478,7 +478,7 @@ class ActivityController extends BaseController
             $this->error('活动未找到，请稍后重试。');
         }
 
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
 
 
         $user_guid = $auth['guid'];
@@ -666,7 +666,7 @@ class ActivityController extends BaseController
         $type = I('get.type');
         $user_guid = I('get.guid');
         if ($type == 1) {
-            $user_info = $this->get_auth_session();
+            $user_info = $this->kookeg_auth_data();
         }else{
             $user_info = D('User')->getUserInfo($user_guid);
             $user_attr_info = D('UserAttrInfo')->field('realname')->where(array('user_guid' => $user_guid))->find();

@@ -5,8 +5,6 @@ use 	  Think\Controller;
 /**
  * 基础控制器
  *
- * @author ThinkLei 
- *
  **/
 
 class BaseController extends Controller{
@@ -58,7 +56,7 @@ class BaseController extends Controller{
      * @return mixed
      **/
 
-    public function get_auth_session($key = ''){
+    public function kookeg_auth_data($key = ''){
         $userInfo = session('auth');
         if($userInfo){
             $account  = M('UserAccount')->where(array('account_guid' => $userInfo['guid']))->find();
@@ -67,20 +65,6 @@ class BaseController extends Controller{
         }
         return $key ? $userInfo[$key] : $userInfo;
     }
-
-    /**
-     *
-     * 设置session值 
-     *
-     * @access public 
-     * @param  mixed  $data 
-     * @return void 
-     **/ 
-
-    public function set_auth_session($data){
-        session('auth', $data);
-    }
-
 
     /**
      *
@@ -279,7 +263,7 @@ class BaseController extends Controller{
      **/
 
     public function check_login(){
-        $session_auth = $this->get_auth_session();
+        $session_auth = $this->kookeg_auth_data();
         if(CONTROLLER_NAME == 'Auth' || $this->_filter_login()){
             return true;
             exit;
@@ -329,7 +313,7 @@ class BaseController extends Controller{
      **/ 
 
     public function get_login_user(){
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         if(!$auth && isset($_COOKIE[C('REMEMBER_KEY')]) && $_COOKIE[C('REMEMBER_KEY')]) {
             list($token, $userGuid, $ip) = explode(':', $_COOKIE[C('REMEMBER_KEY')]);
             $condition = array('guid' => $userGuid, 'auto_token' => $token, 'auto_login' => 1);

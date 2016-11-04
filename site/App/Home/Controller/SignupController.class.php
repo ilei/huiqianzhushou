@@ -3,8 +3,6 @@ namespace Home\Controller;
 
 /**
  * 签到用户系统基础操作
- *
- * CT 2015-04-22 15:00 wangleiming
  **/
 
 class SignupController extends BaseController{
@@ -16,6 +14,7 @@ class SignupController extends BaseController{
      * @param array $ext
      * @param array $user_ticket
      */
+
     public function edit($activity_guid, $params, $user_from = 2, $ext = array(), $user_ticket = array()){
 
         if(!$activity_guid && !$params && !$user_ticket){
@@ -88,25 +87,25 @@ class SignupController extends BaseController{
             if (empty($info)) {
                 $this->error('用户尚未报名，请先报名');
             }
-            $other = array_columns($other, null, 'build_guid');
+            $other = kookeg_array_column($other, null, 'build_guid');
             $this->assign('user_ticket', $user_ticket);
             $this->assign('info', $info);
             $this->assign('other', $other);
             $activity_guid = $user_ticket['activity_guid'];
         }
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $activity_info = D('Activity')->where(array('guid' => trim($activity_guid)))->find();  
         if($activity_info['status'] != 1 || empty($activity_info)) {
             $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
         }
 
         // 检查报名时
-        if (!$this->_check_signup_time($activity_info)) {
+        if (!$this->private_check_signup_time($activity_info)) {
             $this->error(L('_ACT_SIGNUP_NOT_START_'));
         }
 
         // 检查报名人数
-        list($user_can_signup, $tickets) = $this->_caculate_signup_num($activity_guid, $activity_info);
+        list($user_can_signup, $tickets) = $this->private_cacul_signup_number($activity_guid, $activity_info);
         if(empty($tickets)) {
             $this->error(L('_ACT_NOT_TICKET_'));
         }
@@ -168,43 +167,38 @@ class SignupController extends BaseController{
                 $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_SIGNUP_FAILED_')));
             }else{
                 if($pay){
-                     
+
                 }
                 $this->ajax_response(array('status' => C('ajax_success'), 'new' => $new));
             }
-            
+
         }
 
     }
 
-	/**
-	 * 检查报名时间
-	 * @param $activity_info
-	 * @return bool
-	 */
-	private function _check_signup_time($activity_info)
-	{
-		// 判断报名是否开始
-		$time = time();
+    private function private_check_signup_time($activity_info)
+    {
+        // 判断报名是否开始
+        $time = time();
         $ticket = M('ActivityAttrTicket')->where(array('activity_guid' => $activity_info['guid']))->select();
-        $start  = min(array_columns($ticket, 'start_time', 'id'));      
-        $end    = max(array_columns($ticket, 'end_time', 'id'));      
+        $start  = min(kookeg_array_column($ticket, 'start_time', 'id'));      
+        $end    = max(kookeg_array_column($ticket, 'end_time', 'id'));      
         if(!$start || !$end){
             $start = $activity_info['start_time'];
             $end   = $activity_info['end_time'];
         }
         if($time < $start || $time > $end){
-			$signup_status['status'] = false;
-			if ($time < $start) {
-				$signup_status['time_type'] = 'start';
-			} else {
-				$signup_status['time_type'] = 'end';
-			}
-		} else {
-			$signup_status['status'] = true;
-			return $signup_status;
-		}
-	}
+            $signup_status['status'] = false;
+            if ($time < $start) {
+                $signup_status['time_type'] = 'start';
+            } else {
+                $signup_status['time_type'] = 'end';
+            }
+        } else {
+            $signup_status['status'] = true;
+            return $signup_status;
+        }
+    }
 
 
     /**
@@ -212,9 +206,9 @@ class SignupController extends BaseController{
      * @param $activity_guid
      * @param $activity_info
      * @return array
-     * CT: 2015-03-30 16:00 by ylx
-     */
-    private function _caculate_signup_num($activity_guid, $activity_info)
+     **/
+
+    private function private_cacul_signup_number($activity_guid, $activity_info)
     {
         //判断报名人数
         // 总票数

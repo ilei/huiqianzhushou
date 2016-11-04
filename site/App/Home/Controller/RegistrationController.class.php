@@ -1,15 +1,8 @@
 <?php
 namespace Home\Controller;
-//use       Think\Image;
 use Controls\Control\PagerControl;
 use Controls\Model\PagerControlModel;
 use Think\Upload;
-
-/**
- *
- *
- *
- **/
 
 class RegistrationController extends BaseController{
 
@@ -21,15 +14,12 @@ class RegistrationController extends BaseController{
         $this->title = '参会人员管理';
     }
 
-    /**
-     * 报表用户列表
-     */
     public function signup_userinfo()
     {
         $this->css[] = 'meetelf/css/create-activities.css';
         $this->main  = '/Public/meetelf/home/js/build/signup_userinfo.js';
         //用户信息
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
 
         $aid = I('get.aid');
         if (empty($aid)) {
@@ -49,7 +39,7 @@ class RegistrationController extends BaseController{
         $this->assign('act', $activity_info);
 
         // 获取新用户表单
-        $this->_get_signup_form($aid);
+        $this->private_signup_form($aid);
 
         // 是否显示发送邮箱
         $this->assign('is_send_mail', M('ActivityForm')->where(array('activity_guid' => $aid, 'ym_type' => 'email', 'is_required' => '1'))->find());
@@ -59,21 +49,14 @@ class RegistrationController extends BaseController{
         $balance = M('UserAccount')->field('balance')->where(array('account_guid' => $auth['guid'], 'status' => 1))->find();
         $this->assign('message_nums', yuan_to_fen($balance['balance'], false));
 
-        //$org_info = M('Org')->field('num_sms, num_email')->where(array('guid' => $auth['guid']))->find();
-        //$this->assign('org_info', $org_info);
-
         // 用户列表
-        $this->_get_signup_userlist($aid);
+        $this->private_get_signup_userlist($aid);
 
         $this->assign('subject_info', D('ActivitySubject')->find_one(array('guid' => $activity_info['subject_guid'])));
         $this->show();
     }
 
-    /**
-     * 组装报名表单
-     * CT: 2015-04-03 14:09 by ylx
-     */
-    private function _get_signup_form($aid)
+    private function private_signup_form($aid)
     {
         // 增加新用户的表单
         $build_info  = D('ActivityForm')->where(array('activity_guid' => $aid))->order('id asc')->select();
@@ -98,18 +81,10 @@ class RegistrationController extends BaseController{
         $this->assign('option_info', $format_option_info);
     }
 
-    /**
-     * 获取报名用户列表
-     * @param $aid 活动GUID
-     * @param string $action 调用方action名称
-     * @return array
-     * CT: 2015-03-09 16:30 BY YLX
-     */
-    private function _get_signup_userlist($aid, $action = '', $ajax='')
+    private function private_get_signup_userlist($aid, $action = '', $ajax='')
     {
         $where = "t.activity_guid='$aid' and t.is_del=0";
 
-//        var_dump(I('post.'),I('get.'));die;
         if(empty($ajax)){
             $filters = json_decode(htmlspecialchars_decode(I('post.filters')), true);
         }else{
@@ -125,55 +100,45 @@ class RegistrationController extends BaseController{
                 $where .= " and t.ticket_guid='$ticket_type'";
             }
         }
-
-//        // 人员来源过滤
-//        $from = $filters['f'];
-//        if (isset($from)) {
-//            if ($from != 'all') {
-//                $where .= " and i.type='$from'";
-//            }
-//        }
-
         // 签到状态过滤
         $signin_status = $filters['s'];
         if (!empty($signin_status)) {
             switch ($signin_status) {
-                case 'yes': // 已签到
-                    $where .= " and t.status=4";
-                    break;
-                case 'no': // 未签到
-                    $where .= " and (t.status=3 or t.status=2)";
-                    break;
-                case 'u0': // 未发送电子票
-                case 'u1': // 电子发送失败
-                case 'u2': // 已发送
-                case 'u3': // 已查看
-                case 'u5': // 已签到
-                    $status = substr($signin_status, 1);
-                    $where .= " and t.status='$status'";
-                    break;
-                case 'i1': // 扫码签到
-                case 'i2': // 手动签到
-                case 'i3': // 现场报名
-                    $status = substr($signin_status, 1);
-                    $where .= " and t.signin_status='$status' and t.status = '4'";
-                    break;
-                case 'all':
-                default:
-                    break;
+            case 'yes': // 已签到
+                $where .= " and t.status=4";
+                break;
+            case 'no': // 未签到
+                $where .= " and (t.status=3 or t.status=2)";
+                break;
+            case 'u0': // 未发送电子票
+            case 'u1': // 电子发送失败
+            case 'u2': // 已发送
+            case 'u3': // 已查看
+            case 'u5': // 已签到
+                $status = substr($signin_status, 1);
+                $where .= " and t.status='$status'";
+                break;
+            case 'i1': // 扫码签到
+            case 'i2': // 手动签到
+            case 'i3': // 现场报名
+                $status = substr($signin_status, 1);
+                $where .= " and t.signin_status='$status' and t.status = '4'";
+                break;
+            case 'all':
+            default:
+                break;
             }
         } else {
             switch ($action) {
-                case 'signin_chart':
-                    $where .= " and t.status in(2,3,4,5)";
-                    break;
-                default:
-                    break;
+            case 'signin_chart':
+                $where .= " and t.status in(2,3,4,5)";
+                break;
+            default:
+                break;
             }
         }
 
         // 搜索关键字 只支持姓名和电话
-//        $keyword = urldecode(I('get.keyword'));
         $keyword = $filters['keyword'];
         if (!empty($keyword)) { // 搜索姓名和电话
             $where .= " and (t.real_name like '%$keyword%' or t.mobile like '%$keyword%')";
@@ -186,76 +151,56 @@ class RegistrationController extends BaseController{
         if(empty($filters['i'])){
             $filters['i'] = '10';
         }
-        //list数据集合
-//        $list = M('ActivityUserinfo')->alias('i')
-//            ->join('ym_activity_user_ticket t on t.userinfo_guid = i.guid')
-//            ->field('*, t.guid as tid, i.guid as guid')
-//            ->where($where)
-//            ->order('i.created_at DESC')
-////            ->page(I('get.p', '1'), C('NUM_PER_PAGE', null, 10))
-//            ->page($filters['p'], $filters['i'])
-//            ->select();
         $list = M('ActivityUserTicket')->alias('t')
             ->field('t.guid as tid, t.userinfo_guid as guid,user_guid,activity_guid,real_name,mobile,ticket_guid,ticket_name,status,signin_status')
             ->where($where)
             ->order('t.created_at DESC')
-//            ->page(I('get.p', '1'), C('NUM_PER_PAGE', null, 10))
             ->page($filters['p'], $filters['i'])
             ->select();
-
-//        echo M('ActivityUserTicket')->getLastSql();die;
 
         foreach($list as $k => $v){
             $list[$k]['email'] = D('ActivityUserinfo')->field('email')->where(array('guid' => $v['guid']))->find()['email'];
         }
 
         switch ($signin_status) {
-            case 'yes': // 已签到
-                $ajax_ticket_status = "已签到";
-                break;
-            case 'no': // 未签到
-                $ajax_ticket_status = "未签到";
-                break;
-            case 'u0': // 未发送电子票
-                $ajax_ticket_status = "未发送";
-                break;
-            case 'u1': // 电子发送失败
-                $ajax_ticket_status = "发送失败";
-                break;
-            case 'u2': // 已发送
-                $ajax_ticket_status = "已发送";
-                break;
-            case 'u3': // 已查看
-                $ajax_ticket_status = "已查看";
-                break;
-            case 'u5': //正在发送
-                $ajax_ticket_status = "正在发送";
-                break;
-            case 'i1': // 扫码签到
-                $ajax_ticket_status = "扫码签到";
-                break;
-            case 'i2': // 手动签到
-                $ajax_ticket_status = "手动签到";
-                break;
-            case 'i3': // 现场报名
-                $ajax_ticket_status = "现场报名";
-                break;
-            case 'all':
-                $ajax_ticket_status = "全部";
-                break;
-            default:
-                break;
+        case 'yes': // 已签到
+            $ajax_ticket_status = "已签到";
+            break;
+        case 'no': // 未签到
+            $ajax_ticket_status = "未签到";
+            break;
+        case 'u0': // 未发送电子票
+            $ajax_ticket_status = "未发送";
+            break;
+        case 'u1': // 电子发送失败
+            $ajax_ticket_status = "发送失败";
+            break;
+        case 'u2': // 已发送
+            $ajax_ticket_status = "已发送";
+            break;
+        case 'u3': // 已查看
+            $ajax_ticket_status = "已查看";
+            break;
+        case 'u5': //正在发送
+            $ajax_ticket_status = "正在发送";
+            break;
+        case 'i1': // 扫码签到
+            $ajax_ticket_status = "扫码签到";
+            break;
+        case 'i2': // 手动签到
+            $ajax_ticket_status = "手动签到";
+            break;
+        case 'i3': // 现场报名
+            $ajax_ticket_status = "现场报名";
+            break;
+        case 'all':
+            $ajax_ticket_status = "全部";
+            break;
+        default:
+            break;
         }
 
-//        // 使用page类,实现分类
-//        $count = M('ActivityUserinfo')
-//            ->alias('i')
-//            ->join('ym_activity_user_ticket t on t.userinfo_guid = i.guid')
-//            ->where($where)
-//            ->count();
         $count = M('ActivityUserTicket')->alias('t')
-//            ->alias('i')
-//            ->join('ym_activity_user_ticket t on t.userinfo_guid = i.guid')
             ->where($where)
             ->count();
 
@@ -316,18 +261,11 @@ class RegistrationController extends BaseController{
         }
 
         $this->assign('user_list', $list);
-//        $this->assign('pages', $filters['p']);
-//        $this->assign('numbers', $filters['i']);
         $this->assign('count', $count);
         $this->assign('user_list_tbody', $this->fetch('_user_list_tbody'));
-//        $this->assign('user_count', count($list));
         return array($list);
     }
 
-    /**
-     * 报名活动名单导出Excel  全部数据
-     * CT：2015.02.06 09:55 by ylx
-     */
     public function signup_export()
     {
 
@@ -339,19 +277,15 @@ class RegistrationController extends BaseController{
 
         if($derive_type == 'all'){
 
-//            $dal = D('ActivityUserinfo');
             $dal = D('ActivityUserTicket');
-
             $user_guids = $dal->field('userinfo_guid')->where(array('activity_guid' => $aid,'is_del' => 0))->select();
             foreach($user_guids as $k=>$v){
                 $info_guids[] = $v['userinfo_guid'];
             }
         }
-
         if (empty($info_guids)) {
             $this->error('请选择要操作的用户.');
         }
-
         if (empty($aid)) {
             $this->error('非法操作, 请重试.');
         }
@@ -363,11 +297,9 @@ class RegistrationController extends BaseController{
         $form_build = M('ActivityForm')->where(array('activity_guid' => $aid, 'is_del' => '0'))
             ->order('sort desc')->getField('name', true);
         array_unshift($form_build, '序号');
-//        $where = array('i.activity_guid' => $aid, 'i.is_del' => '0','i.guid' => array('in',$info_guids));
         $user_info = M('ActivityUserinfo')
             ->field('guid,real_name,mobile,email')
             ->where(array('guid' => array('in',$info_guids)))
-//            ->where(array('guid' => array('in',$info_guids)))
             ->select();
 
         foreach($user_info as $k=>$v){
@@ -376,7 +308,6 @@ class RegistrationController extends BaseController{
 
         $user_info_other = M('ActivityUserinfoOther')
             ->field('value,userinfo_guid')
-//            ->where(array('activity_guid' => $aid, 'is_del' => '0'))
             ->where(array('userinfo_guid' => array('in',$info_guids)))
             ->order('id asc')
             ->select();
@@ -391,22 +322,22 @@ class RegistrationController extends BaseController{
         foreach ($user_info_other as $k => $other) {
             $data[$other['userinfo_guid']][] = str_replace("\r\n","",$other['value']);
         }
-	$del = ',';
-	if(strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'macintosh')){
-		$del = ';';
-	}
-	$activity_name = iconv('utf-8', 'GB2312//TRANSLIT', $activity_name);
+        $del = ',';
+        if(strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'macintosh')){
+            $del = ';';
+        }
+        $activity_name = iconv('utf-8', 'GB2312//TRANSLIT', $activity_name);
         $str  = '活动名称:';
         $str  = iconv('utf-8', 'gb2312', $str) . $activity_name . "\n\n";	
         foreach($form_build as $value_name){
-	   $value_name = iconv('utf-8', 'gb2312', $value_name);
+            $value_name = iconv('utf-8', 'gb2312', $value_name);
             $str .= "{$value_name}{$del}";
         }
         $str  = trim($str,$del);
         $str .= "\n";
         foreach($data as $key => $value){
             foreach($value as $k => $v){
-	        $v = iconv('utf-8', 'gb2312', $v);
+                $v = iconv('utf-8', 'gb2312', $v);
                 $str .= (string)$v.$del;
             }
             $str = trim($str,$del);
@@ -415,19 +346,11 @@ class RegistrationController extends BaseController{
         $str .= "\n\n".iconv('utf-8', 'gb2312', '总计:') . count($user_info);
         $filename = time().'.csv';
         export_csv($filename, $str);
-
-//        return D('Excel')->export($main_title, $form_build, $data, date('YmdHis'), array(array('总人数: ', count($data))));
     }
-    /**
-     * 报名活动名单导出Excel  其他数据
-     * CT：2015.02.06 09:55 by ylx
-     */
+
     public function signup_export_other()
     {
         $keyword = urldecode(I('get.keyword'));//关键字搜索 默认空
-//        $t = I('get.t');//票务类型 默认all
-//        $s = I('get.s');//签到状态 默认all
-
         $derive_type = I('get.derive_type');
         $aid        = I('get.aid');
         if(empty($derive_type) || empty($aid)){
@@ -519,14 +442,8 @@ class RegistrationController extends BaseController{
         $str .= "\n\n".iconv('utf-8', 'gb2312', '总计:') . count($user_info);
         $filename = time().'.csv';
         export_csv($filename, $str);
-//        var_dump($form_build);die;
-//        return D('Excel')->export($main_title, $form_build, $data, date('YmdHis'), array(array('总人数: ', count($data))));
     }
 
-    /**
-     * 后台手动添加报名人员
-     * CT： 2015.09.18 09:50 by rth
-     */
     public function ajax_signup_add_user()
     {
         // 提交报名
@@ -607,10 +524,6 @@ class RegistrationController extends BaseController{
         }
     }
 
-    /**
-     * 报名用户列表相关操作
-     * CT: 2015-03-06 17:50 BY YLX
-     */
     public function ajax_signup_userlist_batch_op()
     {
         if (IS_POST) {
@@ -627,27 +540,23 @@ class RegistrationController extends BaseController{
             }
 
             switch ($act) {
-                case 'batch_delete':
-                    $user_guids = M('ActivityUserinfo')->where(array('guid' => array('in', $info_guids)))->getField('user_guid', true);
-                    $info       = D('ActivityUserinfo')->where(array('guid' => array('in', $info_guids)))->delete();
-                    if ($info) {
-                        M('ActivityUserinfoOther')->where(array('signup_userinfo_guid' => array('in', $info_guids)))->delete();
-                        M('ActivityUserTicket')->where(array('activity_guid' => $aid, 'user_guid' => array('in', $user_guids)))->delete(); // 删除用户票务信息
-                        $this->ajaxResponse(array('status' => 'ok', 'msg' => '删除成功.'));
-                    }
-                    break;
-                default:
-                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
-                    break;
+            case 'batch_delete':
+                $user_guids = M('ActivityUserinfo')->where(array('guid' => array('in', $info_guids)))->getField('user_guid', true);
+                $info       = D('ActivityUserinfo')->where(array('guid' => array('in', $info_guids)))->delete();
+                if ($info) {
+                    M('ActivityUserinfoOther')->where(array('signup_userinfo_guid' => array('in', $info_guids)))->delete();
+                    M('ActivityUserTicket')->where(array('activity_guid' => $aid, 'user_guid' => array('in', $user_guids)))->delete(); // 删除用户票务信息
+                    $this->ajaxResponse(array('status' => 'ok', 'msg' => '删除成功.'));
+                }
+                break;
+            default:
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '非法操作, 请重试.'));
+                break;
             }
         }
 
     }
 
-    /**
-     * 发送电子票 短信/邮件
-     * CT： 2015-03-11 15:50 by ylx
-     */
     public function ajax_send_ticket_a()
     {
         // 提交报名
@@ -668,8 +577,6 @@ class RegistrationController extends BaseController{
                 } else{
                     if ($target == 'all') { // 给全部人员发送电子票
                         $send_type  = 'ticket';
-                        // 获取所有已购买电子票的人员GUID
-
                         //需改状态位正在发送
                         $res = M('ActivityUserTicket')->where(array('activity_guid' => $aguid, 'is_del' => 0, 'status' => array('lt', 4)))->save(array('status' => 5));
                     } else if ($target == 'other') { // 给未发送的人员发送电子票
@@ -691,44 +598,44 @@ class RegistrationController extends BaseController{
                 $userinfo = array('type' => $target);
             }
 
-            $auth = $this->get_auth_session();
+            $auth = $this->kookeg_auth_data();
 
-             $send_type = 'ticket';
+            $send_type = 'ticket';
             // 判断发送类别
             switch ($send_type) {
-                case 'ticket':  // 发送电子票
-                    $this->views = $this->view;
-                    $send        = array(
-                        'aguid'         => $aguid,
-                        'send_way'      => $send_way,
-                        'activity_name' => $activity_name,
-                        'auth'          => $auth,
-                        'target'        => $target,
-                        'obj'           => serialize($this)
-                    );
+            case 'ticket':  // 发送电子票
+                $this->views = $this->view;
+                $send        = array(
+                    'aguid'         => $aguid,
+                    'send_way'      => $send_way,
+                    'activity_name' => $activity_name,
+                    'auth'          => $auth,
+                    'target'        => $target,
+                    'obj'           => serialize($this)
+                );
 
-                    /*******************处理账户余额 start**************************/
+                /*******************处理账户余额 start**************************/
 
-                    $total = count($userinfo);
-                    $logic = D('Pay', 'Logic');
-                    $ext = array('creater_guid' => $auth['guid'], 'target_guid' => $aguid);
-                    if (in_array('sms', $send_way)) {
-                        //短信
-                        $res = $logic->afterSendTicket($auth['guid'], $total * 10, C('sms_good_guid'), $total, $ext, 'sms');
-                    }
-                    if (in_array('email', $send_way)) {
-                        $logic->afterSendTicket($auth['guid'], $total * 10, C('email_good_guid'), $total, $ext, 'email');
-                    }
-                    if ($logic->errors) {
-                        $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败' . implode(',', $logic->errors)));
-                    }
-                    send_list_ticket($userinfo, $send);
-                    /*******************处理账户余额 end**************************/
-                    $is_send = true;
-                    break;
-                default:
-                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '提交错误，请刷新页面后重试。3'));
-                    break;
+                $total = count($userinfo);
+                $logic = D('Pay', 'Logic');
+                $ext = array('creater_guid' => $auth['guid'], 'target_guid' => $aguid);
+                if (in_array('sms', $send_way)) {
+                    //短信
+                    $res = $logic->afterSendTicket($auth['guid'], $total * 10, C('sms_good_guid'), $total, $ext, 'sms');
+                }
+                if (in_array('email', $send_way)) {
+                    $logic->afterSendTicket($auth['guid'], $total * 10, C('email_good_guid'), $total, $ext, 'email');
+                }
+                if ($logic->errors) {
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败' . implode(',', $logic->errors)));
+                }
+                send_list_ticket($userinfo, $send);
+                /*******************处理账户余额 end**************************/
+                $is_send = true;
+                break;
+            default:
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '提交错误，请刷新页面后重试。3'));
+                break;
             }
 
             if ($is_send == true) {
@@ -743,10 +650,6 @@ class RegistrationController extends BaseController{
     }
 
 
-    /**
-     * 发送电子票 短信/邮件
-     * CT： 2015-03-11 15:50 by ylx
-     */
     public function ajax_send_ticket()
     {
         // 提交报名
@@ -755,11 +658,7 @@ class RegistrationController extends BaseController{
             $params     = I('post.');
             $aguid      = $params['aid'];//活动guid
             $info_guids = $params['ck'];//选中要发送的用户guid
-//            $send_type  = $params['send_type'];//发送类型
-//            $send_content = $params['send_content'];
-//            $send_sign    = $params['send_sign'];
             $activity_name = $params['aname'];
-//            $time = time();
 
             if($params['data_type'] == 'all'){
                 $target = 'all'; // 发送目标类型， null为选择发送， all全部发送， other未发送人员
@@ -812,47 +711,45 @@ class RegistrationController extends BaseController{
                 $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试。4'));
             }
 
-            $auth = $this->get_auth_session();
+            $auth = $this->kookeg_auth_data();
 
             // 判断发送类别
             switch ($send_type) {
-                case 'ticket':  // 发送电子票
-                    $this->views = $this->view;
-                    $send        = array(
-                        'aguid'         => $aguid,
-                        'send_way'      => $send_way,
-                        'activity_name' => $activity_name,
-                        'auth'          => $auth,
-                        'obj'           => serialize($this)
-                    );
+            case 'ticket':  // 发送电子票
+                $this->views = $this->view;
+                $send        = array(
+                    'aguid'         => $aguid,
+                    'send_way'      => $send_way,
+                    'activity_name' => $activity_name,
+                    'auth'          => $auth,
+                    'obj'           => serialize($this)
+                );
 
-                    /*******************处理账户余额 start**************************/
+                /*******************处理账户余额 start**************************/
 
-                    $total = count($userinfo);
-                    $logic = D('Pay', 'Logic');
-                    if (in_array('sms', $send_way)) {
-                        //短信
-                        $res = $logic->afterSendTicket($auth['guid'], $total * 10, C('sms_good_guid'), $total);
-                    }
-                    if (in_array('email', $send_way)) {
-                        $logic->afterSendTicket($auth['guid'], $total * 10, C('email_good_guid'), $total);
-                    }
-                    if ($logic->errors) {
-                        $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败,' . implode(',', $logic->errors)));
-                    }
-                    if ($logic->balance == 0) {
-                        $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败，余额不足，请充值'));
-                    }
-                    //vendor('YmPush.TicketInfo');
-                    //\TicketInfo::setList('meetelf', 'ticket', $userinfo, $send, 1);
-                    send_list_ticket($userinfo, $send);
+                $total = count($userinfo);
+                $logic = D('Pay', 'Logic');
+                if (in_array('sms', $send_way)) {
+                    //短信
+                    $res = $logic->afterSendTicket($auth['guid'], $total * 10, C('sms_good_guid'), $total);
+                }
+                if (in_array('email', $send_way)) {
+                    $logic->afterSendTicket($auth['guid'], $total * 10, C('email_good_guid'), $total);
+                }
+                if ($logic->errors) {
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败,' . implode(',', $logic->errors)));
+                }
+                if ($logic->balance == 0) {
+                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败，余额不足，请充值'));
+                }
+                send_list_ticket($userinfo, $send);
 
-                    /*******************处理账户余额 end**************************/
-                    $is_send = true;
-                    break;
-                default:
-                    $this->ajaxResponse(array('status' => 'ko', 'msg' => '提交错误，请刷新页面后重试。3'));
-                    break;
+                /*******************处理账户余额 end**************************/
+                $is_send = true;
+                break;
+            default:
+                $this->ajaxResponse(array('status' => 'ko', 'msg' => '提交错误，请刷新页面后重试。3'));
+                break;
             }
 
             if ($is_send == true) {
@@ -869,6 +766,7 @@ class RegistrationController extends BaseController{
     /**
      * 报表用户列表筛选
      */
+
     public function ajax_signup_userinfo()
     {
         $filters= I('post.filters');
@@ -882,20 +780,14 @@ class RegistrationController extends BaseController{
         }
         $this->assign('activity_info', $activity_info);
 
-        $this->_get_signup_userlist($aid,'','1');
+        $this->private_get_signup_userlist($aid,'','1');
         $data = $this->fetch('_user_list_tbody');
         echo $data;
     }
 
-    /**
-     * 获取报名者信息
-     * CT : 2015-10-14 by RTH
-     */
     public function ajax_signin_user_info(){
         $aid = I('post.aid');//活动guid
-//        $aid = '62A7622216833B4BADD680B617AB1897';//活动guid
         $uid = I('post.uid');//报名用户guid
-//        $uid = '1770c69109a0e101c2858dcd33eaa300';//报名用户guid
         $model_form = M('ActivityForm');
         $model_ticket = M('ActivityUserTicket');
         $model_act_userinfo = M('ActivityUserinfo');
@@ -935,10 +827,6 @@ class RegistrationController extends BaseController{
         $this->ajaxResponse($data);
     }
 
-    /*
-     * 删除报名用户信息
-     * CT： 2015-10-14 by RTH
-     */
     public function ajax_del_user_info(){
         $uid = I('post.uid');//参会人员guid
         if(empty($uid)){
@@ -979,13 +867,13 @@ class RegistrationController extends BaseController{
         $time_dir = date('Y_m_d');
         $guid     = I('get.guid');
         $config = array(
-           'maxSize'  => 5*1024*1024,
-           'exts'     => array('xls', 'xlsx'),
-           'rootPath' => UPLOAD_PATH,
-           'savePath' => '/etf/' . $time_dir . '/' . $guid . '/signup_users/',
-           'subName'  => '',
-           'saveName' => $guid,
-           'replace' => true,
+            'maxSize'  => 5*1024*1024,
+            'exts'     => array('xls', 'xlsx'),
+            'rootPath' => UPLOAD_PATH,
+            'savePath' => '/etf/' . $time_dir . '/' . $guid . '/signup_users/',
+            'subName'  => '',
+            'saveName' => $guid,
+            'replace' => true,
         );
         $upload = new Upload($config);//实例化上传类
         // 上传文件
@@ -1074,7 +962,7 @@ class RegistrationController extends BaseController{
                 $script .= "');";
             } 
         }else{
-           $script .= "alert('上传成功');"; 
+            $script .= "alert('上传成功');"; 
         }
         $script .= "window.parent.$('#upload-file').modal('hide');";
         $script .= "window.parent.location.reload();";

@@ -69,10 +69,10 @@ class OwnOrderPayLogic{
 		}
         $order_guid = $order['guid'];
         $order_detail = M('OrderDetail')->where(array('order_guid' => $order_guid))->select();
-        $goods_guid   = array_unique(array_columns($order_detail, 'goods_guid', 'id')); 
+        $goods_guid   = array_unique(kookeg_array_column($order_detail, 'goods_guid', 'id')); 
         $goods        = M('OwnGoods')->where(array('guid' => array('in', $goods_guid),'status' => C('own_goods.ok')))->select();
         $goods_ext    = M('OwnGoodsExt')->where(array('goods_guid' => array('in', $goods_guid),'status' => C('own_goods.ok')))->select();
-        $goods_ext    = array_columns($goods_ext, 'nums', 'goods_guid');
+        $goods_ext    = kookeg_array_column($goods_ext, 'nums', 'goods_guid');
         $email = $msg = 0;
         foreach($goods as $key => $good){
             $email += $good['category'] == 2 ? intval($goods_ext[$good['guid']]) : 0;  

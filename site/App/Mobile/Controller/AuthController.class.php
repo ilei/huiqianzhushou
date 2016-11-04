@@ -253,7 +253,7 @@ class AuthController extends BaseController
             if (!$res) {
                 $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
             }
-            $code = get_mobile_code();
+            $code = kookeg_get_mobile_code();
             mobile_code($key, $code);
             send_sms(C('CODE_TYPE.api_verify_mobile'), $mobile, array($code, 30), array('type' => 1));
             $this->ajax_response(array('status' => C('ajax_success'), 'msg' => L('_SEND_SUCCESS_')));
@@ -273,7 +273,7 @@ class AuthController extends BaseController
     public function logout()
     {
         if (session('auth') || $_COOKIE[C('REMEMBER_KEY')]) {
-            $guid = $this->get_auth_session('guid');
+            $guid = $this->kookeg_auth_data('guid');
             $_SESSION['auth'] = array();
             setcookie(C('REMEMBER_KEY'), null, time() - 1);
             $_COOKIE[C('REMEMBER_KEY')] = null;

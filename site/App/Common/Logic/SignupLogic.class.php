@@ -30,7 +30,7 @@ class SignupLogic{
         $cond   = "mobile = '{$mobile}' and is_del = '0'";
         $email  = trim($info['email']);
         if(isset($params['other']) && $params['other']){
-            $tmp_other = array_columns($params['other'], 'value', 'ym_type');    
+            $tmp_other = kookeg_array_column($params['other'], 'value', 'ym_type');    
             if(in_array('email', array_keys($tmp_other)) && $tmp_other['email']){
                 $email = $tmp_other['email']; 
             }

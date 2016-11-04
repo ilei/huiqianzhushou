@@ -269,7 +269,7 @@ function get_request_headers()
     return getallheaders();
 }
 
-function get_mobile_code()
+function kookeg_get_mobile_code()
 {
     $num = '0123456789';
     return substr(str_shuffle($num), 0, 6);
@@ -986,7 +986,7 @@ function weekday_ch($time, $format = '星期{w}'){
  * @return array
  **/ 
 
-function array_columns($array, $column_key = null, $index_key = null){
+function kookeg_array_column($array, $column_key = null, $index_key = null){
     return array_reduce($array, function ($result, $item) use ($column_key, $index_key){
         if($column_key && $index_key){
             $result[$item[$index_key]] = $item[$column_key];
@@ -1124,7 +1124,7 @@ function activity_status($status = 0){
  * @param  string  $ds     分隔符
  **/
 
-function mtf_date_format($time, $format, $ds = '~' ){
+function kookeg_date_format($time, $format, $ds = '~' ){
     if(!$time ||!$format){
         return false; 
     }

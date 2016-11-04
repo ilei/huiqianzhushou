@@ -3,9 +3,8 @@ namespace Home\Controller;
 
 /**
  * 账户充值或者购买短信等操作控制器 
- *
- * @author wangleiming
  **/
+
 class PaymsgController extends BaseController{
 
     /**
@@ -34,25 +33,25 @@ class PaymsgController extends BaseController{
      **/ 
 
     public function dopay(){
-            $order_id = I('get.order_id');
-            if(!$order_id || strlen(trim($order_id)) != C('order_length')){
-                    exit($this->error('参数错误!'));
-            }
-            $order = D('Order')->find_one(array('order_id' => trim($order_id)));
-            if(!$order || $order['is_del'] == 1){
-                    exit($this->error('订单不存在!'));
-            }
-            if($order['status'] == 1){
-                    exit($this->error('订单已支付，请勿重复支付!'));
-            }
-	
-            $money = yuan_to_fen($order['total_price'], false);
-            $update = array('version' => $order['version']+1, 'payment_time' => time());
-            $res   = D('Order')->update(array('guid' => $order['guid'], 'version' => $order['version']), $update);
-            if(!$res){
-               exit($this->error('支付失败!'));
-            }
-            $this->doalipay($order_id, $money, $order);     
+        $order_id = I('get.order_id');
+        if(!$order_id || strlen(trim($order_id)) != C('order_length')){
+            exit($this->error('参数错误!'));
+        }
+        $order = D('Order')->find_one(array('order_id' => trim($order_id)));
+        if(!$order || $order['is_del'] == 1){
+            exit($this->error('订单不存在!'));
+        }
+        if($order['status'] == 1){
+            exit($this->error('订单已支付，请勿重复支付!'));
+        }
+
+        $money = yuan_to_fen($order['total_price'], false);
+        $update = array('version' => $order['version']+1, 'payment_time' => time());
+        $res   = D('Order')->update(array('guid' => $order['guid'], 'version' => $order['version']), $update);
+        if(!$res){
+            exit($this->error('支付失败!'));
+        }
+        $this->doalipay($order_id, $money, $order);     
     }
 
 
@@ -70,7 +69,7 @@ class PaymsgController extends BaseController{
             return false;
         }		
         $order = D('Order')->find_one(array('guid' => trim($guid)));
-        $auth  = $this->get_auth_session();
+        $auth  = $this->kookeg_auth_data();
         if(!$order || ($order['status'] == 1)){
             return false;
         }
@@ -148,8 +147,7 @@ class PaymsgController extends BaseController{
 
     /**
      * 服务器异步通知页面方法
-     * CT: 2015-05-13 15:00 BY YLX
-     */
+     **/
 
     public function notify_url(){
 
@@ -291,7 +289,7 @@ class PaymsgController extends BaseController{
                 if($order['total_price'] != yuan_to_fen($total_fee)){
                     operation_log($out_trade_no, C('alipay_return_record'), $parameter, '同步通知：交易失败，交易金额不一致');	
                     $this->redirect($alipay_config['errorpage']);
-                   return false;
+                    return false;
                 }
                 $logic = D('OwnOrderPay', 'Logic');
                 $res   = $logic->orderPaySuccess($out_trade_no, $total_fee, $parameter, $order);

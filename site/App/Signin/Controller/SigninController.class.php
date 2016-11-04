@@ -189,7 +189,7 @@ class SigninController extends BaseUserController{
             }else{
                 $signin_type = 3;
             }
-            $auth = $this->get_auth_session();
+            $auth = $this->kookeg_auth_data();
             $guid = $auth['guid'];
             $username = $auth['username'];
             $data = array(
@@ -471,7 +471,7 @@ class SigninController extends BaseUserController{
                 'updated_at'    => $time,
 				'userinfo_guid' => $data_info['guid'],
             );
-            $auth = $this->get_auth_session();
+            $auth = $this->kookeg_auth_data();
             $guid = $auth['guid'];
             $username = $auth['username'];
             // 若为签到页添加,则直接自动签到成功

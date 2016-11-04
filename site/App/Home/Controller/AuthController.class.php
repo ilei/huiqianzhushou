@@ -99,7 +99,7 @@ class AuthController extends BaseController{
     public function logout()
     {
         if (session('auth') || $_COOKIE[C('REMEMBER_KEY')]) {
-            $guid = $this->get_auth_session('guid');
+            $guid = $this->kookeg_auth_data('guid');
             $_SESSION['auth'] = array();
             setcookie(C('REMEMBER_KEY'), null, time() - 1);
             $_COOKIE[C('REMEMBER_KEY')] = null;
@@ -184,13 +184,13 @@ class AuthController extends BaseController{
                     $content = $this->fetch('email_notice');
                     $content_stb = $this->fetch('email_notice_stb');
                     $email_result = send_email($data['email'], L('_APP_NAME_'), L('_CONGREAT_SUCCESS_'), $content);
-                    $email_stb = send_email('service@yunmai365.com', L('_APP_NAME_'), L('_NEW_USER_REGISTER_SUCCESS_'), $content_stb);
+                    $email_stb = send_email('service@kookeg.com', L('_APP_NAME_'), L('_NEW_USER_REGISTER_SUCCESS_'), $content_stb);
                     // 发送确认邮件
                     if ($email_result['status'] != 'success') { // 邮件发送不成功,就再发一次
                         send_email($data['email'], L('_APP_NAME_'), L('_CONGREAT_SUCCESS_'), $content);
                     }
                     if ($email_stb['status'] != 'success') { // 邮件发送不成功,就再发一次
-                        send_email('service@yunmai365.com', L('_APP_NAME_'), L('_NEW_USER_REGISTER_SUCCESS_'), $content_stb);
+                        send_email('service@kookeg.com', L('_APP_NAME_'), L('_NEW_USER_REGISTER_SUCCESS_'), $content_stb);
                     }
 
                     D('UserAccount', 'Logic')->add_msg_email_nums($data['guid']);
@@ -221,7 +221,6 @@ class AuthController extends BaseController{
      * @access public
      * @param  void
      * @return json data
-     * @author wangleiming
      **/
 
     public function ajax_send_code()
@@ -233,7 +232,7 @@ class AuthController extends BaseController{
         if (!$res) {
             $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_REQUEST_TOO_MUCH_')));
         }
-        $code = get_mobile_code();
+        $code = kookeg_get_mobile_code();
         $key = md5('auth:ajax_send_code:' . $permanent_id . $phone);
         mobile_code($key, $code);
         send_sms(C('CODE_TYPE.api_verify_mobile'), $phone, array($code, 30), array('type' => 1));
@@ -246,7 +245,6 @@ class AuthController extends BaseController{
      * @access public
      * @param  void
      * @return json data
-     * @author wangleiming
      **/
 
     public function ajax_check_code()
@@ -261,20 +259,11 @@ class AuthController extends BaseController{
         }
         $key = md5('auth:ajax_send_code:' . $permanent_id . $phone);
         $exist = mobile_code($key);
-        //echo $exist === $code ? 'true' : 'false';
         echo 'true';
 
         exit();
     }
 
-
-    /**
-     * 服务条款页面
-     *
-     * @access public
-     * @param  void
-     * @return void
-     **/
 
     public function terms()
     {
@@ -282,11 +271,6 @@ class AuthController extends BaseController{
         $this->show();
     }
 
-    /**
-     * 注册时相关ajax检查
-     *
-     * CT: 2014-09-17 17:07 by YLX
-     */
 
     public function check()
     {
@@ -301,26 +285,26 @@ class AuthController extends BaseController{
         }
         $type = I('get.type');
         switch ($type) {
-            case 'email':
-                $email = I('post.email');
-                //只获取已认证的Email
-                $res = D('User')->where(array('email' => trim($email),'email_verify'=>'1','is_del' => '0'))->find();
-                echo empty($res) ? 'true' : 'false';
-                break;
-            case 'mobile':
-                $mobile = I('post.mobile');
-                $res = D('User')->where(array('mobile' => trim($mobile),'is_del' => '0'))->find();
-                echo empty($res) ? 'true' : 'false';
-                break;
-            case 'username':
-                $username = trim(I('post.username'));
-                $where = 'email="' . $username . '" OR mobile="' . $username . '" and is_del = 0';
-                $res = D('User')->find_one($where);
-                echo !empty($res) ? 'true' : 'false';
-                break;
-            default:
-                $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
-                break;
+        case 'email':
+            $email = I('post.email');
+            //只获取已认证的Email
+            $res = D('User')->where(array('email' => trim($email),'email_verify'=>'1','is_del' => '0'))->find();
+            echo empty($res) ? 'true' : 'false';
+            break;
+        case 'mobile':
+            $mobile = I('post.mobile');
+            $res = D('User')->where(array('mobile' => trim($mobile),'is_del' => '0'))->find();
+            echo empty($res) ? 'true' : 'false';
+            break;
+        case 'username':
+            $username = trim(I('post.username'));
+            $where = 'email="' . $username . '" OR mobile="' . $username . '" and is_del = 0';
+            $res = D('User')->find_one($where);
+            echo !empty($res) ? 'true' : 'false';
+            break;
+        default:
+            $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
+            break;
         }
         exit;
     }

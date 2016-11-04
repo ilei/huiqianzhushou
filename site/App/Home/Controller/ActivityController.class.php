@@ -4,27 +4,15 @@ namespace Home\Controller;
 use Org\Api\YmSMS;
 use Think\Image;
 
-//use Org\Api\YmChat;
-
-/**
- * 活动管理页面管理
- * CT 2015.08.11 10:20 by ylx
- */
 class ActivityController extends BaseHomeController
 {
 
-    /**
-     * 活动列表首页
-     * 显示活动列表
-     * 排序规则为： 先按开始时间倒序排，再按创建时间倒序排
-     * CT: 2015-05-21 17:23 by ylx
-     */
     public function index()
     {
         S('activity::tab', 'alist'); // 激活 活动列表 标签
 
         $num_per_page = C('NUM_PER_PAGE', null, 15); // 每页显示数量, 从配置文件中获取
-        $session_auth = $this->get_auth_session();
+        $session_auth = $this->kookeg_auth_data();
         //活动列表
         $model_activity = D('Activity');
         $condition      = 'a.user_guid="' . $session_auth['guid'] . '" and a.is_del=0';//array('a.guid' => $session_auth['guid'], 'a.is_del' => 0);
@@ -195,7 +183,7 @@ class ActivityController extends BaseHomeController
         $this->assign('is_send_mail', M('ActivityForm')->where(array('activity_guid' => $aid, 'ym_type' => 'email', 'is_required' => '1'))->find());
 
         // 获取社团余额
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
 
         $balance = M('UserAccount')->field('balance')->where(array('account_guid' => $auth['guid'], 'status' => 1))->find();
         $this->assign('message_nums', yuan_to_fen($balance['balance'], false));
@@ -233,7 +221,7 @@ class ActivityController extends BaseHomeController
         $this->assign('is_send_mail', M('ActivityForm')->where(array('activity_guid' => $aid, 'ym_type' => 'email', 'is_required' => '1'))->find());
 
         // 获取社团余额
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
 
         $balance = M('UserAccount')->field('balance')->where(array('account_guid' => $auth['guid'], 'status' => 1))->find();
         $this->assign('message_nums', yuan_to_fen($balance['balance'], false));
@@ -749,7 +737,7 @@ class ActivityController extends BaseHomeController
             $aguid         = $params['activity_guid'];
             $userinfo_guid = $params['userinfo_guid'];
             $activity_name = $params['activity_name'];
-            $auth          = $this->get_auth_session();
+            $auth          = $this->kookeg_auth_data();
 
             $userinfo = M('ActivityUserinfo')->field('guid, mobile, real_name, user_guid')
                 ->where(array('guid' => $userinfo_guid))
@@ -877,7 +865,7 @@ class ActivityController extends BaseHomeController
                 $this->ajaxResponse(array('status' => 'ko', 'msg' => '发送失败, 请刷新后重试。4'));
             }
 
-            $auth = $this->get_auth_session();
+            $auth = $this->kookeg_auth_data();
 
             // 判断发送类别
             switch ($send_type) {
@@ -960,7 +948,7 @@ class ActivityController extends BaseHomeController
 //        $this->assign('subject_list', $this->_get_subject_list($activity_info['guid']));
 
         //获取session('auth')里面的登录信息
-        $session_auth = $this->get_auth_session();
+        $session_auth = $this->kookeg_auth_data();
         $build_info   = D('ActivityForm')->where(array('activity_guid' => $activity_guid))->order('id asc')->select();
         $option_info  = D('ActivityFormOption')->where(array('activity_guid' => $activity_guid))->field('guid,build_guid,value')->select();
         foreach ($option_info as $o) {
@@ -1075,7 +1063,7 @@ class ActivityController extends BaseHomeController
 						$logic->update_goods($t, array('ticket_guid' => $t['guid']));
                     }
                 }
-        		$user_guid = $this->get_auth_session('guid');
+        		$user_guid = $this->kookeg_auth_data('guid');
                 if (!empty($tickets['new'])) {
                     foreach ($tickets['new'] as $k => $t) {
 						$tmp_guid = create_guid();
@@ -1144,7 +1132,7 @@ class ActivityController extends BaseHomeController
         $this->assign('subject_info', $subject_info);
         $this->assign('activity_info', $activity_info);
         $this->assign('meta_title', '编辑活动');
-        $this->assign('session_auth', $this->get_auth_session());
+        $this->assign('session_auth', $this->kookeg_auth_data());
         $this->assign('build_info', $build_info);
         $this->assign('option_info', $option_info);
         $this->assign('undertaker', $undertakers_info);
@@ -1230,7 +1218,7 @@ class ActivityController extends BaseHomeController
     public function check_activity_num($type = '')
     {
 		return false;
-        $auth       = $this->get_auth_session();
+        $auth       = $this->kookeg_auth_data();
         $vip_config = $this->get_vip_info();
         $today      = strtotime(today);
         $where      = array('created_at' => array('GT', $today), 'user_guid' => $auth['guid']);
@@ -1262,7 +1250,7 @@ class ActivityController extends BaseHomeController
         }
 
         // 获取创建者GUID
-        $user_guid = $this->get_auth_session('guid');
+        $user_guid = $this->kookeg_auth_data('guid');
         // 判断报名的开始时间和结束时间
         $start = I('post.start');
         if (empty($start)) {
@@ -1357,7 +1345,7 @@ class ActivityController extends BaseHomeController
     private function _get_subject_list($guid = null)
     {
         if (empty($guid)) {
-            $guid = $this->get_auth_session()['guid'];
+            $guid = $this->kookeg_auth_data()['guid'];
         }
         $condition = array('guid' => $guid, 'is_del' => 0);
         return D('ActivitySubject')->find_all($condition, 'guid, name', '', 'CONVERT(name USING gbk)');
@@ -1381,7 +1369,7 @@ class ActivityController extends BaseHomeController
         $_not_allow_publish = false;  // 发布数量是否超出限制
 
         //获取session('auth')里面的登录信息
-        $session_auth = $this->get_auth_session();
+        $session_auth = $this->kookeg_auth_data();
         $this->assign('session_auth', $session_auth);
         $user_guid = $session_auth['guid'];
         // 获取主题列表
@@ -1638,7 +1626,7 @@ class ActivityController extends BaseHomeController
         if (IS_POST) {
             $tickets      = I('post.op_ticket');
             $model_ticket = M('ActivityAttrTicket');
-			$session_auth = $this->get_auth_session();
+			$session_auth = $this->kookeg_auth_data();
             $time         = time();
 			$logic = D('Goods', 'Logic');
             if (!empty($tickets['old'])) {
@@ -1747,7 +1735,7 @@ class ActivityController extends BaseHomeController
      */
     private function _send_notice($group_guid, $activity_name, $activity_guid)
     {
-        $session_auth = $this->get_auth_session();
+        $session_auth = $this->kookeg_auth_data();
 
         $content = '通知: 新活动 "' . $activity_name . '"';
         $time    = time();
@@ -2044,6 +2032,7 @@ class ActivityController extends BaseHomeController
      * @param  void
      * @return json
      **/
+
     public function check_banned_words()
     {
         if (IS_AJAX) {

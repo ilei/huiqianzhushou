@@ -36,7 +36,7 @@ class BaseUserController extends BaseController {
      */
     public function check_login()
     {
-        $session_auth = $this->get_auth_session();
+        $session_auth = $this->kookeg_auth_data();
         if (empty($session_auth)){
             $this->redirect('Auth/login');
 //             $this->error('您尚未登录，请登录。', U('Auth/login'));
@@ -50,7 +50,7 @@ class BaseUserController extends BaseController {
      */
     public function check_token()
     {
-        $session = $this->get_auth_session();
+        $session = $this->kookeg_auth_data();
         $token = $session['token'];
         if(empty($token)) {
             $this->empty_auth_session();

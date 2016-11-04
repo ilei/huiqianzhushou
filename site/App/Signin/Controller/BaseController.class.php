@@ -24,7 +24,7 @@ class BaseController extends Controller
      * 获取当前用户session信息
      * @return mixed
      */
-    public function get_auth_session()
+    public function kookeg_auth_data()
     {
         return session(C('auth_session_name'));
     }

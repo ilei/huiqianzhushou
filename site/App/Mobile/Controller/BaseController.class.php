@@ -157,7 +157,7 @@ class BaseController extends Controller{
         if(!(CONTROLLER_NAME == 'Activity' && ACTION_NAME == 'signup_user')){
             return true;
         }
-        $session_auth = $this->get_auth_session();
+        $session_auth = $this->kookeg_auth_data();
         if (empty($session_auth)) {
             $this->auto_login();
         }
@@ -205,7 +205,7 @@ class BaseController extends Controller{
         return true;
 	}
 
-    public function get_auth_session(){
+    public function kookeg_auth_data(){
         return session('auth');
     }
 
@@ -347,7 +347,7 @@ class BaseController extends Controller{
      **/ 
 
     public function get_login_user(){
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         if(!$auth && isset($_COOKIE[C('REMEMBER_KEY')]) && $_COOKIE[C('REMEMBER_KEY')]) {
             list($token, $userGuid, $ip) = explode(':', $_COOKIE[C('REMEMBER_KEY')]);
             $condition = array('guid' => $userGuid, 'auto_token' => $token, 'auto_login' => 1);

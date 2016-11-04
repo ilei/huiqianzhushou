@@ -28,7 +28,7 @@ class SubscriberLogic
 
 
             $send_type = isset($data['send_type']) ? $data['send_type'] : 1;
-            $data = array_columns($data, null, 'mobile');
+            $data = kookeg_array_column($data, null, 'mobile');
 
 
             switch ($send_type) {
@@ -164,9 +164,9 @@ class SubscriberLogic
         $db = DBFactory::create($config["db"]);
 
         if ($success) {
-            $ids = array_columns($success, 'id');
-            $ticket_guids = array_columns($success, 'ticket_guid');
-            $success = array_columns($success, 'account_guid');
+            $ids = kookeg_array_column($success, 'id');
+            $ticket_guids = kookeg_array_column($success, 'ticket_guid');
+            $success = kookeg_array_column($success, 'account_guid');
             $user_guid = $success[0];
             $sql = 'UPDATE ym_msg_content set status = 2 where id IN (' . trim(implode(',', $ids), ',') . ')';
             $db->exec_update($sql);
@@ -175,9 +175,9 @@ class SubscriberLogic
             $db->exec_update($sql);
         }
         if ($fail) {
-            $ids = array_columns($fail, 'id');
-            $ticket_guids = array_columns($fail, 'ticket_guid');
-            $fail = array_columns($fail, 'account_guid');
+            $ids = kookeg_array_column($fail, 'id');
+            $ticket_guids = kookeg_array_column($fail, 'ticket_guid');
+            $fail = kookeg_array_column($fail, 'account_guid');
             $user_guid = $fail[0];
             $sql = 'UPDATE ym_msg_content set status = 3 where id IN (' . trim(implode(',', $ids), ',') . ')';
             $db->exec_update($sql);

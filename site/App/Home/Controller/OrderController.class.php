@@ -6,25 +6,14 @@ use Think\Controller;
 use Controls\Control\PagerControl;
 use Controls\Model\PagerControlModel;
 
-/**
- * 我参与的活动
- * CT 2015.09.10 11:42 by manonloki
- */
 class OrderController extends BaseController
 {
 
     public function __construct()
     {
         parent::__construct();
-
     }
 
-    /**
-     * 我参与的活动订单
-     * CT 2015.09.10 11:47 by manonloki
-     * UT 2015.09.14 10:10 by manonloki 提出格式化状态码函数，优化部分命名
-     * UT 2015.10.16 10:40 BY MANONLOKI 与Ajax请求合并
-     */
     public function mine_orders()
     {
         //获取基础数据
@@ -35,7 +24,7 @@ class OrderController extends BaseController
 
 
         //获取数据源
-        $userID = $this->get_auth_session('guid');//从Session中获取当前用户的登录ID
+        $userID = $this->kookeg_auth_data('guid');//从Session中获取当前用户的登录ID
         //Create Models
         $model_order = M('Order');
         $model_activity_userinfo = M('ActivityUserinfo');
@@ -54,7 +43,6 @@ class OrderController extends BaseController
         $order_all_count = $model_order
             ->alias('o')
             ->where($condation)
-//            ->join('ym_activity a ON o.target_guid=a.guid')
             ->count();
 
         //已完成订单数
@@ -62,7 +50,6 @@ class OrderController extends BaseController
         $order_success_count = $model_order
             ->alias('o')
             ->where($condation)
-//            ->join('ym_activity a ON o.target_guid=a.guid')
             ->count();
 
 
@@ -71,14 +58,12 @@ class OrderController extends BaseController
         $order_unsuccess_count = $model_order
             ->alias('o')
             ->where($condation)
-//            ->join('ym_activity a ON o.target_guid=a.guid')
             ->count();
         //已取消订单数
         $condation['o.status'] = array('IN', '3,9');
         $order_cancelled_count = $model_order
             ->alias('o')
             ->where($condation)
-//            ->join('ym_activity a ON o.target_guid=a.guid')
             ->count();
 
 
@@ -92,7 +77,6 @@ class OrderController extends BaseController
         $order_page_count = $model_order
             ->alias('o')
             ->where($condation)
-//            ->join('ym_activity a ON o.target_guid=a.guid')
             ->count();
 
 
@@ -100,7 +84,6 @@ class OrderController extends BaseController
         //第一步 获取订单信息 （主入口)
         $orders = $model_order
             ->alias('o')
-//            ->join('ym_activity a ON o.target_guid=a.guid')
             ->order('o.created_at desc')//创建时间倒序
             ->limit($pageSize)
             ->page($page)
@@ -114,16 +97,6 @@ class OrderController extends BaseController
                 'o.buyer_name' => 'order_buyer_name',//购买者名称
                 'o.title'=>'user_ticket_name',//票名
                 'o.target_guid'=>'activity_guid',//活动GUID
-
-
-
-//                'a.id' => 'activity_id',//活动ID 用于计算Event
-//                'a.guid' => 'activity_guid',//活动唯一标识
-//                'a.name' => 'activity_name',//活动名
-//                'a.status' => 'activity_status',//活动状态
-//                'a.start_time' => 'activity_start_time',//活动开始时间
-//                'a.end_time' => 'activity_end_time',//活动结束时间
-//                'a.poster' => 'activity_poster',//活动宣传图片
             ))
             ->select();
 
@@ -131,8 +104,8 @@ class OrderController extends BaseController
 
 
             //获取其它订单需要的GUID
-            $activity_guid_list = array_columns($orders, 'activity_guid');
-            $buyer_guid_list = array_columns($orders, 'buyer_guid');
+            $activity_guid_list = kookeg_array_column($orders, 'activity_guid');
+            $buyer_guid_list = kookeg_array_column($orders, 'buyer_guid');
 
             $activities=$model_activity
                 ->alias('a')
@@ -175,16 +148,14 @@ class OrderController extends BaseController
                         'aut.userinfo_guid' => 'buyer_guid',//购票者唯一标识
                         'aut.guid' => 'user_ticket_guid',//购买者票据唯一标识
                         'aut.status' => 'user_ticket_status',//购买者票据状态
-//                        'aut.ticket_name' => 'user_ticket_name',//票名
                         'aut.ticket_code' => 'user_ticket_code',//购买者的票号，不存在票号不给显示预览/下载电子票
                     )
                 )
                 ->select();
 
-            //将Array转换为Map 解决O^n问题
-            $buyers_map = array_columns($buyers, null, 'buyer_guid');
-            $user_tickets_map = array_columns($user_tickets, null, 'buyer_guid');
-            $activity_map=array_columns($activities,null,'activity_guid');
+            $buyers_map = kookeg_array_column($buyers, null, 'buyer_guid');
+            $user_tickets_map = kookeg_array_column($user_tickets, null, 'buyer_guid');
+            $activity_map=kookeg_array_column($activities,null,'activity_guid');
 
 
             //拼接数据 并处理数据
@@ -272,11 +243,6 @@ class OrderController extends BaseController
     }
 
 
-    /**
-     * 订单详情
-     * CT 2015/09/12 By manonloki
-     * UT 2015.09.23 BY MANONLOKI 修改Action命名
-     */
     public function detail()
     {
 
@@ -310,8 +276,8 @@ class OrderController extends BaseController
 
         if (!empty($orders)) {
             //获取依赖的外键
-            $activity_guid_list = array_columns($orders, 'activity_guid');
-            $buyer_guid_list = array_columns($orders, 'buyer_guid');
+            $activity_guid_list = kookeg_array_column($orders, 'activity_guid');
+            $buyer_guid_list = kookeg_array_column($orders, 'buyer_guid');
 
             //获取Buyer信息
             $buyers = $model_activity_userinfo
@@ -374,16 +340,14 @@ class OrderController extends BaseController
                 ))
                 ->field(array(
                     'aut.activity_guid' => 'activity_guid',//活动唯一标识
-//                    'aut.ticket_name' => 'user_ticket_name',//票名
                     'aut.status' => 'user_ticket_status',//票状态
                 ))
                 ->select();
 
 
-            //获取MAP 解决 O^n问题
-            $buyer_map = array_columns($buyers, null, 'buyer_guid');
-            $activity_map = array_columns($activities, null, 'activity_guid');
-            $ticket_map = array_columns($tickets, null, 'activity_guid');
+            $buyer_map = kookeg_array_column($buyers, null, 'buyer_guid');
+            $activity_map = kookeg_array_column($activities, null, 'activity_guid');
+            $ticket_map = kookeg_array_column($tickets, null, 'activity_guid');
             $undertaker_map = array_to_map($undertakers, "activity_guid", "undertaker_name");
             $buyer_info_map = array_to_map($buyer_infos, 'buyer_guid', null);
 
@@ -436,11 +400,6 @@ class OrderController extends BaseController
         $this->show();
     }
 
-    /**
-     * 显示待审核的订单
-     *  CT 2015.09.21 19:20 by manonloki
-     *  UT 2015.09.23 16:25 BY MANONLOKI OrderReview -> Order
-     */
     public function review()
     {
 
@@ -448,7 +407,7 @@ class OrderController extends BaseController
         $aid = I('get.aguid');
         $currentPage = intval(I('get.p', 1));//当前页码 默认1
         $pageSize = intval(I('get.ps', 10));//每页数据量 默认10
-        $owner_user_guid = $this->get_auth_session('guid');
+        $owner_user_guid = $this->kookeg_auth_data('guid');
         //检查参数
         if (empty($aid)) {
             $this->_empty();
@@ -534,7 +493,6 @@ class OrderController extends BaseController
 
         $orders = D("Order")
             ->alias('o')
-//            ->join('ym_activity_userinfo au ON au.guid=o.buyer_guid', 'LEFT')//下单人
             ->limit($pageSize)
             ->page($currentPage)
             ->order('order_status_sort desc,o.created_at desc')
@@ -549,10 +507,6 @@ class OrderController extends BaseController
                 'o.title' => 'user_ticket_name',//票名
                 'o.status' => 'order_status',//订单状态
                 'case o.status WHEN 6 THEN 1 ELSE 0 END ' => 'order_status_sort',//排序依据 6待审核为1 其它为0
-
-//                'au.real_name' => 'buyer_name',//购买人名称
-//                'au.mobile' => 'buyer_mobile',//购买人电话
-//                'au.type' => 'buyer_type',//购买者买票渠道
             ))
             ->select();
 
@@ -595,7 +549,6 @@ class OrderController extends BaseController
 
 
         layout('layout_new');
-        //附加JS/CSS/TITILE
         $this->title = kookeg_lang('_REVIEW_TITLE_');
         $this->css[] = 'meetelf/home/css/home.create-activities.css';
         $this->main  = "/Public/meetelf/home/js/build/order.review.js";
@@ -603,11 +556,6 @@ class OrderController extends BaseController
 
     }
 
-    /**
-     * 待审核订单的订单数据
-     *  CT 2015.09.21 19:20 by manonloki
-     *  UT 2015.09.23 16:25 BY MANONLOKI OrderReview -> Order
-     */
     public function ajax_review_order_data()
     {
         if (IS_POST) {
@@ -641,12 +589,10 @@ class OrderController extends BaseController
             $order_all_count = $model_order
                 ->alias('o')
                 ->where($condation)
-//                ->join('ym_activity_userinfo au ON au.guid=o.buyer_guid', 'LEFT')//下单人
                 ->count();
 
             $orders = $model_order
                 ->alias('o')
-//                ->join('ym_activity_userinfo au ON au.guid=o.buyer_guid', 'LEFT')//下单人
                 ->limit($pageSize)
                 ->page($currentPage)
                 ->order('order_status_sort desc,o.created_at desc')
@@ -661,9 +607,6 @@ class OrderController extends BaseController
                     'o.title' => 'user_ticket_name',//票名
                     'o.status' => 'order_status',//订单状态
                     'case o.status WHEN 6 THEN 1 ELSE 0 END ' => 'order_status_sort',//排序依据 6待审核为1 其它为0
-//                    'au.real_name' => 'buyer_name',//购买人名称
-//                    'au.mobile' => 'buyer_mobile',//购买人电话
-//                    'au.type' => 'buyer_type',//购买者买票渠道
                 ))
                 ->select();
 
@@ -707,12 +650,6 @@ class OrderController extends BaseController
         }
     }
 
-
-    /**
-     * 待审核订单的审核操作
-     * CT 2015.09.21 19:20 by manonloki
-     * UT 2015.09.23 16:25 BY MANONLOKI OrderReview-> Order
-     */
     public function  ajax_review_audit()
     {
         if (IS_POST) {
@@ -754,6 +691,4 @@ class OrderController extends BaseController
             echo "none";
         }
     }
-
-
 }

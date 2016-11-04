@@ -1,12 +1,6 @@
 <?php
-/**
- * 个人中心忘记密码页
- *
- * CT: 2015-1-29 12:18 by RTH
- * UT: 2015-1-29 12:18 by RTH
- */
 namespace Home\Controller;
-use Think\Controller;
+use Home\Controller\BaseController;
 use Think\Verify;
 
 class FindpwdController extends BaseController{
@@ -52,7 +46,7 @@ class FindpwdController extends BaseController{
                 echo 'false';
                 exit;
             }
-                //发送邮件校验码
+            //发送邮件校验码
         }else if(preg_match('/^1\d{10}$/',$username)){
             if(strlen($username) == 11){
                 $user_info = M('User')->where(array('mobile' => $username,'is_del' => '0'))->find();
@@ -124,13 +118,11 @@ class FindpwdController extends BaseController{
     public function ajax_send_code(){
         $user_type = session('user_type').'';//获取用户名类别
         $username = session('username');//获取用户名信息
-
-//        var_dump($username,$user_type);
         if($user_type == '' || $username == ''){
             echo 'false';exit();
         }
         $time = time();
-        $code = get_mobile_code();
+        $code = kookeg_get_mobile_code();
 
         $data['guid'] = create_guid();
         $data['created_at'] = $time;
@@ -172,15 +164,11 @@ class FindpwdController extends BaseController{
         $verify = new Verify();
         $code = I('post.verify');
         if($verify->check($code)){
-//            echo 'true';
             $data['status'] = 'ok';
             $this->ajaxResponse($data);
-//            exit();
         }else{
-//            echo 'false';
             $data['status'] = 'ko';
             $this->ajaxResponse($data);
-//            exit();
         }
     }
 
@@ -195,7 +183,6 @@ class FindpwdController extends BaseController{
         $key = md5($mobile.$code);
 
         $check_data = M('CheckMobile')->field('expired_at')->where(array('key' => $key))->find();
-//        var_dump($check_data);die();
         if(time() < $check_data['expired_at']){
             M('CheckMobile')->where(array('key' => $key))->data(array('status' => 1,'updated_at' => time()))->save();
             echo 'true';exit();
@@ -204,28 +191,21 @@ class FindpwdController extends BaseController{
         }
     }
 
-    //检查session，判断查看页是否正确
-//    public function check_session(){
-//        if(!session('username')){
-//            $this->error('请先填写用户名',U('Findpwd/pwd_username'));
-//        }
-//    }
-
     //检查用户名是否是邮件
     public function check_username_email(){
         $username = I('post.username');
         if(preg_match('/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/',$username)){
-                $res = M('User')->where(array('email' => $username))->find();
-                if(!empty($res)){
-                    echo 'true';
-                    exit;
-                }else{
-                    echo 'false';
-                    exit();
-                }
-            }else{
-                echo 'flase';
+            $res = M('User')->where(array('email' => $username))->find();
+            if(!empty($res)){
+                echo 'true';
                 exit;
+            }else{
+                echo 'false';
+                exit();
             }
+        }else{
+            echo 'flase';
+            exit;
+        }
     }
 }

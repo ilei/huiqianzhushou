@@ -175,7 +175,7 @@ class AuthController extends BaseController
      */
     public function logout()
     {
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         if($auth){
             $this->empty_auth_session();
             $this->redirect( 'Auth/login');

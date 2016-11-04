@@ -49,8 +49,8 @@ class OwnOrderLogic{
 			array_push($this->errors, L('_BUYER_NOT_EXIST_'));	
 			return false;
 		}
-        $total_price = array_sum(array_columns($exist, 'price', 'id'));
-        $goods = array_columns($exist, null, 'guid');
+        $total_price = array_sum(kookeg_array_column($exist, 'price', 'id'));
+        $goods = kookeg_array_column($exist, null, 'guid');
 		$order = array(
 			'guid'		   => create_guid(),
 			'order_id'	   => create_order_id(), 	

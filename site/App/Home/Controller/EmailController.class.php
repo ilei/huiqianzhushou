@@ -3,23 +3,13 @@ namespace Home\Controller;
 
 use Home\Controller\BaseController;
 use 	  Think\Controller;
-/**
- * 关于我们
- *
- * CT 2015-08-24 16:00 by zyz
- */
+
 class EmailController extends BaseController{
 
 	public function __construct(){
         parent::__construct($login = false);
-        // layout('layout_bottom');
     }
 
-    /**
-     * 验证email_token
-     * 
-     * CT 2015-10-13 16:00 by zyz  
-     */ 
     public function email_verify(){
             $verify = stripslashes(trim($_GET['t']));
             $email = $_GET['e'];
@@ -35,8 +25,6 @@ class EmailController extends BaseController{
                 exit;
             }
             $info = $model_user->find_one(array('is_del'=>0,'email_token'=>$verify,'email_verify' => 0));
-            // echo $model_user->getLastSQL();
-            // var_dump($info);
             if($info){
                 if($nowtime>$info['token_exptime']){ //24hour
                     $msg = '您的认证有效期已过，请登录您的帐号重新发送认证邮件.';

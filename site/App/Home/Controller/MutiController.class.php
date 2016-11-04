@@ -57,7 +57,7 @@ class MutiController extends BaseController{
                     $errors = '该活动没有票务信息';
                     break;
                 }else{
-                    $ticket_guid = array_columns($tickets, 'guid'); 
+                    $ticket_guid = kookeg_array_column($tickets, 'guid'); 
                 }
                 $ticket_guid = intval($value[5]) > 1 ? $ticket_guid[1] : $ticket_guid[intval($value[5])];
                 $user_ticket = M('ActivityUserTicket')->where(array('guid' => $ticket_guid))->find();

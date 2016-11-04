@@ -173,7 +173,7 @@ class AuthController extends BaseController
                 $this->output_error('10033');
             }
 
-            $code = get_mobile_code();
+            $code = kookeg_get_mobile_code();
             $time = time();
             $check_data=array(
                 'mobile'=>$mobile,

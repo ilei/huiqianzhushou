@@ -1,11 +1,8 @@
 <?php
 namespace Home\Controller;
-use       Think\Image;
 
 /**
  * 活动报名表单控制器 
- *
- * @author wangleiming<wangleiming@yunmai365.com>
  **/
 
 class FormController extends BaseController{
@@ -95,7 +92,6 @@ class FormController extends BaseController{
 
     public function form_build_del(){
         if(IS_AJAX){
-            //$this->ajax_request_limit('act::form_build_del::');
             $activity_guid = I('get.aguid'); 
             $guid = I('post.guid');
             $condition  = array('guid' => trim($guid), 'activity_guid' => trim($activity_guid));
@@ -215,7 +211,7 @@ class FormController extends BaseController{
         if(!$guid){
             $this->error(L('_ACT_NOT_EXIST_'));
         }else{
-            $auth = $this->get_auth_session();
+            $auth = $this->kookeg_auth_data();
             $condition = array('user_guid' => $auth['guid'], 'guid' => trim($guid));
             $activity = D('Activity')->where($condition)->find(); 
             if(!$activity){
@@ -242,12 +238,10 @@ class FormController extends BaseController{
             }
         }
     }
-// 表单排序
+    // 表单排序
     public function form_set_edit(){
         $param = I('post.');
-        // var_dump($param);
         $num   = count($param);
-        // echo $num;die;
         $guid  = I('get.aguid');
         $i=$num;
         $num_x = $num+2;
@@ -256,7 +250,7 @@ class FormController extends BaseController{
         $res_s = M('ActivityForm')->where(array('name'=>"手机",'activity_guid'=>$guid))->save(array('sort'=>$num_s));
         foreach ($param as $key => $value) {
             $res = M('ActivityForm')->where(array('id'=>$key,'activity_guid'=>$guid))->save(array('sort'=>$i)); 
-           $i--;
+            $i--;
         }
         $this->success('保存完成',U('Home/Form/setting',array('guid'=>$guid)));
 

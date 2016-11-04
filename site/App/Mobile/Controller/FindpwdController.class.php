@@ -137,7 +137,7 @@ class FindpwdController extends BaseController
         $mobile = I('post.mobile');//获取用户名信息
 
         $time = time();
-        $code = get_mobile_code();
+        $code = kookeg_get_mobile_code();
 
         $data['guid'] = create_guid();
         $data['created_at'] = $time;

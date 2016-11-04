@@ -4,7 +4,6 @@ namespace Home\Controller;
 /**
  * 购买控制器 
  *
- * @author wangleiming<wangleiming@yunmai365.com>
  **/
 
 class BuyController extends BaseController{
@@ -27,18 +26,16 @@ class BuyController extends BaseController{
      **/ 
 
     public function buy_email_msg(){
-        //header("Content-type:text/html;charset=utf-8");
-        //exit('由于支付宝接口域名问题，暂不支持充值。不会影响您的使用');
         $this->title = L('_BUY_MSG_TITLE_'); 
         $this->css[] = 'meetelf/css/release.css';
         $this->main  = '/Public/meetelf/home/js/build/buy.buy_email.js';
         $this->bread->append_crumb($this->title);
         $cond  = array('type' => C('own_goods.discount_type'), 'status' => C('own_goods.ok'), 'is_del' => C('own_goods.ok'));
         $goods = M('OwnGoods')->where($cond)->select();
-        $guids = array_columns($goods, 'guid', 'id');
+        $guids = kookeg_array_column($goods, 'guid', 'id');
         $cond  = array('goods_guid' => array('IN', array_unique($guids)), 'status' => C('own_goods.ok'));
         $exts  = M('OwnGoodsExt')->where($cond)->select();
-        $exts  = array_columns($exts, null, 'goods_guid');
+        $exts  = kookeg_array_column($exts, null, 'goods_guid');
         foreach($goods as $key => $value){
             $goods[$key]['nums'] = $exts[$value['guid']]['nums'];
         }
@@ -64,7 +61,7 @@ class BuyController extends BaseController{
             if(!$guids){
                 $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_GOODS_NOT_EMPTY_')));
             }
-            $auth  = $this->get_auth_session();
+            $auth  = $this->kookeg_auth_data();
             $order = array(
                 'goods_guid' => $guids, 
                 'buyer_guid' => $auth['guid'],

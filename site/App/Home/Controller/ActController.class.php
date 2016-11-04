@@ -21,7 +21,7 @@ class ActController extends BaseController
         if (!$activity_guid) {
             $this->error(L('_ACT_NOT_EXIST_'));
         }
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $activity_guid = D('Act', 'Logic')->copy($activity_guid, $auth['guid']);
         $this->redirect('Home/Event/index', array('g' => $activity_guid));
     }
@@ -64,7 +64,7 @@ class ActController extends BaseController
         if (IS_AJAX) {
             $this->ajax_request_limit('act::ticket_add::');
             $guid = trim(I('post.activity_guid'));
-            $auth = $this->get_auth_session();
+            $auth = $this->kookeg_auth_data();
             $act = D('Activity')->where(array('guid' => $guid, 'user_guid' => $auth['guid']))->find();
             if (!$act) {
                 $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
@@ -202,7 +202,7 @@ class ActController extends BaseController
             if (!$guid) {
                 $this->ajax_response(array('status' => C('ajax_failed'), 'msg' => L('_PARAM_ERROR_')));
             } else {
-                $auth = $this->get_auth_session();
+                $auth = $this->kookeg_auth_data();
                 $condition = array('guid' => $guid, 'user_guid' => $auth['guid']);
                 $data = array('is_signup' => $status);
                 $res = M('Activity')->where($condition)->save($data);
@@ -226,7 +226,7 @@ class ActController extends BaseController
         if (!$guid) {
             $this->error(L('_ACT_NOT_EXIST_'));
         } else {
-            $auth = $this->get_auth_session();
+            $auth = $this->kookeg_auth_data();
             $condition = array('user_guid' => $auth['guid'], 'guid' => trim($guid));
             $activity = D('Activity')->where($condition)->find();
             if (!$activity) {
@@ -239,7 +239,7 @@ class ActController extends BaseController
                 $ticket = M('ActivityAttrTicket')->where(array('activity_guid' => trim($guid), 'is_del' => 0))->select();
                 $sales = M('ActivityUserTicket')->where(array('activity_guid' => trim($guid), 'is_del' => 0))->field('ticket_guid, count(guid) as total')->group('ticket_guid')->select();
                 if ($sales && $ticket) {
-                    $sales = array_columns($sales, 'total', 'ticket_guid');
+                    $sales = kookeg_array_column($sales, 'total', 'ticket_guid');
                     foreach ($ticket as &$value) {
                         $value['sales'] = $sales[$value['guid']];
                     }
@@ -273,7 +273,7 @@ class ActController extends BaseController
 
         $this->time = time();
         // 获取创建者GUID
-        $user_guid = $this->get_auth_session('guid');
+        $user_guid = $this->kookeg_auth_data('guid');
         $is_public = I('post.is_public');
         $show_front_list = I('post.show_front_list');
         $data_activity = array(
@@ -342,7 +342,7 @@ class ActController extends BaseController
     private function private_check_act_number($type = '')
     {
         return false;
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $vip = C($auth['vip']);
         $where = array('created_at' => array('GT', strtotime(today)), 'user_guid' => $auth['guid']);
         $publish = false;
@@ -369,7 +369,7 @@ class ActController extends BaseController
         $this->title = L('_ACT_EDIT_TITLE_');
         $this->css[] = 'meetelf/css/create-activities.css';
         $this->main = '/Public/meetelf/home/js/home.act.add.js';
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $user_guid = $auth['guid'];
         $activity_guid = trim(I('get.aguid')) ? trim(I('get.aguid')) : trim(I('get.guid'));
         $logic = D('Act', 'Logic');
@@ -447,14 +447,14 @@ class ActController extends BaseController
             '_string' => "user_guid = '{$auth['guid']}' OR type = 1",
         );
         $partner = M('UserPartnerCategory')->where($where)->select();
-        $build_info = array_columns($build_info, 'is_required', 'ym_type');
+        $build_info = kookeg_array_column($build_info, 'is_required', 'ym_type');
         // var_dump($build_info);die();
         $this->assign('labels', $label);
         $this->assign('build_info', $build_info);
         $this->assign('flows', $flows);
         $this->assign('act', $activity);
         $this->assign('partners', $partner);
-        $this->assign('subjects', array_columns($subjects, 'name', 'guid'));
+        $this->assign('subjects', kookeg_array_column($subjects, 'name', 'guid'));
         $this->assign('tickets', $tickets);
         $this->assign('undertakers', $undertakers);
         $this->assign('organizer', $organizers);
@@ -486,7 +486,7 @@ class ActController extends BaseController
         }
 
         $this->main = '/Public/meetelf/home/js/home.act.add.js';
-        $auth = $this->get_auth_session();
+        $auth = $this->kookeg_auth_data();
         $user_guid = $auth['guid'];
         // 发布数量是否超出限制
         $_not_allow_publish = false;
@@ -602,7 +602,7 @@ class ActController extends BaseController
 
         //获取参数
         $aid = I('get.aguid');
-        $owner_user_guid = $this->get_auth_session('guid');
+        $owner_user_guid = $this->kookeg_auth_data('guid');
 
         //检查参数
         if (empty($aid)) {

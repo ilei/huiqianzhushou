@@ -34,7 +34,7 @@ function check_path($path, $mode = 0755)
  * @return array
  **/
 
-function array_columns($array, $column_key = null, $index_key = null)
+function kookeg_array_column($array, $column_key = null, $index_key = null)
 {
     return array_reduce($array, function ($result, $item) use ($column_key, $index_key) {
         if ($column_key && $index_key) {

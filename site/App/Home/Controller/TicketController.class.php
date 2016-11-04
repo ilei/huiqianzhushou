@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ManonLoki1
- * Date: 15/9/14
- * Time: 上午11:39
- */
 
 namespace Home\Controller;
 
@@ -15,20 +9,9 @@ use Controls\Model\PagerControlModel;
 use Think\Image\Driver\Gd;
 use Think\Image\Driver\GIFDecoder;
 
-/**
- * 电子票
- * CT 2015.09.14 11:45 by manonloki
- * Class TicketController
- * @package Home\Controller
- */
 class TicketController extends BaseController
 {
 
-    /**
-     * 我的电子票
-     * CT 2015.09.15 09:39 by manonloki
-     * UT 2015.09.24 15:15 by manonloki myTicket (rename) ->mine_ticket  change js file path
-     */
     public function  mine_tickets()
     {
         //获取数据源
@@ -36,7 +19,7 @@ class TicketController extends BaseController
         $page = intval(I('param.p', 1));//当前页码
         $query_condation = I('param.q','');//条件
         $status = I('param.s','1,2,3,4');//票据状态
-        $user_guid = $this->get_auth_session('guid');
+        $user_guid = $this->kookeg_auth_data('guid');
 
         //条件
         $condations = array();
@@ -111,8 +94,8 @@ class TicketController extends BaseController
 
         if(!empty($tickets)){
             //获取ID集合
-            $ticket_guid_list=array_columns($tickets,'ticket_guid');
-            $buyer_guid_list=array_columns($tickets,'buyer_guid');
+            $ticket_guid_list=kookeg_array_column($tickets,'ticket_guid');
+            $buyer_guid_list=kookeg_array_column($tickets,'buyer_guid');
 
             $buyers=$model_userinfo
                 ->alias('au')
@@ -139,12 +122,9 @@ class TicketController extends BaseController
                 ->select();
 
             //转换为Map 解决O^n问题
-            $buyer_map=array_columns($buyers,null,'buyer_guid');
-            $attr_ticket_map=array_columns($attr_tickets,null,'ticket_guid');
-
-
+            $buyer_map=kookeg_array_column($buyers,null,'buyer_guid');
+            $attr_ticket_map=kookeg_array_column($attr_tickets,null,'ticket_guid');
             //拼装数据
-
             foreach($tickets as &$value){
                 $buyer=$buyer_map[$value['buyer_guid']];
                 $attr_ticket=$attr_ticket_map[$value['ticket_guid']];
@@ -168,7 +148,6 @@ class TicketController extends BaseController
         $pager_model = new PagerControlModel($page, $ticket_page_count, $pageSize);
         $pager = new PagerControl($pager_model, PagerControl::$Enum_First_Prev_Next_Last);
         $pager_html=$pager->fetch();
-
 
         //标签标题
         $tab_titles=array(
@@ -207,14 +186,8 @@ class TicketController extends BaseController
 
             $this->ajaxResponse(array('msg'=>'hello'),'json');
         }
-
-
-
     }
-    /**
-     * 下载电子票
-     * UT 2015.09.24 15:15 by manonloki ticket_download (change) -> download   fixed string bug
-     */
+
     public function download()
     {
 
@@ -255,9 +228,6 @@ class TicketController extends BaseController
         if(mb_strlen($ticket['activity_name'],'utf-8')>26){
             $ticket['activity_name']=mb_substr($ticket['activity_name'],0,23,'utf-8').'...';
         }
-
-
-
         //拼地址
         $template_img_path = PUBLIC_PATH . '/ticket_image_tmpl/ticket_bg.png'; //模板地址
         $template_font_path = PUBLIC_PATH . '/ticket_image_tmpl/msyhbd.ttf';//字体地址
@@ -271,16 +241,12 @@ class TicketController extends BaseController
         //电子票
         $ticket_file_name = 'ticket_' . $ticket['ticket_code'] . '.png';//文件名
 
-
         //判断是否存在缓存好的电子票
         if (!file_exists($rootPath . $dir_path . $ticket_file_name)) {
-
 
             $gd = new Gd($template_img_path);
             $gd->text($ticket['ticket_code'], $template_font_path, 26, '#555555', array(98, 72));//票号
             $gd->text($ticket['ticket_name'], $template_font_path, 60, '#333333', array(314, 200));//票名
-
-
             //动态处理活动名称
             if (mb_strlen($ticket['activity_name'], 'UTF-8') < 13) {
                 $gd->text($ticket['activity_name'], $template_font_path, 24, '#000000', array(488, 356));//活动名
@@ -288,15 +254,13 @@ class TicketController extends BaseController
                 $gd->text(mb_substr($ticket['activity_name'], 0, 13, 'utf-8'), $template_font_path, 24, '#000000', array(488, 336));//活动名
                 $gd->text(mb_substr($ticket['activity_name'], 13, null, 'utf-8'), $template_font_path, 24, '#000000', array(488, 375));//活动名
             }
-//            //动态处理活动地址
-           if(mb_strlen($ticket['activity_address'],'UTF-8')<24){
-               $gd->text($ticket['activity_address'], $template_font_path, 18, '#FFFFFF', array(335, 450));//活动地点
-           }else{
-               $gd->text(mb_substr($ticket['activity_address'],0,24,'utf-8'), $template_font_path, 18, '#FFFFFF', array(335, 440));//活动地点
-               $gd->text(mb_substr($ticket['activity_address'],24,null,'utf-8'), $template_font_path, 18, '#FFFFFF', array(335, 460));//活动地点
-           }
-
-
+            //            //动态处理活动地址
+            if(mb_strlen($ticket['activity_address'],'UTF-8')<24){
+                $gd->text($ticket['activity_address'], $template_font_path, 18, '#FFFFFF', array(335, 450));//活动地点
+            }else{
+                $gd->text(mb_substr($ticket['activity_address'],0,24,'utf-8'), $template_font_path, 18, '#FFFFFF', array(335, 440));//活动地点
+                $gd->text(mb_substr($ticket['activity_address'],24,null,'utf-8'), $template_font_path, 18, '#FFFFFF', array(335, 460));//活动地点
+            }
 
             $gd->text('举办方:' . $ticket['activity_undertake_name'], $template_font_path, 18, '#999999', array(335, 530));//举办方
 
@@ -317,7 +281,6 @@ class TicketController extends BaseController
                 $gd->text(date('Y年m月', $ticket['activity_start_time']), $template_font_path, 18, '#555555', array(120, 375));//日期
 
             }
-
             //镶嵌二维码
             if (!file_exists($rootPath . $dir_path . $qrcode_file_name)) {
                 //创建二维码
@@ -336,15 +299,15 @@ class TicketController extends BaseController
 
         //输出电子票
         switch ($out_type) {
-            case 'd': {
-                header('Content-type:application/octet-stream');
-                header("Content-Disposition: attachment; filename=" . md5($ticket['activity_name'] . '_' . $ticket['activity_user_name']) . '.png');
-                break;
-            }
-            case 'p': {
-                header('Content-type:image/png');
-                break;
-            }
+        case 'd': {
+            header('Content-type:application/octet-stream');
+            header("Content-Disposition: attachment; filename=" . md5($ticket['activity_name'] . '_' . $ticket['activity_user_name']) . '.png');
+            break;
+        }
+        case 'p': {
+            header('Content-type:image/png');
+            break;
+        }
         }
 
         //输出图片
@@ -354,10 +317,4 @@ class TicketController extends BaseController
         die();
     }
 
-
-    public function test()
-    {
-        var_dump($_SERVER);
-        var_dump(UPLOAD_PATH);
-    }
 }

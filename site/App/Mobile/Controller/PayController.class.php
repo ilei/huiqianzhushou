@@ -91,7 +91,7 @@ class PayController extends BaseController{
             return false;
         }		
         $order = D('Order')->find_one(array('guid' => trim($guid)));
-        $auth  = $this->get_auth_session();
+        $auth  = $this->kookeg_auth_data();
         if(!$order || ($order['status'] == 1)){
             return false;
         }

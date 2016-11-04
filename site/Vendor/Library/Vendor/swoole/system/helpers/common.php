@@ -409,7 +409,7 @@ function send_email($to_emails, $from_name, $subject, $content)
  * @return array
  **/
 
-function array_columns($array, $column_key = null, $index_key = null)
+function kookeg_array_column($array, $column_key = null, $index_key = null)
 {
     return array_reduce($array, function ($result, $item) use ($column_key, $index_key) {
         if ($column_key && $index_key) {
